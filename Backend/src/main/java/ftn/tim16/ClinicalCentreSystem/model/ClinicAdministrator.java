@@ -3,9 +3,11 @@ package ftn.tim16.ClinicalCentreSystem.model;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class ClinicalCentreAdministrator {
+public class ClinicAdministrator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +27,14 @@ public class ClinicalCentreAdministrator {
     @Column(columnDefinition = "VARCHAR(10)", unique = true, nullable = false)
     private String phoneNumber;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Clinic clinic;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+
+    @OneToMany(mappedBy = "clinicAdministrator", fetch = FetchType.LAZY)
+    private Set<Examination> examinations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -72,11 +80,27 @@ public class ClinicalCentreAdministrator {
         this.phoneNumber = phoneNumber;
     }
 
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
+
     public UserStatus getStatus() {
         return status;
     }
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public Set<Examination> getExaminations() {
+        return examinations;
+    }
+
+    public void setExaminations(Set<Examination> examinations) {
+        this.examinations = examinations;
     }
 }

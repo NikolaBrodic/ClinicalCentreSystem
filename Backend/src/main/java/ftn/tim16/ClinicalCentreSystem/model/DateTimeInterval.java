@@ -20,7 +20,12 @@ public class DateTimeInterval {
     @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY)
     private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
 
-    public Long getId() { return id; }
+    @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY)
+    private Set<Examination> examinations = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
 
     public LocalDateTime getStartDateTime() {
         return startDateTime;

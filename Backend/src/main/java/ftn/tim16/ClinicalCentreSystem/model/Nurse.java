@@ -1,6 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
-import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
+import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Doctor {
+public class Nurse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,24 +37,20 @@ public class Doctor {
     @ManyToOne(fetch = FetchType.EAGER)
     private Clinic clinic;
 
-    @ManyToMany(mappedBy = "doctors")
-    private Set<Examination> examinations = new HashSet<Examination>();
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY)
+    private Set<Examination> examinations = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ExaminationType specialized;
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY)
+    private Set<Prescription> prescriptions = new HashSet<>();
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
-    private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY)
+    private Set<TimeOffNurse> timeOffNurses = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    private DoctorStatus status;
+    private UserStatus status;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -113,11 +109,43 @@ public class Doctor {
         this.workHoursTo = workHoursTo;
     }
 
-    public DoctorStatus getStatus() {
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
+
+    public Set<Examination> getExaminations() {
+        return examinations;
+    }
+
+    public void setExaminations(Set<Examination> examinations) {
+        this.examinations = examinations;
+    }
+
+    public Set<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(Set<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+
+    public Set<TimeOffNurse> getTimeOffNurses() {
+        return timeOffNurses;
+    }
+
+    public void setTimeOffNurses(Set<TimeOffNurse> timeOffNurses) {
+        this.timeOffNurses = timeOffNurses;
+    }
+
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(DoctorStatus status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 }
