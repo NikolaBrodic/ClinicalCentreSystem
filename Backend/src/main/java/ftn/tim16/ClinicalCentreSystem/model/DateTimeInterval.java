@@ -2,6 +2,8 @@ package ftn.tim16.ClinicalCentreSystem.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class DateTimeInterval {
@@ -14,6 +16,9 @@ public class DateTimeInterval {
 
     @Column(nullable = false)
     private LocalDateTime endDateTime;
+
+    @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY)
+    private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
 
     public Long getId() { return id; }
 

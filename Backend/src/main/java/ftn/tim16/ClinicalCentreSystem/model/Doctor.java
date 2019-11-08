@@ -1,11 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.model;
-
-import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
-
+import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import javax.persistence.*;
+import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class ClinicalCentreAdministrator {
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,13 +23,34 @@ public class ClinicalCentreAdministrator {
     @Column(columnDefinition = "VARCHAR(30)",nullable = false)
     private String lastName;
 
-    @Column(columnDefinition = "VARCHAR(10)", unique = true, nullable = false)
+    @Column(columnDefinition = "VARCHAR(11)",unique = true, nullable = false)
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    @Column(nullable = false)
+    private LocalTime workHoursFrom;
 
-    public Long getId() { return id; }
+    @Column(nullable = false)
+    private LocalTime workHoursTo;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Clinic clinic;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private ExaminationType specialized;
+
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
+
+    @Enumerated(EnumType.STRING)
+    private DoctorStatus status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -70,11 +92,27 @@ public class ClinicalCentreAdministrator {
         this.phoneNumber = phoneNumber;
     }
 
-    public UserStatus getStatus() {
+    public LocalTime getWorkHoursFrom() {
+        return workHoursFrom;
+    }
+
+    public void setWorkHoursFrom(LocalTime workHoursFrom) {
+        this.workHoursFrom = workHoursFrom;
+    }
+
+    public LocalTime getWorkHoursTo() {
+        return workHoursTo;
+    }
+
+    public void setWorkHoursTo(LocalTime workHoursTo) {
+        this.workHoursTo = workHoursTo;
+    }
+
+    public DoctorStatus getStatus() {
         return status;
     }
 
-    public void setStatus(UserStatus status) {
+    public void setStatus(DoctorStatus status) {
         this.status = status;
     }
 }

@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
-
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Clinic {
@@ -8,7 +9,7 @@ public class Clinic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "VARCHAR(50)",nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -16,6 +17,15 @@ public class Clinic {
 
     @Column(nullable = false)
     private String address;
+
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    private Set<Doctor> doctors = new HashSet<>();
+
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    private Set<ExaminationType> examinationTypes = new HashSet<>();
+
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    private Set<Room> rooms = new HashSet<>();
 
     public Long getId() {
         return id;
