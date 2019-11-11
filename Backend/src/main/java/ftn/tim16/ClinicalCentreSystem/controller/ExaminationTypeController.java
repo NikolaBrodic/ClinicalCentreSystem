@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/examinationTypes")
+@RequestMapping(value = "/api/examinationType")
 public class ExaminationTypeController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class ExaminationTypeController {
 
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
-
+    @CrossOrigin()
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExaminationType> create(@Valid  @RequestBody ExaminationType examinationType) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -37,7 +37,7 @@ public class ExaminationTypeController {
         }
         return new ResponseEntity<ExaminationType>(createdExaminationType, HttpStatus.CREATED);
     }
-
+    @CrossOrigin()
     @GetMapping(value="/all")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -45,7 +45,7 @@ public class ExaminationTypeController {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
-
+    @CrossOrigin()
     @GetMapping(value="/pageAll")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin(Pageable page) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new

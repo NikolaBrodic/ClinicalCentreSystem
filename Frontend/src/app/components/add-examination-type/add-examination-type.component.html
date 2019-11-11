@@ -1,0 +1,21 @@
+<h1 mat-dialog-title class="dialog-class">Create an examination type</h1>
+<br>
+<mat-dialog-content class="example-container dialog-class">
+    <form [formGroup]="addExaminationTypeForm">
+        <mat-form-field>
+            <input matInput placeholder="Label" formControlName="label">
+            <mat-error *ngIf="addExaminationTypeForm.get('label').invalid">Please enter examination type's label.
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput placeholder="Price" type="number" formControlName="price">
+            <span matSuffix>&nbsp; din.</span>
+            <mat-error *ngIf="addExaminationTypeForm.get('price').invalid">Price must be a number greater than 0.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button (click)="create()" [disabled]="!addExaminationTypeForm.valid">Create</button>
+</mat-dialog-actions>
