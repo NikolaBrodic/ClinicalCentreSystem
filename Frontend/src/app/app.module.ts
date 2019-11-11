@@ -7,20 +7,20 @@ import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { LoginComponent } from './components/login/login.component';
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginPatientComponent } from './login-patient/login-patient.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: LoginPatientComponent,
   },
   {
     path: 'patient/login',
-    component: LoginComponent,
+    component: LoginPatientComponent,
   },
   {
     path: 'patient/register',
@@ -31,8 +31,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterPatientComponent
+    RegisterPatientComponent,
+    LoginPatientComponent
   ],
   imports: [
     BrowserModule,

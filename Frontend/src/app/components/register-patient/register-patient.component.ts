@@ -9,7 +9,7 @@ import { MustMatch } from 'src/app/validators/must-match.validator';
   templateUrl: './register-patient.component.html',
   styleUrls: ['./register-patient.component.css']
 })
-export class RegisterPatientComponent implements OnInit{
+export class RegisterPatientComponent implements OnInit {
 
   private registerForm: FormGroup;
   private submitted = false;
@@ -50,54 +50,6 @@ export class RegisterPatientComponent implements OnInit{
 
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value));
   }
-
-  // private matcher = new MyErrorStateMatcher();
-  // private emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  // private passwordFormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]);
-  // private repeatPasswordFormControl = new FormControl('', [
-  //   Validators.required,
-  //   Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'),
-  // ]);
-  //
-  // private password: string;
-  // private repeatPassword: string;
-  //
-  //
-  // constructor(private breakpointObserver: BreakpointObserver) {}
-  //
-  // isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-  //   .pipe(
-  //     map(result => result.matches),
-  //     shareReplay()
-  //   );
-  //
-  // private getEmailFeedback() {
-  //   return this.emailFormControl.hasError('required')
-  //     ? 'You must enter an email.'
-  //     : this.emailFormControl.hasError('email')
-  //       ? 'Not a valid email.'
-  //       : '';
-  // }
-  //
-  // private getPasswordFeedback() {
-  //   console.log(this.password + ' , ' + this.repeatPassword);
-  //   return this.passwordFormControl.hasError('required')
-  //     ? 'You must enter a password.'
-  //     : !this.passwordFormControl.hasError('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-  //       ? 'Password must be a combination of at least 8 characters, 1 uppercase, 1 lowercase letter and 1 number.'
-  //       : '';
-  // }
-  //
-  // private getRepeatPasswordFeedback() {
-  //   return 'Passwords do not match.';
-  // }
-  //
-  // private checkPasswords(group: FormGroup) {
-  //   const pass = group.get('password').value;
-  //   const confirmPassword = group.get('confirmPassword').value;
-  //
-  //   return pass === confirmPassword ? null : { notSame: true };
-  // }
 
 }
 
