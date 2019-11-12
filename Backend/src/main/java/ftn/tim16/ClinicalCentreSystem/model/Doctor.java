@@ -51,7 +51,7 @@ public class Doctor {
     @ManyToMany(mappedBy = "doctors")
     private Set<Examination> examinations = new HashSet<Examination>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ExaminationType specialized;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

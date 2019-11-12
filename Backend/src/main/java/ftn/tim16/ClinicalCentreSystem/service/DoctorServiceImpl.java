@@ -1,14 +1,18 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -44,7 +48,33 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.save(doctor);
     }
 
-    public String generatePassword(int n){
+    @Override
+    public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic) {
+        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(),DoctorStatus.DELETED));
+    }
+
+    @Override
+    public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic, Pageable page) {
+        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(),DoctorStatus.DELETED,page));
+    }
+
+    private List<DoctorDTO> convertToDTO(List<Doctor> doctors){
+        List<DoctorDTO> doctorDTOS = new ArrayList<>();
+        for (Doctor doctor : doctors) {
+            doctorDTOS.add(new DoctorDTO(doctor));
+        }
+        return doctorDTOS;
+    }
+
+    private List<DoctorDTO> convertToDTO(Page<Doctor> doctors){
+        List<DoctorDTO> doctorDTOS = new ArrayList<>();
+        for (Doctor doctor : doctors) {
+            doctorDTOS.add(new DoctorDTO(doctor));
+        }
+        return doctorDTOS;
+    }
+
+    private String generatePassword(int n){
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
         StringBuilder sb = new StringBuilder(n);
 
@@ -54,4 +84,5 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return sb.toString();
     }
+
 }
