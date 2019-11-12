@@ -1,7 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.repository;
 
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
+import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PatientRepository extends JpaRepository<Nurse, Long> {
+import java.util.List;
+
+public interface PatientRepository extends JpaRepository<Patient, Long> {
+    List<Patient> findByStatus(PatientStatus patientStatus);
 }
