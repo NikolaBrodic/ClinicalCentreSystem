@@ -39,7 +39,7 @@ public class DoctorController {
 
         Doctor createdDoctor = doctorService.create(doctor,clinicAdministrator);
         if(createdDoctor == null){
-            return new ResponseEntity<Doctor>(createdDoctor , HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
     }
