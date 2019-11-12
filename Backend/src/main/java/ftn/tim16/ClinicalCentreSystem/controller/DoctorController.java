@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
@@ -31,7 +32,7 @@ public class DoctorController {
 
     @CrossOrigin()
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Doctor> create(@Valid  @RequestBody Doctor doctor) {
+    public ResponseEntity<Doctor> create(@Valid  @RequestBody CreateDoctorDTO doctor) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
            exmainaton type you need to get information about clinic in which loged in admin works. */
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);

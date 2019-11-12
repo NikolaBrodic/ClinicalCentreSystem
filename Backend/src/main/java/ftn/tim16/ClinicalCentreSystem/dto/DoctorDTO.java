@@ -15,12 +15,13 @@ public class DoctorDTO {
     private String email;
     private String password;
     private ExaminationType specialized;
-
+    private String phoneNumber;
     public DoctorDTO(){
 
     }
-    public DoctorDTO(Long id, String firstName, String lastName,LocalTime workHoursFrom, LocalTime workHoursTo, String email, String password, ExaminationType specialized) {
+    public DoctorDTO(Long id,String phoneNumber, String firstName, String lastName,LocalTime workHoursFrom, LocalTime workHoursTo, String email, String password, ExaminationType specialized) {
         this.id = id;
+        this.phoneNumber=phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.workHoursFrom = workHoursFrom;
@@ -30,8 +31,16 @@ public class DoctorDTO {
         this.specialized = specialized;
     }
     public DoctorDTO(Doctor doctor) {
-        this(doctor.getId(),doctor.getFirstName(),doctor.getLastName(),doctor.getWorkHoursFrom(),doctor.getWorkHoursTo(),doctor.getEmail(),
+        this(doctor.getId(),doctor.getPhoneNumber(),doctor.getFirstName(),doctor.getLastName(),doctor.getWorkHoursFrom(),doctor.getWorkHoursTo(),doctor.getEmail(),
                 doctor.getPassword(),doctor.getSpecialized());
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {

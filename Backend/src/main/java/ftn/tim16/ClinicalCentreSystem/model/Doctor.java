@@ -59,6 +59,23 @@ public class Doctor {
 
     @Enumerated(EnumType.STRING)
     private DoctorStatus status;
+    public Doctor(){
+
+    }
+    public Doctor(@NotEmpty(message = "Email is empty.") @Email(message = "Email is invalid.") String email, String password, @NotEmpty(message = "First name is empty.") String firstName, @NotEmpty(message = "Last name is empty.") String lastName, @NotEmpty(message = "Phone number is empty.") @Size(min = 9, max = 10) @Pattern(regexp = "0[0-9]+") String phoneNumber, @NotNull() LocalTime workHoursFrom, @NotNull() LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.workHoursFrom = workHoursFrom;
+        this.workHoursTo = workHoursTo;
+        this.clinic = clinic;
+        this.specialized = specialized;
+        this.status = status;
+        this.timeOffDoctors = new HashSet<>();
+        this.examinations = new HashSet<Examination>();
+    }
 
     public Long getId() {
         return id;

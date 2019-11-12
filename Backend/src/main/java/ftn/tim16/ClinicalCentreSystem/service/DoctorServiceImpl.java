@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,28 +27,26 @@ public class DoctorServiceImpl implements DoctorService {
     private ExaminationTypeRepository examinationTypeRepository;
 
     @Override
-    public Doctor create(Doctor doctor, ClinicAdministrator clinicAdministrator) {
+    public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) {
         if(doctorRepository.findByEmailIgnoringCase(doctor.getEmail()) != null){
             return null;
         }
         if(doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null){
             return null;
         }
-        if(doctor.getWorkHoursFrom().isAfter(doctor.getWorkHoursTo())) {
+        LocalTime workHoursFrom =  LocalTime.parse(doctor.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime workHoursTo = LocalTime.parse(doctor.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
+        if(workHoursFrom.isAfter(workHoursTo)){
             return null;
         }
         ExaminationType examinationType = examinationTypeRepository.getById(doctor.getSpecialized().getId());
         if(examinationType == null){
             return null;
         }
-
-        doctor.setPassword(generatePassword(9));
-        doctor.setClinic(clinicAdministrator.getClinic());
-        doctor.setSpecialized(examinationType);
-        doctor.setStatus(DoctorStatus.NEVER_LOGGED_IN);
-        doctor.setExaminations(new HashSet<Examination>());
-        doctor.setTimeOffDoctors(new HashSet<TimeOffDoctor>());
-        return doctorRepository.save(doctor);
+        Doctor newDoctor = new Doctor(doctor.getEmail(),generatePassword(9),doctor.getFirstName(),
+                doctor.getLastName(),doctor.getPhoneNumber(),workHoursFrom,workHoursTo,clinicAdministrator.getClinic(),
+                examinationType,DoctorStatus.NEVER_LOGGED_IN);
+        return doctorRepository.save(newDoctor);
     }
 
     @Override
