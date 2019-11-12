@@ -1,0 +1,20 @@
+.dialog-class {
+    width:500px;
+    margin: 10px;
+    padding: 5px;
+}
+.mat-form-field {
+    display: block;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+div_container{
+    display: flex;
+    flex-direction: row;
+}
+.block_container {
+    display: flex;
+}
