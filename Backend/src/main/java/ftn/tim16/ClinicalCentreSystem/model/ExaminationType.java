@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 
 import javax.persistence.*;
@@ -17,8 +18,8 @@ public class ExaminationType {
 
     @Column(nullable = false, scale = 2)
     private Double price;
-
-    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -26,8 +27,8 @@ public class ExaminationType {
 
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
-
-    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     public Long getId() {
