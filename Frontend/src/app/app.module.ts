@@ -11,7 +11,8 @@ import { RegisterPatientComponent } from './components/register-patient/register
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LoginPatientComponent } from './login-patient/login-patient.component';
+import { LoginPatientComponent } from './components/login-patient/login-patient.component';
+import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 
 const appRoutes: Routes = [
   {
@@ -26,13 +27,18 @@ const appRoutes: Routes = [
     path: 'patient/register',
     component: RegisterPatientComponent,
   },
+  {
+    path: 'patient/pending-approval',
+    component: PendingApprovalPatientComponent,
+  },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterPatientComponent,
-    LoginPatientComponent
+    LoginPatientComponent,
+    PendingApprovalPatientComponent
   ],
   imports: [
     BrowserModule,

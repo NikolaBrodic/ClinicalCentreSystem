@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validat
 
 import {ErrorStateMatcher} from '@angular/material';
 import { MustMatch } from 'src/app/validators/must-match.validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-patient',
@@ -15,7 +16,8 @@ export class RegisterPatientComponent implements OnInit {
   private submitted = false;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -49,6 +51,8 @@ export class RegisterPatientComponent implements OnInit {
     }
 
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value));
+
+    this.router.navigate(['/patient/pending-approval']);
   }
 
 }
