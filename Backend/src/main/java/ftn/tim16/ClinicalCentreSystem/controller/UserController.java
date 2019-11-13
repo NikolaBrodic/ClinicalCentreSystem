@@ -37,7 +37,7 @@ public class UserController {
     private NurseRepository nurseRepository;
 
     @CrossOrigin()
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> changePassword(@Valid @RequestBody UserDTO userDTO) {
         /*TODO: Get a user using token. */
         //ClinicAdministrator user = clinicAdministratorRepository.findAll().get(0);
