@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/api/examinationType")
+@RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
     @Autowired
     private ExaminationTypeService examinationTypeService;
