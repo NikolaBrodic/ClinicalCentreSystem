@@ -1,5 +1,6 @@
+import { environment } from './../../environments/environment';
 import { ExaminationType } from './../models/examinationType';
-import { environment } from './../environment';
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';

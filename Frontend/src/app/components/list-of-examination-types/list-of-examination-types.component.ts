@@ -1,15 +1,16 @@
-import { ExaminationTypeService } from './../../services/examination-type.service';
-import { ExaminationType } from './../../models/examinationType';
-import { AddExaminationTypeComponent } from './../add-examination-type/add-examination-type.component';
+import { ExaminationTypeService } from '../../services/examination-type.service';
+import { ExaminationType } from '../../models/examinationType';
+import { AddExaminationTypeComponent } from '../add-examination-type/add-examination-type.component';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
+
 @Component({
-  selector: 'app-lista-of-examination-types',
-  templateUrl: './lista-of-examination-types.component.html',
-  styleUrls: ['./lista-of-examination-types.component.css']
+  selector: 'app-list-of-examination-types',
+  templateUrl: './list-of-examination-types.component.html',
+  styleUrls: ['./list-of-examination-types.component.css']
 })
 export class ListaOfExaminationTypesComponent implements OnInit {
   examinationTypesDataSource: MatTableDataSource<ExaminationType>;

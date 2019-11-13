@@ -17,11 +17,11 @@
 }
   
 .mat-column-update{
-    width: 33% !important;
+    width: 20% !important;
     margin:5px;
 }
 .mat-column-delete{
-    width: 33% !important;
+    width: 20% !important;
     margin:5px;
 }  
 .filterButton{

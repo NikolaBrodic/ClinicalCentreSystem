@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/examinationType")
+@RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class ExaminationTypeController {
 
         ExaminationType createdExaminationType = examinationTypeService.create(examinationType,clinicAdministrator);
         if(createdExaminationType == null){
-            return new ResponseEntity<ExaminationType>(createdExaminationType , HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<ExaminationType>(createdExaminationType, HttpStatus.CREATED);
     }
