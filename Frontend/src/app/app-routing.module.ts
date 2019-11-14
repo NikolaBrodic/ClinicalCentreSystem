@@ -1,3 +1,4 @@
+import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'clinicAdministrator/examinationTypes',
     component: ListaOfExaminationTypesComponent,
+  },
+  {
+    path: 'user/changePssword',
+    component: UserChangePasswordComponent,
   },
   {
     path: 'patient/pending-approval',

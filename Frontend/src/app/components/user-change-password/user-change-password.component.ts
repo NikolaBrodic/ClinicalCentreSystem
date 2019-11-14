@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { User } from './../../models/user';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from './../../services/user.service';
@@ -12,7 +13,8 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 export class UserChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
 
-  constructor(private userService: UserService, private toastr: ToastrService) { }
+  constructor(private userService: UserService, private toastr: ToastrService,
+    private router: Router) { }
 
   ngOnInit() {
     this.changePasswordForm = new FormGroup({
@@ -38,6 +40,7 @@ export class UserChangePasswordComponent implements OnInit {
       responseData => {
         this.changePasswordForm.reset();
         this.toastr.success("Successfully changed password.", 'Change password');
+        this.router.navigate(['/patient/login']);
         //TODO: redirect user 
       },
       message => {

@@ -42,10 +42,9 @@ public class UserController {
         /*TODO: Get a user using token. */
         //ClinicAdministrator user = clinicAdministratorRepository.findAll().get(0);
         //ClinicalCentreAdministrator  user = clinicalCentreAdministratorRepository.findAll().get(0);
-        //ClinicalCentreAdministrator user = listUsers.get(0);
-        //Doctor user = doctorRepository.findAll().get(0);
-       // Patient user =patientRepository.findAll().get(0);
-        Nurse user =nurseRepository.findAll().get(0);
+        Doctor user = doctorRepository.findAll().get(0);
+        //Patient user =patientRepository.findAll().get(0);
+        //Nurse user =nurseRepository.findAll().get(0);
         if(!user.getPassword().equals(userDTO.getOldPassword())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

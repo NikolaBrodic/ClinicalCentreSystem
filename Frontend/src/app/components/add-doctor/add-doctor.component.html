@@ -48,14 +48,16 @@
                         <br>
                         <mat-form-field>
                             <input matInput placeholder="Phone number" formControlName="phoneNumber">
-                            <mat-error *ngIf="addDoctorForm.get('phoneNumber').invalid">Please enter doctor's phone
+                            <mat-error *ngIf="addDoctorForm.get('phoneNumber').invalid">Please enter a valid doctor's
+                                phone
                                 number.
                             </mat-error>
                         </mat-form-field>
                         <br>
                         <mat-form-field>
                             <input matInput placeholder="Email address" formControlName="email">
-                            <mat-error *ngIf="addDoctorForm.get('email').invalid">Please enter doctor's email address.
+                            <mat-error *ngIf="addDoctorForm.get('email').invalid">Please enter a valid doctor's email
+                                address.
                             </mat-error>
                         </mat-form-field>
 

@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import org.hibernate.validator.constraints.Length;
 
@@ -46,13 +47,13 @@ public class Doctor {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @ManyToMany(mappedBy = "doctors")
     private Set<Examination> examinations = new HashSet<Examination>();
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private ExaminationType specialized;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
