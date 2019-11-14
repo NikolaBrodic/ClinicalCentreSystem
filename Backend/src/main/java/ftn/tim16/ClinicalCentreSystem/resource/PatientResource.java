@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.resource;
 
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
+import ftn.tim16.ClinicalCentreSystem.security.PasswordHasher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class PatientResource {
 
     @PostMapping("/patient")
     public ResponseEntity<Void> createPatient(@RequestBody Patient patient) {
+        String hashedPassword = PasswordHasher.encodeBCrypt(patient.getPassword());
+        patient.setPassword(hashedPassword);
+
         Patient createdPatient = this.patientRepository.save(patient);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
