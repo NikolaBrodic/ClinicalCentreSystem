@@ -20,6 +20,7 @@ public class Clinic {
 
     @Column(nullable = false)
     private String address;
+
     //You can't change this class
     @JsonIgnore
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -38,7 +39,7 @@ public class Clinic {
     private Set<Room> rooms = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ExaminationType> examinationTypes = new HashSet<>();
 
     @JsonIgnore

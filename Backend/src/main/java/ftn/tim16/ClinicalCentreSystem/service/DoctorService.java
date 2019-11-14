@@ -1,5 +1,4 @@
 package ftn.tim16.ClinicalCentreSystem.service;
-
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;

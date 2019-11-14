@@ -13,16 +13,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
-import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
+import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserChangePasswordComponent,
     RegisterPatientComponent,
     LoginPatientComponent,
     PendingApprovalPatientComponent,
@@ -31,7 +32,6 @@ import { UserChangePasswordComponent } from './components/user-change-password/u
     ListOfDoctorsComponent,
     ListaOfExaminationTypesComponent,
     AddExaminationTypeComponent,
-    UserChangePasswordComponent
   ],
   imports: [
     BrowserModule,

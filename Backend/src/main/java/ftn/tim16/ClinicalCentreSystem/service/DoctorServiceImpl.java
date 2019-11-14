@@ -1,15 +1,15 @@
 package ftn.tim16.ClinicalCentreSystem.service;
-
+import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
+import ftn.tim16.ClinicalCentreSystem.model.Doctor;
+import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
-import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -17,13 +17,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DoctorServiceImpl implements DoctorService {
-
+public class DoctorServiceImpl  implements DoctorService{
     @Autowired
     private DoctorRepository doctorRepository;
-
+  
     @Autowired
     private ExaminationTypeRepository examinationTypeRepository;
+  
+    @Override
+    public Doctor changePassword(UserDTO userDTO, Doctor user) {
+        if(user.getStatus().equals(DoctorStatus.DELETED)){
+            return null;
+        }
+        user.setPassword(userDTO.getNewPassword());
+        if(user.getStatus().equals(DoctorStatus.NEVER_LOGGED_IN)){
+            user.setStatus(DoctorStatus.ACTIVE);
+        }
+        return doctorRepository.save(user);
+    }
 
     @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) {
@@ -83,16 +94,5 @@ public class DoctorServiceImpl implements DoctorService {
             sb.append(AlphaNumericString.charAt(index));
         }
         return sb.toString();
-    }
-    @Override
-    public Doctor changePassword(UserDTO userDTO, Doctor user) {
-        if(user.getStatus().equals(DoctorStatus.DELETED)){
-            return null;
-        }
-        user.setPassword(userDTO.getNewPassword());
-        if(user.getStatus().equals(DoctorStatus.NEVER_LOGGED_IN)){
-            user.setStatus(DoctorStatus.ACTIVE);
-        }
-        return doctorRepository.save(user);
     }
 }
