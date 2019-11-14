@@ -25,7 +25,8 @@ public class ExaminationTypeController {
 
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
-    @CrossOrigin()
+
+    @CrossOrigin
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExaminationType> create(@Valid  @RequestBody ExaminationTypeDTO examinationType) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -38,7 +39,8 @@ public class ExaminationTypeController {
         }
         return new ResponseEntity<ExaminationType>(createdExaminationType, HttpStatus.CREATED);
     }
-    @CrossOrigin()
+
+    @CrossOrigin
     @GetMapping(value="/all")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -46,7 +48,8 @@ public class ExaminationTypeController {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
-    @CrossOrigin()
+
+    @CrossOrigin
     @GetMapping(value="/pageAll")
     public ResponseEntity<ExaminationTypePagingDTO> getAllExaminationTypesForAdmin(Pageable page) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
