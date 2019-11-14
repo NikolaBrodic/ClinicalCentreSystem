@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.dto;
 
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
+<<<<<<< HEAD
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -17,6 +18,11 @@ public class ExaminationTypeDTO {
 
     @NotNull(message="Price is null.")
     @Positive(message ="Price is not a positive number.")
+=======
+public class ExaminationTypeDTO {
+    private Long id;
+    private String label;
+>>>>>>> feature/addDoctor
     private Double price;
 
     public ExaminationTypeDTO() {

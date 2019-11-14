@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8080',
-  examinationType: '/api/examination-type'
+  examinationType: '/api/examination-type',
+  doctor: '/api/doctor'
 };
 
 /*

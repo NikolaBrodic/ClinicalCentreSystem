@@ -23,8 +23,13 @@ public class ExaminationType {
 
     @Column(nullable = false, scale = 2)
     private Double price;
+<<<<<<< HEAD
 
     @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+=======
+    @JsonIgnore
+    @OneToMany(mappedBy = "specialized", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+>>>>>>> feature/addDoctor
     private Set<Doctor> doctors = new HashSet<>();
 
     @JsonIgnore
@@ -33,8 +38,13 @@ public class ExaminationType {
 
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
+<<<<<<< HEAD
 
     @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+=======
+    @JsonIgnore
+    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+>>>>>>> feature/addDoctor
     private Set<Examination> examinations = new HashSet<>();
 
     public ExaminationType(){

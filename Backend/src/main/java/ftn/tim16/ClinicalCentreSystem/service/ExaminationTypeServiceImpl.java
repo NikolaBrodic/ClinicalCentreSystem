@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
+<<<<<<< HEAD
 public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
     @Autowired
     private ExaminationTypeRepository examinationTypeRepository;
@@ -32,10 +33,17 @@ public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
         return examinationTypeRepository.save(examinationType);
     }
 
+=======
+public class ExaminationTypeServiceImpl implements ExaminationTypeService{
+    @Autowired
+    private ExaminationTypeRepository examinationTypeRepository;
+
+>>>>>>> feature/addDoctor
     @Override
     public List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic) {
         return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinic.getId(),LogicalStatus.EXISTING));
     }
+<<<<<<< HEAD
 
     @Override
     public List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic, Pageable page) {
@@ -60,6 +68,9 @@ public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
         if(examinationTypes.isEmpty()){
             return new ArrayList<>();
         }
+=======
+    private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes){
+>>>>>>> feature/addDoctor
         List<ExaminationTypeDTO> examinationTypeDTOS = new ArrayList<>();
         for (ExaminationType examinationType : examinationTypes) {
             examinationTypeDTOS.add(new ExaminationTypeDTO(examinationType));

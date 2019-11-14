@@ -1,3 +1,4 @@
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { DemoMaterialModule } from './material-module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,13 +10,17 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
+import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
+
 @NgModule({
   declarations: [
     AppComponent,
+    AddDoctorComponent,
+    ListOfDoctorsComponent,
     ListaOfExaminationTypesComponent,
     AddExaminationTypeComponent,
   ],
@@ -28,13 +33,14 @@ import { MatNativeDateModule } from '@angular/material/core';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    NgxMaterialTimepickerModule,
     FormsModule,
     HttpClientModule,
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent],
+  entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

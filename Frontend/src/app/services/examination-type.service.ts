@@ -33,8 +33,7 @@ export class ExaminationTypeService {
       });
     return this.examinationTypesForAdmin.asObservable();
   }
-  //active
-  //_direction
+
   public getExaminationTypesForAdminPaging(pageIndex, pageSize, sort: MatSort) {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
