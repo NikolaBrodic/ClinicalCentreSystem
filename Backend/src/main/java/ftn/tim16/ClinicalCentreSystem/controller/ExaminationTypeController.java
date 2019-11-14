@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import javax.validation.Valid;
 import java.util.List;
@@ -26,7 +25,7 @@ public class ExaminationTypeController {
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
-    @CrossOrigin
+    @CrossOrigin()
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExaminationType> create(@Valid  @RequestBody ExaminationTypeDTO examinationType) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -40,7 +39,7 @@ public class ExaminationTypeController {
         return new ResponseEntity<ExaminationType>(createdExaminationType, HttpStatus.CREATED);
     }
 
-    @CrossOrigin
+    @CrossOrigin()
     @GetMapping(value="/all")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -49,7 +48,7 @@ public class ExaminationTypeController {
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
-    @CrossOrigin
+    @CrossOrigin()
     @GetMapping(value="/pageAll")
     public ResponseEntity<ExaminationTypePagingDTO> getAllExaminationTypesForAdmin(Pageable page) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
