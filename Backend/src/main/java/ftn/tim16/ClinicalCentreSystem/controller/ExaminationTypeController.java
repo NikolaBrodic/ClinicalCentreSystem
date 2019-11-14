@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypePagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
@@ -26,7 +27,7 @@ public class ExaminationTypeController {
     private ClinicAdministratorService clinicAdministratorService;
     @CrossOrigin()
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExaminationType> create(@Valid  @RequestBody ExaminationType examinationType) {
+    public ResponseEntity<ExaminationType> create(@Valid  @RequestBody ExaminationTypeDTO examinationType) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
            exmainaton type you need to get information about clinic in which loged in admin works. */
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
@@ -47,11 +48,15 @@ public class ExaminationTypeController {
     }
     @CrossOrigin()
     @GetMapping(value="/pageAll")
-    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin(Pageable page) {
+    public ResponseEntity<ExaminationTypePagingDTO> getAllExaminationTypesForAdmin(Pageable page) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
            exmainaton type you need to get information about clinic in which loged in admin works. */
+
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic(),page), HttpStatus.OK);
+        ExaminationTypePagingDTO examinationTypePagingDTO = new ExaminationTypePagingDTO(
+                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic(),page),
+                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()).size());
+        return new ResponseEntity<>(examinationTypePagingDTO, HttpStatus.OK);
     }
 
 }

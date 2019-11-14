@@ -18,28 +18,36 @@ public class ExaminationType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Label is empty.")
-    @Size(message="Max size for label is 30.",max = 30)
     @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
     private String label;
 
-    @NotNull(message="Price is null.")
-    @Positive(message ="Price is not a positive number.")
     @Column(nullable = false, scale = 2)
     private Double price;
 
-    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
 
-    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
+
+    public ExaminationType(){
+
+    }
+    public ExaminationType(String label, Double price, Clinic clinic, LogicalStatus status) {
+        this.label = label;
+        this.price = price;
+        this.clinic = clinic;
+        this.status = status;
+        this.examinations = new HashSet<>();
+        this.doctors = new HashSet<>();
+    }
 
     public Long getId() {
         return id;

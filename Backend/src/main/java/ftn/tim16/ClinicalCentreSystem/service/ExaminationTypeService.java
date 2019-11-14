@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ExaminationTypeService {
-    ExaminationType create(ExaminationType examinationType, ClinicAdministrator clinicAdministrator);
+    ExaminationType create(ExaminationTypeDTO examinationType, ClinicAdministrator clinicAdministrator);
 
     List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic);
     List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic, Pageable page);

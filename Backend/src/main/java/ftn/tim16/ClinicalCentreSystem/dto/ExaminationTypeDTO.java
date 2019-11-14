@@ -2,9 +2,21 @@ package ftn.tim16.ClinicalCentreSystem.dto;
 
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 public class ExaminationTypeDTO {
+
     private Long id;
+
+    @NotEmpty(message = "Label is empty.")
+    @Size(message="Max size for label is 30.",max = 30)
     private String label;
+
+    @NotNull(message="Price is null.")
+    @Positive(message ="Price is not a positive number.")
     private Double price;
 
     public ExaminationTypeDTO() {

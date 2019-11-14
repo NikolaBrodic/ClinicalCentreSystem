@@ -23,15 +23,12 @@ public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
     private ClinicRepository clinicRepository;
 
     @Override
-    public ExaminationType create(ExaminationType examinationType, ClinicAdministrator clinicAdministrator) {
-        if(examinationTypeRepository.findByLabelIgnoringCase(examinationType.getLabel()) != null){
+    public ExaminationType create(ExaminationTypeDTO examinationTypeDTO, ClinicAdministrator clinicAdministrator) {
+        if(examinationTypeRepository.findByLabelIgnoringCase(examinationTypeDTO.getLabel()) != null){
             return null;
         }
-        examinationType.setStatus(LogicalStatus.EXISTING);
-        examinationType.setClinic(clinicAdministrator.getClinic());
-        examinationType.setDoctors(new HashSet<Doctor>());
-        examinationType.setExaminations(new HashSet<Examination>());
-
+        ExaminationType examinationType = new ExaminationType(examinationTypeDTO.getLabel(),examinationTypeDTO.getPrice(),
+                clinicAdministrator.getClinic(),LogicalStatus.EXISTING);
         return examinationTypeRepository.save(examinationType);
     }
 
@@ -46,6 +43,9 @@ public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
     }
 
     private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes){
+        if(examinationTypes == null || examinationTypes.isEmpty()){
+            return new ArrayList<>();
+        }
         List<ExaminationTypeDTO> examinationTypeDTOS = new ArrayList<>();
         for (ExaminationType examinationType : examinationTypes) {
             examinationTypeDTOS.add(new ExaminationTypeDTO(examinationType));
@@ -54,6 +54,12 @@ public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
     }
 
     private List<ExaminationTypeDTO> convertToDTO(Page<ExaminationType> examinationTypes){
+        if(examinationTypes == null){
+            return new ArrayList<>();
+        }
+        if(examinationTypes.isEmpty()){
+            return new ArrayList<>();
+        }
         List<ExaminationTypeDTO> examinationTypeDTOS = new ArrayList<>();
         for (ExaminationType examinationType : examinationTypes) {
             examinationTypeDTOS.add(new ExaminationTypeDTO(examinationType));
