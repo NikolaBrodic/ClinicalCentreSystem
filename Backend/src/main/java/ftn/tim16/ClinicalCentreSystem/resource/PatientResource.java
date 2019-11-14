@@ -34,7 +34,7 @@ public class PatientResource {
     }
 
     @GetMapping("/patients")
-    public List<Patient> getAllPatients() {
+    public List<Patient> getPatients() {
         return patientRepository.findAll();
     }
 
