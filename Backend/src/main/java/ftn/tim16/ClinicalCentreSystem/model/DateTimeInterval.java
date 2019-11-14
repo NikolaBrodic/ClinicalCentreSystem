@@ -17,10 +17,10 @@ public class DateTimeInterval {
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
-    @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
 
-    @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     public Long getId() {

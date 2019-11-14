@@ -1,10 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
+@DynamicUpdate
 public class ClinicalCentreAdministrator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

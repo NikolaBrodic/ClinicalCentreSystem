@@ -9,3 +9,8 @@ insert into doctor (email, password, first_name, last_name, phone_number,work_ho
   ('popov2@gmail.com', '280510556', 'Doca', 'Docic', '0652561980','08:00','10:00',1,'ACTIVE',1);
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('popov5@gmail.com', '280510556', 'Sima', 'Docic', '065256155','06:00','19:00',1,'DELETED',2);
+
+insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('popov585@gmail.com', 'jelenaJel', 'Sima', 'Docic', '065256155','Oktobar ','Grad','Drazva','1252525252525','APPROVED');
+ insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
+ values ('popov5@gmail.com', '280510556', 'Sima', 'Docic', '065256155','06:00','19:00',1,'ACTIVE');

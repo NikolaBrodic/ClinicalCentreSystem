@@ -8,13 +8,13 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Medicine medicine;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 
     public Long getId() {

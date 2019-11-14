@@ -42,10 +42,10 @@ public class Patient {
     @Enumerated(EnumType.STRING)
     private PatientStatus status;
 
-    @OneToOne(mappedBy = "patient")
+    @OneToOne(mappedBy = "patient",cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     public Patient() {

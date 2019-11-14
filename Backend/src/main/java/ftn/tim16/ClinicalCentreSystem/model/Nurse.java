@@ -34,16 +34,16 @@ public class Nurse {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Clinic clinic;
 
-    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
-    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
-    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<TimeOffNurse> timeOffNurses = new HashSet<>();
 
     @Enumerated(EnumType.STRING)

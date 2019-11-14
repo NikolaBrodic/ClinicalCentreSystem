@@ -19,7 +19,7 @@ public class Medicine {
     @Column(nullable = false)
     private String usage;
 
-    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
     public Long getId() {

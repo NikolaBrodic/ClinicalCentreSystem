@@ -17,16 +17,16 @@ public class ExaminationReport {
     @Column(nullable = false)
     private String comment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Diagnose diagnose;
 
-    @OneToMany(mappedBy = "examinationReport", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "examinationReport", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Doctor doctor;
 
     @OneToOne()

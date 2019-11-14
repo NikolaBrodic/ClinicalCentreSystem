@@ -11,13 +11,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
-import { HttpClientModule } from '@angular/common/http';
-import { MatNativeDateModule } from '@angular/material/core';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     ListOfDoctorsComponent,
     ListaOfExaminationTypesComponent,
     AddExaminationTypeComponent,
-    RegisterPatientComponent
+    UserChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +48,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     HttpClientModule,
     NgxMaterialTimepickerModule,
     DemoMaterialModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
   providers: [],

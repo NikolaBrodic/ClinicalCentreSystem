@@ -1,6 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -27,13 +29,14 @@ public class ClinicAdministrator {
     @Column(columnDefinition = "VARCHAR(10)", unique = true, nullable = false)
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    //FetchType must be EAGER because of editing ClinicAdministrator
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @OneToMany(mappedBy = "clinicAdministrator", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clinicAdministrator", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     public Long getId() {
