@@ -1,5 +1,7 @@
+import { RouterModule, Routes } from '@angular/router';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { DemoMaterialModule } from './material-module';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -13,10 +15,33 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 
+import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginPatientComponent } from './components/login-patient/login-patient.component';
+import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
+import { ErrorComponent } from './components/error/error.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
+import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     UserChangePasswordComponent
+    RegisterPatientComponent,
+    LoginPatientComponent,
+    PendingApprovalPatientComponent,
+    ErrorComponent
+    AddDoctorComponent,
+    ListOfDoctorsComponent,
+    ListaOfExaminationTypesComponent,
+    AddExaminationTypeComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,12 +52,16 @@ import { UserChangePasswordComponent } from './components/user-change-password/u
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    LayoutModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    NgxMaterialTimepickerModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    ReactiveFormsModule,
   ],
+  entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

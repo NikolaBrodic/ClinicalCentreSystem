@@ -48,6 +48,22 @@ public class Patient {
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
+    public Patient() {
+
+    }
+
+    public Patient(String email, String password, String firstName, String lastName, String phoneNumber, String address, String city, String country, String healthInsuranceID) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.healthInsuranceID = healthInsuranceID;
+    }
+
     public Long getId() {
         return id;
     }

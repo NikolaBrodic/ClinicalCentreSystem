@@ -1,0 +1,71 @@
+<br>
+<div class="container">
+    <div class="card text-center w-60">
+        <h4 class="card-header"> Doctors</h4>
+        <div class="card-body">
+            <div class="row">
+                <div class="row filterButton">
+                    <div class="col filter text-left">
+                        <mat-form-field>
+                            <mat-label>Search</mat-label>
+                            <input matInput (keyup)="applyFilter($event.target.value)" id="filterInput">
+                            <button mat-button matPrefix mat-icon-button>
+                                <mat-icon>search</mat-icon>
+                            </button>
+
+                        </mat-form-field>
+                    </div>
+                    <!--END class="col filter-meals text-left"-->
+                    <div class="col text-right">
+                        <button type="button" mat-stroked-button (click)="openCreatingDialog()" class="btn">Create
+                            a doctor</button>
+                    </div>
+                    <!--END class="col text-right"-->
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center scrollit">
+                <table mat-table [dataSource]="doctorsDataSource" class="mat-elevation-z8 table" matSort>
+
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.firstName}}&nbsp;&nbsp;
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.lastName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="specializedfor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Specialized for </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.specialized.label}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="workhours">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Work hours </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table">
+                            {{element.workHoursFrom |  slice:0:5}} &nbsp;-&nbsp;
+                            {{element.workHoursTo |  slice:0:5}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="delete">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Link to delete </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button type="button" mat-stroked-button class="btn" (click)="deleteDoctor()"
+                                disabled="disabled">Delete</button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            <!--END class="row justify-content-center scrollit"-->
+
+        </div>
+        <!--class="card-body"-->
+    </div>
+    <!--END ngclass="card text-center w-60"-->
+</div>
+<!--END class="container"-->
