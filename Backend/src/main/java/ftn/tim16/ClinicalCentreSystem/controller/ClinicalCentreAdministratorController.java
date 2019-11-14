@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/clinicalCentreAdmin")
+@RequestMapping(value = "/api/clinical-centre-admin")
 public class ClinicalCentreAdministratorController {
 
     @Autowired
     private PatientService patientService;
 
     @CrossOrigin
-    @GetMapping(value = "/allRequestsToRegister")
+    @GetMapping(value = "/all-requests-to-register")
     public ResponseEntity<List<AwaitingApprovalPatientDTO>> getAllRequestsToRegister() {
         return new ResponseEntity<>(patientService.findByStatus(PatientStatus.AWAITING_APPROVAL), HttpStatus.OK);
     }

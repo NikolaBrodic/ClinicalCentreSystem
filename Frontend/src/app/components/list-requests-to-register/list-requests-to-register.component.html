@@ -1,0 +1,52 @@
+<br>
+<div class="container">
+    <div class="card text-center w-60">
+        <h4 class="card-header">Requests to register</h4>
+        <div class="card-body">
+
+            <div class="row justify-content-center scrollit">
+                <table mat-table [dataSource]="requestToRegisterDataSource" class="mat-elevation-z8 table">
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef> First Name </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.firstName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.lastName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="approve" class="mat-column-button">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+                        <td mat-cell *matCellDef="let element">
+                            <button type="button" mat-stroked-button class="btn"
+                                (click)="openApproveDialog()">Approve</button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="reject">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+                        <td mat-cell *matCellDef="let element">
+                            <button type="button" mat-stroked-button class="btn"
+                                (click)="openRejectDialog()">Reject</button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+            </div>
+            <!--END class="row justify-content-center scrollit"-->
+
+        </div>
+        <!--class="card-body"-->
+    </div>
+    <!--END ngclass="card text-center w-60"-->
+</div>
+<!--END class="container"-->
