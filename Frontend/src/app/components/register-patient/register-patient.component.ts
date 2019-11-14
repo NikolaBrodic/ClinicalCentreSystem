@@ -1,33 +1,11 @@
-import {Component, OnInit, Injectable} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-
-import {ErrorStateMatcher} from '@angular/material';
+import { PatientStatus } from './../../models/patientStatus';
+import { Patient } from './../../models/patient';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 import { Router } from '@angular/router';
 import { PatientService } from 'src/app/services/patient.service';
 
-export class Patient {
-
-  constructor(
-    public email: string,
-    public password: string,
-    public firstName: string,
-    public lastName: string,
-    public phoneNumber: string,
-    public address: string,
-    public city: string,
-    public country: string,
-    public healthInsuranceID: string,
-    public status: PatientStatus
-  ) {
-  }
-
-}
-
-export enum PatientStatus {
-  AWAITING_APPROVAL,
-  APPROVED
-}
 
 @Component({
   selector: 'app-register-patient',
@@ -35,7 +13,6 @@ export enum PatientStatus {
   styleUrls: ['./register-patient.component.css']
 })
 export class RegisterPatientComponent implements OnInit {
-
   private registerForm: FormGroup;
   private submitted = false;
   private patient: Patient;
@@ -75,9 +52,6 @@ export class RegisterPatientComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
-    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value));
-    // alert(this.f.email.value);
 
     this.patient = new Patient(
       this.f.email.value,

@@ -1,7 +1,8 @@
+import { Patient } from './../models/patient';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../app.constants';
-import { Patient } from '../components/register-patient/register-patient.component';
+
 
 @Injectable({
   providedIn: 'root'

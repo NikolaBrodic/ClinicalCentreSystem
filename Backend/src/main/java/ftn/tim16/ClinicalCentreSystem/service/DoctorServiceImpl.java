@@ -1,7 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.service;
-
 import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
-import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,9 @@ import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -42,38 +38,38 @@ public class DoctorServiceImpl  implements DoctorService{
 
     @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) {
-        if(doctorRepository.findByEmailIgnoringCase(doctor.getEmail()) != null){
+        if (doctorRepository.findByEmailIgnoringCase(doctor.getEmail()) != null) {
             return null;
         }
-        if(doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null){
+        if (doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
             return null;
         }
-        LocalTime workHoursFrom =  LocalTime.parse(doctor.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime workHoursFrom = LocalTime.parse(doctor.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime workHoursTo = LocalTime.parse(doctor.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
-        if(workHoursFrom.isAfter(workHoursTo)){
+        if (workHoursFrom.isAfter(workHoursTo)) {
             return null;
         }
         ExaminationType examinationType = examinationTypeRepository.getById(doctor.getSpecialized().getId());
-        if(examinationType == null){
+        if (examinationType == null) {
             return null;
         }
-        Doctor newDoctor = new Doctor(doctor.getEmail(),generatePassword(9),doctor.getFirstName(),
-                doctor.getLastName(),doctor.getPhoneNumber(),workHoursFrom,workHoursTo,clinicAdministrator.getClinic(),
-                examinationType,DoctorStatus.NEVER_LOGGED_IN);
+        Doctor newDoctor = new Doctor(doctor.getEmail(), generatePassword(9), doctor.getFirstName(),
+                doctor.getLastName(), doctor.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(),
+                examinationType, DoctorStatus.NEVER_LOGGED_IN);
         return doctorRepository.save(newDoctor);
     }
 
     @Override
     public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic) {
-        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(),DoctorStatus.DELETED));
+        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED));
     }
 
     @Override
     public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic, Pageable page) {
-        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(),DoctorStatus.DELETED,page));
+        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED, page));
     }
 
-    private List<DoctorDTO> convertToDTO(List<Doctor> doctors){
+    private List<DoctorDTO> convertToDTO(List<Doctor> doctors) {
         List<DoctorDTO> doctorDTOS = new ArrayList<>();
         for (Doctor doctor : doctors) {
             doctorDTOS.add(new DoctorDTO(doctor));
@@ -81,7 +77,7 @@ public class DoctorServiceImpl  implements DoctorService{
         return doctorDTOS;
     }
 
-    private List<DoctorDTO> convertToDTO(Page<Doctor> doctors){
+    private List<DoctorDTO> convertToDTO(Page<Doctor> doctors) {
         List<DoctorDTO> doctorDTOS = new ArrayList<>();
         for (Doctor doctor : doctors) {
             doctorDTOS.add(new DoctorDTO(doctor));
@@ -89,15 +85,14 @@ public class DoctorServiceImpl  implements DoctorService{
         return doctorDTOS;
     }
 
-    private String generatePassword(int n){
+    private String generatePassword(int n) {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
         StringBuilder sb = new StringBuilder(n);
 
         for (int i = 0; i < n; i++) {
-            int index = (int)(AlphaNumericString.length() * Math.random());
+            int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
         return sb.toString();
     }
-
 }

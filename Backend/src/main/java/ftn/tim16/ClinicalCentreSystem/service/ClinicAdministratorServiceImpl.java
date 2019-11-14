@@ -18,6 +18,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         return clinicAdministratorRepository.findAll();
     }
 
+
     @Override
     public ClinicAdministrator changePassword(UserDTO userDTO, ClinicAdministrator user) {
         user.setPassword(userDTO.getNewPassword());

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';

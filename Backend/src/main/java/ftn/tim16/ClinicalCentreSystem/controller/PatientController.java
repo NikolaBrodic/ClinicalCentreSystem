@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.resource;
+package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-public class PatientResource {
+public class PatientController {
 
     @Autowired
     private PatientRepository patientRepository;
