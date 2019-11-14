@@ -1,6 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,22 +22,28 @@ public class Clinic {
     @Column(nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Nurse> nurses = new HashSet<>();
 
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ExaminationType> examinationTypes = new HashSet<>();
 
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<ClinicAdministrator> clinicAdministrators = new HashSet<>();
 
     public Long getId() {

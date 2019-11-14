@@ -1,9 +1,15 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,17 +24,32 @@ public class ExaminationType {
     @Column(nullable = false, scale = 2)
     private Double price;
 
-    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "specialized", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
 
-    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
+
+    public ExaminationType(){
+
+    }
+    public ExaminationType(String label, Double price, Clinic clinic, LogicalStatus status) {
+        this.label = label;
+        this.price = price;
+        this.clinic = clinic;
+        this.status = status;
+        this.examinations = new HashSet<>();
+        this.doctors = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -81,4 +102,25 @@ public class ExaminationType {
     public void setExaminations(Set<Examination> examinations) {
         this.examinations = examinations;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ExaminationType ExaminationType = (ExaminationType) o;
+        if (ExaminationType.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, ExaminationType.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
 }
