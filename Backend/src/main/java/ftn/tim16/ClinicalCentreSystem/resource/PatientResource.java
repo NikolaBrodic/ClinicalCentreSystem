@@ -54,4 +54,24 @@ public class PatientResource {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/patient")
+    public ResponseEntity<Patient> getPatientByEmail(@RequestBody Patient patient) {
+        // Find a patient by his email address
+        Patient existingPatient = this.patientRepository.findByEmail(patient.getEmail());
+
+        // If the entered email address does not exist in the database - the user does not exist.
+        if (existingPatient == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
+            // If the email exists, check if the password is correct.
+            if (PasswordHasher.doesPasswordMatch(patient.getPassword(), existingPatient.getPassword())) {
+                // If the password is correct then successfully login the user.
+                return new ResponseEntity<>(existingPatient, HttpStatus.OK);
+            } else {
+                // If the password is incorrect then login is denied.
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        }
+    }
+
 }
