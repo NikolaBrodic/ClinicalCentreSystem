@@ -10,4 +10,6 @@ public interface PatientService {
     List<AwaitingApprovalPatientDTO> findByStatus(PatientStatus patientStatus);
 
     Patient approveRequestToRegister(Long id);
+
+    boolean rejectRequestToRegister(Long id, String reason);
 }

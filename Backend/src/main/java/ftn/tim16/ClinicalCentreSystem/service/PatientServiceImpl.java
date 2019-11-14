@@ -33,14 +33,14 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient approveRequestToRegister(Long id) {
-        Patient patientToApprove = patientRepository.findById(id).orElseGet(null);
+        Patient patient = patientRepository.findById(id).orElseGet(null);
 
-        if (patientToApprove == null) {
+        if (patient == null) {
             return null;
         }
 
-        patientToApprove.setStatus(PatientStatus.APPROVED);
-        patientToApprove.setMedicalRecord(new MedicalRecord());
+        patient.setStatus(PatientStatus.APPROVED);
+        patient.setMedicalRecord(new MedicalRecord());
 
         String subject = "Request to register approved";
         StringBuilder sb = new StringBuilder();
@@ -49,9 +49,35 @@ public class PatientServiceImpl implements PatientService {
         sb.append(System.lineSeparator());
         sb.append("You can now login to the Clinical Centre System and start using it.");
         String text = sb.toString();
-        emailNotificationService.sendEmail(patientToApprove.getEmail(), subject, text);
+        emailNotificationService.sendEmail(patient.getEmail(), subject, text);
 
-        return patientRepository.save(patientToApprove);
+        return patientRepository.save(patient);
+    }
+
+    @Override
+    public boolean rejectRequestToRegister(Long id, String reason) {
+        Patient patient = patientRepository.findById(id).orElseGet(null);
+
+        if (patient == null) {
+            return false;
+        } else if (patient.getStatus() == PatientStatus.APPROVED) {
+            return false;
+        }
+
+        String subject = "Request to register rejected";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Your request to register as a patient is rejected by a clinical centre administrator.");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("Explanation:");
+        sb.append(System.lineSeparator());
+        sb.append(reason);
+        String text = sb.toString();
+        emailNotificationService.sendEmail(patient.getEmail(), subject, text);
+
+        patientRepository.deleteById(id);
+
+        return true;
     }
 
     //TODO: Change to use some made mapper as dependency

@@ -36,4 +36,16 @@ public class ClinicalCentreAdministratorController {
 
         return new ResponseEntity<Patient>(updatedPatient, HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @DeleteMapping(value = "/reject-request-to-register/{id}")
+    public ResponseEntity<Void> approveRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
+        boolean success = patientService.rejectRequestToRegister(id, reason);
+
+        if (success) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
