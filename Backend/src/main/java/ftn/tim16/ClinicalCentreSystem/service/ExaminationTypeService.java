@@ -1,8 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
-
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
-<<<<<<< HEAD
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +11,4 @@ public interface ExaminationTypeService {
 
     List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic);
     List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic, Pageable page);
-=======
-
-import java.util.List;
-
-public interface ExaminationTypeService {
-    List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic);
->>>>>>> feature/addDoctor
 }

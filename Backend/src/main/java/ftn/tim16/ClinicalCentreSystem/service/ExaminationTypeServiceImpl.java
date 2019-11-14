@@ -8,15 +8,14 @@ import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 @Service
-<<<<<<< HEAD
 public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
+
     @Autowired
     private ExaminationTypeRepository examinationTypeRepository;
 
@@ -33,17 +32,10 @@ public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
         return examinationTypeRepository.save(examinationType);
     }
 
-=======
-public class ExaminationTypeServiceImpl implements ExaminationTypeService{
-    @Autowired
-    private ExaminationTypeRepository examinationTypeRepository;
-
->>>>>>> feature/addDoctor
     @Override
     public List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic) {
         return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinic.getId(),LogicalStatus.EXISTING));
     }
-<<<<<<< HEAD
 
     @Override
     public List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic, Pageable page) {
@@ -61,16 +53,13 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService{
         return examinationTypeDTOS;
     }
 
-    private List<ExaminationTypeDTO> convertToDTO(Page<ExaminationType> examinationTypes){
-        if(examinationTypes == null){
+    private List<ExaminationTypeDTO> convertToDTO(Page<ExaminationType> examinationTypes) {
+        if (examinationTypes == null) {
             return new ArrayList<>();
         }
-        if(examinationTypes.isEmpty()){
+        if (examinationTypes.isEmpty()) {
             return new ArrayList<>();
         }
-=======
-    private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes){
->>>>>>> feature/addDoctor
         List<ExaminationTypeDTO> examinationTypeDTOS = new ArrayList<>();
         for (ExaminationType examinationType : examinationTypes) {
             examinationTypeDTOS.add(new ExaminationTypeDTO(examinationType));
