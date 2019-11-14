@@ -21,7 +21,7 @@ public class Clinic {
 
     @Column(nullable = false)
     private String address;
-
+  
     @JsonIgnore
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();

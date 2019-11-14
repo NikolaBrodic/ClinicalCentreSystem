@@ -16,7 +16,7 @@ public class Diagnose {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "diagnose", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "diagnose", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 
     public Long getId() {

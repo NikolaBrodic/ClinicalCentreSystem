@@ -19,10 +19,10 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private ExaminationKind kind;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Clinic clinic;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @Enumerated(EnumType.STRING)

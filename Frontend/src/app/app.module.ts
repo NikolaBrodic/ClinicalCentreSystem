@@ -1,4 +1,3 @@
-
 import { RouterModule, Routes } from '@angular/router';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
@@ -11,6 +10,10 @@ import { AppComponent } from './app.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -30,6 +33,7 @@ import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doc
 @NgModule({
   declarations: [
     AppComponent,
+    UserChangePasswordComponent
     RegisterPatientComponent,
     LoginPatientComponent,
     PendingApprovalPatientComponent,
@@ -54,14 +58,8 @@ import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doc
     FormsModule,
     HttpClientModule,
     NgxMaterialTimepickerModule,
-    FormsModule,
-    HttpClientModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    ReactiveFormsModule,
-  ],
-  providers: [
-
   ],
   entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
   providers: [],

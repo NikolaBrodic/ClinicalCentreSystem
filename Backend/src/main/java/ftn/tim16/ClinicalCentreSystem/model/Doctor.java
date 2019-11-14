@@ -46,16 +46,16 @@ public class Doctor {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @ManyToMany(mappedBy = "doctors")
     private Set<Examination> examinations = new HashSet<Examination>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private ExaminationType specialized;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
 
     @Enumerated(EnumType.STRING)

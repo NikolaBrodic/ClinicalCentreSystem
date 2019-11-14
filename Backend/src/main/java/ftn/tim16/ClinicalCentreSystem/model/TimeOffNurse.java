@@ -14,13 +14,13 @@ public class TimeOffNurse {
     @Enumerated(EnumType.STRING)
     private TimeOffType type;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private DateTimeInterval interval;
 
     @Enumerated(EnumType.STRING)
     private TimeOffStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 
     public Long getId() {
