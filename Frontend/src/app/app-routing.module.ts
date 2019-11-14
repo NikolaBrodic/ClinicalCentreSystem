@@ -1,19 +1,20 @@
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
-import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
-import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginPatientComponent } from './components/login-patient/login-patient.component';
+import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
+import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
+import { ErrorComponent } from './components/error/error.component';
 import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
-
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: LoginPatientComponent,
   },
   {
     path: 'patient/login',
-    component: LoginComponent,
+    component: LoginPatientComponent,
   },
   {
     path: 'patient/register',
@@ -27,6 +28,14 @@ const routes: Routes = [
     path: 'clinicAdministrator/examinationTypes',
     component: ListaOfExaminationTypesComponent,
   },
+  {
+    path: 'patient/pending-approval',
+    component: PendingApprovalPatientComponent,
+  },
+  {
+    path: '**',
+    component: ErrorComponent,
+  }
 ];
 
 @NgModule({

@@ -1,3 +1,4 @@
+import { PatientStatus } from './patientStatus';
 export class Patient {
 
     constructor(
@@ -14,9 +15,4 @@ export class Patient {
     ) {
     }
 
-}
-
-export enum PatientStatus {
-    AWAITING_APPROVAL,
-    APPROVED
 }

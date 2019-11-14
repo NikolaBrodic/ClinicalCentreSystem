@@ -1,3 +1,6 @@
+import { ErrorComponent } from './components/error/error.component';
+import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
+import { LoginPatientComponent } from './components/login-patient/login-patient.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { DemoMaterialModule } from './material-module';
@@ -12,18 +15,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
-import { LoginComponent } from './components/login/login.component';
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
     AppComponent,
+    RegisterPatientComponent,
+    LoginPatientComponent,
+    PendingApprovalPatientComponent,
+    ErrorComponent,
     AddDoctorComponent,
     ListOfDoctorsComponent,
     ListaOfExaminationTypesComponent,
     AddExaminationTypeComponent,
-    LoginComponent,
     RegisterPatientComponent
   ],
   imports: [
@@ -35,14 +41,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-    NgxMaterialTimepickerModule,
+    LayoutModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    NgxMaterialTimepickerModule,
     DemoMaterialModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
-    ReactiveFormsModule,
-    FormsModule
+    MatNativeDateModule
   ],
   entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
   providers: [],
