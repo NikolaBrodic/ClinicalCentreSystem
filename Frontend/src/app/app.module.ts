@@ -13,32 +13,15 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
-
-const appRoutes: Routes = [
-  {
-    path: '',
-    component: LoginPatientComponent,
-  },
-  {
-    path: 'patient/login',
-    component: LoginPatientComponent,
-  },
-  {
-    path: 'patient/register',
-    component: RegisterPatientComponent,
-  },
-  {
-    path: 'patient/pending-approval',
-    component: PendingApprovalPatientComponent,
-  },
-];
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterPatientComponent,
     LoginPatientComponent,
-    PendingApprovalPatientComponent
+    PendingApprovalPatientComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -58,9 +41,7 @@ const appRoutes: Routes = [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterModule.forRoot(
-      appRoutes
-    ),
+    AppRoutingModule,
     ReactiveFormsModule,
     FormsModule
   ],

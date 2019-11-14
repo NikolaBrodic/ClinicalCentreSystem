@@ -5,6 +5,23 @@ import {ErrorStateMatcher} from '@angular/material';
 import { MustMatch } from 'src/app/validators/must-match.validator';
 import { Router } from '@angular/router';
 
+export class Patient {
+
+  constructor(
+    public id: number,
+    public email: string,
+    public firstName: string,
+    public lastName: string,
+    public phoneNumber: string,
+    public address: string,
+    public city: string,
+    public counry: string,
+    public healthInsuranceID: string
+  ) {
+  }
+
+}
+
 @Component({
   selector: 'app-register-patient',
   templateUrl: './register-patient.component.html',
@@ -53,114 +70,6 @@ export class RegisterPatientComponent implements OnInit {
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value));
 
     this.router.navigate(['/patient/pending-approval']);
-  }
-
-}
-
-export class Patient {
-
-  private _id: bigint;
-  private _email: string;
-  private _password: string;
-  private _firstName: string;
-  private _lastName: string;
-  private _phoneNumber: string;
-  private _address: string;
-  private _city: string;
-  private _country: string;
-  private _healthInsuranceID: string;
-
-  constructor(id: bigint, email: string, password: string, firstName: string, lastName: string, phoneNumber: string, address: string, city: string, country: string, healthInsuranceID: string) {
-    this._id = id;
-    this._email = email;
-    this._password = password;
-    this._firstName = firstName;
-    this._lastName = lastName;
-    this._phoneNumber = phoneNumber;
-    this._address = address;
-    this._city = city;
-    this._country = country;
-    this._healthInsuranceID = healthInsuranceID;
-  }
-
-  get id(): bigint {
-    return this._id;
-  }
-
-  set id(value: bigint) {
-    this._id = value;
-  }
-
-  get email(): string {
-    return this._email;
-  }
-
-  set email(value: string) {
-    this._email = value;
-  }
-
-  get password(): string {
-    return this._password;
-  }
-
-  set password(value: string) {
-    this._password = value;
-  }
-
-  get firstName(): string {
-    return this._firstName;
-  }
-
-  set firstName(value: string) {
-    this._firstName = value;
-  }
-
-  get lastName(): string {
-    return this._lastName;
-  }
-
-  set lastName(value: string) {
-    this._lastName = value;
-  }
-
-  get phoneNumber(): string {
-    return this._phoneNumber;
-  }
-
-  set phoneNumber(value: string) {
-    this._phoneNumber = value;
-  }
-
-  get address(): string {
-    return this._address;
-  }
-
-  set address(value: string) {
-    this._address = value;
-  }
-
-  get city(): string {
-    return this._city;
-  }
-
-  set city(value: string) {
-    this._city = value;
-  }
-
-  get country(): string {
-    return this._country;
-  }
-
-  set country(value: string) {
-    this._country = value;
-  }
-
-  get healthInsuranceID(): string {
-    return this._healthInsuranceID;
-  }
-
-  set healthInsuranceID(value: string) {
-    this._healthInsuranceID = value;
   }
 
 }
