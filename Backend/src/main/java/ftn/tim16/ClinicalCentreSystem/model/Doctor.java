@@ -21,6 +21,7 @@ public class Doctor {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @NotEmpty(message = "First name is empty.")
@@ -37,11 +38,11 @@ public class Doctor {
     @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
     private String phoneNumber;
 
-    @NotNull()
+    @NotNull
     @Column(nullable = false)
     private LocalTime workHoursFrom;
 
-    @NotNull()
+    @NotNull
     @Column(nullable = false)
     private LocalTime workHoursTo;
 

@@ -20,10 +20,11 @@ import java.util.List;
 public class ExaminationTypeController {
     @Autowired
     private ExaminationTypeService examinationTypeService;
+
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
-    @CrossOrigin()
+    @CrossOrigin
     @GetMapping(value="/all")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
