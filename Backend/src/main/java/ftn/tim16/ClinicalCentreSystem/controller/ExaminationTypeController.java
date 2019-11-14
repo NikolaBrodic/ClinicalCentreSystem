@@ -1,11 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
-<<<<<<< HEAD
-
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypePagingDTO;
-=======
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
->>>>>>> feature/addDoctor
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
@@ -20,17 +16,10 @@ import org.springframework.data.domain.Pageable;
 import javax.validation.Valid;
 import java.util.List;
 
-<<<<<<< HEAD
 @RestController
 @RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 
-=======
-
-@RestController
-@RequestMapping(value = "/api/examination-type")
-public class ExaminationTypeController {
->>>>>>> feature/addDoctor
     @Autowired
     private ExaminationTypeService examinationTypeService;
 
@@ -38,7 +27,6 @@ public class ExaminationTypeController {
     private ClinicAdministratorService clinicAdministratorService;
 
     @CrossOrigin
-<<<<<<< HEAD
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExaminationType> create(@Valid  @RequestBody ExaminationTypeDTO examinationType) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -53,8 +41,6 @@ public class ExaminationTypeController {
     }
 
     @CrossOrigin
-=======
->>>>>>> feature/addDoctor
     @GetMapping(value="/all")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -62,7 +48,6 @@ public class ExaminationTypeController {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
-<<<<<<< HEAD
 
     @CrossOrigin
     @GetMapping(value="/pageAll")
@@ -77,6 +62,4 @@ public class ExaminationTypeController {
         return new ResponseEntity<>(examinationTypePagingDTO, HttpStatus.OK);
     }
 
-=======
->>>>>>> feature/addDoctor
 }
