@@ -7,24 +7,19 @@ import javax.validation.constraints.*;
 
 public class CreateDoctorDTO {
     @NotEmpty(message = "First name is empty.")
-    @Column(columnDefinition = "VARCHAR(30)", nullable = false)
 
     private String firstName;
     @NotEmpty(message = "Last name is empty.")
-    @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String lastName;
 
     @NotNull()
-    @Column(nullable = false)
     private String workHoursFrom;
 
     @NotNull()
-    @Column(nullable = false)
     private String workHoursTo;
 
     @NotEmpty(message = "Email is empty.")
     @Email(message ="Email is invalid.")
-    @Column(unique = true, nullable = false)
     private String email;
 
     @NotEmpty(message = "Phone number is empty.")

@@ -18,3 +18,7 @@ div_container{
 .block_container {
     display: flex;
 }
+
+.form {
+    width: 75%;
+}
