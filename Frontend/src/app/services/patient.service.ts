@@ -6,7 +6,7 @@ import { Patient } from '../components/register-patient/register-patient.compone
 @Injectable({
   providedIn: 'root'
 })
-export class PatientServiceService {
+export class PatientService {
 
   constructor(
     private http: HttpClient

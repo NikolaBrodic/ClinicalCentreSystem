@@ -14,6 +14,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { ErrorComponent } from './components/error/error.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -43,9 +44,12 @@ import { ErrorComponent } from './components/error/error.component';
     MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
