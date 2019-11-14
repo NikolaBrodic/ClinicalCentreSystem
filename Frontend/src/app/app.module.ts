@@ -19,10 +19,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { ErrorComponent } from './components/error/error.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
@@ -33,7 +31,7 @@ import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doc
     RegisterPatientComponent,
     LoginPatientComponent,
     PendingApprovalPatientComponent,
-    ErrorComponent
+    ErrorComponent,
     AddDoctorComponent,
     ListOfDoctorsComponent,
     ListaOfExaminationTypesComponent,
@@ -64,7 +62,6 @@ import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doc
 
   ],
   entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
