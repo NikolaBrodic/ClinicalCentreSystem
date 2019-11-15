@@ -13,3 +13,5 @@ insert into patient (email, password, first_name, last_name, phone_number,addres
  values ('popov585@gmail.com', 'jelenaJel', 'Sima', 'Docic', '065256155','Oktobar ','Grad','Drazva','1252525252525','APPROVED');
  insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
  values ('popov5@gmail.com', '280510556', 'Sima', 'Docic', '065256155','06:00','19:00',1,'ACTIVE');
+insert into patient (email, password, first_name, last_name, phone_number, address, city, country, health_insuranceid, status) values ('pera.peric@maildrop.cc', 'pera.peric', 'Pera', 'Peric', '064123456', 'Gogoljeva 32','Novi Sad','Srbija','1234567890123','AWAITING_APPROVAL');
+insert into patient (email, password, first_name, last_name, phone_number, address, city, country, health_insuranceid, status) values ('djole.djolic@maildrop.cc', 'djole.djolic', 'Djole', 'Djolic', '063123456', 'Gogoljeva 32','Novi Sad','Srbija','0123456789012','AWAITING_APPROVAL');

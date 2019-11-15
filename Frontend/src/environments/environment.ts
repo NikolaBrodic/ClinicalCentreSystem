@@ -7,7 +7,8 @@ export const environment = {
   baseUrl: 'http://localhost:8080',
   examinationType: '/api/examination-type',
   doctor: '/api/doctor',
-  user: '/api/user'
+  user: '/api/user',
+  clinicalCentreAdmin: '/api/clinical-centre-admin',
 };
 
 /*

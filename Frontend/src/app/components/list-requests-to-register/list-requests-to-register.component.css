@@ -1,0 +1,25 @@
+.table {
+    width: 75%;
+  }
+  
+.text-in-table{
+    margin:5px;
+    padding:5px;
+}
+  
+.mat-column-approve{
+    width: 15% !important;
+    margin:5px;
+    text-align: center;
+}
+
+.mat-column-reject{
+    width: 15% !important;
+    margin:5px;
+    text-align: center;
+}
+  
+.scrollit {
+    overflow-y:auto;
+    height:500px;
+}

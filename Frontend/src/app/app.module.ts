@@ -19,6 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
+import { ListRequestsToRegisterComponent } from './components/list-requests-to-register/list-requests-to-register.component';
+import { RejectRequestToRegisterComponent } from './components/reject-request-to-register/reject-request-to-register.component';
+import { ApproveRequestToRegisterComponent } from './components/approve-request-to-register/approve-request-to-register.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { RegisterPatientComponent } from './components/register-patient/register
     ListOfDoctorsComponent,
     ListaOfExaminationTypesComponent,
     AddExaminationTypeComponent,
+    ListRequestsToRegisterComponent,
+    RejectRequestToRegisterComponent,
+    ApproveRequestToRegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,15 @@ import { RegisterPatientComponent } from './components/register-patient/register
     DemoMaterialModule,
     MatNativeDateModule,
   ],
-  entryComponents: [ListaOfExaminationTypesComponent, AddExaminationTypeComponent, ListOfDoctorsComponent, AddDoctorComponent],
+  entryComponents: [
+    ListaOfExaminationTypesComponent,
+    AddExaminationTypeComponent,
+    ListOfDoctorsComponent,
+    AddDoctorComponent,
+    ListRequestsToRegisterComponent,
+    RejectRequestToRegisterComponent,
+    ApproveRequestToRegisterComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
