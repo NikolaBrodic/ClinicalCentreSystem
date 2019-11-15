@@ -13,9 +13,9 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./register-patient.component.css']
 })
 export class RegisterPatientComponent implements OnInit {
-  private registerForm: FormGroup;
-  private submitted = false;
-  private patient: Patient;
+  registerForm: FormGroup;
+  submitted = false;
+  patient: Patient;
 
   constructor(
     private patientService: PatientService,
@@ -45,7 +45,7 @@ export class RegisterPatientComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.submitted = true;
 
     // Stop here if form is invalid
