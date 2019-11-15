@@ -1,3 +1,4 @@
+import { ListRequestsToRegisterComponent } from './components/list-requests-to-register/list-requests-to-register.component';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
 import { NgModule } from '@angular/core';
@@ -30,12 +31,16 @@ const routes: Routes = [
     component: ListaOfExaminationTypesComponent,
   },
   {
-    path: 'user/changePssword',
+    path: 'user/changePassword',
     component: UserChangePasswordComponent,
   },
   {
     path: 'patient/pending-approval',
     component: PendingApprovalPatientComponent,
+  },
+  {
+    path: 'clinical-centre-admin/requests-to-register',
+    component: ListRequestsToRegisterComponent,
   },
   {
     path: '**',
