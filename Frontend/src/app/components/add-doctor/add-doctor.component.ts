@@ -44,7 +44,7 @@ export class AddDoctorComponent implements OnInit {
       this.toastr.error("Please enter a valid data.", 'Add doctor');
       return;
     }
-    if (this.addDoctorForm.value.workHoursFrom > this.addDoctorForm.value.workHoursTo) {
+    if (this.addDoctorForm.value.workHoursFrom >= this.addDoctorForm.value.workHoursTo) {
       this.toastr.error("Starting work hours must be before ending work hours.", 'Add doctor');
       return;
     }
