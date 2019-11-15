@@ -83,6 +83,7 @@ public class PatientServiceImpl implements PatientService {
     //TODO: Change to use some made mapper as dependency
     private AwaitingApprovalPatientDTO convertToDTO(Patient patient) {
         AwaitingApprovalPatientDTO awaitingApprovalPatientDTO = new AwaitingApprovalPatientDTO();
+        awaitingApprovalPatientDTO.setId(patient.getId());
         awaitingApprovalPatientDTO.setFirstName(patient.getFirstName());
         awaitingApprovalPatientDTO.setLastName(patient.getLastName());
         awaitingApprovalPatientDTO.setEmail((patient.getEmail()));

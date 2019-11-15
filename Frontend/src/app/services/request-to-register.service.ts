@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { RequestToRegister } from '../models/request-to-register';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
@@ -12,6 +12,7 @@ export class RequestToRegisterService {
   url = environment.baseUrl + environment.clinicalCentreAdmin;
 
   requestsToRegister: BehaviorSubject<RequestToRegister[]> = new BehaviorSubject<RequestToRegister[]>([]);
+  rejectSuccessEmitter = new Subject<RequestToRegister>();
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -25,5 +26,9 @@ export class RequestToRegisterService {
       });
 
     return this.requestsToRegister.asObservable();
+  }
+
+  public reject(id: number, reason: string) {
+    return this.httpClient.put(this.url + "/reject-request-to-register/" + id, reason);
   }
 }

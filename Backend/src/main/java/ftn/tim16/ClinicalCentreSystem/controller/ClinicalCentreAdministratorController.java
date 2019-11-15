@@ -38,8 +38,8 @@ public class ClinicalCentreAdministratorController {
     }
 
     @CrossOrigin
-    @DeleteMapping(value = "/reject-request-to-register/{id}")
-    public ResponseEntity<Void> approveRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
+    @PutMapping(value = "/reject-request-to-register/{id}")
+    public ResponseEntity<Void> rejectRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
         boolean success = patientService.rejectRequestToRegister(id, reason);
 
         if (success) {
