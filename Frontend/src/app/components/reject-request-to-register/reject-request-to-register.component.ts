@@ -1,8 +1,7 @@
 import { RequestToRegisterService } from './../../services/request-to-register.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({

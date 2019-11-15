@@ -4,8 +4,8 @@ import { RequestToRegister } from 'src/app/models/request-to-register';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { RejectRequestToRegisterComponent } from '../reject-request-to-register/reject-request-to-register.component';
-import { print } from 'util';
 import { Subscription } from 'rxjs';
+import { ApproveRequestToRegisterComponent } from '../approve-request-to-register/approve-request-to-register.component';
 
 @Component({
   selector: 'app-list-requests-to-register',
@@ -18,6 +18,7 @@ export class ListRequestsToRegisterComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'approve', 'reject'];
 
   private rejectingRequestSuccess: Subscription;
+  private approvingRequestSuccess: Subscription;
 
   constructor(
     private requestToRegisterService: RequestToRegisterService,
@@ -32,6 +33,12 @@ export class ListRequestsToRegisterComponent implements OnInit {
         this.fetchData();
       }
     )
+
+    this.approvingRequestSuccess = this.requestToRegisterService.approveSuccessEmitter.subscribe(
+      data => {
+        this.fetchData();
+      }
+    )
   }
 
   fetchData() {
@@ -40,8 +47,8 @@ export class ListRequestsToRegisterComponent implements OnInit {
     });
   }
 
-  openApproveDialog() {
-
+  openApproveDialog(request) {
+    this.dialog.open(ApproveRequestToRegisterComponent, { data: { requestToRegister: request } });
   }
 
   openRejectDialog(requestId) {

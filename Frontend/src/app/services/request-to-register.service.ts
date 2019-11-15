@@ -13,6 +13,7 @@ export class RequestToRegisterService {
 
   requestsToRegister: BehaviorSubject<RequestToRegister[]> = new BehaviorSubject<RequestToRegister[]>([]);
   rejectSuccessEmitter = new Subject<RequestToRegister>();
+  approveSuccessEmitter = new Subject<RequestToRegister>();
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -30,5 +31,9 @@ export class RequestToRegisterService {
 
   public reject(id: number, reason: string) {
     return this.httpClient.put(this.url + "/reject-request-to-register/" + id, reason);
+  }
+
+  public approve(requestToRegister: RequestToRegister) {
+    return this.httpClient.put(this.url + "/approve-request-to-register/" + requestToRegister.id, requestToRegister);
   }
 }

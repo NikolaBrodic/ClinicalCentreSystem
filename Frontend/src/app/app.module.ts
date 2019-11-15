@@ -11,12 +11,14 @@ import { ListRequestsToRegisterComponent } from './components/list-requests-to-r
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RejectRequestToRegisterComponent } from './components/reject-request-to-register/reject-request-to-register.component';
+import { ApproveRequestToRegisterComponent } from './components/approve-request-to-register/approve-request-to-register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListRequestsToRegisterComponent,
     RejectRequestToRegisterComponent,
+    ApproveRequestToRegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,7 @@ import { RejectRequestToRegisterComponent } from './components/reject-request-to
     FormsModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [ListRequestsToRegisterComponent, RejectRequestToRegisterComponent],
+  entryComponents: [ListRequestsToRegisterComponent, RejectRequestToRegisterComponent, ApproveRequestToRegisterComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
