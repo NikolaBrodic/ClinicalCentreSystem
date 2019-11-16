@@ -1,4 +1,12 @@
+INSERT INTO AUTHORITY (name) VALUES ('ROLE_CLINICAL_CENTRE_ADMIN');
+INSERT INTO AUTHORITY (name) VALUES ('ROLE_CLINIC_ADMIN');
+INSERT INTO AUTHORITY (name) VALUES ('ROLE_PATIENT');
+INSERT INTO AUTHORITY (name) VALUES ('ROLE_DOCTOR');
+INSERT INTO AUTHORITY (name) VALUES ('ROLE_NURSE');
+
 insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values ('example@gmail.com', 'sifra', 'Marko', 'Marković', '064123456', 'ACTIVE');
+insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
+
 insert into clinic (address, description, name) values ('3.Oktobar 73', 'Savremena klinika u Beogradu', 'VMA');
 insert into clinic (address, description, name) values ('Marsala Tita 9c', 'Savremena klinika u Novom Sadu', 'Klinika mira');
 insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values ('example@gmail.com', 'sifra', 'Marko', 'Marković', '064123456', 'ACTIVE',1);

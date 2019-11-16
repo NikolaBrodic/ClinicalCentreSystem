@@ -1,24 +1,22 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
-import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-public class Doctor {
+public class Doctor implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "Email is empty.")
-    @Email(message ="Email is invalid.")
+    @Email(message = "Email is invalid.")
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -34,7 +32,7 @@ public class Doctor {
     private String lastName;
 
     @NotEmpty(message = "Phone number is empty.")
-    @Size(min=9, max=10)
+    @Size(min = 9, max = 10)
     @Pattern(regexp = "0[0-9]+")
     @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
     private String phoneNumber;
@@ -47,13 +45,13 @@ public class Doctor {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @ManyToMany(mappedBy = "doctors")
     private Set<Examination> examinations = new HashSet<Examination>();
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ExaminationType specialized;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -61,23 +59,52 @@ public class Doctor {
 
     @Enumerated(EnumType.STRING)
     private DoctorStatus status;
-    public Doctor(){
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "doctor_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
-    public Doctor(@NotEmpty(message = "Email is empty.") @Email(message = "Email is invalid.") String email, String password, @NotEmpty(message = "First name is empty.") String firstName, @NotEmpty(message = "Last name is empty.") String lastName, @NotEmpty(message = "Phone number is empty.") @Size(min = 9, max = 10) @Pattern(regexp = "0[0-9]+") String phoneNumber, @NotNull() LocalTime workHoursFrom, @NotNull() LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.workHoursFrom = workHoursFrom;
-        this.workHoursTo = workHoursTo;
-        this.clinic = clinic;
-        this.specialized = specialized;
-        this.status = status;
-        this.timeOffDoctors = new HashSet<>();
-        this.examinations = new HashSet<Examination>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
     }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if (status == DoctorStatus.DELETED) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     public Long getId() {
         return id;
@@ -150,6 +177,7 @@ public class Doctor {
     public void setStatus(DoctorStatus status) {
         this.status = status;
     }
+
     public Clinic getClinic() {
         return clinic;
     }
@@ -181,6 +209,26 @@ public class Doctor {
     public void setTimeOffDoctors(Set<TimeOffDoctor> timeOffDoctors) {
         this.timeOffDoctors = timeOffDoctors;
     }
+
+    public Doctor() {
+
+    }
+
+    public Doctor(@NotEmpty(message = "Email is empty.") @Email(message = "Email is invalid.") String email, String password, @NotEmpty(message = "First name is empty.") String firstName, @NotEmpty(message = "Last name is empty.") String lastName, @NotEmpty(message = "Phone number is empty.") @Size(min = 9, max = 10) @Pattern(regexp = "0[0-9]+") String phoneNumber, @NotNull() LocalTime workHoursFrom, @NotNull() LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.workHoursFrom = workHoursFrom;
+        this.workHoursTo = workHoursTo;
+        this.clinic = clinic;
+        this.specialized = specialized;
+        this.status = status;
+        this.timeOffDoctors = new HashSet<>();
+        this.examinations = new HashSet<Examination>();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
