@@ -33,4 +33,8 @@ export class PatientService {
     return this.http.delete(`${API_URL}/patients/${id}`);
   }
 
+  public loginPatient(patient) {
+    return this.http.post(`${API_URL}/patient/login`, patient);
+  }
+
 }
