@@ -8,9 +8,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
+
     Doctor findByEmailIgnoringCase(String email);
     Doctor findByPhoneNumber(String phoneNumber);
     List<Doctor> findByClinicIdAndStatusNot(Long id, DoctorStatus status);
     Page<Doctor> findByClinicIdAndStatusNot(Long id, DoctorStatus status,Pageable page);
-
+    Doctor findByEmail(String email);
 }

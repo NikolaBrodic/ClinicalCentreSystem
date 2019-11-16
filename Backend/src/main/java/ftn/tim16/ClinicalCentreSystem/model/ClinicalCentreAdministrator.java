@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class ClinicalCentreAdministrator implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+
+    @Column
+    private Timestamp lastPasswordResetDate;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -123,5 +127,13 @@ public class ClinicalCentreAdministrator implements UserDetails {
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 }

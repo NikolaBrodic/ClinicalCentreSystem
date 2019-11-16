@@ -11,5 +11,5 @@ import java.util.List;
 public interface ClinicAdministratorRepository extends JpaRepository<ClinicAdministrator, Long> {
     List<ClinicAdministrator> findAll();
     ClinicAdministrator getById(Long id);
-
+    ClinicAdministrator findByEmail(String email);
 }

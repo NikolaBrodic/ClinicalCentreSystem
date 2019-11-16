@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -60,12 +61,34 @@ public class Doctor implements UserDetails {
     @Enumerated(EnumType.STRING)
     private DoctorStatus status;
 
+    @Column
+    private Timestamp lastPasswordResetDate;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "doctor_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+
+    public Doctor() {
+
+    }
+
+    public Doctor(@NotEmpty(message = "Email is empty.") @Email(message = "Email is invalid.") String email, String password, @NotEmpty(message = "First name is empty.") String firstName, @NotEmpty(message = "Last name is empty.") String lastName, @NotEmpty(message = "Phone number is empty.") @Size(min = 9, max = 10) @Pattern(regexp = "0[0-9]+") String phoneNumber, @NotNull() LocalTime workHoursFrom, @NotNull() LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.workHoursFrom = workHoursFrom;
+        this.workHoursTo = workHoursTo;
+        this.clinic = clinic;
+        this.specialized = specialized;
+        this.status = status;
+        this.timeOffDoctors = new HashSet<>();
+        this.examinations = new HashSet<Examination>();
+    }
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
@@ -210,23 +233,12 @@ public class Doctor implements UserDetails {
         this.timeOffDoctors = timeOffDoctors;
     }
 
-    public Doctor() {
-
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
     }
 
-    public Doctor(@NotEmpty(message = "Email is empty.") @Email(message = "Email is invalid.") String email, String password, @NotEmpty(message = "First name is empty.") String firstName, @NotEmpty(message = "Last name is empty.") String lastName, @NotEmpty(message = "Phone number is empty.") @Size(min = 9, max = 10) @Pattern(regexp = "0[0-9]+") String phoneNumber, @NotNull() LocalTime workHoursFrom, @NotNull() LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.workHoursFrom = workHoursFrom;
-        this.workHoursTo = workHoursTo;
-        this.clinic = clinic;
-        this.specialized = specialized;
-        this.status = status;
-        this.timeOffDoctors = new HashSet<>();
-        this.examinations = new HashSet<Examination>();
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     @Override

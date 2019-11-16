@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ClinicalCentreAdministratorRepository extends JpaRepository<ClinicalCentreAdministrator, Long> {
+
+    ClinicalCentreAdministrator findByEmail(String email);
 }
