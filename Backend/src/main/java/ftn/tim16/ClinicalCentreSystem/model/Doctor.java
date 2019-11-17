@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -72,10 +73,10 @@ public class Doctor implements UserDetails {
     private List<Authority> authorities;
 
     public Doctor() {
-
     }
 
-    public Doctor(@NotEmpty(message = "Email is empty.") @Email(message = "Email is invalid.") String email, String password, @NotEmpty(message = "First name is empty.") String firstName, @NotEmpty(message = "Last name is empty.") String lastName, @NotEmpty(message = "Phone number is empty.") @Size(min = 9, max = 10) @Pattern(regexp = "0[0-9]+") String phoneNumber, @NotNull() LocalTime workHoursFrom, @NotNull() LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status) {
+    public Doctor(String email, String password, String firstName, String lastName, String phoneNumber, LocalTime workHoursFrom,
+                  LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status, List<Authority> authorities) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -88,6 +89,9 @@ public class Doctor implements UserDetails {
         this.status = status;
         this.timeOffDoctors = new HashSet<>();
         this.examinations = new HashSet<Examination>();
+        Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.lastPasswordResetDate = now;
+        this.authorities = authorities;
     }
 
     public void setAuthorities(List<Authority> authorities) {
@@ -121,7 +125,7 @@ public class Doctor implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status == DoctorStatus.DELETED) {
+        if (status != DoctorStatus.ACTIVE) {
             return false;
         }
 
@@ -150,6 +154,8 @@ public class Doctor implements UserDetails {
     }
 
     public void setPassword(String password) {
+        Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 

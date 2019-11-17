@@ -1,14 +1,14 @@
 package ftn.tim16.ClinicalCentreSystem.dto;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 public class UserDTO {
     @NotEmpty(message = "Old password empty.")
     private String oldPassword;
 
     @NotEmpty(message = "New password empty.")
-    @Size(min = 8)
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")
     private String newPassword;
 
     public String getOldPassword() {

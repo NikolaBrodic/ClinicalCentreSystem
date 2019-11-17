@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -59,11 +60,19 @@ public class Patient implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "patient_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+
     public Patient() {
 
     }
 
-    public Patient(String email, String password, String firstName, String lastName, String phoneNumber, String address, String city, String country, String healthInsuranceID) {
+    public Patient(String email, String password, String firstName, String lastName, String phoneNumber, String address,
+                   String city, String country, String healthInsuranceID, List<Authority> authorities) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -73,14 +82,13 @@ public class Patient implements UserDetails {
         this.city = city;
         this.country = country;
         this.healthInsuranceID = healthInsuranceID;
+        this.status = PatientStatus.AWAITING_APPROVAL;
+        this.medicalRecord = null;
+        this.examinations = new HashSet<>();
+        Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.lastPasswordResetDate = now;
+        this.authorities = authorities;
     }
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "patient_authority",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
@@ -137,6 +145,8 @@ public class Patient implements UserDetails {
     }
 
     public void setPassword(String password) {
+        Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 

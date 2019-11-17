@@ -1,11 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.config;
+
 import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
 import ftn.tim16.ClinicalCentreSystem.security.auth.RestAuthenticationEntryPoint;
 import ftn.tim16.ClinicalCentreSystem.security.auth.TokenAuthenticationFilter;
 import ftn.tim16.ClinicalCentreSystem.service.UserServiceImpl;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,8 +21,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -73,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/register");
-        //dozvoljava nam da radimo sa statickim fajlovima
+
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js", "/assets/**");
 

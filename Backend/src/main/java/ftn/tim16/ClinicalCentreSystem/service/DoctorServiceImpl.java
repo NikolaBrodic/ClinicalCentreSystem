@@ -1,36 +1,51 @@
 package ftn.tim16.ClinicalCentreSystem.service;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
+import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
-public class DoctorServiceImpl  implements DoctorService{
+public class DoctorServiceImpl implements DoctorService {
+
     @Autowired
     private DoctorRepository doctorRepository;
-  
+
     @Autowired
     private ExaminationTypeRepository examinationTypeRepository;
-  
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @Override
     public Doctor changePassword(UserDTO userDTO, Doctor user) {
-        if(user.getStatus().equals(DoctorStatus.DELETED)){
+        if (user.getStatus().equals(DoctorStatus.DELETED)) {
             return null;
         }
         user.setPassword(userDTO.getNewPassword());
-        if(user.getStatus().equals(DoctorStatus.NEVER_LOGGED_IN)){
+        if (user.getStatus().equals(DoctorStatus.NEVER_LOGGED_IN)) {
             user.setStatus(DoctorStatus.ACTIVE);
         }
         return doctorRepository.save(user);
@@ -38,12 +53,14 @@ public class DoctorServiceImpl  implements DoctorService{
 
     @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) {
-        if (doctorRepository.findByEmailIgnoringCase(doctor.getEmail()) != null) {
+        UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
+        if (userDetails != null) {
             return null;
         }
         if (doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
             return null;
         }
+
         LocalTime workHoursFrom = LocalTime.parse(doctor.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime workHoursTo = LocalTime.parse(doctor.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
         if (workHoursFrom.isAfter(workHoursTo)) {
@@ -53,9 +70,14 @@ public class DoctorServiceImpl  implements DoctorService{
         if (examinationType == null) {
             return null;
         }
-        Doctor newDoctor = new Doctor(doctor.getEmail(), generatePassword(9), doctor.getFirstName(),
+
+        String hashedPassword = passwordEncoder.encode(generatePassword());
+        List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
+
+        Doctor newDoctor = new Doctor(doctor.getEmail(), hashedPassword, doctor.getFirstName(),
                 doctor.getLastName(), doctor.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(),
-                examinationType, DoctorStatus.NEVER_LOGGED_IN);
+                examinationType, DoctorStatus.NEVER_LOGGED_IN, authorities);
+
         return doctorRepository.save(newDoctor);
     }
 
@@ -85,14 +107,33 @@ public class DoctorServiceImpl  implements DoctorService{
         return doctorDTOS;
     }
 
-    private String generatePassword(int n) {
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
-        StringBuilder sb = new StringBuilder(n);
+    public static String generatePassword() {
+        int length = 12;
 
-        for (int i = 0; i < n; i++) {
-            int index = (int) (AlphaNumericString.length() * Math.random());
-            sb.append(AlphaNumericString.charAt(index));
+        final char[] lowercase = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        final char[] uppercase = "ABCDEFGJKLMNPRSTUVWXYZ".toCharArray();
+        final char[] numbers = "0123456789".toCharArray();
+        final char[] symbols = "$?!#&.".toCharArray();
+        final char[] allAllowed = "abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789$?!#&.".toCharArray();
+
+        Random random = new SecureRandom();
+
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < length - 4; i++) {
+            password.append(allAllowed[random.nextInt(allAllowed.length)]);
         }
-        return sb.toString();
+
+        password.insert(random.nextInt(password.length()), lowercase[random.nextInt(lowercase.length)]);
+        password.insert(random.nextInt(password.length()), uppercase[random.nextInt(uppercase.length)]);
+        password.insert(random.nextInt(password.length()), numbers[random.nextInt(numbers.length)]);
+        password.insert(random.nextInt(password.length()), symbols[random.nextInt(symbols.length)]);
+
+        return password.toString();
     }
+
+
 }
+
+
+

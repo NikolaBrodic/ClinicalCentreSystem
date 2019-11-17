@@ -2,13 +2,13 @@ package ftn.tim16.ClinicalCentreSystem.dto;
 
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 public class CreateDoctorDTO {
-    @NotEmpty(message = "First name is empty.")
 
+    @NotEmpty(message = "First name is empty.")
     private String firstName;
+
     @NotEmpty(message = "Last name is empty.")
     private String lastName;
 
@@ -19,11 +19,11 @@ public class CreateDoctorDTO {
     private String workHoursTo;
 
     @NotEmpty(message = "Email is empty.")
-    @Email(message ="Email is invalid.")
+    @Email(message = "Email is invalid.")
     private String email;
 
     @NotEmpty(message = "Phone number is empty.")
-    @Size(min=9, max=10)
+    @Size(min = 9, max = 10)
     @Pattern(regexp = "0[0-9]+")
     private String phoneNumber;
 

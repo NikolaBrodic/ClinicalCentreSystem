@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -83,6 +84,9 @@ public class ClinicAdministrator implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        if (status == UserStatus.NEVER_LOGGED_IN) {
+            return false;
+        }
         return true;
     }
 
@@ -103,6 +107,8 @@ public class ClinicAdministrator implements UserDetails {
     }
 
     public void setPassword(String password) {
+        Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 

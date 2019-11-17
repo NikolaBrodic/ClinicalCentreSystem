@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -19,18 +17,6 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
-    @PostMapping("/patient")
-    public ResponseEntity<Void> createPatient(@RequestBody Patient patient) {
-        String hashedPassword = PasswordHasher.encodeBCrypt(patient.getPassword());
-        patient.setPassword(hashedPassword);
-
-        Patient createdPatient = this.patientRepository.save(patient);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdPatient.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
 
     @GetMapping("/patients/{id}")
     public Patient getPatient(@PathVariable long id) {
