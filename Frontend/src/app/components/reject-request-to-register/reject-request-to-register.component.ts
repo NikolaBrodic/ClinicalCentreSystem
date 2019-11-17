@@ -40,7 +40,7 @@ export class RejectRequestToRegisterComponent implements OnInit {
         this.rejectRequestToRegisterForm.reset();
         this.dialogRef.close();
         this.toastr.success(
-          "Request to register is successfully rejected. Email explaining the reason is sent to the patient.",
+          "Request to register is rejected. Patient will be notified",
           "Reject request to register"
         );
         this.requestToRegisterService.rejectSuccessEmitter.next(reason);
