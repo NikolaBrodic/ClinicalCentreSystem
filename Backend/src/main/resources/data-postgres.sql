@@ -4,7 +4,8 @@ INSERT INTO AUTHORITY (name) VALUES ('ROLE_PATIENT');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_DOCTOR');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_NURSE');
 
-insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values ('example1@gmail.com', '$2a$10$t3Zfe7cCr8AwnPNikiCSX.c4c7a382z8WhpSUznkLgaqK5SZUqX12', 'Marko', 'Marković', '064123456', 'ACTIVE');
+/* password: 1st.Admin */
+insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values ('1st.admin@maildrop.cc', '$2a$10$0fX3yNqeWX3O/f0HtZRtVOA/6SA1Jq2vqARolGgJjRu47FX4AE/Y.', 'Marko', 'Marković', '064123456', 'ACTIVE');
 insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
 
 insert into clinic (address, description, name) values ('3.Oktobar 73', 'Savremena klinika u Beogradu', 'VMA');

@@ -28,7 +28,7 @@ export class ApproveRequestToRegisterComponent implements OnInit {
       responseData => {
         this.dialogRef.close();
         this.toastr.success(
-          "Request to register is successfully approved. Email notification is sent to the patient.",
+          "Request to register is approved. Patient will be notified.",
           "Approve request to register"
         );
         this.requestToRegisterService.approveSuccessEmitter.next();
