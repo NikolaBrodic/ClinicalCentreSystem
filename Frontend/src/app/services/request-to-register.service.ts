@@ -9,7 +9,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RequestToRegisterService {
-  url = environment.baseUrl + environment.clinicalCentreAdmin;
+  url = environment.baseUrl + environment.patient;
 
   requestsToRegister: BehaviorSubject<RequestToRegister[]> = new BehaviorSubject<RequestToRegister[]>([]);
   rejectSuccessEmitter = new Subject<RequestToRegister>();
