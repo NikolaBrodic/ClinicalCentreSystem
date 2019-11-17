@@ -15,24 +15,25 @@ export class JwtAuthService {
     private http: HttpClient
   ) { }
 
-  public executeJwtAuthenticationService(email, password) {
-    return this.http.post<any>(
-      `${API_URL}/authenticate`,
-      {
-        email,
-        password
-      }
-    ).pipe(
-      map(
-        data => {
-          sessionStorage.setItem(AUTHENTICATED_PATIENT, email);
-          sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
-          return data;
-        }
-      )
-    );
-  }
+  /* public executeJwtAuthenticationService(email, password) {
+     return this.http.post<any>(
+       `${API_URL}/authenticate`,
+       {
+         email,
+         password
+       }
+     ).pipe(
+       map(
+         data => {
+           sessionStorage.setItem(AUTHENTICATED_PATIENT, email);
+           sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
+           return data;
+         }
+       )
+     );
+   }*/
 
+  /*
   public getAuthenticatedPatient() {
     return sessionStorage.getItem(AUTHENTICATED_PATIENT);
   }
@@ -52,5 +53,5 @@ export class JwtAuthService {
     sessionStorage.removeItem(AUTHENTICATED_PATIENT);
     sessionStorage.removeItem(TOKEN);
   }
-
+*/
 }

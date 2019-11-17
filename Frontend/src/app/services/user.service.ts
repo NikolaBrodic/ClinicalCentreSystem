@@ -34,4 +34,9 @@ export class UserService {
   getToken() {
     return this.access_token;
   }
+
+  logout() {
+    this.access_token = null;
+    this.router.navigate(['/user/login']);
+  }
 }

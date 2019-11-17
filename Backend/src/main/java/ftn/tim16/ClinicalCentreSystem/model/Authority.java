@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "AUTHORITY")
@@ -42,4 +43,23 @@ public class Authority implements GrantedAuthority {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Authority authority = (Authority) o;
+        if (authority.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, authority.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

@@ -14,8 +14,8 @@ public class ClinicalCentreAdministratorServiceImpl  implements ClinicalCentreAd
     private ClinicalCentreAdministratorRepository clinicalCentreAdministratorRepository;
 
     @Override
-    public ClinicalCentreAdministrator changePassword(UserDTO userDTO, ClinicalCentreAdministrator user) {
-        user.setPassword(userDTO.getNewPassword());
+    public ClinicalCentreAdministrator changePassword(String newPassword, ClinicalCentreAdministrator user) {
+        user.setPassword(newPassword);
         if(user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)){
             user.setStatus(UserStatus.ACTIVE);
         }

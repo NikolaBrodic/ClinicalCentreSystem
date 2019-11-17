@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class ClinicalCentreAdministrator implements UserDetails {
@@ -141,5 +142,25 @@ public class ClinicalCentreAdministrator implements UserDetails {
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ClinicalCentreAdministrator clinicalCentreAdministrator = (ClinicalCentreAdministrator) o;
+        if (clinicalCentreAdministrator.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, clinicalCentreAdministrator.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

@@ -12,8 +12,8 @@ public class NurseServiceImpl implements NurseService{
     @Autowired
     private NurseRepository nurseRepository;
 
-    public Nurse changePassword(UserDTO userDTO, Nurse user) {
-        user.setPassword(userDTO.getNewPassword());
+    public Nurse changePassword(String newPassword, Nurse user) {
+        user.setPassword(newPassword);
         if(user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)){
             user.setStatus(UserStatus.ACTIVE);
         }

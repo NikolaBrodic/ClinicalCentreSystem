@@ -5,6 +5,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -170,5 +171,25 @@ public class Examination {
 
     public void setClinicAdministrator(ClinicAdministrator clinicAdministrator) {
         this.clinicAdministrator = clinicAdministrator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Examination examination = (Examination) o;
+        if (examination.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, examination.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

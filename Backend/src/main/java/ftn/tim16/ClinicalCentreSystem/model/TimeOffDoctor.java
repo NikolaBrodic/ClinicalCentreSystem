@@ -4,6 +4,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffType;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class TimeOffDoctor {
@@ -57,5 +58,25 @@ public class TimeOffDoctor {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TimeOffDoctor timeOffDoctor = (TimeOffDoctor) o;
+        if (timeOffDoctor.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, timeOffDoctor.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

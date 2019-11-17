@@ -8,6 +8,7 @@ import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,12 @@ public class DoctorController {
     private ClinicAdministratorService clinicAdministratorService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Doctor> create(@Valid  @RequestBody CreateDoctorDTO doctor) {
-        /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
-           exmainaton type you need to get information about clinic in which loged in admin works. */
-        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if(clinicAdministrator == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         Doctor createdDoctor = doctorService.create(doctor,clinicAdministrator);
         if(createdDoctor == null){
@@ -45,18 +48,22 @@ public class DoctorController {
     }
 
     @GetMapping(value="/all")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin() {
-        /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
-           exmainaton type you need to get information about clinic in which loged in admin works. */
-        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if(clinicAdministrator == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
     @GetMapping(value="/pageAll")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin(Pageable page) {
-        /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
-           exmainaton type you need to get information about clinic in which loged in admin works. */
-        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getClinicAdministrators().get(0);
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if(clinicAdministrator == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic(),page), HttpStatus.OK);
     }
 }

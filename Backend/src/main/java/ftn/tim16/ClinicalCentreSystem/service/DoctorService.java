@@ -12,5 +12,5 @@ public interface DoctorService  {
     Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator);
     List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic);
     List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic,Pageable page);
-    Doctor changePassword(UserDTO userDTO, Doctor user);
+    Doctor changePassword(String newPassword, Doctor user);
 }

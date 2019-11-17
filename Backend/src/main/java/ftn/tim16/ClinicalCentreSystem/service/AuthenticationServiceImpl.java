@@ -115,4 +115,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return null;
     }
 
+    public String getHashedPassword(String password){
+        return passwordEncoder.encode(password);
+    }
 }
