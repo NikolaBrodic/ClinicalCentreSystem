@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/doctor")
 public class DoctorController {
 
@@ -30,7 +31,6 @@ public class DoctorController {
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
-    @CrossOrigin
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Doctor> create(@Valid  @RequestBody CreateDoctorDTO doctor) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -44,7 +44,6 @@ public class DoctorController {
         return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
     }
 
-    @CrossOrigin
     @GetMapping(value="/all")
     public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin() {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new
@@ -53,7 +52,6 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping(value="/pageAll")
     public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin(Pageable page) {
         /*TODO: Get a user using token and if it is admin you need to get his information. When you create a new

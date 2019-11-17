@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Patient } from './../models/patient';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -9,12 +10,13 @@ import { API_URL } from '../app.constants';
 })
 export class PatientService {
 
+  url = environment.baseUrl + environment.user;
   constructor(
     private http: HttpClient
   ) { }
 
   public createPatient(patient) {
-    return this.http.post(`${API_URL}/patient`, patient);
+    return this.http.post(this.url + "/register", patient);
   }
 
   public getPatient(id) {
@@ -33,8 +35,5 @@ export class PatientService {
     return this.http.delete(`${API_URL}/patients/${id}`);
   }
 
-  public loginPatient(patient) {
-    return this.http.post(`${API_URL}/patient/login`, patient);
-  }
 
 }

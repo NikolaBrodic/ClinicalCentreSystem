@@ -16,7 +16,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/user")
+@CrossOrigin
+@RequestMapping(value = "/api/auth")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -36,7 +37,6 @@ public class UserController {
     @Autowired
     private NurseRepository nurseRepository;
 
-    @CrossOrigin()
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> changePassword(@Valid @RequestBody UserDTO userDTO) {
         /*TODO: Get a user using token. */

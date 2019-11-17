@@ -1,3 +1,4 @@
+import { TokenInterceptor } from './interseptors/TokenInterceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
@@ -14,7 +15,7 @@ import { AddExaminationTypeComponent } from './components/add-examination-type/a
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
@@ -65,7 +66,11 @@ import { ApproveRequestToRegisterComponent } from './components/approve-request-
     RejectRequestToRegisterComponent,
     ApproveRequestToRegisterComponent
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

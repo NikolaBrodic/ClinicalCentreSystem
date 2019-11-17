@@ -13,19 +13,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/clinical-centre-admin")
 public class ClinicalCentreAdministratorController {
 
     @Autowired
     private PatientService patientService;
 
-    @CrossOrigin
     @GetMapping(value = "/all-requests-to-register")
     public ResponseEntity<List<AwaitingApprovalPatientDTO>> getAllRequestsToRegister() {
         return new ResponseEntity<>(patientService.findByStatus(PatientStatus.AWAITING_APPROVAL), HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PutMapping(value = "/approve-request-to-register/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> approveRequestToRegister(@PathVariable Long id) {
         Patient updatedPatient = patientService.approveRequestToRegister(id);
@@ -37,7 +36,6 @@ public class ClinicalCentreAdministratorController {
         return new ResponseEntity<Patient>(updatedPatient, HttpStatus.OK);
     }
 
-    @CrossOrigin
     @PutMapping(value = "/reject-request-to-register/{id}")
     public ResponseEntity<Void> rejectRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
         boolean success = patientService.rejectRequestToRegister(id, reason);
