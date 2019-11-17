@@ -22,11 +22,11 @@ public class PatientServiceImpl implements PatientService {
     EmailNotificationService emailNotificationService;
 
     @Override
-    public Patient changePassword(UserDTO userDTO, Patient user) {
+    public Patient changePassword(String newPassword, Patient user) {
         if (user.getStatus().equals(PatientStatus.AWAITING_APPROVAL)) {
             return null;
         }
-        user.setPassword(userDTO.getNewPassword());
+        user.setPassword(newPassword);
         return patientRepository.save(user);
     }
 

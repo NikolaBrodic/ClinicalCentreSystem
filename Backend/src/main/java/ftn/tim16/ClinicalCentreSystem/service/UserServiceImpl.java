@@ -9,6 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -66,19 +69,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         throw new UsernameNotFoundException(String.format("No user found with email '%s'.", email));
     }
 
-    //TODO: Change this method using spring security
+    //TODO: Change this method using FACTORY
     @Override
-    public Object changePassword(UserDTO userDTO, Object user) {
+    public UserDetails changePassword(UserDTO userDTO) {
+        UserDetails user =findUserByEmail(userDTO.getEmail());
+
+        if(user == null){
+            return null;
+        }
+
+        if(!passwordEncoder.matches(userDTO.getOldPassword(),user.getPassword())){
+            return null;
+        }
+
+        String newPassword =passwordEncoder.encode(userDTO.getNewPassword());
         if (user instanceof ClinicAdministrator) {
-            return clinicAdministratorService.changePassword(userDTO, (ClinicAdministrator) user);
+            return clinicAdministratorService.changePassword(newPassword, (ClinicAdministrator) user);
         } else if (user instanceof ClinicalCentreAdministrator) {
-            return clinicalCentreAdministratorService.changePassword(userDTO, (ClinicalCentreAdministrator) user);
+            return clinicalCentreAdministratorService.changePassword(newPassword, (ClinicalCentreAdministrator) user);
         } else if (user instanceof Doctor) {
-            return doctorService.changePassword(userDTO, (Doctor) user);
+            return doctorService.changePassword(newPassword, (Doctor) user);
         } else if (user instanceof Patient) {
-            return patientService.changePassword(userDTO, (Patient) user);
+            return patientService.changePassword(newPassword, (Patient) user);
         } else if (user instanceof Nurse) {
-            return nurseService.changePassword(userDTO, (Nurse) user);
+            return nurseService.changePassword(newPassword, (Nurse) user);
         }
         return null;
     }
@@ -180,5 +194,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         }
         return false;
+    }
+
+    public UserDetails getLoggedInUser(){
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        return findUserByEmail(currentUser.getName());
     }
 }

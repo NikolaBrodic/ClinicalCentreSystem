@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ClinicAdministratorService {
     List<ClinicAdministrator> getClinicAdministrators();
-    ClinicAdministrator changePassword(UserDTO userDTO, ClinicAdministrator user);
+    ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user);
+    ClinicAdministrator getLoginAdmin();
 }

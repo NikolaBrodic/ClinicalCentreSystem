@@ -3,6 +3,7 @@ package ftn.tim16.ClinicalCentreSystem.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -90,5 +91,25 @@ public class ExaminationReport {
 
     public void setExamination(Examination examination) {
         this.examination = examination;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ExaminationReport examinationReport = (ExaminationReport) o;
+        if (examinationReport.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, examinationReport.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

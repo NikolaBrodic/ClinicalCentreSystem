@@ -40,11 +40,11 @@ public class DoctorServiceImpl implements DoctorService {
     private AuthenticationService authenticationService;
 
     @Override
-    public Doctor changePassword(UserDTO userDTO, Doctor user) {
+    public Doctor changePassword(String newPassword, Doctor user) {
         if (user.getStatus().equals(DoctorStatus.DELETED)) {
             return null;
         }
-        user.setPassword(userDTO.getNewPassword());
+        user.setPassword(newPassword);
         if (user.getStatus().equals(DoctorStatus.NEVER_LOGGED_IN)) {
             user.setStatus(DoctorStatus.ACTIVE);
         }
@@ -129,6 +129,7 @@ public class DoctorServiceImpl implements DoctorService {
         password.insert(random.nextInt(password.length()), numbers[random.nextInt(numbers.length)]);
         password.insert(random.nextInt(password.length()), symbols[random.nextInt(symbols.length)]);
 
+        System.out.println(password.toString());
         return password.toString();
     }
 

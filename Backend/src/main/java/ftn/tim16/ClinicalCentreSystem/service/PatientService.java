@@ -8,7 +8,7 @@ import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import java.util.List;
 
 public interface PatientService {
-    Patient changePassword(UserDTO userDTO, Patient user);
+    Patient changePassword(String newPassword, Patient user);
 
     List<AwaitingApprovalPatientDTO> findByStatus(PatientStatus patientStatus);
 

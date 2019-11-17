@@ -1,8 +1,10 @@
 export class User {
-    oldPassword: String;
-    newPassword: String;
+    email: string;
+    oldPassword: string;
+    newPassword: string;
 
-    constructor(oldPassword: String, newPassword: String) {
+    constructor(email: string, oldPassword: string, newPassword: string) {
+        this.email = email;
         this.newPassword = newPassword;
         this.oldPassword = oldPassword;
     }

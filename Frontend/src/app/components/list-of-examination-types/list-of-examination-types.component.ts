@@ -64,7 +64,6 @@ export class ListaOfExaminationTypesComponent implements OnInit {
 
   }
   sortEvent() {
-    console.log(this.sort);
     this.getExaminationTypesForAdminPaging(this.paginator.pageIndex, 5, this.sort);
 
   }
