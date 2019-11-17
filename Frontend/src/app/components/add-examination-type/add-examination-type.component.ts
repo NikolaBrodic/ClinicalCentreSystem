@@ -20,7 +20,7 @@ export class AddExaminationTypeComponent implements OnInit {
   ngOnInit() {
     this.addExaminationTypeForm = new FormGroup({
       label: new FormControl(null, Validators.required),
-      price: new FormControl(null, [Validators.required, Validators.min(1)]),
+      price: new FormControl(null, [Validators.required, Validators.min(1)])
     });
 
   }

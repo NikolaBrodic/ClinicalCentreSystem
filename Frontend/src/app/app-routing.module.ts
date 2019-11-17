@@ -1,3 +1,5 @@
+import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
+import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { ListRequestsToRegisterComponent } from './components/list-requests-to-register/list-requests-to-register.component';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
@@ -7,7 +9,7 @@ import { LoginPatientComponent } from './components/login-patient/login-patient.
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { ErrorComponent } from './components/error/error.component';
-import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
+
 
 const routes: Routes = [
   {
@@ -28,7 +30,11 @@ const routes: Routes = [
   },
   {
     path: 'clinicAdministrator/examinationTypes',
-    component: ListaOfExaminationTypesComponent,
+    component: ListOfExaminationTypesComponent,
+  },
+  {
+    path: 'clinicAdministrator/rooms',
+    component: ListOfRoomsComponent,
   },
   {
     path: 'user/changePassword',

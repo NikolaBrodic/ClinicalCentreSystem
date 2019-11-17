@@ -10,6 +10,7 @@ export const environment = {
   user: '/api/auth',
   clinicalCentreAdmin: '/api/clinical-centre-admin',
   patient: '/api/patient',
+  room: '/api/room'
 };
 
 /*
