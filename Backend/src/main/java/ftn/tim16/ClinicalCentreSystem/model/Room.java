@@ -29,6 +29,18 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
 
+    public Room(){
+
+    }
+
+    public Room(String label, ExaminationKind kind, Clinic clinic) {
+        this.label = label;
+        this.kind = kind;
+        this.clinic = clinic;
+        this.examinations =  new HashSet<Examination>();
+        this.status = LogicalStatus.EXISTING;
+    }
+
     public Long getId() {
         return id;
     }
