@@ -31,7 +31,6 @@ export class ListOfExaminationTypesComponent implements OnInit {
 
   ngOnInit() {
     // this.getExaminationTypesForAdmin();
-
     this.getExaminationTypesForAdminPaging(0, 5, null);
     this.successCreatedType = this.examinationTypeService.createSuccessEmitter.subscribe(
       data => {

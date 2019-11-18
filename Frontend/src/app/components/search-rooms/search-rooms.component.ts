@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { Time, formatDate } from '@angular/common';
 import { RoomWithNumber } from './../../models/roomWithNumber';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,34 +24,33 @@ export class SearchRoomsComponent implements OnInit {
   searchLabel: string = "";
   searchDate: Date;
   kind: string;
-
+  searchTimeStart: Time;
+  searchTimeEnd: Time;
+  minDate = new Date();
   constructor(public dialog: MatDialog,
-    private roomService: RoomService, private route: ActivatedRoute, private router: Router) { }
+    private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
     //TODO: QUERY-> PARAM
-    this.getRoomsForAdminPaging(0, 5, null);
     this.route.queryParams.subscribe(params => {
       var param = params['kind'];
-      console.log(param)
       if ("operation" === param) {
         this.kind = "OPERATION";
+        this.getRoomsForAdminPaging();
       } else if ("examination" === param) {
         this.kind = "EXAMINATION";
+        this.getRoomsForAdminPaging();
       } else {
-        //TODO: ADMIN HOME PAGE
-        console.log("eror")
         this.router.navigate(['/error']);
       }
     });
 
   }
   sortEvent() {
-    this.getRoomsForAdminPaging(this.paginator.pageIndex, 5, this.sort);
-
+    this.getRoomsForAdminPaging();
   }
 
   assignRoom() {
@@ -57,19 +58,39 @@ export class SearchRoomsComponent implements OnInit {
   }
 
   seacrhRooms() {
-    this.getRoomsForAdminPaging(this.paginator.pageIndex, 5, this.sort);
+    if (this.searchDate && (!this.searchTimeStart || !this.searchTimeEnd)) {
+      this.toastr.error("You have to set start and end time", 'Search room');
+      return;
+    }
+    this.getRoomsForAdminPaging();
   }
 
-  getRoomsForAdminPaging(pageIndex, pageSize, sort) {
-    this.roomService.getRoomsForAdminPaging(pageIndex, pageSize, sort, this.kind).subscribe((data: RoomWithNumber) => {
-      this.numberOfItem = data.numberOfItems;
-      this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
-      this.roomsDataSource.sort = this.sort;
-    })
+  getRoomsForAdminPaging() {
+    const format = 'dd/MM/yyyy';
+    const locale = 'en-US';
+    if (this.searchDate) {
+      const formattedDate = formatDate(this.searchDate, format, locale);
+      this.roomService.getRoomsForAdminPaging
+        (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, formattedDate, this.searchTimeStart, this.searchTimeEnd).
+        subscribe((data: RoomWithNumber) => {
+          this.numberOfItem = data.numberOfItems;
+          this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
+          this.roomsDataSource.sort = this.sort;
+        })
+    } else {
+      this.roomService.getRoomsForAdminPaging
+        (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, this.searchDate, this.searchTimeStart, this.searchTimeEnd).
+        subscribe((data: RoomWithNumber) => {
+          this.numberOfItem = data.numberOfItems;
+          this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
+          this.roomsDataSource.sort = this.sort;
+        })
+    }
+
   }
 
   changePage() {
-    this.getRoomsForAdminPaging(this.paginator.pageIndex, 5, this.sort);
+    this.getRoomsForAdminPaging();
   }
 
 }

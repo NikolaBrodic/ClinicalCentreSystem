@@ -21,10 +21,13 @@
 }
 
 .filterButton{
-    padding-left: 10%;
+    padding-left: 9%;
     width: 95%;
 }
-  
+.filterForTime{
+    padding-left:6%;
+    width: 95%;
+}
 .scrollit {
     overflow-y:auto;
     height:500px;
@@ -38,3 +41,7 @@
     bottom: 0; 
     right: 0; 
 } 
+
+.block_container {
+    display: flex;
+}
