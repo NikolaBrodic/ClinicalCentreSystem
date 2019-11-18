@@ -21,6 +21,11 @@ insert into clinic_admin_authority(user_id, authority_id) values (3,2);
 insert into examination_type (label, price,status,clinic_id) values ('Ginekolog', '5000','EXISTING' ,1);
 insert into examination_type (label, price,status,clinic_id) values ('Zubar', '2000','EXISTING',1);
 
+insert into room (label, kind,status,clinic_id) values ('Room1', 'OPERATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room2', 'EXAMINATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room3', 'EXAMINATION','DELETED' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room4', 'OPERATION','EXISTING' ,2);
+insert into room (label, kind,status,clinic_id) values ('Room5', 'EXAMINATION','EXISTING' ,2);
 
  insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
  values ('popov5@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Sima', 'Docic', '065256155','06:00','19:00',1,'ACTIVE');

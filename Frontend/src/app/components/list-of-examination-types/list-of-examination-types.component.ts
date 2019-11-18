@@ -14,7 +14,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   templateUrl: './list-of-examination-types.component.html',
   styleUrls: ['./list-of-examination-types.component.css']
 })
-export class ListaOfExaminationTypesComponent implements OnInit {
+export class ListOfExaminationTypesComponent implements OnInit {
   examinationTypesDataSource: MatTableDataSource<ExaminationType>;
   displayedColumns: string[] = ['label', 'price', 'update', 'delete'];
   public searchString: string;

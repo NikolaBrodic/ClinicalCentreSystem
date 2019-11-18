@@ -1,9 +1,10 @@
+import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { TokenInterceptor } from './interseptors/TokenInterceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
+
 import { DemoMaterialModule } from './material-module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -23,6 +24,8 @@ import { UserChangePasswordComponent } from './components/user-change-password/u
 import { ListRequestsToRegisterComponent } from './components/list-requests-to-register/list-requests-to-register.component';
 import { RejectRequestToRegisterComponent } from './components/reject-request-to-register/reject-request-to-register.component';
 import { ApproveRequestToRegisterComponent } from './components/approve-request-to-register/approve-request-to-register.component';
+import { AddRoomComponent } from './components/add-room/add-room.component';
+import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
 
 @NgModule({
   declarations: [
@@ -34,11 +37,13 @@ import { ApproveRequestToRegisterComponent } from './components/approve-request-
     ErrorComponent,
     AddDoctorComponent,
     ListOfDoctorsComponent,
-    ListaOfExaminationTypesComponent,
+    ListOfExaminationTypesComponent,
     AddExaminationTypeComponent,
     ListRequestsToRegisterComponent,
     RejectRequestToRegisterComponent,
     ApproveRequestToRegisterComponent,
+    AddRoomComponent,
+    ListOfRoomsComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,13 +63,15 @@ import { ApproveRequestToRegisterComponent } from './components/approve-request-
     MatNativeDateModule,
   ],
   entryComponents: [
-    ListaOfExaminationTypesComponent,
+    ListOfExaminationTypesComponent,
     AddExaminationTypeComponent,
     ListOfDoctorsComponent,
     AddDoctorComponent,
     ListRequestsToRegisterComponent,
     RejectRequestToRegisterComponent,
-    ApproveRequestToRegisterComponent
+    ApproveRequestToRegisterComponent,
+    ListOfRoomsComponent,
+    AddRoomComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
