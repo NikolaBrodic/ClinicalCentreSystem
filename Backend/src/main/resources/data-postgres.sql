@@ -10,6 +10,8 @@ insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1)
 
 insert into clinic (address, description, name) values ('3.Oktobar 73', 'Savremena klinika u Beogradu', 'VMA');
 insert into clinic (address, description, name) values ('Marsala Tita 9c', 'Savremena klinika u Novom Sadu', 'Klinika mira');
+
+/* password: Jelena062! */
 insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values ('example@gmail.com', '$2a$10$t/y9GLOzYq0JI7YY06ull.rQ1g.WN6g1/.qoc/Vt5ssUheNcAmEzy', 'Marko', 'Marković', '064123456', 'ACTIVE',1);
 insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values ('example2@gmail.com', '$2a$10$t3Zfe7cCr8AwnPNikiCSX.c4c7a382z8WhpSUznkLgaqK5SZUqX12', 'Mario', 'Simic', '0652561980', 'ACTIVE',2);
 insert into clinic_admin_authority(user_id, authority_id) values (1,2);
