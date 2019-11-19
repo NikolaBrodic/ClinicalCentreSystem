@@ -49,6 +49,7 @@ export class SearchRoomsComponent implements OnInit {
     });
 
   }
+  //TODO: Implement sort - it is not required
   sortEvent() {
     this.getRoomsForAdminPaging();
   }
@@ -62,6 +63,11 @@ export class SearchRoomsComponent implements OnInit {
       this.toastr.error("You have to set start and end time", 'Search room');
       return;
     }
+    if (this.searchTimeStart >= this.searchTimeEnd) {
+      this.toastr.error("Starting time must be before ending time.", 'Search room');
+      return;
+    }
+
     this.getRoomsForAdminPaging();
   }
 

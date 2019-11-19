@@ -21,12 +21,12 @@
 }
 
 .filterButton{
-    padding-left: 9%;
-    width: 95%;
+    padding-left: 10%;
+    width: 75%;
 }
 .filterForTime{
-    padding-left:6%;
-    width: 95%;
+    padding-left:10%;
+    width: 75%;
 }
 .scrollit {
     overflow-y:auto;

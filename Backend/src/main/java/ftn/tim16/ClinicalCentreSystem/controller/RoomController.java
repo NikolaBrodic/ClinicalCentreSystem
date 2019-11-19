@@ -69,7 +69,7 @@ public class RoomController {
         }
         try {
             RoomPagingDTO roomPagingDTO = roomService.
-                    findAllRoomsInClinic(kind,clinicAdministrator.getClinic(),page,searchLabel,searchDate,searchStartTime);
+                    findAllRoomsInClinic(kind,clinicAdministrator.getClinic(),page,searchLabel,searchDate,searchStartTime,searchEndTime);
             return new ResponseEntity<>(roomPagingDTO, HttpStatus.OK);
         }catch (DateTimeParseException ex){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
