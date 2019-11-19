@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;

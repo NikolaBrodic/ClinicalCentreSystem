@@ -24,19 +24,19 @@ public class Clinic {
 
     //You can't change this class
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Nurse> nurses = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
     @JsonIgnore
@@ -44,8 +44,23 @@ public class Clinic {
     private Set<ExaminationType> examinationTypes = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ClinicAdministrator> clinicAdministrators = new HashSet<>();
+
+    public Clinic() {
+    }
+
+    public Clinic(String name, String description, String address) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.examinations = new HashSet<>();
+        this.doctors = new HashSet<>();
+        this.nurses = new HashSet<>();
+        this.rooms = new HashSet<>();
+        this.examinationTypes = new HashSet<>();
+        this.clinicAdministrators = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
