@@ -28,28 +28,24 @@
                 <div class="col-2 text-left">
                     Start time
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <ngx-timepicker-field [controlOnly]="true" [format]="24" [(ngModel)]="searchTimeStart">
                     </ngx-timepicker-field>
                 </div>
-                <div class="col-6 ">
-                    &nbsp;
-                </div>
-            </div>
-            <div class="row  filterForTime block_container">
-                <div class="col-2 text-left">
+                <div class="col-2 text-right">
                     End time
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <ngx-timepicker-field [controlOnly]="true" [format]="24" [(ngModel)]="searchTimeEnd">
                     </ngx-timepicker-field>
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-2 text-right">
                     <mat-dialog-actions>
                         <button mat-stroked-button (click)="seacrhRooms()">Search</button>
                     </mat-dialog-actions>
                 </div>
             </div>
+
         </div>
 
         <div class="row justify-content-center scrollit">
