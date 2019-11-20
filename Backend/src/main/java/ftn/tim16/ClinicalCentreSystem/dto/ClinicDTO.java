@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.dto;
 
+import ftn.tim16.ClinicalCentreSystem.model.Clinic;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -16,11 +18,18 @@ public class ClinicDTO {
     @NotEmpty(message = "Address is empty.")
     private String address;
 
+    public ClinicDTO() {
+    }
+
     public ClinicDTO(Long id, String name, String description, String address) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
+    }
+
+    public ClinicDTO(Clinic clinic) {
+        this(clinic.getId(), clinic.getName(), clinic.getAddress(), clinic.getDescription());
     }
 
     public Long getId() {
