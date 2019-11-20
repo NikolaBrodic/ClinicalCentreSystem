@@ -43,6 +43,21 @@ public class ClinicAdministrator implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
+    public ClinicAdministrator() {
+    }
+
+    public ClinicAdministrator(String email, String password, String firstName, String lastName, String phoneNumber, Clinic clinic, List<Authority> authorities) {
+        this.email = email;
+        setPassword(password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.clinic = clinic;
+        this.authorities = authorities;
+        this.status = UserStatus.NEVER_LOGGED_IN;
+        this.examinations = new HashSet<>();
+    }
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "clinic_admin_authority",

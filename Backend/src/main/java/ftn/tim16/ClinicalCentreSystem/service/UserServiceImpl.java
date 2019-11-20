@@ -9,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,17 +71,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //TODO: Change this method using FACTORY
     @Override
     public UserDetails changePassword(UserDTO userDTO) {
-        UserDetails user =findUserByEmail(userDTO.getEmail());
+        UserDetails user = findUserByEmail(userDTO.getEmail());
 
-        if(user == null){
+        if (user == null) {
             return null;
         }
 
-        if(!passwordEncoder.matches(userDTO.getOldPassword(),user.getPassword())){
+        if (!passwordEncoder.matches(userDTO.getOldPassword(), user.getPassword())) {
             return null;
         }
 
-        String newPassword =passwordEncoder.encode(userDTO.getNewPassword());
+        String newPassword = passwordEncoder.encode(userDTO.getNewPassword());
         if (user instanceof ClinicAdministrator) {
             return clinicAdministratorService.changePassword(newPassword, (ClinicAdministrator) user);
         } else if (user instanceof ClinicalCentreAdministrator) {
@@ -146,6 +145,36 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public UserDetails findUserByPhoneNumber(String phoneNumber) {
+        ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByPhoneNumber(phoneNumber);
+        if (clinicalCentreAdministrator != null) {
+            return clinicalCentreAdministrator;
+        }
+
+        ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.findByPhoneNumber(phoneNumber);
+        if (clinicAdministrator != null) {
+            return clinicAdministrator;
+        }
+
+        Patient patient = patientRepository.findByPhoneNumber(phoneNumber);
+        if (patient != null) {
+            return patient;
+        }
+
+        Nurse nurse = nurseRepository.findByPhoneNumber(phoneNumber);
+        if (nurse != null) {
+            return nurse;
+        }
+
+        Doctor doctor = doctorRepository.findByPhoneNumber(phoneNumber);
+        if (doctor != null) {
+            return doctor;
+        }
+
+        return null;
+    }
+
+    @Override
     public boolean neverLoggedIn(String email) {
         try {
             ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByEmail(email);
@@ -196,7 +225,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return false;
     }
 
-    public UserDetails getLoggedInUser(){
+    public UserDetails getLoggedInUser() {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         return findUserByEmail(currentUser.getName());
     }

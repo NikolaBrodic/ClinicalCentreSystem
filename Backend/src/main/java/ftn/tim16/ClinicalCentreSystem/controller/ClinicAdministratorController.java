@@ -2,7 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
+import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +30,13 @@ public class ClinicAdministratorController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<Doctor> addClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
-        return null;
-    }
+    public ResponseEntity<ClinicAdministrator> addClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.create(clinicAdministratorDTO);
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
+        return new ResponseEntity<>(clinicAdministrator, HttpStatus.OK);
+    }
 
 }

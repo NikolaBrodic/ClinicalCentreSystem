@@ -14,4 +14,5 @@ public interface ClinicAdministratorService {
 
     List<ClinicAdministratorDTO> getAllClinicAdministratorInClinic(Long id);
 
+    ClinicAdministrator create(ClinicAdministratorDTO clinicAdministratorDTO);
 }

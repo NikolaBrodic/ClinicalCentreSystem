@@ -51,6 +51,8 @@ public class PatientServiceImpl implements PatientService {
         patient.setStatus(PatientStatus.APPROVED);
         patient.setMedicalRecord(new MedicalRecord());
 
+        Patient updatedPatient = patientRepository.save(patient);
+
         String subject = "Request to register approved";
         StringBuilder sb = new StringBuilder();
         sb.append("Great news! Your request to register as a patient is approved by a clinical centre administrator.");
@@ -60,7 +62,7 @@ public class PatientServiceImpl implements PatientService {
         String text = sb.toString();
         emailNotificationService.sendEmail(patient.getEmail(), subject, text);
 
-        return patientRepository.save(patient);
+        return updatedPatient;
     }
 
     @Override
