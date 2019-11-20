@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -56,13 +57,22 @@ public class RoomController {
 
     @GetMapping(value="/pageAll")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<RoomPagingDTO> getAllRoomsForAdmin(Pageable page) {
+    public ResponseEntity<RoomPagingDTO> getAllRoomsForAdmin(@RequestParam(value = "kind", required = true) String kind,
+                                                             @RequestParam(value = "searchLabel") String searchLabel,
+                                                             @RequestParam(value = "searchDate") String searchDate,
+                                                             @RequestParam(value = "searchStartTime") String searchStartTime,
+                                                             @RequestParam(value = "searchEndTime") String searchEndTime,
+                                                             Pageable page) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if(clinicAdministrator == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        RoomPagingDTO roomPagingDTO = new RoomPagingDTO(roomService.findAllRoomsInClinic(clinicAdministrator.getClinic(),page),
-                roomService.findAllRoomsInClinic(clinicAdministrator.getClinic()).size());
-        return new ResponseEntity<>(roomPagingDTO, HttpStatus.OK);
+        try {
+            RoomPagingDTO roomPagingDTO = roomService.
+                    findAllRoomsInClinic(kind,clinicAdministrator.getClinic(),page,searchLabel,searchDate,searchStartTime,searchEndTime);
+            return new ResponseEntity<>(roomPagingDTO, HttpStatus.OK);
+        }catch (DateTimeParseException ex){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

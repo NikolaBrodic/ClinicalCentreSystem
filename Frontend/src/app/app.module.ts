@@ -28,6 +28,7 @@ import { AddRoomComponent } from './components/add-room/add-room.component';
 import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
 import { AddClinicComponent } from './components/add-clinic/add-clinic.component';
 import { ListClinicsComponent } from './components/list-clinics/list-clinics.component';
+import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ListClinicsComponent } from './components/list-clinics/list-clinics.com
     ListOfRoomsComponent,
     AddClinicComponent,
     ListClinicsComponent,
+    SearchRoomsComponent,
   ],
   imports: [
     BrowserModule,

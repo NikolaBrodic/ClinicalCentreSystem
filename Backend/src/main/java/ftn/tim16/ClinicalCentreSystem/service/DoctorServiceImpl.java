@@ -15,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -52,7 +54,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) {
+    public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
         if (userDetails != null) {
             return null;

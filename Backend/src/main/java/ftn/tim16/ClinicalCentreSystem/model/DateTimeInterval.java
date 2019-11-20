@@ -42,4 +42,18 @@ public class DateTimeInterval {
     public void setEndDateTime(LocalDateTime endDateTime) {
         this.endDateTime = endDateTime;
     }
+
+    public boolean isAvailable(LocalDateTime startExaminationTime,LocalDateTime endExaminationTime){
+        if(startExaminationTime.isEqual(startDateTime) || endExaminationTime.isEqual(endDateTime)){
+            return false;
+        }
+        if(startExaminationTime.isAfter(startDateTime) &&  startExaminationTime.isBefore(endDateTime)){
+            return false;
+        }
+
+        if(endExaminationTime.isAfter(startDateTime) &&  endExaminationTime.isBefore(endDateTime)){
+            return false;
+        }
+        return true;
+    }
 }

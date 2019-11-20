@@ -32,7 +32,7 @@ export class RoomService {
     return this.roomsForAdmin.asObservable();
   }
 
-  public getExaminationTypesForAdminPaging(pageIndex, pageSize, sort: MatSort) {
+  public getRoomsForAdminPaging(pageIndex, pageSize, sort: MatSort, kind, search, searchDate, searchStartTime, searchEndTime) {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
@@ -43,7 +43,11 @@ export class RoomService {
       }
 
     }
-
+    params = params.append('kind', kind);
+    params = params.append('searchLabel', search);
+    params = params.append('searchDate', searchDate);
+    params = params.append('searchStartTime', searchStartTime);
+    params = params.append('searchEndTime', searchEndTime);
     return this.httpClient.get(this.url + "/pageAll", {
       params: params
     });
