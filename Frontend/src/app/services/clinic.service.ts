@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { Clinic } from '../models/clinic';
 import { Router } from '@angular/router';
 
@@ -18,5 +18,15 @@ export class ClinicService {
 
   public add(clinic: Clinic) {
     return this.httpClient.post(this.url, clinic);
+  }
+
+  public getAllClinics(): Observable<Clinic[]> {
+    this.httpClient.get(this.url + "/all").subscribe((data: Clinic[]) => {
+      this.clinics.next(data)
+    },
+      (error: HttpErrorResponse) => {
+
+      });
+    return this.clinics.asObservable();
   }
 }
