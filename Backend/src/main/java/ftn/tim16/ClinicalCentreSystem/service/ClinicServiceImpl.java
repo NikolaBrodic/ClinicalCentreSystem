@@ -6,6 +6,8 @@ import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClinicServiceImpl implements ClinicService {
 
@@ -36,5 +38,10 @@ public class ClinicServiceImpl implements ClinicService {
         Clinic clinic = new Clinic(clinicDTO.getName(), clinicDTO.getDescription(), clinicDTO.getAddress());
 
         return clinicRepository.save(clinic);
+    }
+
+    @Override
+    public List<Clinic> findAll() {
+        return clinicRepository.findAll();
     }
 }

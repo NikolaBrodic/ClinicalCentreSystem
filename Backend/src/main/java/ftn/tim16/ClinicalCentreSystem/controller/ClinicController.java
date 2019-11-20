@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/api/clinic")
@@ -38,5 +40,12 @@ public class ClinicController {
         }
 
         return new ResponseEntity<>(clinic, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/all")
+    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    public ResponseEntity<List<Clinic>> getAllClinics() {
+        List<Clinic> allClinics = clinicService.findAll();
+        return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
 }
