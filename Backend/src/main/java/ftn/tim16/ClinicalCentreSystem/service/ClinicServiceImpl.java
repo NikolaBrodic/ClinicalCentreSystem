@@ -19,12 +19,12 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public Clinic findByName(String name) {
-        return clinicRepository.findByName(name);
+        return clinicRepository.findByNameIgnoringCase(name);
     }
 
     @Override
     public Clinic findByAddress(String address) {
-        return clinicRepository.findByAddress(address);
+        return clinicRepository.findByAddressIgnoringCase(address);
     }
 
     @Override
