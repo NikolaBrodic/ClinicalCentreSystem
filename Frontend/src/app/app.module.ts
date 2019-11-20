@@ -26,6 +26,7 @@ import { RejectRequestToRegisterComponent } from './components/reject-request-to
 import { ApproveRequestToRegisterComponent } from './components/approve-request-to-register/approve-request-to-register.component';
 import { AddRoomComponent } from './components/add-room/add-room.component';
 import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
+import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.c
     ApproveRequestToRegisterComponent,
     AddRoomComponent,
     ListOfRoomsComponent,
+    SearchRoomsComponent,
   ],
   imports: [
     BrowserModule,

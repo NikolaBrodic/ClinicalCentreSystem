@@ -1,3 +1,4 @@
+import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
 import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
 import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { ListRequestsToRegisterComponent } from './components/list-requests-to-register/list-requests-to-register.component';
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: 'clinicAdministrator/rooms',
     component: ListOfRoomsComponent,
+  },
+  {
+    path: 'clinicAdministrator/search-rooms',
+    component: SearchRoomsComponent,
   },
   {
     path: 'user/changePassword',

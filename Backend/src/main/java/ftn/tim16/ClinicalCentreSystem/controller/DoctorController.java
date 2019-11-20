@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import javax.validation.Valid;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -39,12 +40,15 @@ public class DoctorController {
         if(clinicAdministrator == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        Doctor createdDoctor = doctorService.create(doctor,clinicAdministrator);
-        if(createdDoctor == null){
+        try {
+            Doctor createdDoctor = doctorService.create(doctor,clinicAdministrator);
+            if(createdDoctor == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
+        }catch (DateTimeParseException ex){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
     }
 
     @GetMapping(value="/all")

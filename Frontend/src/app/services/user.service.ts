@@ -14,9 +14,8 @@ export class UserService {
 
   url = environment.baseUrl + environment.user;
   private access_token = null;
-
   constructor(private httpClient: HttpClient, private router: Router) { }
-
+  req: UserTokenState
   changePassword(user: User) {
     return this.httpClient.put(this.url, user);
   }
@@ -24,6 +23,7 @@ export class UserService {
   login(user: UserLoginRequest) {
     return this.httpClient.post(this.url + "/login", user).pipe(map((res: UserTokenState) => {
       this.access_token = res.accessToken;
+      localStorage.setItem('Token', JSON.stringify(res));
     }));
   }
 
@@ -37,6 +37,7 @@ export class UserService {
 
   logout() {
     this.access_token = null;
+    localStorage.removeItem('Token');
     this.router.navigate(['/user/login']);
   }
 }
