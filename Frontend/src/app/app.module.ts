@@ -26,6 +26,8 @@ import { RejectRequestToRegisterComponent } from './components/reject-request-to
 import { ApproveRequestToRegisterComponent } from './components/approve-request-to-register/approve-request-to-register.component';
 import { AddRoomComponent } from './components/add-room/add-room.component';
 import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
+import { AddClinicComponent } from './components/add-clinic/add-clinic.component';
+import { ListClinicsComponent } from './components/list-clinics/list-clinics.component';
 import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
 
 @NgModule({
@@ -45,6 +47,8 @@ import { SearchRoomsComponent } from './components/search-rooms/search-rooms.com
     ApproveRequestToRegisterComponent,
     AddRoomComponent,
     ListOfRoomsComponent,
+    AddClinicComponent,
+    ListClinicsComponent,
     SearchRoomsComponent,
   ],
   imports: [
@@ -73,7 +77,9 @@ import { SearchRoomsComponent } from './components/search-rooms/search-rooms.com
     RejectRequestToRegisterComponent,
     ApproveRequestToRegisterComponent,
     ListOfRoomsComponent,
-    AddRoomComponent
+    AddRoomComponent,
+    ListClinicsComponent,
+    AddClinicComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

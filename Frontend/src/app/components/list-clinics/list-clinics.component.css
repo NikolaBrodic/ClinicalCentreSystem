@@ -1,0 +1,17 @@
+.table {
+    width: 75%;
+  }
+  
+.text-in-table{
+    margin:5px;
+    padding:5px;
+}
+  
+.scrollit {
+    overflow-y:auto;
+    height:500px;
+}
+
+.row-width {
+    width: 90%;
+}
