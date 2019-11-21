@@ -2,7 +2,7 @@
 <mat-dialog-content class="example-container dialog-class">
     <form [formGroup]="rejectRequestToRegisterForm">
         <mat-form-field>
-            <input matInput placeholder="Explain the reason for rejection" formControlName="reason">
+            <textarea matInput placeholder="Explain the reason for rejection" formControlName="reason"></textarea>
             <mat-error *ngIf="rejectRequestToRegisterForm.get('reason').invalid">
                 Please explain the reason for rejection.
             </mat-error>

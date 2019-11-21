@@ -57,7 +57,7 @@ public class Patient implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "patient_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

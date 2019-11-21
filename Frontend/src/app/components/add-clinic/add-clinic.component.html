@@ -20,7 +20,7 @@
                         </mat-form-field>
                         <br>
                         <mat-form-field>
-                            <input matInput placeholder="Description" formControlName="description">
+                            <textarea matInput placeholder="Description" formControlName="description"></textarea>
                             <mat-error *ngIf="addClinicForm.get('description').invalid">Please enter clinic's
                                 description.
                             </mat-error>
