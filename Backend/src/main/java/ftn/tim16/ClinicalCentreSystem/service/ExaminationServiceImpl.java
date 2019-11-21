@@ -19,4 +19,9 @@ public class ExaminationServiceImpl implements ExaminationService{
     public List<Examination> getExaminations(Long idRoom) {
         return examinationRepository.findByRoomId(idRoom);
     }
+
+    @Override
+    public Examination getExamination(Long intervalId) {
+        return examinationRepository.findByIntervalId(intervalId);
+    }
 }

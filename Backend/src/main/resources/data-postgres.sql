@@ -17,32 +17,32 @@ insert into clinic_administrator (email, password, first_name, last_name, phone_
 insert into clinic_admin_authority(user_id, authority_id) values (1,2);
 insert into clinic_admin_authority(user_id, authority_id) values (2,2);
 
-insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values ('example22@gmail.com', '$2a$10$t3Zfe7cCr8AwnPNikiCSX.c4c7a382z8WhpSUznkLgaqK5SZUqX12', 'Mario', 'Simic', '0642561980', 'NEVER_LOGGED_IN',1);
-insert into clinic_admin_authority(user_id, authority_id) values (3,2);
+-- insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values ('example22@gmail.com', '$2a$10$t3Zfe7cCr8AwnPNikiCSX.c4c7a382z8WhpSUznkLgaqK5SZUqX12', 'Mario', 'Simic', '0642561980', 'NEVER_LOGGED_IN',1);
+-- insert into clinic_admin_authority(user_id, authority_id) values (3,2);
+--
+-- insert into examination_type (label, price,status,clinic_id) values ('Ginekolog', '5000','EXISTING' ,1);
+-- insert into examination_type (label, price,status,clinic_id) values ('Zubar', '2000','EXISTING',1);
+--
+--  insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
+--  values ('popov5@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Sima', 'Docic', '065256155','06:00','19:00',1,'ACTIVE');
+-- insert into nurse_authority(user_id, authority_id) values (1,5);
 
-insert into examination_type (label, price,status,clinic_id) values ('Ginekolog', '5000','EXISTING' ,1);
-insert into examination_type (label, price,status,clinic_id) values ('Zubar', '2000','EXISTING',1);
-
- insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
- values ('popov5@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Sima', 'Docic', '065256155','06:00','19:00',1,'ACTIVE');
-insert into nurse_authority(user_id, authority_id) values (1,5);
-
-insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'OPERATION',1,'EXISTING');
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
-insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',1,'APPROVED',1,1);
-
-
-insert into room (label, kind,clinic_id,status) values ('Operacijska soba2', 'OPERATION',1,'EXISTING');
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
-insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',2,'APPROVED',1,2);
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 10:00','19.11.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',3,'APPROVED',1,2);
-
-
-insert into room (label, kind,clinic_id,status) values ('Operacijska soba 3 ', 'OPERATION',1,'EXISTING');
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
-insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',4,'APPROVED',1,3);
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 10:00','19.11.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',5,'APPROVED',1,3);
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 08:00','19.11.2019 09:00');
-insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',6,'APPROVED',1,3);
+-- insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'OPERATION',1,'EXISTING');
+-- insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
+-- insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',1,'APPROVED',1,1);
+--
+--
+-- insert into room (label, kind,clinic_id,status) values ('Operacijska soba2', 'OPERATION',1,'EXISTING');
+-- insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
+-- insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',2,'APPROVED',1,2);
+-- insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 10:00','19.11.2019 11:00');
+-- insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',3,'APPROVED',1,2);
+--
+--
+-- insert into room (label, kind,clinic_id,status) values ('Operacijska soba 3 ', 'OPERATION',1,'EXISTING');
+-- insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
+-- insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',4,'APPROVED',1,3);
+-- insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 10:00','19.11.2019 11:00');
+-- insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',5,'APPROVED',1,3);
+-- insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 08:00','19.11.2019 09:00');
+-- insert into examination (kind,interval_id,status,examination_type_id,room_id) values ('OPERATION',6,'APPROVED',1,3);

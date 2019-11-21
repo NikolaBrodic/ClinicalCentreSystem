@@ -9,4 +9,5 @@ import java.util.List;
 public interface ExaminationRepository extends JpaRepository<Examination, Long> {
 
     List<Examination> findByRoomId(Long id);
+    Examination findByIntervalId(Long id);
 }

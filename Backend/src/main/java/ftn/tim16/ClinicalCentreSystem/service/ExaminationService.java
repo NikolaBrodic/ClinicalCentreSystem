@@ -8,4 +8,5 @@ import java.util.List;
 public interface ExaminationService {
 
     public List<Examination> getExaminations(Long idRoom);
+    public Examination getExamination(Long intervalId);
 }
