@@ -1,3 +1,4 @@
+import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
 import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
 import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
 import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'clinical-centre-admin/clinics',
     component: ListClinicsComponent,
+  },
+  {
+    path: 'clinical-centre-admin/clinic-administrators',
+    component: ListClinicAdministratorsComponent,
   },
   {
     path: '**',

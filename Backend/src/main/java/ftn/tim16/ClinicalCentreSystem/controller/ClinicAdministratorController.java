@@ -24,8 +24,8 @@ public class ClinicAdministratorController {
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<List<ClinicAdministratorDTO>> getAllClinicAdministratorInClinic(@Valid @RequestBody ClinicDTO clinicDTO) {
-        return new ResponseEntity<>(clinicAdministratorService.getAllClinicAdministratorInClinic(clinicDTO.getId()), HttpStatus.OK);
+    public ResponseEntity<List<ClinicAdministratorDTO>> getAllClinicAdministratorInClinic(@RequestParam Long clinicId) {
+        return new ResponseEntity<>(clinicAdministratorService.getAllClinicAdministratorInClinic(clinicId), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

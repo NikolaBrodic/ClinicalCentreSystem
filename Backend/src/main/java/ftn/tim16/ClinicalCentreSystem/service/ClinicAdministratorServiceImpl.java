@@ -71,6 +71,10 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
 
     @Override
     public List<ClinicAdministratorDTO> getAllClinicAdministratorInClinic(Long id) {
+        if(id == 0) {
+            return convertToDTO(clinicAdministratorRepository.findAll());
+        }
+
         List<ClinicAdministrator> adminsInClinic = clinicAdministratorRepository.findByClinicId(id);
         if (adminsInClinic == null) {
             return null;
