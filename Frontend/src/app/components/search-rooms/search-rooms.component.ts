@@ -45,6 +45,7 @@ export class SearchRoomsComponent implements OnInit {
         this.getRoomsForAdminPaging();
       } else {
         this.kind = "OPERATION";
+        this.getRoomsForAdminPaging();
         //this.router.navigate(['/error']);
       }
     });
