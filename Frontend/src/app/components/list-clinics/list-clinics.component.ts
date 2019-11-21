@@ -27,7 +27,7 @@ export class ListClinicsComponent implements OnInit {
     this.fetchData();
 
     this.addClinicSuccess = this.clinicsService.addSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )

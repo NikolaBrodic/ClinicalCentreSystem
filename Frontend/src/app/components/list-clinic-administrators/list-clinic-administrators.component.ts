@@ -1,3 +1,4 @@
+import { AddClinicAdministratorComponent } from './../add-clinic-administrator/add-clinic-administrator.component';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
@@ -20,6 +21,8 @@ export class ListClinicAdministratorsComponent implements OnInit {
   clinic: Clinic;
   clinicId0: Clinic;
 
+  private addClinicAdminSuccess: Subscription;
+
   constructor(
     public dialog: MatDialog,
     private clinicAdminService: ClinicAdministratorService,
@@ -28,11 +31,19 @@ export class ListClinicAdministratorsComponent implements OnInit {
   ngOnInit() {
     this.clinicId0 = new Clinic("All", "All", "All", 0);
     this.clinic = this.clinicId0;
-    this.clinicService.getAllClinics().subscribe(data => {
-      this.clinics = data;
-    });
+    this.clinicService.getAllClinics().subscribe(
+      data => {
+        this.clinics = data;
+      }
+    );
 
     this.fetchData();
+
+    this.addClinicAdminSuccess = this.clinicAdminService.addSuccessEmitter.subscribe(
+      () => {
+        this.fetchData();
+      }
+    )
   }
 
   fetchData() {
@@ -42,6 +53,6 @@ export class ListClinicAdministratorsComponent implements OnInit {
   }
 
   openAddDialog() {
-
+    this.dialog.open(AddClinicAdministratorComponent);
   }
 }
