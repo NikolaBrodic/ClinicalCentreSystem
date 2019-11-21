@@ -1,8 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
@@ -14,14 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
-import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -73,7 +70,10 @@ public class DoctorServiceImpl implements DoctorService {
             return null;
         }
 
-        String hashedPassword = passwordEncoder.encode(generatePassword());
+        RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
+        String generatedPassword = randomPasswordGenerator.generatePassword();
+        String hashedPassword = passwordEncoder.encode(generatedPassword);
+        
         List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
 
         Doctor newDoctor = new Doctor(doctor.getEmail(), hashedPassword, doctor.getFirstName(),
@@ -108,33 +108,6 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return doctorDTOS;
     }
-
-    public static String generatePassword() {
-        int length = 12;
-
-        final char[] lowercase = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-        final char[] uppercase = "ABCDEFGJKLMNPRSTUVWXYZ".toCharArray();
-        final char[] numbers = "0123456789".toCharArray();
-        final char[] symbols = "$?!#&.".toCharArray();
-        final char[] allAllowed = "abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789$?!#&.".toCharArray();
-
-        Random random = new SecureRandom();
-
-        StringBuilder password = new StringBuilder();
-
-        for (int i = 0; i < length - 4; i++) {
-            password.append(allAllowed[random.nextInt(allAllowed.length)]);
-        }
-
-        password.insert(random.nextInt(password.length()), lowercase[random.nextInt(lowercase.length)]);
-        password.insert(random.nextInt(password.length()), uppercase[random.nextInt(uppercase.length)]);
-        password.insert(random.nextInt(password.length()), numbers[random.nextInt(numbers.length)]);
-        password.insert(random.nextInt(password.length()), symbols[random.nextInt(symbols.length)]);
-
-        System.out.println(password.toString());
-        return password.toString();
-    }
-
 
 }
 

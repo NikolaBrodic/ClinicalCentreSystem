@@ -22,13 +22,13 @@ public class ClinicController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<Clinic> getClinic(@PathVariable Long id) {
-        Clinic clinic = clinicService.findById(id);
-        if (clinic == null) {
+    public ResponseEntity<ClinicDTO> getClinic(@PathVariable Long id) {
+        ClinicDTO clinicDTO = clinicService.findById(id);
+        if (clinicDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(clinic, HttpStatus.OK);
+        return new ResponseEntity<>(clinicDTO, HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

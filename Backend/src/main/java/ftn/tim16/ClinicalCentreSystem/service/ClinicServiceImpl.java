@@ -15,8 +15,13 @@ public class ClinicServiceImpl implements ClinicService {
     ClinicRepository clinicRepository;
 
     @Override
-    public Clinic findById(Long id) {
-        return clinicRepository.findOneById(id);
+    public ClinicDTO findById(Long id) {
+        Clinic clinic = clinicRepository.findOneById(id);
+        if (clinic == null) {
+            return null;
+        }
+
+        return new ClinicDTO(clinic);
     }
 
     @Override

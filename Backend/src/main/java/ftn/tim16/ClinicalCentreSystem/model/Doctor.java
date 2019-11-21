@@ -78,7 +78,7 @@ public class Doctor implements UserDetails {
     public Doctor(String email, String password, String firstName, String lastName, String phoneNumber, LocalTime workHoursFrom,
                   LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status, List<Authority> authorities) {
         this.email = email;
-        this.password = password;
+        setPassword(password);
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -89,8 +89,6 @@ public class Doctor implements UserDetails {
         this.status = status;
         this.timeOffDoctors = new HashSet<>();
         this.examinations = new HashSet<Examination>();
-        Timestamp now = new Timestamp(DateTime.now().getMillis());
-        this.lastPasswordResetDate = now;
         this.authorities = authorities;
     }
 

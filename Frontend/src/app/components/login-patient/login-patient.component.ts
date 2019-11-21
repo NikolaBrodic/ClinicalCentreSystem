@@ -56,7 +56,7 @@ export class LoginPatientComponent implements OnInit {
       },
       error => {
         if (error.status == 403) {
-          this.toastr.error("You have to change received generic password on first attempt to login.", 'Login');
+          this.toastr.info("You have to change received generic password on first attempt to login.", 'Login');
           this.router.navigate(['/user/changePassword']);
         } else {
           this.toastr.error("Invalid email or password. Please try again.", 'Login');
