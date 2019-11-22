@@ -29,4 +29,5 @@ export class ClinicService {
       });
     return this.clinics.asObservable();
   }
+
 }

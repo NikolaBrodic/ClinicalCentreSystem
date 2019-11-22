@@ -16,12 +16,14 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(public userService: UserService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.userTokenState = JSON.parse(localStorage.getItem("Token"))
-        if (this.userTokenState.accessToken) {
-            request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${this.userTokenState.accessToken}`
-                }
-            });
+        if (this.userTokenState) {
+            if (this.userTokenState.accessToken) {
+                request = request.clone({
+                    setHeaders: {
+                        Authorization: `Bearer ${this.userTokenState.accessToken}`
+                    }
+                });
+            }
         }
         return next.handle(request);
     }

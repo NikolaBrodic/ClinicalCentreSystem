@@ -37,5 +37,4 @@ export class PatientService {
     return this.http.delete(this.urlPatient + "/" + id);
   }
 
-
 }
