@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 
@@ -17,13 +18,13 @@ public class Examination {
     @Enumerated(EnumType.STRING)
     private ExaminationKind kind;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private DateTimeInterval interval;
 
     @Enumerated(EnumType.STRING)
     private ExaminationStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private ExaminationType examinationType;
 
     @ManyToMany
@@ -39,6 +40,7 @@ public class Examination {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Nurse nurse;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Clinic clinic;
 
@@ -54,6 +56,7 @@ public class Examination {
     @Column
     private Integer clinicRating;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private ClinicAdministrator clinicAdministrator;
 
