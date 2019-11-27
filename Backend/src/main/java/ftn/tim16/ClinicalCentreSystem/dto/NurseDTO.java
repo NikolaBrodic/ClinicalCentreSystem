@@ -6,7 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.LocalTime;
 
 public class NurseDTO {
     private Long id;
@@ -24,10 +23,10 @@ public class NurseDTO {
     private String lastName;
 
     @NotEmpty(message = "Start work hours is empty.")
-    private LocalTime workHoursFrom;
+    private String workHoursFrom;
 
     @NotEmpty(message = "End work hours is empty.")
-    private LocalTime workHoursTo;
+    private String workHoursTo;
 
     @NotEmpty(message = "Phone number is empty.")
     @Size(min = 9, max = 10)
@@ -37,7 +36,7 @@ public class NurseDTO {
     public NurseDTO() {
     }
 
-    public NurseDTO(Long id, String email, String firstName, String lastName, LocalTime workHoursFrom, LocalTime workHoursTo, String phoneNumber) {
+    public NurseDTO(Long id, String email, String firstName, String lastName, String workHoursFrom, String workHoursTo, String phoneNumber) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -49,7 +48,7 @@ public class NurseDTO {
 
     public NurseDTO(Nurse nurse) {
         this(nurse.getId(), nurse.getEmail(), nurse.getFirstName(), nurse.getLastName(),
-                nurse.getWorkHoursFrom(), nurse.getWorkHoursTo(), nurse.getPhoneNumber());
+                nurse.getWorkHoursFrom().toString(), nurse.getWorkHoursTo().toString(), nurse.getPhoneNumber());
     }
 
     public Long getId() {
@@ -84,19 +83,19 @@ public class NurseDTO {
         this.lastName = lastName;
     }
 
-    public LocalTime getWorkHoursFrom() {
+    public String getWorkHoursFrom() {
         return workHoursFrom;
     }
 
-    public void setWorkHoursFrom(LocalTime workHoursFrom) {
+    public void setWorkHoursFrom(String workHoursFrom) {
         this.workHoursFrom = workHoursFrom;
     }
 
-    public LocalTime getWorkHoursTo() {
+    public String getWorkHoursTo() {
         return workHoursTo;
     }
 
-    public void setWorkHoursTo(LocalTime workHoursTo) {
+    public void setWorkHoursTo(String workHoursTo) {
         this.workHoursTo = workHoursTo;
     }
 

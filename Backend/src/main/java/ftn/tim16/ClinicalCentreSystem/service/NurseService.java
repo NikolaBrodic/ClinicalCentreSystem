@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
+import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import org.springframework.data.domain.Pageable;
 
@@ -11,6 +12,7 @@ public interface NurseService {
 
     List<NurseDTO> getAllNursesInClinic(Long id);
 
-
     List<NurseDTO> getAllNursesInClinic(Long id, Pageable page);
+
+    Nurse create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator);
 }
