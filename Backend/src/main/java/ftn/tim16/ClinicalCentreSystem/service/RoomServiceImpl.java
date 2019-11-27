@@ -68,7 +68,7 @@ public class RoomServiceImpl implements RoomService{
         }
         if(!searchActive && !dateSearchActive){
             RoomPagingDTO roomPagingDTO = new RoomPagingDTO( convertToDTO(
-                    roomRepository.findByClinicIdAndStatusAndKind(clinic.getId(),LogicalStatus.EXISTING,examinationKind,page)),
+                    roomRepository.findByClinicIdAndStatusAndKind(clinic.getId(),LogicalStatus.EXISTING,examinationKind,page).getContent()),
                     findAllRoomsInClinic(clinic).size());
             return roomPagingDTO;
         }
@@ -79,7 +79,7 @@ public class RoomServiceImpl implements RoomService{
         if(!dateSearchActive){
             Page<Room> roomsInClinicPage = roomRepository.findByLabelContainsIgnoringCaseAndClinicIdAndStatusAndKind
                     (search,clinic.getId(),LogicalStatus.EXISTING,examinationKind,page);
-            return new RoomPagingDTO(convertToDTO(roomsInClinicPage), roomsInClinicAll.size());
+            return new RoomPagingDTO(convertToDTO(roomsInClinicPage.getContent()), roomsInClinicAll.size());
         }
         LocalDate localDate =getDate(date);
         LocalDateTime startDateTime = getLocalDateTime(localDate,searchStartTime);
@@ -105,7 +105,7 @@ public class RoomServiceImpl implements RoomService{
         int end = (start + page.getPageSize()) > availableRoom.size() ? availableRoom.size() : (start + page.getPageSize());
         Page<Room> pages = new PageImpl<Room>(availableRoom.subList(start, end), page, availableRoom.size());
         RoomPagingDTO roomPagingDTO = new
-                RoomPagingDTO(convertToDTO(pages), roomsInClinicAll.size());
+                RoomPagingDTO(convertToDTO(pages.getContent()), roomsInClinicAll.size());
 
         return roomPagingDTO;
     }
@@ -138,17 +138,5 @@ public class RoomServiceImpl implements RoomService{
         return roomDTOS;
     }
 
-    private List<RoomDTO> convertToDTO(Page<Room> rooms){
-        if(rooms == null){
-            return new ArrayList<>();
-        }
-        if(rooms.isEmpty()){
-            return null;
-        }
-        List<RoomDTO> roomDTOS = new ArrayList<>();
-        for (Room room : rooms) {
-            roomDTOS.add(new RoomDTO(room));
-        }
-        return roomDTOS;
-    }
+
 }

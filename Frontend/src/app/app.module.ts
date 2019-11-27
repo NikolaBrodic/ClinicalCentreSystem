@@ -32,6 +32,8 @@ import { SearchRoomsComponent } from './components/search-rooms/search-rooms.com
 import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
 import { AddClinicAdministratorComponent } from './components/add-clinic-administrator/add-clinic-administrator.component';
 
+import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +56,7 @@ import { AddClinicAdministratorComponent } from './components/add-clinic-adminis
     SearchRoomsComponent,
     ListClinicAdministratorsComponent,
     AddClinicAdministratorComponent,
+    ListExaminationsRequestComponent
   ],
   imports: [
     BrowserModule,

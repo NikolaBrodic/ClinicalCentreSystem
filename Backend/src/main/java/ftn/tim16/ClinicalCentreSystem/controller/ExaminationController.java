@@ -28,13 +28,13 @@ public class ExaminationController {
 
     @GetMapping(value="/get-awaiting")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<ExaminationPagingDTO> getAwaitingExaminations(@RequestParam(value = "type") String type, Pageable page) {
+    public ResponseEntity<ExaminationPagingDTO> getAwaitingExaminations(@RequestParam(value = "kind") String kind, Pageable page) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if(clinicAdministrator == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getAwaitingExaminations(type,clinicAdministrator,page), HttpStatus.OK);
+            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getAwaitingExaminations(kind,clinicAdministrator,page), HttpStatus.OK);
         }catch (DateTimeParseException ex){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

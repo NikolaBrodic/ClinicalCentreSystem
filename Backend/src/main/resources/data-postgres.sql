@@ -64,7 +64,7 @@ insert into doctor_authority(user_id, authority_id) values (2,4);
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'OPERATION',1,'EXISTING');
 insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id )
- values ('EXAMINATION',1,'ACTIVE',1,1,1);
+ values ('EXAMINATION',1,'AWAITING',1,1,1);
 
 
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba2', 'OPERATION',1,'EXISTING');
@@ -80,12 +80,20 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba 3 ', 'OPERATION',1,'EXISTING');
 insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id )
-values ('EXAMINATION',4,'AWAITING',1,1,1);
+values ('EXAMINATION',4,'AWAITING',2,1,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 10:00','19.11.2019 11:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id )
 values ('EXAMINATION',5,'AWAITING',1,1,1);
 insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 08:00','19.11.2019 09:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id )
-values ('EXAMINATION',6,'AWAITING',1,1,2);
+values ('EXAMINATION',6,'AWAITING',2,1,2);
+
+insert into date_time_interval (start_date_time, end_date_time) values ('25.11.2019 10:00','25.11.2019 11:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id )
+values ('EXAMINATION',7,'AWAITING',1,1,1);
+
+insert into date_time_interval (start_date_time, end_date_time) values ('25.11.2019 12:00','25.11.2019 15:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id )
+values ('EXAMINATION',8,'AWAITING',2,1,1);
 

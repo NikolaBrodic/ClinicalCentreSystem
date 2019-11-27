@@ -13,6 +13,7 @@ export const environment = {
   room: '/api/room',
   clinic: '/api/clinic',
   clinicAdmin: '/api/clinic-administrator',
+  examination: '/api/examination'
 };
 
 /*
