@@ -5,6 +5,8 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import ftn.tim16.ClinicalCentreSystem.repository.NurseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +30,21 @@ public class NurseServiceImpl implements NurseService {
         return convertToDTO(nurseRepository.findAllByClinicId(id));
     }
 
+    @Override
+    public List<NurseDTO> getAllNursesInClinic(Long id, Pageable page) {
+        return convertToDTO(nurseRepository.findAllByClinicId(id, page));
+    }
+
     private List<NurseDTO> convertToDTO(List<Nurse> nurses) {
+        List<NurseDTO> nursesDTO = new ArrayList<>();
+        for (Nurse nurse : nurses) {
+            nursesDTO.add(new NurseDTO(nurse));
+        }
+
+        return nursesDTO;
+    }
+
+    private List<NurseDTO> convertToDTO(Page<Nurse> nurses) {
         List<NurseDTO> nursesDTO = new ArrayList<>();
         for (Nurse nurse : nurses) {
             nursesDTO.add(new NurseDTO(nurse));

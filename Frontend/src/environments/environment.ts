@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  itemsPerPage: 5,
   baseUrl: 'http://localhost:8080',
   examinationType: '/api/examination-type',
   doctor: '/api/doctor',
@@ -13,6 +14,7 @@ export const environment = {
   room: '/api/room',
   clinic: '/api/clinic',
   clinicAdmin: '/api/clinic-administrator',
+  nurse: '/api/nurse',
 };
 
 /*

@@ -12,6 +12,7 @@ import { RegisterPatientComponent } from './components/register-patient/register
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ListClinicsComponent } from './components/list-clinics/list-clinics.component';
+import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
 
 
 const routes: Routes = [
@@ -62,6 +63,10 @@ const routes: Routes = [
   {
     path: 'clinical-centre-admin/clinic-administrators',
     component: ListClinicAdministratorsComponent,
+  },
+  {
+    path: 'clinic-admin/nurses',
+    component: ListNursesComponent,
   },
   {
     path: '**',
