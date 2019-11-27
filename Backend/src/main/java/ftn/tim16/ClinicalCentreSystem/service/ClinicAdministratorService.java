@@ -12,7 +12,7 @@ public interface ClinicAdministratorService {
 
     ClinicAdministrator getLoginAdmin();
 
-    List<ClinicAdministratorDTO> getAllClinicAdministratorInClinic(Long id);
+    List<ClinicAdministratorDTO> getAllClinicAdministratorsInClinic(Long id);
 
     ClinicAdministrator create(ClinicAdministratorDTO clinicAdministratorDTO);
 }

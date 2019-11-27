@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,8 @@ public class ClinicAdministratorController {
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<List<ClinicAdministratorDTO>> getAllClinicAdministratorInClinic(@RequestParam Long clinicId) {
-        return new ResponseEntity<>(clinicAdministratorService.getAllClinicAdministratorInClinic(clinicId), HttpStatus.OK);
+    public ResponseEntity<List<ClinicAdministratorDTO>> getAllClinicAdministratorsInClinic(@RequestParam Long clinicId) {
+        return new ResponseEntity<>(clinicAdministratorService.getAllClinicAdministratorsInClinic(clinicId), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
