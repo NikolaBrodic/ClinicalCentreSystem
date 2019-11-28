@@ -48,4 +48,10 @@ public class ClinicController {
         List<Clinic> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/patient/all")
+    public ResponseEntity<List<Clinic>> getAllPatientClinics() {
+        List<Clinic> allClinics = clinicService.findAll();
+        return new ResponseEntity<>(allClinics, HttpStatus.OK);
+    }
 }

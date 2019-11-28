@@ -33,6 +33,7 @@ import { ListClinicAdministratorsComponent } from './components/list-clinic-admi
 import { AddClinicAdministratorComponent } from './components/add-clinic-administrator/add-clinic-administrator.component';
 import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
 import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
+import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
     AddClinicAdministratorComponent,
     ListNursesComponent,
     AddNurseComponent,
+    PatientProfileComponent,
   ],
   imports: [
     BrowserModule,

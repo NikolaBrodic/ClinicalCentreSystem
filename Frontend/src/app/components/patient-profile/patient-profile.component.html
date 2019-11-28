@@ -1,0 +1,34 @@
+<br>
+<div class="container">
+    <div class="card text-center w-60">
+        <h4 class="card-header">List of clinics</h4>
+        <div class="card-body">
+            <div class="row justify-content-center scrollit">
+                <table mat-table [dataSource]="clinicsDataSource" class="mat-elevation-z8 table" matSort>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> First name </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Address </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.address}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Description </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.description}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator class="table" [pageSize]=itemsPerPage [(length)]=numberOfItems (click)="changePage()"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
