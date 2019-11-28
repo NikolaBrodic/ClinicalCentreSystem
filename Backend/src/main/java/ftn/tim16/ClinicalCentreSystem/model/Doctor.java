@@ -53,8 +53,9 @@ public class Doctor implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Clinic clinic;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "doctors")
-    private Set<Examination> examinations = new HashSet<Examination>();
+    private Set<Examination> examinations = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ExaminationType specialized;
@@ -248,6 +249,14 @@ public class Doctor implements UserDetails {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
+    public boolean isAvailable(LocalTime startExaminationTime,LocalTime endExaminationTime){
+        if((startExaminationTime.isAfter(workHoursFrom) || startExaminationTime.equals(workHoursFrom))&&  startExaminationTime.isBefore(workHoursTo)){
+            if(endExaminationTime.isAfter(workHoursFrom) &&  (endExaminationTime.isBefore(workHoursTo) || endExaminationTime.equals(workHoursTo))){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) {

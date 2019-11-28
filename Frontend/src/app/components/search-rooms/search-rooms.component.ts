@@ -1,3 +1,7 @@
+import { DateTime } from 'luxon';
+import { Examination } from './../../models/examination';
+import { ExaminationService } from './../../services/examination.service';
+import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Time, formatDate } from '@angular/common';
 import { RoomWithNumber } from './../../models/roomWithNumber';
@@ -18,57 +22,86 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SearchRoomsComponent implements OnInit {
 
   roomsDataSource: MatTableDataSource<Room>;
-  displayedColumns: string[] = ['label', 'assign'];
+  displayedColumns: string[] = ['label', 'available', 'assign'];
   public searchString: string;
   numberOfItem: number;
   searchLabel: string = "";
   searchDate: Date;
   kind: string;
-  searchTimeStart: Time;
-  searchTimeEnd: Time;
+  searchTimeStart: String;
+  searchTimeEnd: String;
   minDate = new Date();
+  examination: Examination;
+  private selectedExamination: Subscription;
+
   constructor(public dialog: MatDialog,
-    private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
+    private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
+    private examinationService: ExaminationService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    //TODO: QUERY-> PARAM
+
     this.route.queryParams.subscribe(params => {
       var param = params['kind'];
       if ("operation" === param) {
         this.kind = "OPERATION";
-        this.getRoomsForAdminPaging();
+        this.examination = this.examinationService.selectedExamination;
+        this.setDateTime();
       } else if ("examination" === param) {
         this.kind = "EXAMINATION";
-        this.getRoomsForAdminPaging();
+        this.examination = this.examinationService.selectedExamination;
+        this.setDateTime();
       } else {
-        this.kind = "OPERATION";
-        this.getRoomsForAdminPaging();
-        //this.router.navigate(['/error']);
+        this.router.navigate(['/error']);
       }
     });
 
   }
-  //TODO: Implement sort - it is not required
+
+  setDateTime() {
+    if (!this.examination) {
+      this.router.navigate(['/error']);
+      return;
+    }
+    this.searchDate = new Date(formatDate(this.examination.interval.startDateTime.toString(), 'MM.dd.yyyy', 'en-US'));
+    console.log(this.searchDate);
+    this.searchTimeStart = formatDate(this.examination.interval.startDateTime.toString(), 'hh:mm', 'en-US');
+    this.searchTimeEnd = formatDate(this.examination.interval.endDateTime.toString(), 'hh:mm', 'en-US');
+    this.getRoomsForAdminPaging();
+  }
+
   sortEvent() {
     this.getRoomsForAdminPaging();
   }
 
-  assignRoom() {
+  assignRoom(element: Room) {
 
+    if (!this.examination) {
+      this.toastr.error("First you need to chose examination", 'Assign room');
+      this.router.navigate(['/clinical-centre-admin/examination/get-awaiting']);
+    }
+
+    this.roomService.assignRoom(element, this.examination).subscribe(
+      responseData => {
+        this.toastr.success("Successfully assigned examination room ", 'Assign room');
+      },
+      message => {
+        this.toastr.error("Error", 'Assign room');
+      }
+    );
   }
 
   seacrhRooms() {
-    if (this.searchDate && (!this.searchTimeStart || !this.searchTimeEnd)) {
-      this.toastr.error("You have to set start and end time", 'Search room');
-      return;
-    }
-    if (this.searchTimeStart >= this.searchTimeEnd) {
-      this.toastr.error("Starting time must be before ending time.", 'Search room');
-      return;
-    }
+    /*if (this.searchDate && (!this.searchTimeStart || !this.searchTimeEnd)) {
+       this.toastr.error("You have to set start and end time", 'Search room');
+       return;
+     }
+       if (this.searchTimeStart >= this.searchTimeEnd) {
+         this.toastr.error("Starting time must be before ending time.", 'Search room');
+         return;
+       }*/
 
     this.getRoomsForAdminPaging();
   }

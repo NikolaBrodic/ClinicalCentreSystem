@@ -12,9 +12,14 @@ import java.util.List;
 
 public interface ExaminationRepository extends JpaRepository<Examination, Long> {
 
-    List<Examination> findByRoomId(Long id);
+    List<Examination> findByRoomIdOrderByIntervalStartDateTime(Long id);
+    List<Examination> findByDoctorsId(Long id);
+    List<Examination> findByNurseId(Long id);
 
+    Examination getById(Long id);
     List<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind);
+
+    List<Examination> findByStatus(ExaminationStatus status);
 
     Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
 }

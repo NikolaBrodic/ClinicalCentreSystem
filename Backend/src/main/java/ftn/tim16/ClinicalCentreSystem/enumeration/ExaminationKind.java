@@ -3,12 +3,12 @@ package ftn.tim16.ClinicalCentreSystem.enumeration;
 public enum ExaminationKind {
     EXAMINATION {
         public String toString() {
-            return "Examination";
+            return "EXAMINATION";
         }
     },
     OPERATION {
         public String toString() {
-            return "Operation";
+            return "OPERATION";
         }
     }
 }

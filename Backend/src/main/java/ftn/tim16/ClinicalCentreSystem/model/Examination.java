@@ -5,6 +5,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -27,10 +28,11 @@ public class Examination {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private ExaminationType examinationType;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "examining", joinColumns = @JoinColumn(name = "examination_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"))
     private Set<Doctor> doctors = new HashSet<Doctor>();
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Room room;
 
@@ -44,9 +46,10 @@ public class Examination {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Clinic clinic;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Patient patient;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "examination",cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
@@ -57,7 +60,7 @@ public class Examination {
     private Integer clinicRating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private ClinicAdministrator clinicAdministrator;
 
     public Long getId() {

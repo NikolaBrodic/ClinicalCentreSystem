@@ -19,6 +19,7 @@ public class Patient implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -47,7 +48,7 @@ public class Patient implements UserDetails {
     private PatientStatus status;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "patient")
     private MedicalRecord medicalRecord;
 
     @JsonIgnore

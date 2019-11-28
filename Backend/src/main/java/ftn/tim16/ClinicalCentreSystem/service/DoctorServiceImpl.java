@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -38,6 +39,12 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private ExaminationService examinationService;
+
+    @Autowired
+    private TimeOffDoctorService timeOffDoctorService;
+
     @Override
     public Doctor changePassword(String newPassword, Doctor user) {
         if (user.getStatus().equals(DoctorStatus.DELETED)) {
@@ -48,6 +55,44 @@ public class DoctorServiceImpl implements DoctorService {
             user.setStatus(DoctorStatus.ACTIVE);
         }
         return doctorRepository.save(user);
+    }
+
+    @Override
+    public boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        //TODO: CHECK VACATION
+        if(!doctor.isAvailable(startDateTime.toLocalTime(),endDateTime.toLocalTime())){
+            return false;
+        }
+        if(timeOffDoctorService.isDoctorOnVacation(doctor.getId(),startDateTime,endDateTime)){
+            return false;
+        }
+        List<Examination> examinations = examinationService.getDoctorsExamination(doctor.getId());
+        if(!examinations.isEmpty()){
+            for(Examination examination : examinations){
+                if(!examination.getInterval().isAvailable(startDateTime,endDateTime)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinic_id) {
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinic_id,specialized,DoctorStatus.DELETED);
+        for (Doctor doctor: doctors) {
+            if(isAvailable(doctor,startDateTime,endDateTime)){
+                return doctor;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void removeExamination(Examination examination,String email) {
+        Doctor doc = doctorRepository.findByEmail(email);
+        doc.getExaminations().remove(examination);
+        doctorRepository.save(doc);
     }
 
     @Override

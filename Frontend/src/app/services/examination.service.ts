@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+import { Examination } from './../models/examination';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -10,8 +12,7 @@ import { Injectable } from '@angular/core';
 })
 export class ExaminationService {
   url = environment.baseUrl + environment.examination;
-
-
+  selectedExamination: Examination;
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public getAwaitingExaminations(pageIndex, pageSize, sort: MatSort) {
