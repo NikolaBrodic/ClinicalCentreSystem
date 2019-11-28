@@ -57,4 +57,20 @@ public class ExaminationController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @DeleteMapping("cancel/{id}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Examination> cancelExamination(@PathVariable("id") Long examinationId) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if(doctor == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Examination examination =examinationService.cancelExamination(doctor,examinationId);
+        if(examination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<Examination>(examination, HttpStatus.ACCEPTED);
+    }
+
 }

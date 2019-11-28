@@ -13,16 +13,16 @@ import java.util.List;
 
 public interface ExaminationRepository extends JpaRepository<Examination, Long> {
 
-    List<Examination> findByRoomIdOrderByIntervalStartDateTime(Long id);
-    List<Examination> findByDoctorsId(Long id);
-    List<Examination> findByNurseId(Long id);
+    List<Examination> findByRoomIdAndStatusNotOrderByIntervalStartDateTime(Long id,ExaminationStatus status);
+    List<Examination> findByDoctorsIdAndStatusNot(Long id,ExaminationStatus status);
+    List<Examination> findByNurseIdAndStatusNot(Long id,ExaminationStatus status);
 
-    Examination getById(Long id);
+    Examination getByIdAndStatusNot(Long id,ExaminationStatus status);
     List<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind);
 
     Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
 
     List<Examination> findByStatus(ExaminationStatus status);
-
-    Page<Examination> findByDoctorsId(Long id,Pageable page);
+    List<Examination> findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter(Long id,ExaminationStatus status,LocalDateTime localDateTime);
+    Page<Examination> findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter(Long id,ExaminationStatus status,LocalDateTime localDateTime,Pageable page);
 }

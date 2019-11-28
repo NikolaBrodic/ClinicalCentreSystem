@@ -42,14 +42,15 @@
                             Date and time
                         </th>
                         <td mat-cell *matCellDef="let element" class="text-in-table">
-                            {{element.interval.startDateTime | date:"MM.dd.yyyy HH:mm "}}
+                            {{element.interval.startDateTime | date:"dd.MM.yyyy HH:mm "}} &nbsp; - &nbsp;
+                            {{element.interval.endDateTime | date:"HH:mm "}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="cancel">
                         <th mat-header-cell *matHeaderCellDef class="text-center">Link to assign room </th>
                         <td mat-cell *matCellDef="let element">
                             <button type="button" mat-stroked-button class="btn" (click)="cancel(element)">Cancel
-                                &nbsp; {{element.kind}}
+                                &nbsp; {{element.kind | lowercase  }}
                             </button>
                         </td>
                     </ng-container>

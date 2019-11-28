@@ -51,6 +51,6 @@ export class ExaminationService {
   }
 
   public cancelExamination(examination: Examination) {
-    return this.httpClient.delete(this.url + "/cancelExamination/" + examination.id);
+    return this.httpClient.delete(this.url + "/cancel/" + examination.id);
   }
 }

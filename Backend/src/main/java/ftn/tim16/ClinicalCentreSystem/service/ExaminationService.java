@@ -17,4 +17,6 @@ public interface ExaminationService {
     public Examination assignRoom(Examination examination, Room room, Nurse chosenNurse);
 
     public ExaminationPagingDTO getDoctorsExaminations(Doctor doctor, Pageable page);
+
+    public Examination cancelExamination(Doctor doctor, Long examinationId);
 }
