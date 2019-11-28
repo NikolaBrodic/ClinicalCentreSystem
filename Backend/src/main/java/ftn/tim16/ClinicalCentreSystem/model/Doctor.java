@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,7 @@ public class Doctor implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -47,13 +49,15 @@ public class Doctor implements UserDetails {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Clinic clinic;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "doctors")
-    private Set<Examination> examinations = new HashSet<Examination>();
+    private Set<Examination> examinations = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ExaminationType specialized;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -245,6 +249,14 @@ public class Doctor implements UserDetails {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
+    public boolean isAvailable(LocalTime startExaminationTime,LocalTime endExaminationTime){
+        if((startExaminationTime.isAfter(workHoursFrom) || startExaminationTime.equals(workHoursFrom))&&  startExaminationTime.isBefore(workHoursTo)){
+            if(endExaminationTime.isAfter(workHoursFrom) &&  (endExaminationTime.isBefore(workHoursTo) || endExaminationTime.equals(workHoursTo))){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) {

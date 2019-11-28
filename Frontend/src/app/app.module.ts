@@ -34,6 +34,8 @@ import { AddClinicAdministratorComponent } from './components/add-clinic-adminis
 import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
 import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
 
+import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +60,7 @@ import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
     AddClinicAdministratorComponent,
     ListNursesComponent,
     AddNurseComponent,
+    ListExaminationsRequestComponent
   ],
   imports: [
     BrowserModule,

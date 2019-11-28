@@ -1,8 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.RoomService;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,4 +78,26 @@ public class RoomController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Room> assignRoom(@Valid  @RequestBody AssignExaminationDTO examination) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+
+        if(clinicAdministrator == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Room assignedRoom = roomService.assignRoom(examination,clinicAdministrator);
+        if(assignedRoom == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Room>(assignedRoom, HttpStatus.OK);
+    }
+
+    @Scheduled(cron="${room.cron}")
+    public void assignRoom(){
+         roomService.automaticallyAssignRoom();
+    }
+
 }

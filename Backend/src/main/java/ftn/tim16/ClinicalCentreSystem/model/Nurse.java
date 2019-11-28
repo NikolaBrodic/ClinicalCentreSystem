@@ -230,6 +230,14 @@ public class Nurse implements UserDetails {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
+    public boolean isAvailable(LocalTime startExaminationTime,LocalTime endExaminationTime){
+        if((startExaminationTime.isAfter(workHoursFrom) || startExaminationTime.equals(workHoursFrom))&&  startExaminationTime.isBefore(workHoursTo)){
+            if(endExaminationTime.isAfter(workHoursFrom) &&  (endExaminationTime.isBefore(workHoursTo) || endExaminationTime.equals(workHoursTo))){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) {

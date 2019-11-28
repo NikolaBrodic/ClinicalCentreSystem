@@ -1,3 +1,4 @@
+import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
 import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
 import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
 import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
@@ -66,7 +67,11 @@ const routes: Routes = [
   },
   {
     path: 'clinic-admin/nurses',
-    component: ListNursesComponent,
+    component: ListNursesComponent
+  },
+  {
+    path: 'clinical-centre-admin/examination/get-awaiting',
+    component: ListExaminationsRequestComponent,
   },
   {
     path: '**',

@@ -8,7 +8,10 @@ export class Nurse {
     phoneNumber: String;
     workHoursFrom: Time;
     workHoursTo: Time;
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/assignExaminationRoom
     constructor(email: String, firstName: String, lastName: String, phoneNumber: String, workHoursFrom: Time, workHoursTo: Time, id?: number) {
         this.email = email;
         this.firstName = firstName;

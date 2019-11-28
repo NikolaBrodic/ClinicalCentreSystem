@@ -1,7 +1,9 @@
 <br>
 <div class="container">
     <div class="card text-center w-60">
-        <h4 class="card-header"> Chose a room</h4>
+        <h4 class="card-header"> Chose a room for examination which will be held {{searchDate | date:"dd.MM.yyyy"}}
+            {{searchTimeStart}} -
+            {{searchTimeEnd}}</h4>
         <div class="card-body">
             <div class="row filterButton">
                 <div class="col-6 filter">
@@ -14,29 +16,36 @@
 
                     </mat-form-field>
                 </div>
-                <div class="col-6 filter">
-                    <mat-form-field>
+                <div class="col-6 text-right">
+                    <!-- <mat-label>Date and Time of examination {{searchDate}} {{searchTimeStart}} - {{searchTimeEnd}}
+                    </mat-label>
+                      <mat-form-field>
+                       
                         <input matInput [matDatepicker]=" picker" placeholder="Search by date" [(ngModel)]="searchDate"
                             disabled [min]="minDate">
+                       
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker disabled="false"></mat-datepicker>
-                    </mat-form-field>
 
+                    </mat-form-field>-->
+                    <mat-dialog-actions>
+                        <button mat-stroked-button (click)="seacrhRooms()">Search</button>
+                    </mat-dialog-actions>
                 </div>
             </div>
-            <div class="row  filterForTime block_container">
+            <!--    <div class="row  filterForTime block_container">
                 <div class="col-2 text-left">
                     Start time
                 </div>
                 <div class="col-3">
-                    <ngx-timepicker-field [controlOnly]="true" [format]="24" [(ngModel)]="searchTimeStart">
+                     <ngx-timepicker-field [controlOnly]="true" [format]="24" [(ngModel)]="searchTimeStart">
                     </ngx-timepicker-field>
                 </div>
                 <div class="col-2 text-right">
                     End time
                 </div>
                 <div class="col-3">
-                    <ngx-timepicker-field [controlOnly]="true" [format]="24" [(ngModel)]="searchTimeEnd">
+                      <ngx-timepicker-field [controlOnly]="true" [format]="24" [(ngModel)]="searchTimeEnd">
                     </ngx-timepicker-field>
                 </div>
                 <div class="col-2 text-right">
@@ -44,7 +53,7 @@
                         <button mat-stroked-button (click)="seacrhRooms()">Search</button>
                     </mat-dialog-actions>
                 </div>
-            </div>
+            </div>-->
 
         </div>
 
@@ -57,11 +66,18 @@
                     </td>
                 </ng-container>
 
+                <ng-container matColumnDef="available">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Available</th>
+                    <td mat-cell *matCellDef=" let element" class="text-in-table">
+                        {{element.available | date:'dd.MM.yyyy HH:mm '}}&nbsp;&nbsp;
+                    </td>
+                </ng-container>
+
                 <ng-container matColumnDef="assign">
                     <th mat-header-cell *matHeaderCellDef class="text-center"> Link to assign </th>
                     <td mat-cell *matCellDef="let element">
-                        <button type="button" mat-stroked-button class="btn" (click)="assignRoom()"
-                            disabled="disabled">Assign</button>
+                        <button type="button" mat-stroked-button class="btn"
+                            (click)="assignRoom(element)">Assign</button>
                     </td>
                 </ng-container>
 

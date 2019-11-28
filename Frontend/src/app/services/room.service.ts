@@ -1,3 +1,5 @@
+import { AssignExaminationDTO } from './../models/assignexamination';
+import { Examination } from './../models/examination';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
@@ -22,6 +24,9 @@ export class RoomService {
     return this.httpClient.post(this.url, room);
   }
 
+  public assignRoom(room: Room, examination: Examination) {
+    return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room));
+  }
   public getAllRoomsForAdmin(): Observable<Room[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: Room[]) => {
       this.roomsForAdmin.next(data);

@@ -2,10 +2,13 @@ package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+
+import java.time.LocalDateTime;
 
 public interface NurseService {
     Nurse changePassword(String newPassword, Nurse user);
@@ -15,4 +18,6 @@ public interface NurseService {
     List<NurseDTO> getAllNursesInClinic(Long id, Pageable page);
 
     Nurse create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator);
+    Nurse getRandomNurse(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }
