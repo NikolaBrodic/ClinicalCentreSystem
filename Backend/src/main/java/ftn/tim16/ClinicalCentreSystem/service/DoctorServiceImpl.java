@@ -10,7 +10,10 @@ import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -93,6 +96,20 @@ public class DoctorServiceImpl implements DoctorService {
         Doctor doc = doctorRepository.findByEmail(email);
         doc.getExaminations().remove(examination);
         doctorRepository.save(doc);
+    }
+
+    @Override
+    public Doctor getLoginDoctor() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            Doctor doctor = doctorRepository.findByEmail(currentUser.getName());
+            if (doctor != null) {
+                return doctor;
+            }
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+        return null;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ExaminationRepository extends JpaRepository<Examination, Long> {
@@ -19,7 +20,9 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
     Examination getById(Long id);
     List<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind);
 
+    Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
+
     List<Examination> findByStatus(ExaminationStatus status);
 
-    Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
+    Page<Examination> findByDoctorsId(Long id,Pageable page);
 }

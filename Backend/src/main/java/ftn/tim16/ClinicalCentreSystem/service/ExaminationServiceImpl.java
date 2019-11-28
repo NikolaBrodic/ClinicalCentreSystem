@@ -3,15 +3,13 @@ package ftn.tim16.ClinicalCentreSystem.service;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
-import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.model.Room;
+import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -73,6 +71,15 @@ public class ExaminationServiceImpl implements ExaminationService{
             selectedExamination.setNurse(chosenNurse);
         }
         return examinationRepository.save(selectedExamination);
+    }
+
+    @Override
+    public ExaminationPagingDTO getDoctorsExaminations(Doctor doctor, Pageable page) {
+        List<Examination>  examinations= examinationRepository.findByDoctorsId(doctor.getId());
+
+        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByDoctorsId
+                (doctor.getId(),page).getContent(),examinations.size());
+        return examinationPagingDTO;
     }
 
     private ExaminationKind getKind(String kind){

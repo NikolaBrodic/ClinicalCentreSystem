@@ -33,6 +33,7 @@ import { ListClinicAdministratorsComponent } from './components/list-clinic-admi
 import { AddClinicAdministratorComponent } from './components/add-clinic-administrator/add-clinic-administrator.component';
 
 import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
+import { DoctorsExaminationComponent } from './components/doctors-examination/doctors-examination.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ListExaminationsRequestComponent } from './components/list-examinations
     SearchRoomsComponent,
     ListClinicAdministratorsComponent,
     AddClinicAdministratorComponent,
-    ListExaminationsRequestComponent
+    ListExaminationsRequestComponent,
+    DoctorsExaminationComponent
   ],
   imports: [
     BrowserModule,
