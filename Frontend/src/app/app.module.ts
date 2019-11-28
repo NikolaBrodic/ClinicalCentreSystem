@@ -32,6 +32,7 @@ import { SearchRoomsComponent } from './components/search-rooms/search-rooms.com
 import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
 import { AddClinicAdministratorComponent } from './components/add-clinic-administrator/add-clinic-administrator.component';
 import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
+import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ListNursesComponent } from './components/list-nurses/list-nurses.compon
     ListClinicAdministratorsComponent,
     AddClinicAdministratorComponent,
     ListNursesComponent,
+    AddNurseComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,7 @@ import { ListNursesComponent } from './components/list-nurses/list-nurses.compon
     ListClinicAdministratorsComponent,
     AddClinicAdministratorComponent,
     ListNursesComponent,
-
+    AddNurseComponent,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
