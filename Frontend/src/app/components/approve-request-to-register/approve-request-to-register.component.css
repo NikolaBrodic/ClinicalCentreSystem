@@ -1,5 +1,7 @@
 .dialog-class {
-    width:500px;
-    margin: 10px;
-    padding: 5px;
+    width: 380px;
+}
+
+.mat-dialog-actions {
+    justify-content: flex-end;
 }

@@ -1,7 +1,7 @@
-<h4 class="primary">Add examintaion type</h4>
+<h1 mat-dialog-title>Add examintaion type</h1>
 <mat-dialog-content class="dialog-class">
     <form [formGroup]="addExaminationTypeForm" class="form-full-width">
-        <mat-form-field class="form-full-width mt-3">
+        <mat-form-field class="form-full-width">
             <input matInput placeholder="Label" formControlName="label">
             <mat-error
                 *ngIf="addExaminationTypeForm.get('label').errors && addExaminationTypeForm.get('label').errors['required']">

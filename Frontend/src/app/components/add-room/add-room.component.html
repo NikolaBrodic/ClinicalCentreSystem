@@ -1,7 +1,7 @@
-<h4 class="primary">Add room</h4>
+<h1 mat-dialog-title>Add room</h1>
 <mat-dialog-content class="dialog-class">
     <form [formGroup]="addRoomForm" class="form-full-width">
-        <mat-form-field class="form-full-width mt-3">
+        <mat-form-field class="form-full-width">
             <input matInput placeholder="Label" formControlName="label">
             <mat-error *ngIf="addRoomForm.get('label').errors && addRoomForm.get('label').errors['required']">
                 Please enter room's label.
