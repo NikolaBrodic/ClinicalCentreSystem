@@ -1,40 +1,29 @@
-<br>
-<div class="container">
-    <div class="card text-center w-60">
-        <h1 mat-dialog-title class="dialog-class">Add a clinic</h1>
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <mat-dialog-content class="example-container dialog-class form">
-                    <form [formGroup]="addClinicForm">
-                        <mat-form-field>
-                            <input matInput placeholder="Name" formControlName="name">
-                            <mat-error *ngIf="addClinicForm.get('name').invalid">Please enter clinic's name.
-                            </mat-error>
-                        </mat-form-field>
-                        <br>
-                        <mat-form-field>
-                            <input matInput placeholder="Address" formControlName="address">
-                            <mat-error *ngIf="addClinicForm.get('address').invalid">Please enter clinic's
-                                address.
-                            </mat-error>
-                        </mat-form-field>
-                        <br>
-                        <mat-form-field>
-                            <textarea matInput placeholder="Description" formControlName="description"></textarea>
-                            <mat-error *ngIf="addClinicForm.get('description').invalid">Please enter clinic's
-                                description.
-                            </mat-error>
-                        </mat-form-field>
+<h1 mat-dialog-title>Add clinic</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="addClinicForm" class="form-full-width">
+        <mat-form-field class="form-full-width">
+            <input matInput placeholder="Name" formControlName="name">
+            <mat-error *ngIf="addClinicForm.get('name').invalid">
+                Please enter clinic's name.
+            </mat-error>
+        </mat-form-field>
 
-                    </form>
-                </mat-dialog-content>
-            </div>
-            <div>
-                <mat-dialog-actions align="end" style="margin-right: 45px;">
-                    <button mat-stroked-button (click)="add()" [disabled]="!addClinicForm.valid">Add</button>
-                </mat-dialog-actions>
-            </div>
+        <mat-form-field class="form-full-width mt-2">
+            <input matInput placeholder="Address" formControlName="address">
+            <mat-error *ngIf="addClinicForm.get('address').invalid">
+                Please enter clinic's address.
+            </mat-error>
+        </mat-form-field>
 
-        </div>
-    </div>
-</div>
+        <mat-form-field class="form-full-width mt-2">
+            <textarea matInput placeholder="Description" formControlName="description" rows="5"></textarea>
+            <mat-error *ngIf="addClinicForm.get('description').invalid">
+                Please enter clinic's description.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="mt-3 mb-1">
+    <button mat-raised-button color="primary" (click)="add()" [disabled]="!addClinicForm.valid">Add</button>
+</mat-dialog-actions>
