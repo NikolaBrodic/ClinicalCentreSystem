@@ -35,6 +35,7 @@ import { ListNursesComponent } from './components/list-nurses/list-nurses.compon
 import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
 
 import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
+import { DoctorsExaminationComponent } from './components/doctors-examination/doctors-examination.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ListExaminationsRequestComponent } from './components/list-examinations
     AddClinicAdministratorComponent,
     ListNursesComponent,
     AddNurseComponent,
-    ListExaminationsRequestComponent
+    ListExaminationsRequestComponent,
+    DoctorsExaminationComponent
   ],
   imports: [
     BrowserModule,

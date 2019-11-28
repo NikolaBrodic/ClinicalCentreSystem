@@ -19,4 +19,5 @@ public interface DoctorService  {
 
     void removeExamination(Examination examination,String email);
 
+    Doctor getLoginDoctor();
 }

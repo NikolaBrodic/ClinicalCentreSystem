@@ -33,4 +33,24 @@ export class ExaminationService {
     });
   }
 
+
+  public getDoctorsExaminations(pageIndex, pageSize, sort: MatSort) {
+    let params = new HttpParams();
+    params = params.append('page', pageIndex);
+    params = params.append('size', pageSize);
+    if (sort) {
+      if (sort.active) {
+        params = params.append('sort', sort.active);
+        params = params.append('direction', sort.direction);
+      }
+
+    }
+    return this.httpClient.get(this.url + "/get-doctors-examinations", {
+      params: params
+    });
+  }
+
+  public cancelExamination(examination: Examination) {
+    return this.httpClient.delete(this.url + "/cancel/" + examination.id);
+  }
 }

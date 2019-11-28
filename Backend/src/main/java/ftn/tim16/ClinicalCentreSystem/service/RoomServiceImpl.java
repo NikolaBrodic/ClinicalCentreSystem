@@ -244,7 +244,7 @@ public class RoomServiceImpl implements RoomService{
         if(doctor == null || patient == null){
             return;
         }
-        String subject = "New position: Examination";
+        String subject = "Scheduled examination";
         StringBuilder sb = new StringBuilder();
         sb.append("You have a scheduled examination for ");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm");
