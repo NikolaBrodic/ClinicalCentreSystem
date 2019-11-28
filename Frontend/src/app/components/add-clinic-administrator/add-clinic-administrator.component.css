@@ -1,26 +1,15 @@
 .dialog-class {
-    width:500px;
-    margin: 10px;
-    padding: 5px;
+    width: 500px;
 }
-.mat-form-field {
-    display: block;
-}
-
-textarea {
-    height: 100px;
-    resize: vertical;
+  
+.form-full-width {
+  width: 100%;
 }
 
-div_container {
-    display: flex;
-    flex-direction: row;
+.form-full-width-td {
+  width: 98%;
 }
 
-.block_container {
-    display: flex;
-}
-
-.form {
-    width: 75%;
+.mat-dialog-actions {
+    justify-content: flex-end;
 }
