@@ -1,10 +1,10 @@
-<h4 class="primary">Add a nurse</h4>
+<h4 class="primary">Add nurse</h4>
 <mat-dialog-content class="dialog-class">
-    <form [formGroup]="addNurseForm" class="example-form">
-        <table class="example-full-width mt-3" cellspacing="0">
+    <form [formGroup]="addNurseForm" class="form-full-width">
+        <table class="form-full-width mt-3" cellspacing="0">
             <tr>
                 <td>
-                    <mat-form-field class="example-full-width-td">
+                    <mat-form-field class="form-full-width-td">
                         <input matInput placeholder="First name" formControlName="firstName">
                         <mat-error
                             *ngIf="addNurseForm.get('firstName').errors && addNurseForm.get('firstName').errors['required']">
@@ -13,7 +13,7 @@
                     </mat-form-field>
                 </td>
                 <td>
-                    <mat-form-field class="example-full-width-td ml-2">
+                    <mat-form-field class="form-full-width-td ml-2">
                         <input matInput placeholder="Last name" formControlName="lastName">
                         <mat-error
                             *ngIf="addNurseForm.get('lastName').errors && addNurseForm.get('lastName').errors['required']">
@@ -24,19 +24,19 @@
             </tr>
         </table>
 
-        <h6 class="example-full-width mt-2">Work hours</h6>
-        <table class="example-full-width mt-3" cellspacing="0">
+        <h6 class="form-full-width mt-2">Work hours</h6>
+        <table class="form-full-width mt-3" cellspacing="0">
             <tr>
                 <td class="pb-2">From:</td>
                 <td>
-                    <div class="example-full-width-td">
+                    <div class="form-full-width-td">
                         <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursFrom">
                         </ngx-timepicker-field>
                     </div>
                 </td>
                 <td class="pb-2">To:</td>
                 <td>
-                    <div class="example-full-width-td ml-2">
+                    <div class="form-full-width-td ml-2">
                         <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursTo">
                         </ngx-timepicker-field>
                     </div>
@@ -44,7 +44,7 @@
             </tr>
         </table>
 
-        <mat-form-field class="example-full-width mt-3">
+        <mat-form-field class="form-full-width mt-3">
             <input matInput placeholder="Phone number" formControlName="phoneNumber">
             <mat-error
                 *ngIf="addNurseForm.get('phoneNumber').errors && addNurseForm.get('phoneNumber').errors['required']">
@@ -61,7 +61,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width mt-3">
+        <mat-form-field class="form-full-width mt-3">
             <input matInput placeholder="Email address" formControlName="email">
             <mat-error *ngIf="addNurseForm.get('email').errors && addNurseForm.get('email').errors['required']">
                 Please enter nurse's email address.
