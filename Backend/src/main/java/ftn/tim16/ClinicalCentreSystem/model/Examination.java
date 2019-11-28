@@ -25,7 +25,7 @@ public class Examination {
     @Enumerated(EnumType.STRING)
     private ExaminationStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private ExaminationType examinationType;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

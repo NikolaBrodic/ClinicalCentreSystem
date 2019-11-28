@@ -8,10 +8,9 @@ import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-
+@Transactional
 @Service
 public class ExaminationServiceImpl implements ExaminationService{
 

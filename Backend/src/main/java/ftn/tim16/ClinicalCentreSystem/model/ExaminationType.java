@@ -36,7 +36,7 @@ public class ExaminationType {
     private LogicalStatus status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "examinationType", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     public ExaminationType(){
