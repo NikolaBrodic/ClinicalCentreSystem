@@ -62,6 +62,27 @@ public class Nurse implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
+    public Nurse() {
+
+    }
+
+    public Nurse(String email, String password, String firstName, String lastName, String phoneNumber,
+                 LocalTime workHoursFrom, LocalTime workHoursTo, Clinic clinic, List<Authority> authorities) {
+        this.email = email;
+        setPassword(password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.workHoursFrom = workHoursFrom;
+        this.workHoursTo = workHoursTo;
+        this.clinic = clinic;
+        this.status = UserStatus.NEVER_LOGGED_IN;
+        this.examinations = new HashSet<>();
+        this.prescriptions = new HashSet<>();
+        this.timeOffNurses = new HashSet<>();
+        this.authorities = authorities;
+    }
+
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
