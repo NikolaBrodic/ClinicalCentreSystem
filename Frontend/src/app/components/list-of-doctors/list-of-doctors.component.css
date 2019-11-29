@@ -36,10 +36,6 @@
     vertical-align: middle;
 }
 
-.search-width {
-    width: 200px;
-  }
-
 #search:hover, #search:active {
     cursor: pointer;
 }
