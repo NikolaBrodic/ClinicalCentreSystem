@@ -1,39 +1,50 @@
-<br>
-<div class="container">
-    <div class="card text-center w-60">
-        <h4 class="card-header">Clinics</h4>
-        <div class="card-body">
-            <div class="row row-width mb-3">
-                <div class="col text-right">
-                    <button type="button" mat-stroked-button (click)="openAddDialog()" class="btn">Add
-                        clinic</button>
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-caption">
+                    <h1 class="page-title">Clinics in the clinical centre</h1>
+                    <div class="text-center mt-4">
+                        <button mat-raised-button color="primary" (click)="openAddDialog()">Add new
+                            clinic</button>
+                    </div>
                 </div>
-                <!--END class="col text-right"-->
             </div>
-
-            <div class="row justify-content-center scrollit">
-                <table mat-table [dataSource]="clinicsDataSource" class="mat-elevation-z8 table" matSort>
-
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                        <td mat-cell *matCellDef="let element" class="text-in-table">
-                            {{element.name}}
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="address">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
-                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.address}} </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-            </div>
-            <!--END class="row justify-content-center scrollit"-->
-
         </div>
-        <!--class="card-body"-->
     </div>
-    <!--END ngclass="card text-center w-60"-->
 </div>
-<!--END class="container"-->
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+    <div class="container">
+        <div class="card-block bg-white mb30">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <!-- section-title -->
+                    <div class="section-title mb-0">
+                        <table mat-table [dataSource]="clinicsDataSource" class="mat-elevation-z8 table" matSort>
+
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                <td mat-cell *matCellDef="let element" class="text-in-table">
+                                    {{element.name}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="address">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+                                <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.address}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                    <!-- /.section-title -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->
