@@ -1,10 +1,12 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
+import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
+import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 @Transactional
 @Service
-public class ExaminationServiceImpl implements ExaminationService{
+public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     private ExaminationRepository examinationRepository;
@@ -135,7 +137,7 @@ public class ExaminationServiceImpl implements ExaminationService{
             }
         }
     }
-    
+
     private ExaminationKind getKind(String kind){
         try {
             return ExaminationKind.valueOf(kind.toUpperCase());

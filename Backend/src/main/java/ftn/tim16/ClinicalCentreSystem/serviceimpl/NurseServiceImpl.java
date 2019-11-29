@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
 import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
@@ -9,6 +9,8 @@ import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import ftn.tim16.ClinicalCentreSystem.repository.NurseRepository;
 
+import ftn.tim16.ClinicalCentreSystem.service.*;
+import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

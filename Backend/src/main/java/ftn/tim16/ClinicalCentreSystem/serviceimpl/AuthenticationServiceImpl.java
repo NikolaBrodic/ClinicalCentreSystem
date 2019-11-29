@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.PatientDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -6,6 +6,8 @@ import ftn.tim16.ClinicalCentreSystem.repository.AuthorityRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
+import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
+import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

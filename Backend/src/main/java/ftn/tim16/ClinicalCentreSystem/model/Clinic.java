@@ -16,13 +16,13 @@ public class Clinic {
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR")
     private String description;
 
     @Column(nullable = false)
     private String address;
 
-    //You can't change this class
+    //You can't change this fetch type
     @JsonIgnore
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();

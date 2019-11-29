@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
@@ -9,6 +9,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.RoomRepository;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,7 +26,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 @Transactional
 @Service
-public class RoomServiceImpl implements RoomService{
+public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomRepository roomRepository;

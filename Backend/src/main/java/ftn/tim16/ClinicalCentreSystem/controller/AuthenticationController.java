@@ -6,7 +6,7 @@ import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.model.UserTokenState;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
-import ftn.tim16.ClinicalCentreSystem.service.UserServiceImpl;
+import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 

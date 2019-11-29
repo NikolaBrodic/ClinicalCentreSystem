@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/clinic-administrator", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClinicAdministratorController {
 
