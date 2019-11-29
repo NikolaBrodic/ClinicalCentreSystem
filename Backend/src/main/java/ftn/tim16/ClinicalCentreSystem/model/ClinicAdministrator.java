@@ -2,14 +2,16 @@ package ftn.tim16.ClinicalCentreSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
-import org.hibernate.annotations.DynamicUpdate;
+import org.joda.time.DateTime;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Entity
-public class ClinicAdministrator {
+public class ClinicAdministrator implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +19,7 @@ public class ClinicAdministrator {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -30,14 +33,79 @@ public class ClinicAdministrator {
     private String phoneNumber;
 
     //FetchType must be EAGER because of editing ClinicAdministrator
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @OneToMany(mappedBy = "clinicAdministrator", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinicAdministrator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
+
+    @Column
+    private Timestamp lastPasswordResetDate;
+
+    public ClinicAdministrator() {
+    }
+
+    public ClinicAdministrator(String email, String password, String firstName, String lastName, String phoneNumber, Clinic clinic, List<Authority> authorities) {
+        this.email = email;
+        setPassword(password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.clinic = clinic;
+        this.authorities = authorities;
+        this.status = UserStatus.NEVER_LOGGED_IN;
+        this.examinations = new HashSet<>();
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "clinic_admin_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        if (status == UserStatus.NEVER_LOGGED_IN) {
+            return false;
+        }
+        return true;
+    }
 
     public Long getId() {
         return id;
@@ -56,6 +124,8 @@ public class ClinicAdministrator {
     }
 
     public void setPassword(String password) {
+        Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 
@@ -105,5 +175,33 @@ public class ClinicAdministrator {
 
     public void setExaminations(Set<Examination> examinations) {
         this.examinations = examinations;
+    }
+
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ClinicAdministrator clinicAdministrator = (ClinicAdministrator) o;
+        if (clinicAdministrator.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, clinicAdministrator.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

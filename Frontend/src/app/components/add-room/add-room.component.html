@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Add room</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="addRoomForm" class="form-full-width">
+        <mat-form-field class="form-full-width">
+            <input matInput placeholder="Label" formControlName="label">
+            <mat-error *ngIf="addRoomForm.get('label').errors && addRoomForm.get('label').errors['required']">
+                Please enter room's label.
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <table class="form-full-width mt-3" cellspacing="0">
+            <tr>
+                <td><label id="kind-radio-group">Intended for:</label></td>
+                <td>
+                    <mat-radio-group aria-labelledby="kind-radio-group" formControlName="kind"
+                        class="form-full-width-td">
+                        <mat-radio-button class="ml-4" *ngFor="let element of kinds" [value]="element">
+                            {{element}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </td>
+            </tr>
+        </table>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="mt-3 mb-1">
+    <button mat-raised-button color="primary" (click)="create()" [disabled]="!addRoomForm.valid">Create</button>
+</mat-dialog-actions>

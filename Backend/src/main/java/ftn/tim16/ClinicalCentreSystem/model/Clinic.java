@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,27 +16,27 @@ public class Clinic {
     @Column(columnDefinition = "VARCHAR(50)", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR")
     private String description;
 
     @Column(nullable = false)
     private String address;
 
-    //You can't change this class
+    //You can't change this fetch type
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Nurse> nurses = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
     @JsonIgnore
@@ -43,8 +44,23 @@ public class Clinic {
     private Set<ExaminationType> examinationTypes = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ClinicAdministrator> clinicAdministrators = new HashSet<>();
+
+    public Clinic() {
+    }
+
+    public Clinic(String name, String description, String address) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.examinations = new HashSet<>();
+        this.doctors = new HashSet<>();
+        this.nurses = new HashSet<>();
+        this.rooms = new HashSet<>();
+        this.examinationTypes = new HashSet<>();
+        this.clinicAdministrators = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -120,5 +136,25 @@ public class Clinic {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Clinic clinic = (Clinic) o;
+        if (clinic.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, clinic.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

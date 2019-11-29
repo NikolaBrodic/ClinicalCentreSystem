@@ -25,7 +25,7 @@ public class ExaminationType {
     private Double price;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "specialized", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
     @JsonIgnore

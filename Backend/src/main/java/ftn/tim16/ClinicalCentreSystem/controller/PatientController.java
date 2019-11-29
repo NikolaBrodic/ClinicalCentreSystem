@@ -1,79 +1,75 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
-import ftn.tim16.ClinicalCentreSystem.security.PasswordHasher;
+import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@RequestMapping(value = "/api/patient")
 public class PatientController {
 
     @Autowired
     private PatientRepository patientRepository;
 
-    @PostMapping("/patient")
-    public ResponseEntity<Void> createPatient(@RequestBody Patient patient) {
-        String hashedPassword = PasswordHasher.encodeBCrypt(patient.getPassword());
-        patient.setPassword(hashedPassword);
+    @Autowired
+    private PatientService patientService;
 
-        Patient createdPatient = this.patientRepository.save(patient);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdPatient.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
-
-    @GetMapping("/patients/{id}")
+    @GetMapping(value = "/{id}")
     public Patient getPatient(@PathVariable long id) {
         return patientRepository.findById(id).get();
     }
 
-    @GetMapping("/patients")
+    @GetMapping(value = "/all-patients")
     public List<Patient> getPatients() {
         return patientRepository.findAll();
     }
 
-    @PutMapping("/patients/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Patient> updatePatient(@PathVariable long id, @RequestBody Patient patient) {
         Patient patientUpdated = patientRepository.save(patient);
         return new ResponseEntity<>(patientUpdated, HttpStatus.OK);
     }
 
-    @DeleteMapping("/patients/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable long id) {
         this.patientRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/patient/login")
-    public ResponseEntity<Patient> getPatientByEmail(@RequestBody Patient patient) {
-        // Find a patient by his email address
-        Patient existingPatient = this.patientRepository.findByEmail(patient.getEmail());
+    @GetMapping(value = "/all-requests-to-register")
+    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    public ResponseEntity<List<AwaitingApprovalPatientDTO>> getAllRequestsToRegister() {
+        return new ResponseEntity<>(patientService.findByStatus(PatientStatus.AWAITING_APPROVAL), HttpStatus.OK);
+    }
 
-        // If the entered email address does not exist in the database - the user does not exist.
-        if (existingPatient == null) {
-            System.out.println("wrong email");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    @PutMapping(value = "/approve-request-to-register/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    public ResponseEntity<Patient> approveRequestToRegister(@PathVariable Long id) {
+        Patient updatedPatient = patientService.approveRequestToRegister(id);
+        if (updatedPatient == null) {
+            return new ResponseEntity<Patient>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Patient>(updatedPatient, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/reject-request-to-register/{id}")
+    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    public ResponseEntity<Void> rejectRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
+        boolean success = patientService.rejectRequestToRegister(id, reason);
+        if (success) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            // If the email exists, check if the password is correct.
-            if (PasswordHasher.doesPasswordMatch(patient.getPassword(), existingPatient.getPassword())) {
-                System.out.println("correct pwd");
-                // If the password is correct then successfully login the user.
-                return new ResponseEntity<>(existingPatient, HttpStatus.OK);
-            } else {
-                System.out.println("wrong pwd");
-                // If the password is incorrect then login is denied.
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

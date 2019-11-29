@@ -1,0 +1,27 @@
+.table {
+    width: 75%;
+  }
+  
+.filter {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+.text-in-table{
+    margin:5px;
+    padding:5px;
+}
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+}
+  
+  
+.scrollit {
+    overflow-y:auto;
+    height:500px;
+}
+  
+#search:hover, #search:active {
+    cursor: pointer;
+}

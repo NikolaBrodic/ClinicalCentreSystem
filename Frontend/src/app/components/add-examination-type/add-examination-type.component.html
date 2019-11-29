@@ -1,37 +1,29 @@
-<br>
-<div class="container">
-    <div class="card text-center w-60">
-        <h1 mat-dialog-title class="dialog-class">Create an examination type</h1>
-        <div class="card-body">
+<h1 mat-dialog-title>Add examintaion type</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="addExaminationTypeForm" class="form-full-width">
+        <mat-form-field class="form-full-width">
+            <input matInput placeholder="Label" formControlName="label">
+            <mat-error
+                *ngIf="addExaminationTypeForm.get('label').errors && addExaminationTypeForm.get('label').errors['required']">
+                Please enter examination type's label.
+            </mat-error>
+        </mat-form-field>
 
-            <div class="row justify-content-center">
-                <mat-dialog-content class="example-container dialog-class form">
-                    <form [formGroup]="addExaminationTypeForm">
-                        <mat-form-field>
-                            <input matInput placeholder="Label" formControlName="label">
-                            <mat-error *ngIf="addExaminationTypeForm.get('label').invalid">Please enter examination
-                                type's label.
-                            </mat-error>
-                        </mat-form-field>
-                        <br>
-                        <mat-form-field>
-                            <input matInput placeholder="Price" type="number" formControlName="price">
-                            <span matSuffix>&nbsp; din.</span>
-                            <mat-error *ngIf="addExaminationTypeForm.get('price').invalid">Price must be a number
-                                greater than 0.
-                            </mat-error>
-                        </mat-form-field>
-                    </form>
-                </mat-dialog-content>
-            </div>
-            <div>
-                <mat-dialog-actions align="end" style="margin-right: 45px;">
-                    <button mat-stroked-button (click)="create()"
-                        [disabled]="!addExaminationTypeForm.valid">Create</button>
-                </mat-dialog-actions>
-            </div>
+        <mat-form-field class="form-full-width mt-2">
+            <input matInput placeholder="Price" type="number" formControlName="price">
+            <span matSuffix class="ml-2">RSD</span>
+            <mat-error
+                *ngIf="addExaminationTypeForm.get('price').errors && addExaminationTypeForm.get('price').errors['required']">
+                Please enter examination type's price.
+            </mat-error>
+            <mat-error
+                *ngIf="addExaminationTypeForm.get('price').errors && addExaminationTypeForm.get('price').errors['min']">
+                Price must be greater than 0.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
 
-        </div>
-    </div>
-</div>
-<!--END class="container"-->
+<mat-dialog-actions class="mt-3 mb-1">
+    <button mat-raised-button color="primary" (click)="create()" [disabled]="!addExaminationTypeForm.valid">Add</button>
+</mat-dialog-actions>

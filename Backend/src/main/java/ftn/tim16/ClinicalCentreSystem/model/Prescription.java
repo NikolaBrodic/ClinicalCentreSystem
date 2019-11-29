@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Prescription {
@@ -43,5 +44,25 @@ public class Prescription {
 
     public void setNurse(Nurse nurse) {
         this.nurse = nurse;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Prescription prescription = (Prescription) o;
+        if (prescription.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, prescription.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

@@ -89,11 +89,14 @@
 
             <div class="form-group">
               <label for="phoneNumber">Phone Number</label>
-              <input type="number" id="phoneNumber" formControlName="phoneNumber" class="form-control"
+              <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && registerForm.get('phoneNumber').errors }" />
               <div *ngIf="submitted && registerForm.get('phoneNumber').errors" class="invalid-feedback">
                 <div *ngIf="registerForm.get('phoneNumber').errors['required']">Phone Number is required</div>
-                <div *ngIf="registerForm.get('phoneNumber').errors['minlength']">A phone number must have at least 9
+                <div
+                  *ngIf="registerForm.get('phoneNumber').errors['minlength' || registerForm.get('healthInsuranceID').errors['maxlength' || registerForm.get('healthInsuranceID').errors['pattern']]]">
+                  Phone number must have between 9 and
+                  10
                   digits
                 </div>
               </div>
@@ -107,9 +110,9 @@
                 <div *ngIf="registerForm.get('healthInsuranceID').errors['required']">Health Insurance ID is required
                 </div>
                 <div
-                  *ngIf="registerForm.get('healthInsuranceID').errors['minlength'] ||registerForm.get('healthInsuranceID').errors['maxlength']">
+                  *ngIf="registerForm.get('healthInsuranceID').errors['minlength'] || registerForm.get('healthInsuranceID').errors['maxlength'] || registerForm.get('healthInsuranceID').errors['pattern']">
                   Health
-                  Insurance ID must contain exactly 13 characters</div>
+                  Insurance ID must contain exactly 13 digits</div>
               </div>
             </div>
 

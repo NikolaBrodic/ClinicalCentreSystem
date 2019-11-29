@@ -1,8 +1,10 @@
+import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
+import { TokenInterceptor } from './interseptors/TokenInterceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { ListaOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
+
 import { DemoMaterialModule } from './material-module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -13,25 +15,27 @@ import { ToastrModule } from 'ngx-toastr';
 import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
 import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LoginPatientComponent } from './components/login-patient/login-patient.component';
-import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
-import { ErrorComponent } from './components/error/error.component';
-import { AddExaminationTypeComponent } from './components/add-examination-type/add-examination-type.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AddDoctorComponent } from './components/add-doctor/add-doctor.component';
 import { ListOfDoctorsComponent } from './components/list-of-doctors/list-of-doctors.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { MatNativeDateModule } from '@angular/material/core';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
-import { RegisterPatientComponent } from './components/register-patient/register-patient.component';
 import { ListRequestsToRegisterComponent } from './components/list-requests-to-register/list-requests-to-register.component';
 import { RejectRequestToRegisterComponent } from './components/reject-request-to-register/reject-request-to-register.component';
 import { ApproveRequestToRegisterComponent } from './components/approve-request-to-register/approve-request-to-register.component';
+import { AddRoomComponent } from './components/add-room/add-room.component';
+import { ListOfRoomsComponent } from './components/list-of-rooms/list-of-rooms.component';
+import { AddClinicComponent } from './components/add-clinic/add-clinic.component';
+import { ListClinicsComponent } from './components/list-clinics/list-clinics.component';
+import { SearchRoomsComponent } from './components/search-rooms/search-rooms.component';
+import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
+import { AddClinicAdministratorComponent } from './components/add-clinic-administrator/add-clinic-administrator.component';
+import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
+import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
+
+import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
+import { DoctorsExaminationComponent } from './components/doctors-examination/doctors-examination.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +47,22 @@ import { ApproveRequestToRegisterComponent } from './components/approve-request-
     ErrorComponent,
     AddDoctorComponent,
     ListOfDoctorsComponent,
-    ListaOfExaminationTypesComponent,
+    ListOfExaminationTypesComponent,
     AddExaminationTypeComponent,
     ListRequestsToRegisterComponent,
     RejectRequestToRegisterComponent,
     ApproveRequestToRegisterComponent,
+    AddRoomComponent,
+    ListOfRoomsComponent,
+    AddClinicComponent,
+    ListClinicsComponent,
+    SearchRoomsComponent,
+    ListClinicAdministratorsComponent,
+    AddClinicAdministratorComponent,
+    ListNursesComponent,
+    AddNurseComponent,
+    ListExaminationsRequestComponent,
+    DoctorsExaminationComponent
   ],
   imports: [
     BrowserModule,
@@ -67,15 +82,27 @@ import { ApproveRequestToRegisterComponent } from './components/approve-request-
     MatNativeDateModule,
   ],
   entryComponents: [
-    ListaOfExaminationTypesComponent,
+    ListOfExaminationTypesComponent,
     AddExaminationTypeComponent,
     ListOfDoctorsComponent,
     AddDoctorComponent,
     ListRequestsToRegisterComponent,
     RejectRequestToRegisterComponent,
-    ApproveRequestToRegisterComponent
+    ApproveRequestToRegisterComponent,
+    ListOfRoomsComponent,
+    AddRoomComponent,
+    ListClinicsComponent,
+    AddClinicComponent,
+    ListClinicAdministratorsComponent,
+    AddClinicAdministratorComponent,
+    ListNursesComponent,
+    AddNurseComponent,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

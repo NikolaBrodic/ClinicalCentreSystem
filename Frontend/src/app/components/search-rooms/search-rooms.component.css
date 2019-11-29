@@ -1,0 +1,47 @@
+.table {
+    width: 75%;
+}
+  
+.filter {
+    display: flex;
+    flex-direction: column;
+}
+.text-in-table{
+    margin:5px;
+    padding:5px;
+}
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+}
+  
+.mat-column-assign{
+    width: 33% !important;
+    margin:5px;
+}
+
+.filterButton{
+    padding-left: 15%;
+    width: 80%;
+}
+.filterForTime{
+    padding-left:15%;
+    width: 80%;
+}
+.scrollit {
+    overflow-y:auto;
+    height:500px;
+}
+  
+#search:hover, #search:active {
+    cursor: pointer;
+}
+
+.bottom-right { 
+    bottom: 0; 
+    right: 0; 
+} 
+
+.block_container {
+    display: flex;
+}

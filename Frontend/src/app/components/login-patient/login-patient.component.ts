@@ -1,3 +1,7 @@
+import { Router } from '@angular/router';
+import { UserLoginRequest } from './../../models/userLoginRequest';
+import { ToastrService } from 'ngx-toastr';
+import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PatientService } from 'src/app/services/patient.service';
@@ -16,13 +20,15 @@ export class Patient {
 })
 export class LoginPatientComponent implements OnInit {
 
-  private loginForm: FormGroup;
-  private submitted = false;
-  private patient: Patient;
+  loginForm: FormGroup;
+  submitted = false;
+  patient: Patient;
 
   constructor(
-    private patientService: PatientService,
-    private formBuilder: FormBuilder
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,39 +38,29 @@ export class LoginPatientComponent implements OnInit {
     });
   }
 
-  // Convenience getter for easy access to form fields
-  get f() {
-    return this.loginForm.controls;
-  }
-
-  private onSubmit() {
+  onSubmit() {
     this.submitted = true;
 
-    // Stop here if form is invalid
     if (this.loginForm.invalid) {
+      this.toastr.error("Please enter a valid data.", 'Login');
       return;
     }
 
-    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.loginForm.value));
-    this.patient = new Patient(
-      this.f.email.value,
-      this.f.password.value
-    );
+    const user = new UserLoginRequest(this.loginForm.value.email,
+      this.loginForm.value.password);
 
-    this.attemptPatientLogin();
-  }
-
-  public attemptPatientLogin() {
-    this.patientService.loginPatient(this.patient).subscribe(
+    this.userService.login(user).subscribe(
       data => {
-        if (data !== null) {
-          console.log("successful login");
-        } else {
-          console.log("login failed");
-        }
+        //TODO: When you add home pages for users you need to do redirect to each one.
+        this.toastr.success("You have successfuly logged in!", 'Login');
       },
       error => {
-        console.log("request failed");
+        if (error.status == 403) {
+          this.toastr.info("You have to change received generic password on first attempt to login.", 'Login');
+          this.router.navigate(['/user/changePassword']);
+        } else {
+          this.toastr.error("Invalid email or password. Please try again.", 'Login');
+        }
       }
     )
   }

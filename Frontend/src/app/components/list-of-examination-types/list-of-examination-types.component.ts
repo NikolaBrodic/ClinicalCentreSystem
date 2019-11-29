@@ -14,7 +14,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   templateUrl: './list-of-examination-types.component.html',
   styleUrls: ['./list-of-examination-types.component.css']
 })
-export class ListaOfExaminationTypesComponent implements OnInit {
+export class ListOfExaminationTypesComponent implements OnInit {
   examinationTypesDataSource: MatTableDataSource<ExaminationType>;
   displayedColumns: string[] = ['label', 'price', 'update', 'delete'];
   public searchString: string;
@@ -31,7 +31,6 @@ export class ListaOfExaminationTypesComponent implements OnInit {
 
   ngOnInit() {
     // this.getExaminationTypesForAdmin();
-
     this.getExaminationTypesForAdminPaging(0, 5, null);
     this.successCreatedType = this.examinationTypeService.createSuccessEmitter.subscribe(
       data => {
@@ -64,7 +63,6 @@ export class ListaOfExaminationTypesComponent implements OnInit {
 
   }
   sortEvent() {
-    console.log(this.sort);
     this.getExaminationTypesForAdminPaging(this.paginator.pageIndex, 5, this.sort);
 
   }

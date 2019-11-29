@@ -1,10 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,14 +21,28 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private ExaminationKind kind;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Clinic clinic;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
+
+    public Room(){
+
+    }
+
+    public Room(String label, ExaminationKind kind, Clinic clinic) {
+        this.label = label;
+        this.kind = kind;
+        this.clinic = clinic;
+        this.examinations =  new HashSet<Examination>();
+        this.status = LogicalStatus.EXISTING;
+    }
 
     public Long getId() {
         return id;
@@ -70,5 +86,25 @@ public class Room {
 
     public void setStatus(LogicalStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Room room = (Room) o;
+        if (room.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, room.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

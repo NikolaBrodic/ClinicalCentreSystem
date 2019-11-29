@@ -34,8 +34,8 @@ export class RegisterPatientComponent implements OnInit {
       address: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
       country: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(9)]),
-      healthInsuranceID: new FormControl('', [Validators.required, Validators.minLength(13), Validators.maxLength(13)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern("0[0-9]+")]),
+      healthInsuranceID: new FormControl('', [Validators.required, Validators.minLength(13), Validators.maxLength(13), Validators.pattern("[0-9]+")]),
     }, {
       validator: MustMatch('password', 'repeatPassword')
     });

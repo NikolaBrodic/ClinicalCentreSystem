@@ -1,10 +1,18 @@
 package ftn.tim16.ClinicalCentreSystem.service;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
+
+import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 
 import java.util.List;
 
 public interface ClinicAdministratorService {
-    List<ClinicAdministrator> getClinicAdministrators();
-    ClinicAdministrator changePassword(UserDTO userDTO, ClinicAdministrator user);
+    //List<ClinicAdministrator> getClinicAdministrators();
+
+    ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user);
+
+    ClinicAdministrator getLoginAdmin();
+
+    List<ClinicAdministratorDTO> getAllClinicAdministratorsInClinic(Long id);
+
+    ClinicAdministrator create(ClinicAdministratorDTO clinicAdministratorDTO);
 }

@@ -61,7 +61,7 @@ export class AddDoctorComponent implements OnInit {
         this.doctorService.createSuccessEmitter.next(doctor);
       },
       message => {
-        this.toastr.error("Doctor with same email address or phone number aready exist.", 'Add doctor');
+        this.toastr.error("Doctor with same email address or phone number already exists.", 'Add doctor');
       }
     );
   }

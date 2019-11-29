@@ -1,9 +1,11 @@
+import { UserLoginRequest } from './../../models/userLoginRequest';
+import { MustMatch } from 'src/app/validators/must-match.validator';
 import { Router } from '@angular/router';
 import { User } from './../../models/user';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-change-password',
@@ -14,13 +16,16 @@ export class UserChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
 
   constructor(private userService: UserService, private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.changePasswordForm = new FormGroup({
-      oldPassword: new FormControl(null, [Validators.required, Validators.minLength(8)]),
-      newPassword: new FormControl(null, [Validators.required, Validators.minLength(8)]),
-      repeatedPassword: new FormControl(null, [Validators.required, Validators.minLength(8)])
+    this.changePasswordForm = this.formBuilder.group({
+      userEmail: new FormControl('', [Validators.required, Validators.email]),
+      userOldPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]),
+      newPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]),
+      repeatedPassword: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')])
+    }, {
+      validator: MustMatch('newPassword', 'repeatedPassword')
     });
 
   }
@@ -34,17 +39,16 @@ export class UserChangePasswordComponent implements OnInit {
       this.toastr.error("Repeated password must be the same as a new password", 'Change password');
       return;
     }
-    const user = new User(this.changePasswordForm.value.oldPassword, this.changePasswordForm.value.newPassword);
+    const user = new User(this.changePasswordForm.value.userEmail, this.changePasswordForm.value.userOldPassword, this.changePasswordForm.value.newPassword);
 
     this.userService.changePassword(user).subscribe(
       responseData => {
         this.changePasswordForm.reset();
-        this.toastr.success("Successfully changed password.", 'Change password');
-        this.router.navigate(['/patient/login']);
-        //TODO: redirect user 
+        this.toastr.success("Successfully changed password. Please sign in with your new password.", 'Change password');
+        this.userService.logout();
       },
       message => {
-        this.toastr.error("Old password is invalid.Please try again.", 'Change password');
+        this.toastr.error("Old password is invalid. Please try again.", 'Change password');
       }
     );
   }

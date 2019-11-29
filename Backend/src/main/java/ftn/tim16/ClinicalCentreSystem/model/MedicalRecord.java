@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,13 +20,13 @@ public class MedicalRecord {
     @Column(columnDefinition = "VARCHAR(3)")
     private String bloodType;
 
-    @Column
+    @Column(columnDefinition = "VARCHAR")
     private String allergies;
 
     @OneToOne
     private Patient patient;
 
-    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 
     public Long getId() {
@@ -78,5 +79,25 @@ public class MedicalRecord {
 
     public void setExaminationReports(Set<ExaminationReport> examinationReports) {
         this.examinationReports = examinationReports;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MedicalRecord medicalRecord = (MedicalRecord) o;
+        if (medicalRecord.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, medicalRecord.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
