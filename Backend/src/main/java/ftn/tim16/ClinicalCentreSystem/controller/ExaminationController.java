@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.format.DateTimeParseException;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/examination")
 public class ExaminationController {
 

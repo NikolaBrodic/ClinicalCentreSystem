@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 @Transactional
 @Service
 public class ExaminationServiceImpl implements ExaminationService {
@@ -27,24 +28,24 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public List<Examination> getExaminations(Long idRoom) {
-        return examinationRepository.findByRoomIdAndStatusNotOrderByIntervalStartDateTime(idRoom,ExaminationStatus.CANCELED);
+        return examinationRepository.findByRoomIdAndStatusNotOrderByIntervalStartDateTime(idRoom, ExaminationStatus.CANCELED);
     }
 
     @Override
     public List<Examination> getDoctorsExamination(Long idDoctor) {
-        return examinationRepository.findByDoctorsIdAndStatusNot(idDoctor,ExaminationStatus.CANCELED);
+        return examinationRepository.findByDoctorsIdAndStatusNot(idDoctor, ExaminationStatus.CANCELED);
     }
 
     @Override
     public List<Examination> getNursesExamination(Long idNurse) {
-        return examinationRepository.findByNurseIdAndStatusNot(idNurse,ExaminationStatus.CANCELED);
+        return examinationRepository.findByNurseIdAndStatusNot(idNurse, ExaminationStatus.CANCELED);
     }
 
     @Override
     public Examination getExamination(Long id) {
-        try{
-           return  examinationRepository.getByIdAndStatusNot(id,ExaminationStatus.CANCELED);
-        }catch (Exception e){
+        try {
+            return examinationRepository.getByIdAndStatusNot(id, ExaminationStatus.CANCELED);
+        } catch (Exception e) {
             return null;
         }
 
@@ -53,14 +54,14 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public ExaminationPagingDTO getAwaitingExaminations(String kind, ClinicAdministrator clinicAdministrator, Pageable page) {
         ExaminationKind examinationKind = getKind(kind);
-        if(kind == null){
+        if (kind == null) {
             return null;
         }
-        List<Examination>  examinations= examinationRepository.findByClinicAdministratorIdAndStatusAndKind
-        (clinicAdministrator.getId(),ExaminationStatus.AWAITING,examinationKind);
+        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusAndKind
+                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind);
 
-       ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByClinicAdministratorIdAndStatusAndKind
-                (clinicAdministrator.getId(),ExaminationStatus.AWAITING,examinationKind,page).getContent(),examinations.size());
+        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByClinicAdministratorIdAndStatusAndKind
+                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, page).getContent(), examinations.size());
         return examinationPagingDTO;
     }
 
@@ -73,7 +74,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     public Examination assignRoom(Examination selectedExamination, Room room, Nurse chosenNurse) {
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
-        if(chosenNurse != null){
+        if (chosenNurse != null) {
             selectedExamination.setNurse(chosenNurse);
         }
         return examinationRepository.save(selectedExamination);
@@ -81,22 +82,22 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public ExaminationPagingDTO getDoctorsExaminations(Doctor doctor, Pageable page) {
-        List<Examination>  examinations= examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter
-                (doctor.getId(),ExaminationStatus.CANCELED,LocalDateTime.now());
+        List<Examination> examinations = examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter
+                (doctor.getId(), ExaminationStatus.CANCELED, LocalDateTime.now());
 
         ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter
-                (doctor.getId(),ExaminationStatus.CANCELED, LocalDateTime.now(),page).getContent(),examinations.size());
+                (doctor.getId(), ExaminationStatus.CANCELED, LocalDateTime.now(), page).getContent(), examinations.size());
         return examinationPagingDTO;
     }
 
     @Override
     public Examination cancelExamination(Doctor doctor, Long examinationId) {
         Examination examination = getExamination(examinationId);
-        if(examination == null){
+        if (examination == null) {
             return null;
         }
-        for (Doctor doc: examination.getDoctors()) {
-            if(doc.getId()!=doctor.getId()){
+        for (Doctor doc : examination.getDoctors()) {
+            if (doc.getId() != doctor.getId()) {
                 return null;
             }
             break;
@@ -104,7 +105,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         //Doctor can cancel scheduled examination/operation only 24 hours before it is going to be held.
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime examinationCanCancel = examination.getInterval().getStartDateTime().minusHours(24);
-        if(currentTime.isAfter(examinationCanCancel)){
+        if (currentTime.isAfter(examinationCanCancel)) {
             return null;
         }
         examination.setStatus(ExaminationStatus.CANCELED);
@@ -112,36 +113,39 @@ public class ExaminationServiceImpl implements ExaminationService {
         Nurse nurse = examination.getNurse();
         examination.setNurse(null);
 
-        sendMail(examination,doctor,nurse,examination.getPatient());
+        sendMail(examination, doctor, nurse, examination.getPatient());
         return examinationRepository.save(examination);
     }
 
-    private void sendMail(Examination examination , Doctor doctor, Nurse nurse, Patient patient){
-        if(nurse == null || patient == null){
+    private void sendMail(Examination examination, Doctor doctor, Nurse nurse, Patient patient) {
+        if (nurse == null || patient == null) {
             return;
         }
-        String subject = "Canceled " +  examination.getKind().toString().toLowerCase();
+        String subject = "Notice: Examination has been canceled ";
         StringBuilder sb = new StringBuilder();
-        sb.append("Doctor  " + doctor.getFirstName() + " " + doctor.getLastName() + "was canceling examination for ");
-        sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")) + " - " +
-                examination.getInterval().getEndDateTime().format( DateTimeFormatter.ofPattern(" hh:mm")));
+        sb.append(doctor.getFirstName());
+        sb.append(" ");
+        sb.append(doctor.getLastName());
+        sb.append("has canceled the examination scheduled for ");
+        sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
+        sb.append(".");
 
         String text = sb.toString();
         emailNotificationService.sendEmail(nurse.getEmail(), subject, text);
         emailNotificationService.sendEmail(patient.getEmail(), subject, text);
-        if(examination.getKind().equals(ExaminationKind.OPERATION)){
-            for (Doctor doc: examination.getDoctors()) {
-                if(doc.getId() != doctor.getId()){
+        if (examination.getKind().equals(ExaminationKind.OPERATION)) {
+            for (Doctor doc : examination.getDoctors()) {
+                if (doc.getId() != doctor.getId()) {
                     emailNotificationService.sendEmail(doc.getEmail(), subject, text);
                 }
             }
         }
     }
 
-    private ExaminationKind getKind(String kind){
+    private ExaminationKind getKind(String kind) {
         try {
             return ExaminationKind.valueOf(kind.toUpperCase());
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }

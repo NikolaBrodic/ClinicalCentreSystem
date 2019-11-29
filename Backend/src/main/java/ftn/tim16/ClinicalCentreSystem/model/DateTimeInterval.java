@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -12,9 +14,11 @@ public class DateTimeInterval {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @Column(nullable = false)
     private LocalDateTime startDateTime;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
