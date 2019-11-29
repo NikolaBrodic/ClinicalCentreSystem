@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +21,7 @@ public class ExaminationType {
     private Double price;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "specialized", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Doctor> doctors = new HashSet<>();
 
     @JsonIgnore
@@ -36,12 +32,13 @@ public class ExaminationType {
     private LogicalStatus status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
-    public ExaminationType(){
+    public ExaminationType() {
 
     }
+
     public ExaminationType(String label, Double price, Clinic clinic, LogicalStatus status) {
         this.label = label;
         this.price = price;
