@@ -2,7 +2,9 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
+import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
+import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,9 @@ public class ClinicController {
 
     @Autowired
     ClinicService clinicService;
+
+    @Autowired
+    ExaminationService examinationService;
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
@@ -53,5 +58,11 @@ public class ClinicController {
     public ResponseEntity<List<Clinic>> getAllPatientClinics() {
         List<Clinic> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/patient/examinations-history/{roomId}")
+    public ResponseEntity<List<Examination>> getExaminationHistory(@PathVariable long roomId) {
+        List<Examination> allExaminations = examinationService.getExaminations(roomId);
+        return new ResponseEntity<>(allExaminations, HttpStatus.OK);
     }
 }

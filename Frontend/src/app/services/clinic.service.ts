@@ -1,3 +1,4 @@
+import { Examination } from './../models/examination';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -38,5 +39,16 @@ export class ClinicService {
 
       });
     return this.clinics.asObservable();
+  }
+
+  public getPatientHistoryOfExaminations(roomId: number) {
+    this.httpClient.get(this.url + "/patient/examinations-history/" + roomId).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }
