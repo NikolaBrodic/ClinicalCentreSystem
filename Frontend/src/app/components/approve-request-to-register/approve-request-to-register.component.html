@@ -1,8 +1,8 @@
-<h1 mat-dialog-title class="dialog-class">Reason for rejection</h1>
-<mat-dialog-content class="example-container dialog-class">
-    Are you sure you want to accept this request to register?
+<h1 mat-dialog-title class="dialog-class">Approve request to register</h1>
+<mat-dialog-content class="dialog-class">
+    Are you sure you want to approve this request to register?
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-stroked-button mat-dialog-close>Cancel</button>
-    <button mat-stroked-button (click)="approve()">Confirm</button>
+<mat-dialog-actions class="mt-2 mb-1">
+    <button mat-raised-button color="primary" (click)="approve()">Confirm</button>
+    <button mat-raised-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

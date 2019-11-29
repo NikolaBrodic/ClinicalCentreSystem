@@ -1,75 +1,88 @@
-<br>
-<div class="container">
-    <div class="card text-center w-60">
-        <h1 mat-dialog-title class="dialog-class">Create a doctor</h1>
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <mat-dialog-content class="example-container dialog-class form">
-                    <form [formGroup]="addDoctorForm">
-                        <mat-form-field>
-                            <input matInput placeholder="First name" formControlName="firstName">
-                            <mat-error *ngIf="addDoctorForm.get('firstName').invalid">Please enter doctor's first name.
-                            </mat-error>
-                        </mat-form-field>
-                        <br>
-                        <mat-form-field>
-                            <input matInput placeholder="Last name" formControlName="lastName">
-                            <mat-error *ngIf="addDoctorForm.get('lastName').invalid">Please enter doctor's last name.
-                            </mat-error>
-                        </mat-form-field>
-                        <br>
+<h1 mat-dialog-title>Add doctor</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="addDoctorForm" class="form-full-width">
+        <table class="form-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="form-full-width-td">
+                        <input matInput placeholder="First name" formControlName="firstName">
+                        <mat-error
+                            *ngIf="addDoctorForm.get('firstName').errors && addDoctorForm.get('firstName').errors['required']">
+                            Please enter doctor's first name.
+                        </mat-error>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="form-full-width-td ml-2">
+                        <input matInput placeholder="Last name" formControlName="lastName">
+                        <mat-error
+                            *ngIf="addDoctorForm.get('lastName').errors && addDoctorForm.get('lastName').errors['required']">
+                            Please enter doctor's last name.
+                        </mat-error>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
 
-                        <mat-form-field>
-                            <mat-label>Specialized for</mat-label>
-                            <mat-select formControlName="specialized">
-                                <mat-option>None</mat-option>
-                                <mat-option *ngFor="let specialization of specializations" [value]="specialization">
-                                    {{specialization.label}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <br>
-                        <div class="block_container">
-                            <div>Work hours From &nbsp;</div>
-                            <div>
-                                <ngx-timepicker-field [controlOnly]="true" [format]="24"
-                                    formControlName="workHoursFrom">
-                                </ngx-timepicker-field>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="block_container">
-                            <div>Work hours To &nbsp;</div>
-                            <div>
-                                <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursTo">
-                                </ngx-timepicker-field>
-                            </div>
-                        </div>
-                        <br>
-                        <mat-form-field>
-                            <input matInput placeholder="Phone number" formControlName="phoneNumber">
-                            <mat-error *ngIf="addDoctorForm.get('phoneNumber').invalid">Please enter a valid doctor's
-                                phone
-                                number.
-                            </mat-error>
-                        </mat-form-field>
-                        <br>
-                        <mat-form-field>
-                            <input matInput placeholder="Email address" formControlName="email">
-                            <mat-error *ngIf="addDoctorForm.get('email').invalid">Please enter a valid doctor's email
-                                address.
-                            </mat-error>
-                        </mat-form-field>
+        <mat-form-field class="form-full-width mt-2">
+            <mat-label>Specialized for</mat-label>
+            <mat-select formControlName="specialized">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let specialization of specializations" [value]="specialization">
+                    {{specialization.label}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-                    </form>
-                </mat-dialog-content>
-            </div>
-            <div>
-                <mat-dialog-actions align="end" style="margin-right: 45px;">
-                    <button mat-stroked-button (click)="create()" [disabled]="!addDoctorForm.valid">Create</button>
-                </mat-dialog-actions>
-            </div>
+        <h6 class="form-full-width mt-2">Work hours</h6>
+        <table class="form-full-width mt-3" cellspacing="0">
+            <tr>
+                <td>From:</td>
+                <td>
+                    <div class="form-full-width-td">
+                        <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursFrom">
+                        </ngx-timepicker-field>
+                    </div>
+                </td>
+                <td>To:</td>
+                <td>
+                    <div class="form-full-width-td ml-2">
+                        <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursTo">
+                        </ngx-timepicker-field>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
-        </div>
-    </div>
-</div>
+        <mat-form-field class="form-full-width mt-3">
+            <input matInput placeholder="Phone number" formControlName="phoneNumber">
+            <mat-error
+                *ngIf="addDoctorForm.get('phoneNumber').errors && addDoctorForm.get('phoneNumber').errors['required']">
+                Please enter doctor's phone number.
+            </mat-error>
+            <mat-error
+                *ngIf="addDoctorForm.get('phoneNumber').errors && addDoctorForm.get('phoneNumber').errors['pattern']">
+                Phone number must begin with 0 and can contain digits only.
+            </mat-error>
+            <mat-error
+                *ngIf="addDoctorForm.get('phoneNumber').errors && (addDoctorForm.get('phoneNumber').errors['minlength'] 
+                                        || addDoctorForm.get('phoneNumber').errors && addDoctorForm.get('phoneNumber').errors['maxlength'])">
+                Phone number can contain between 9 and 10 digits.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-full-width mt-3">
+            <input matInput placeholder="Email address" formControlName="email">
+            <mat-error *ngIf="addDoctorForm.get('email').errors && addDoctorForm.get('email').errors['required']">
+                Please enter doctor's email address.
+            </mat-error>
+            <mat-error *ngIf="addDoctorForm.get('email').errors && addDoctorForm.get('email').errors['email']">
+                Please enter a valid email address.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="mt-2 mb-1">
+    <button mat-raised-button color="primary" (click)="create()" [disabled]="!addDoctorForm.valid">Add</button>
+</mat-dialog-actions>
