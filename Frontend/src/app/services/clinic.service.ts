@@ -35,9 +35,9 @@ export class ClinicService {
     this.httpClient.get(this.url + "/patient/all").subscribe((data: Clinic[]) => {
       this.clinics.next(data)
     },
-      (error: HttpErrorResponse) => {
+    (error: HttpErrorResponse) => {
 
-      });
+    });
     return this.clinics.asObservable();
   }
 

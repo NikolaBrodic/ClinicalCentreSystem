@@ -1,3 +1,5 @@
+import { Examination } from './../../models/examination';
+import { ExaminationService } from './../../services/examination.service';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { environment } from './../../../environments/environment';
 
@@ -14,6 +16,10 @@ export class PatientProfileComponent implements OnInit {
 
   clinicsDataSource: MatTableDataSource<Clinic>;
   displayedColumns: string[] = ['name', 'address', 'description'];
+
+  examinationsDataSource: MatTableDataSource<Examination>;
+  displayedColumnsExamination: string[] = ['clinic_rating', 'discount', 'doctor_rating', 'kind', 'status']
+
   numberOfItems: number;
   itemsPerPage = environment.itemsPerPage;
 
@@ -21,11 +27,13 @@ export class PatientProfileComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
-    private clinicService: ClinicService
+    private clinicService: ClinicService,
+    private examinationService: ExaminationService
   ) { }
 
   ngOnInit() {
     this.getClinics(0, this.itemsPerPage, null);
+    this.getHistoryOfExaminations(0, this.itemsPerPage, null);
   }
 
   getClinics(pageIndex, pageSize, sort) {
@@ -43,6 +51,17 @@ export class PatientProfileComponent implements OnInit {
     //     this.nursesDataSource = new MatTableDataSource(data.nurses);
     //     this.nursesDataSource.sort = this.sort;
     //   });
+  }
+
+  getHistoryOfExaminations(pageIndex, pageSize, sort) {
+    this.examinationService.getAllExaminationsForPatient().subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
   changePage() {
