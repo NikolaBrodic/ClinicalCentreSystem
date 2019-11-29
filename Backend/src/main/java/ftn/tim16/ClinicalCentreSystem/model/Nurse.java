@@ -20,6 +20,7 @@ public class Nurse implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -99,16 +100,19 @@ public class Nurse implements UserDetails {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -232,14 +236,15 @@ public class Nurse implements UserDetails {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    public boolean isAvailable(LocalTime startExaminationTime,LocalTime endExaminationTime){
-        if((startExaminationTime.isAfter(workHoursFrom) || startExaminationTime.equals(workHoursFrom))&&  startExaminationTime.isBefore(workHoursTo)){
-            if(endExaminationTime.isAfter(workHoursFrom) &&  (endExaminationTime.isBefore(workHoursTo) || endExaminationTime.equals(workHoursTo))){
+    public boolean isAvailable(LocalTime startExaminationTime, LocalTime endExaminationTime) {
+        if ((startExaminationTime.isAfter(workHoursFrom) || startExaminationTime.equals(workHoursFrom)) && startExaminationTime.isBefore(workHoursTo)) {
+            if (endExaminationTime.isAfter(workHoursFrom) && (endExaminationTime.isBefore(workHoursTo) || endExaminationTime.equals(workHoursTo))) {
                 return true;
             }
         }
         return false;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

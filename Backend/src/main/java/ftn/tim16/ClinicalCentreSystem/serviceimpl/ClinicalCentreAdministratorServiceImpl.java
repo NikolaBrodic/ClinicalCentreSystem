@@ -1,8 +1,9 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicalCentreAdministrator;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicalCentreAdministratorRepository;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicalCentreAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

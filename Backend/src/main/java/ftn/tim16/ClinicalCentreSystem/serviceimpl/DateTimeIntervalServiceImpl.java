@@ -1,7 +1,8 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.repository.DateTimeIntervalRepository;
+import ftn.tim16.ClinicalCentreSystem.service.DateTimeIntervalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

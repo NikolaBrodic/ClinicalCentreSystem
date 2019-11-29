@@ -14,10 +14,10 @@ public class Diagnose {
     @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR")
     private String description;
 
-    @OneToMany(mappedBy = "diagnose", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "diagnose", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ExaminationReport> examinationReports = new HashSet<>();
 
     public Long getId() {

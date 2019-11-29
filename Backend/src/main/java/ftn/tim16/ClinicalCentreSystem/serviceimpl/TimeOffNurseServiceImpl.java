@@ -1,7 +1,8 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
 import ftn.tim16.ClinicalCentreSystem.repository.TimeOffNurseRepository;
+import ftn.tim16.ClinicalCentreSystem.service.TimeOffNurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

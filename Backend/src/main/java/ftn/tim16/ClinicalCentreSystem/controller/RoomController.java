@@ -4,7 +4,6 @@ import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.RoomService;
@@ -22,7 +21,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/room")
 public class RoomController {
 
@@ -34,31 +32,31 @@ public class RoomController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> create(@Valid  @RequestBody RoomDTO roomDTO) {
+    public ResponseEntity<Room> create(@Valid @RequestBody RoomDTO roomDTO) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
 
-        if(clinicAdministrator == null){
+        if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Room createdRoom = roomService.create(roomDTO,clinicAdministrator);
-        if(createdRoom == null){
+        Room createdRoom = roomService.create(roomDTO, clinicAdministrator);
+        if (createdRoom == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Room>(createdRoom, HttpStatus.CREATED);
     }
 
 
-    @GetMapping(value="/all")
+    @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<RoomDTO>> getAllRoomsForAdmin() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
-        if(clinicAdministrator == null){
+        if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(roomService.findAllRoomsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
-    @GetMapping(value="/pageAll")
+    @GetMapping(value = "/pageAll")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<RoomPagingDTO> getAllRoomsForAdmin(@RequestParam(value = "kind", required = true) String kind,
                                                              @RequestParam(value = "searchLabel") String searchLabel,
@@ -67,14 +65,14 @@ public class RoomController {
                                                              @RequestParam(value = "searchEndTime") String searchEndTime,
                                                              Pageable page) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
-        if(clinicAdministrator == null){
+        if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
             RoomPagingDTO roomPagingDTO = roomService.
-                    findAllRoomsInClinic(kind,clinicAdministrator.getClinic(),page,searchLabel,searchDate,searchStartTime,searchEndTime);
+                    findAllRoomsInClinic(kind, clinicAdministrator.getClinic(), page, searchLabel, searchDate, searchStartTime, searchEndTime);
             return new ResponseEntity<>(roomPagingDTO, HttpStatus.OK);
-        }catch (DateTimeParseException ex){
+        } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -82,22 +80,22 @@ public class RoomController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> assignRoom(@Valid  @RequestBody AssignExaminationDTO examination) {
+    public ResponseEntity<Room> assignRoom(@Valid @RequestBody AssignExaminationDTO examination) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
 
-        if(clinicAdministrator == null){
+        if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Room assignedRoom = roomService.assignRoom(examination,clinicAdministrator);
-        if(assignedRoom == null){
+        Room assignedRoom = roomService.assignRoom(examination, clinicAdministrator);
+        if (assignedRoom == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Room>(assignedRoom, HttpStatus.OK);
     }
 
-    @Scheduled(cron="${room.cron}")
-    public void assignRoom(){
-         roomService.automaticallyAssignRoom();
+    @Scheduled(cron = "${room.cron}")
+    public void assignRoom() {
+        roomService.automaticallyAssignRoom();
     }
 
 }

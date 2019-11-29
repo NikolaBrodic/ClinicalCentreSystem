@@ -31,23 +31,23 @@ const routes: Routes = [
     component: RegisterPatientComponent,
   },
   {
-    path: 'clinicAdministrator/doctors',
+    path: 'clinic-admin/doctors',
     component: ListOfDoctorsComponent,
   },
   {
-    path: 'clinicAdministrator/examinationTypes',
+    path: 'clinic-admin/examination-types',
     component: ListOfExaminationTypesComponent,
   },
   {
-    path: 'clinicAdministrator/rooms',
+    path: 'clinic-admin/rooms',
     component: ListOfRoomsComponent,
   },
   {
-    path: 'clinicAdministrator/search-rooms',
+    path: 'clinic-admin/search-rooms',
     component: SearchRoomsComponent,
   },
   {
-    path: 'user/changePassword',
+    path: 'user/change-password',
     component: UserChangePasswordComponent,
   },
   {

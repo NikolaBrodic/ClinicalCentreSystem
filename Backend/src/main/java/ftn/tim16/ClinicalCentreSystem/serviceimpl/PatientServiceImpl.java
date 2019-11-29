@@ -1,10 +1,12 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
+import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
+import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

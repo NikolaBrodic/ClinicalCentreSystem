@@ -1,10 +1,11 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
+import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ExaminationTypeServiceImpl implements  ExaminationTypeService {
+public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
     @Autowired
     private ExaminationTypeRepository examinationTypeRepository;

@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.service;
+package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
@@ -8,6 +8,10 @@ import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicAdministratorRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
+import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
+import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
