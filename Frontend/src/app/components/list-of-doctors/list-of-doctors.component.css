@@ -1,3 +1,50 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+
+.page-header { 
+    background: url(src\assets\background-images\doctor_background.png)no-repeat; 
+    position: relative; 
+    background-size: cover; 
+}
+
+.page-caption { 
+    padding-top: 150px; 
+    padding-bottom: 150px; 
+}
+.page-title { 
+    font-size: 60px; 
+    line-height: 1; 
+    color: black; 
+    text-align: center; 
+    font-family: 'Ubuntu', cursive; 
+    font-weight: 600; 
+}
+
+.card-section { 
+    position: relative; 
+    bottom: 60px; 
+}
+
+.card-block { 
+    padding: 20px 40px 40px 40px;
+}
+
+.section-title { 
+    margin-bottom: 60px; 
+}
+
+.mat-cell {
+    vertical-align: middle;
+}
+
+.search-width {
+    width: 200px;
+  }
+
+#search:hover, #search:active {
+    cursor: pointer;
+}
+
+/*
 .table {
     width: 90%;
   }
@@ -16,14 +63,7 @@
     justify-content:center;
 }
   
-.mat-column-update{
-    width: 33% !important;
-    margin:5px;
-}
-.mat-column-delete{
-    width: 16% !important;
-    margin:5px;
-}  
+
 .filterButton{
     width: 90%;
     padding-left: 5%;
@@ -33,7 +73,4 @@
     overflow-y:auto;
     height:500px;
 }
-  
-#search:hover, #search:active {
-    cursor: pointer;
-}
+*/
