@@ -43,34 +43,3 @@
 #search:hover, #search:active {
     cursor: pointer;
 }
-
-/*
-.table {
-    width: 90%;
-  }
-  
-.filter {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-}
-.text-in-table{
-    margin:5px;
-    padding:5px;
-}
-::ng-deep .mat-sort-header-container {
-    display:flex;
-    justify-content:center;
-}
-  
-
-.filterButton{
-    width: 90%;
-    padding-left: 5%;
-}
-  
-.scrollit {
-    overflow-y:auto;
-    height:500px;
-}
-*/
