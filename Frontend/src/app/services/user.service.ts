@@ -1,11 +1,15 @@
+import { LoggedInUser } from './../models/loggedInUser';
+
 import { UserTokenState } from './../models/userTokenState';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserLoginRequest } from './../models/userLoginRequest';
 import { User } from '../models/user';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { equal } from 'assert';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +18,28 @@ export class UserService {
 
   url = environment.baseUrl + environment.user;
   private access_token = null;
-  constructor(private httpClient: HttpClient, private router: Router) { }
-  req: UserTokenState
+  private req: UserTokenState
+  public loggedInUserSubject: BehaviorSubject<LoggedInUser>;
+  public loggedInUser: Observable<LoggedInUser>;
+
+  constructor(private httpClient: HttpClient, private router: Router) {
+    this.loggedInUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('LoggedInUser')));
+    this.loggedInUser = this.loggedInUserSubject.asObservable();
+  }
+
   changePassword(user: User) {
     return this.httpClient.put(this.url, user);
   }
 
+  getLoggedInUser(): LoggedInUser {
+    return this.loggedInUserSubject.value;
+  }
+
   login(user: UserLoginRequest) {
-    return this.httpClient.post(this.url + "/login", user).pipe(map((res: UserTokenState) => {
-      this.access_token = res.accessToken;
-      localStorage.setItem('Token', JSON.stringify(res));
+    return this.httpClient.post(this.url + "/login", user).pipe(map((res: LoggedInUser) => {
+      this.access_token = res.userTokenState.accessToken;
+      localStorage.setItem('LoggedInUser', JSON.stringify(res));
+      this.loggedInUserSubject.next(res);
     }));
   }
 
@@ -37,7 +53,41 @@ export class UserService {
 
   logout() {
     this.access_token = null;
-    localStorage.removeItem('Token');
+    localStorage.removeItem('LoggedInUser');
     this.router.navigate(['/user/login']);
+  }
+
+  isLoggedIn() {
+    return localStorage.getItem('LoggedInUser') !== null;
+  }
+
+  isClinicalCentreAdmin() {
+    if (this.isLoggedIn()) {
+      return this.loggedInUserSubject.value.role === "CLINICAL_CENTRE_ADMIN";
+    }
+  }
+
+  isClinicAdmin() {
+    if (this.isLoggedIn()) {
+      return this.loggedInUserSubject.value.role === "CLINIC_ADMIN";
+    }
+  }
+
+  isPatient() {
+    if (this.isLoggedIn()) {
+      return this.loggedInUserSubject.value.role === "PATIENT";
+    }
+  }
+
+  isDoctor() {
+    if (this.isLoggedIn()) {
+      return this.loggedInUserSubject.value.role === "DOCTOR";
+    }
+  }
+
+  isNurse() {
+    if (this.isLoggedIn()) {
+      return this.loggedInUserSubject.value.role === "NURSE";
+    }
   }
 }

@@ -94,6 +94,7 @@ insert into patient_authority(user_id, authority_id) values (1,3);
 
 
 /*DOCTOR*/
+/* Password: Admin.04*/
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('doca2@gmail.com', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Doca', 'Docic', '065256856','10:30','18:00',1,'ACTIVE',1);
 insert into doctor_authority(user_id, authority_id) values (1,4);

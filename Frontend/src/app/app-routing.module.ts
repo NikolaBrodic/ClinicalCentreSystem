@@ -1,3 +1,10 @@
+import { DoctorGuard } from './guards/doctor.guard';
+import { ClinicAdminGuard } from './guards/clinic.admin.guard';
+import { PatientGuard } from './guards/patient.guard';
+import { ClinicalCentreAdminGuard } from './guards/clinical.centre.admin.guard';
+import { NonAuthenticatedErrorPageComponent } from './components/non-authenticated-error-page/non-authenticated-error-page.component';
+import { NonAuthorizedErrorPageComponent } from './components/non-authorized-error-page/non-authorized-error-page.component';
+
 import { DoctorsExaminationComponent } from './components/doctors-examination/doctors-examination.component';
 import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
 import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
@@ -22,61 +29,93 @@ const routes: Routes = [
     path: '',
     component: LoginPatientComponent,
   },
+
+  //***************** USER *****************
   {
     path: 'user/login',
     component: LoginPatientComponent,
-  },
-  {
-    path: 'patient/register',
-    component: RegisterPatientComponent,
-  },
-  {
-    path: 'clinic-admin/doctors',
-    component: ListOfDoctorsComponent,
-  },
-  {
-    path: 'clinic-admin/examination-types',
-    component: ListOfExaminationTypesComponent,
-  },
-  {
-    path: 'clinic-admin/rooms',
-    component: ListOfRoomsComponent,
-  },
-  {
-    path: 'clinic-admin/search-rooms',
-    component: SearchRoomsComponent,
   },
   {
     path: 'user/change-password',
     component: UserChangePasswordComponent,
   },
   {
-    path: 'patient/pending-approval',
-    component: PendingApprovalPatientComponent,
+    path: 'patient/register',
+    component: RegisterPatientComponent,
   },
+  {
+    path: 'patient/pending-approval',
+    component: PendingApprovalPatientComponent
+  },
+
+  //***************** CLINIC ADMIN *****************
+  {
+    path: 'clinic-admin/doctors',
+    component: ListOfDoctorsComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/examination-types',
+    component: ListOfExaminationTypesComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/rooms',
+    component: ListOfRoomsComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/search-rooms',
+    component: SearchRoomsComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/nurses',
+    component: ListNursesComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/examination/get-awaiting',
+    component: ListExaminationsRequestComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+
+  //********************* CLINICAL CENTRE ADMIN ***************
   {
     path: 'clinical-centre-admin/requests-to-register',
     component: ListRequestsToRegisterComponent,
+    canActivate: [ClinicalCentreAdminGuard]
   },
   {
     path: 'clinical-centre-admin/clinics',
     component: ListClinicsComponent,
+    canActivate: [ClinicalCentreAdminGuard]
   },
   {
     path: 'clinical-centre-admin/clinic-administrators',
     component: ListClinicAdministratorsComponent,
+    canActivate: [ClinicalCentreAdminGuard]
   },
-  {
-    path: 'clinic-admin/nurses',
-    component: ListNursesComponent
-  },
-  {
-    path: 'clinical-centre-admin/examination/get-awaiting',
-    component: ListExaminationsRequestComponent,
-  },
+
+  //*************************** DOCTOR **********************
   {
     path: 'doctor/examinations',
     component: DoctorsExaminationComponent,
+    canActivate: [DoctorGuard],
+  },
+
+  //********************* DOCTOR ***************************
+
+  //********************* NURSE ***************************
+
+  //******************* ERROR PAGES ************************
+  {
+    path: 'error/non-authenticated',
+    component: NonAuthenticatedErrorPageComponent,
+  },
+  {
+    path: 'error/non-authorized',
+    component: NonAuthorizedErrorPageComponent
   },
   {
     path: '**',
