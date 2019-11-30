@@ -1,9 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PatientDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
-import ftn.tim16.ClinicalCentreSystem.model.UserTokenState;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
@@ -38,14 +38,14 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<UserTokenState> login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException, IOException {
+    public ResponseEntity<LoggedInUserDTO> login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException, IOException {
 
         try {
-            UserTokenState userTokenState = authenticationService.login(authenticationRequest);
-            if (userTokenState == null) {
+            LoggedInUserDTO loggedInUserDTO = authenticationService.login(authenticationRequest);
+            if (loggedInUserDTO == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<UserTokenState>(userTokenState, HttpStatus.OK);
+            return new ResponseEntity<LoggedInUserDTO>(loggedInUserDTO, HttpStatus.OK);
         } catch (AuthenticationException ex) {
             if (userService.neverLoggedIn(authenticationRequest.getUsername())) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);

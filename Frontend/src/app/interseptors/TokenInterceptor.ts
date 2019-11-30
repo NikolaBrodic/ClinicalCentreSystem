@@ -1,3 +1,4 @@
+import { LoggedInUser } from './../models/loggedInUser';
 import { UserTokenState } from './../models/userTokenState';
 import { UserService } from './../services/user.service';
 import { Injectable } from '@angular/core';
@@ -12,17 +13,22 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+    loggedInUser: LoggedInUser;
     userTokenState: UserTokenState;
     constructor(public userService: UserService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.userTokenState = JSON.parse(localStorage.getItem("Token"))
-        if (this.userTokenState) {
-            if (this.userTokenState.accessToken) {
-                request = request.clone({
-                    setHeaders: {
-                        Authorization: `Bearer ${this.userTokenState.accessToken}`
-                    }
-                });
+        this.loggedInUser = JSON.parse(localStorage.getItem("LoggedInUser"));
+
+        if (this.loggedInUser) {
+            this.userTokenState = this.loggedInUser.userTokenState;
+            if (this.userTokenState) {
+                if (this.userTokenState.accessToken) {
+                    request = request.clone({
+                        setHeaders: {
+                            Authorization: `Bearer ${this.userTokenState.accessToken}`
+                        }
+                    });
+                }
             }
         }
 

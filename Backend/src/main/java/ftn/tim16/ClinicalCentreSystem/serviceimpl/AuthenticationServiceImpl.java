@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.dto.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PatientDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.AuthorityRepository;
@@ -7,7 +8,6 @@ import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
-import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserTokenState login(JwtAuthenticationRequest authenticationRequest) {
+    public LoggedInUserDTO login(JwtAuthenticationRequest authenticationRequest) {
         final Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()));
@@ -81,8 +81,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String jwt = tokenUtils.generateToken(username);
         int expiresIn = tokenUtils.getExpiredIn();
-
-        return new UserTokenState(jwt, expiresIn);
+        return returnLoggedInUser(authentication.getPrincipal(), new UserTokenState(jwt, expiresIn));
     }
 
     @Override
@@ -117,7 +116,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return null;
     }
 
-    public String getHashedPassword(String password){
+    private LoggedInUserDTO returnLoggedInUser(Object object, UserTokenState userTokenState) {
+        if (object instanceof ClinicalCentreAdministrator) {
+            ClinicalCentreAdministrator clinicalCentreAdministrator = (ClinicalCentreAdministrator) object;
+
+            return new LoggedInUserDTO(clinicalCentreAdministrator.getId(), clinicalCentreAdministrator.getEmail(),
+                    "CLINICAL_CENTRE_ADMIN", userTokenState);
+        } else if (object instanceof ClinicAdministrator) {
+            ClinicAdministrator clinicAdministrator = (ClinicAdministrator) object;
+            return new LoggedInUserDTO(clinicAdministrator.getId(), clinicAdministrator.getEmail(),
+                    "CLINIC_ADMIN", userTokenState);
+        } else if (object instanceof Patient) {
+            Patient patient = (Patient) object;
+            return new LoggedInUserDTO(patient.getId(), patient.getEmail(),
+                    "PATIENT", userTokenState);
+        } else if (object instanceof Doctor) {
+            Doctor doctor = (Doctor) object;
+            return new LoggedInUserDTO(doctor.getId(), doctor.getEmail(),
+                    "DOCTOR", userTokenState);
+        } else if (object instanceof Nurse) {
+            Nurse nurse = (Nurse) object;
+            return new LoggedInUserDTO(nurse.getId(), nurse.getEmail(),
+                    "NURSE", userTokenState);
+        }
+
+        return null;
+    }
+
+    public String getHashedPassword(String password) {
         return passwordEncoder.encode(password);
     }
 }
