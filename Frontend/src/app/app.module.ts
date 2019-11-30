@@ -1,3 +1,4 @@
+import { ErrorInterceptor } from './interseptors/ErrorInterceptor';
 import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
 import { TokenInterceptor } from './interseptors/TokenInterceptor';
 import { ErrorComponent } from './components/error/error.component';
@@ -36,6 +37,8 @@ import { AddNurseComponent } from './components/add-nurse/add-nurse.component';
 
 import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
 import { DoctorsExaminationComponent } from './components/doctors-examination/doctors-examination.component';
+import { NonAuthenticatedErrorPageComponent } from './components/non-authenticated-error-page/non-authenticated-error-page.component';
+import { NonAuthorizedErrorPageComponent } from './components/non-authorized-error-page/non-authorized-error-page.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +65,9 @@ import { DoctorsExaminationComponent } from './components/doctors-examination/do
     ListNursesComponent,
     AddNurseComponent,
     ListExaminationsRequestComponent,
-    DoctorsExaminationComponent
+    DoctorsExaminationComponent,
+    NonAuthenticatedErrorPageComponent,
+    NonAuthorizedErrorPageComponent
   ],
   imports: [
     BrowserModule,
@@ -98,11 +103,11 @@ import { DoctorsExaminationComponent } from './components/doctors-examination/do
     ListNursesComponent,
     AddNurseComponent,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  },],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

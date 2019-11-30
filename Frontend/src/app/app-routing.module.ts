@@ -1,3 +1,6 @@
+import { NonAuthenticatedErrorPageComponent } from './components/non-authenticated-error-page/non-authenticated-error-page.component';
+import { NonAuthorizedErrorPageComponent } from './components/non-authorized-error-page/non-authorized-error-page.component';
+
 import { DoctorsExaminationComponent } from './components/doctors-examination/doctors-examination.component';
 import { ListExaminationsRequestComponent } from './components/list-examinations-request/list-examinations-request.component';
 import { ListClinicAdministratorsComponent } from './components/list-clinic-administrators/list-clinic-administrators.component';
@@ -72,11 +75,19 @@ const routes: Routes = [
   },
   {
     path: 'clinical-centre-admin/examination/get-awaiting',
-    component: ListExaminationsRequestComponent,
+    component: ListExaminationsRequestComponent
   },
   {
     path: 'doctor/examinations',
     component: DoctorsExaminationComponent,
+  },
+  {
+    path: 'error/non-authenticated',
+    component: NonAuthenticatedErrorPageComponent,
+  },
+  {
+    path: 'error/non-authorized',
+    component: NonAuthorizedErrorPageComponent
   },
   {
     path: '**',
