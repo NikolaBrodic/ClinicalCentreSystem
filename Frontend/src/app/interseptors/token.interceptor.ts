@@ -1,6 +1,6 @@
-import { LoggedInUser } from './../models/loggedInUser';
-import { UserTokenState } from './../models/userTokenState';
-import { UserService } from './../services/user.service';
+import { LoggedInUser } from '../models/loggedInUser';
+import { UserTokenState } from '../models/userTokenState';
+import { UserService } from '../services/user.service';
 import { Injectable } from '@angular/core';
 import {
     HttpRequest,

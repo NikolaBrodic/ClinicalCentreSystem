@@ -1,6 +1,11 @@
-import { ErrorInterceptor } from './interseptors/ErrorInterceptor';
+import { DoctorGuard } from './guards/doctor.guard';
+import { NurseGuard } from './guards/nurse.guard';
+import { PatientGuard } from './guards/patient.guard';
+import { ClinicAdminGuard } from './guards/clinic.admin.guard';
+import { ClinicalCentreAdminGuard } from './guards/clinical.centre.admin.guard';
+import { ErrorInterceptor } from './interseptors/error.interceptor';
 import { ListOfExaminationTypesComponent } from './components/list-of-examination-types/list-of-examination-types.component';
-import { TokenInterceptor } from './interseptors/TokenInterceptor';
+import { TokenInterceptor } from './interseptors/token.interceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
@@ -106,6 +111,11 @@ import { NonAuthorizedErrorPageComponent } from './components/non-authorized-err
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    ClinicalCentreAdminGuard,
+    ClinicAdminGuard,
+    PatientGuard,
+    DoctorGuard,
+    NurseGuard
 
   ],
   bootstrap: [AppComponent]

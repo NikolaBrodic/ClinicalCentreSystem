@@ -19,12 +19,12 @@ export class UserService {
   url = environment.baseUrl + environment.user;
   private access_token = null;
   private req: UserTokenState
-  public currentUserSubject: BehaviorSubject<LoggedInUser>;
-  public currentUser: Observable<LoggedInUser>;
+  public loggedInUserSubject: BehaviorSubject<LoggedInUser>;
+  public loggedInUser: Observable<LoggedInUser>;
 
   constructor(private httpClient: HttpClient, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('LoggedInUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.loggedInUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('LoggedInUser')));
+    this.loggedInUser = this.loggedInUserSubject.asObservable();
   }
 
   changePassword(user: User) {
@@ -32,14 +32,14 @@ export class UserService {
   }
 
   getLoggedInUser(): LoggedInUser {
-    return this.currentUserSubject.value;
+    return this.loggedInUserSubject.value;
   }
 
   login(user: UserLoginRequest) {
     return this.httpClient.post(this.url + "/login", user).pipe(map((res: LoggedInUser) => {
       this.access_token = res.userTokenState.accessToken;
       localStorage.setItem('LoggedInUser', JSON.stringify(res));
-      this.currentUserSubject.next(res);
+      this.loggedInUserSubject.next(res);
     }));
   }
 
@@ -63,31 +63,31 @@ export class UserService {
 
   isClinicalCentreAdmin() {
     if (this.isLoggedIn()) {
-      return equal(this.currentUserSubject.value.role, "CLINICAL_CENTRE_ADMIN");
+      return this.loggedInUserSubject.value.role === "CLINICAL_CENTRE_ADMIN";
     }
   }
 
   isClinicAdmin() {
     if (this.isLoggedIn()) {
-      return equal(this.currentUserSubject.value.role, "CLINIC_ADMIN");
+      return this.loggedInUserSubject.value.role === "CLINIC_ADMIN";
     }
   }
 
   isPatient() {
     if (this.isLoggedIn()) {
-      return equal(this.currentUserSubject.value.role, "PATIENT");
+      return this.loggedInUserSubject.value.role === "PATIENT";
     }
   }
 
   isDoctor() {
     if (this.isLoggedIn()) {
-      return equal(this.currentUserSubject.value.role, "DOCTOR");
+      return this.loggedInUserSubject.value.role === "DOCTOR";
     }
   }
 
   isNurse() {
     if (this.isLoggedIn()) {
-      return equal(this.currentUserSubject.value.role, "NURSE");
+      return this.loggedInUserSubject.value.role === "NURSE";
     }
   }
 }
