@@ -31,36 +31,21 @@
             </div>
         </div>
     </div>
-    <!-- <br>
+    <br>
     <div class="card text-center w-60">
         <h4 class="card-header">History of examinations and operations</h4>
         <div class="card-body">
             <div class="row justify-content-center scrollit">
                 <table mat-table [dataSource]="examinationsDataSource" class="mat-elevation-z8 table" matSort>
 
-                    <ng-container matColumnDef="clinic_rating">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Clinic rating </th>
-                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.clinic_rating}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="discount">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Discount </th>
-                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.discount}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="doctor_rating">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Doctor rating </th>
-                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.doctor_rating}} </td>
-                    </ng-container>
-
                     <ng-container matColumnDef="kind">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Kind </th>
                         <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.kind}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Status </th>
-                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.status}} </td>
+                    <ng-container matColumnDef="interval">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Interval </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table"> {{element.interval}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
@@ -90,5 +75,5 @@
                 
             </div>
         </div>
-    </div> -->
+    </div>
 </div>

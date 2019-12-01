@@ -18,7 +18,8 @@ export class PatientProfileComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'address'];
 
   examinationsDataSource: MatTableDataSource<Examination>;
-  displayedColumnsExamination: string[] = ['clinic_rating', 'discount', 'doctor_rating', 'kind', 'status']
+  // displayedColumnsExamination: string[] = ['kind', 'interval', 'status', 'examinationType', 'doctors', 'room', 'discount']
+  displayedColumnsExamination: string[] = ['kind', 'interval'];
 
   numberOfItems: number;
   itemsPerPage = environment.itemsPerPage;
@@ -33,7 +34,7 @@ export class PatientProfileComponent implements OnInit {
   
   ngOnInit() {
     this.getClinics(0, this.itemsPerPage, null);
-    // this.getHistoryOfExaminations(0, this.itemsPerPage, null);
+    this.getHistoryOfExaminations(0, this.itemsPerPage, null);
   }
 
   getClinics(pageIndex, pageSize, sort) {
@@ -41,29 +42,21 @@ export class PatientProfileComponent implements OnInit {
       (data: Clinic[]) => {
         this.clinicsDataSource = new MatTableDataSource(data);
         this.clinicsDataSource.sort = this.sort;
+      },
+      error => {
+        console.log(error);
       }
-      // data => {
-      //   console.log(data);
-      // },
-      // error => {
-      //   console.log(error);
-      // }
     );
-    // this.nurseService.getAllNursesInClinic(pageIndex, pageSize, sort).subscribe(
-    //   (data: NursesWithNumberOfItems) => {
-    //     this.numberOfItems = data.numberOfItems;
-    //     this.nursesDataSource = new MatTableDataSource(data.nurses);
-    //     this.nursesDataSource.sort = this.sort;
-    //   });
   }
 
   getHistoryOfExaminations(pageIndex, pageSize, sort) {
     this.examinationService.getAllExaminationsForPatient().subscribe(
-      data => {
+      (data: Examination[]) => {
+        this.examinationsDataSource = new MatTableDataSource(data);
+        this.examinationsDataSource.sort = this.sort;
         console.log(data);
       },
       error => {
-        console.log(error);
       }
     )
   }

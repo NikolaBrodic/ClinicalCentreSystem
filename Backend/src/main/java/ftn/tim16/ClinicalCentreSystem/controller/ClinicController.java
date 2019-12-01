@@ -60,9 +60,9 @@ public class ClinicController {
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/patient/examinations-history/{roomId}")
-    public ResponseEntity<List<Examination>> getExaminationHistory(@PathVariable long roomId) {
-        List<Examination> allExaminations = examinationService.getExaminations(roomId);
+    @GetMapping(value = "/patient/examinations-history")
+    public ResponseEntity<List<Examination>> getExaminationHistory() {
+        List<Examination> allExaminations = examinationService.findAll();
         return new ResponseEntity<>(allExaminations, HttpStatus.OK);
     }
 

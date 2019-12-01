@@ -15,6 +15,7 @@ import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 })
 export class ExaminationService implements OnInit {
   url = environment.baseUrl + environment.patient;
+  urlClinic = environment.baseUrl + environment.clinic;
 
   examinations: BehaviorSubject<Examination[]> = new BehaviorSubject<Examination[]>([]);
   updateSuccessEmitter = new Subject<Examination>();
@@ -27,7 +28,7 @@ export class ExaminationService implements OnInit {
   }
 
   public getAllExaminationsForPatient(): Observable<Examination[]> {
-    this.httpClient.get(this.url + "/examinations-history/1").subscribe((data: Examination[]) => {
+    this.httpClient.get(this.urlClinic + "/patient/examinations-history").subscribe((data: Examination[]) => {
       this.examinations.next(data);
     },
     (error: HttpErrorResponse) => {

@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,8 @@ public class ExaminationServiceImpl implements ExaminationService{
     @Autowired
     private ExaminationRepository examinationRepository;
 
-
     @Override
-    public List<Examination> getExaminations(Long idRoom) {
-        return examinationRepository.findByRoomId(idRoom);
+    public List<Examination> findAll() {
+        return examinationRepository.findAll();
     }
 }
