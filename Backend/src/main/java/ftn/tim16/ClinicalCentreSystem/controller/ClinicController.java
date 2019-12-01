@@ -65,4 +65,5 @@ public class ClinicController {
         List<Examination> allExaminations = examinationService.getExaminations(roomId);
         return new ResponseEntity<>(allExaminations, HttpStatus.OK);
     }
+
 }

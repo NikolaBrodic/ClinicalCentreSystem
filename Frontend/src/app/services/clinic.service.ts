@@ -33,7 +33,7 @@ export class ClinicService {
 
   public getAllPatientClinics(): Observable<Clinic[]> {
     this.httpClient.get(this.url + "/patient/all").subscribe((data: Clinic[]) => {
-      this.clinics.next(data)
+      this.clinics.next(data);
     },
     (error: HttpErrorResponse) => {
 

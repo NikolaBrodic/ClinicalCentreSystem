@@ -15,7 +15,7 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 export class PatientProfileComponent implements OnInit {
 
   clinicsDataSource: MatTableDataSource<Clinic>;
-  displayedColumns: string[] = ['name', 'address', 'description'];
+  displayedColumns: string[] = ['name', 'description', 'address'];
 
   examinationsDataSource: MatTableDataSource<Examination>;
   displayedColumnsExamination: string[] = ['clinic_rating', 'discount', 'doctor_rating', 'kind', 'status']
@@ -30,21 +30,25 @@ export class PatientProfileComponent implements OnInit {
     private clinicService: ClinicService,
     private examinationService: ExaminationService
   ) { }
-
+  
   ngOnInit() {
     this.getClinics(0, this.itemsPerPage, null);
-    this.getHistoryOfExaminations(0, this.itemsPerPage, null);
+    // this.getHistoryOfExaminations(0, this.itemsPerPage, null);
   }
 
   getClinics(pageIndex, pageSize, sort) {
     this.clinicService.getAllPatientClinics().subscribe(
-      data => {
-        console.log(data);
-      },
-      error => {
-        console.log(error);
+      (data: Clinic[]) => {
+        this.clinicsDataSource = new MatTableDataSource(data);
+        this.clinicsDataSource.sort = this.sort;
       }
-    )
+      // data => {
+      //   console.log(data);
+      // },
+      // error => {
+      //   console.log(error);
+      // }
+    );
     // this.nurseService.getAllNursesInClinic(pageIndex, pageSize, sort).subscribe(
     //   (data: NursesWithNumberOfItems) => {
     //     this.numberOfItems = data.numberOfItems;
