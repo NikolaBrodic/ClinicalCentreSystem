@@ -23,7 +23,8 @@ export class ListOfPatientsWithSearchComponent implements OnInit {
   searchLastName: string = "";
   searchHealthInsuranceID: string = "";
 
-  constructor(private patientService: PatientService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
+  constructor(private patientService: PatientService, private route: ActivatedRoute,
+    private router: Router, private toastr: ToastrService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -42,8 +43,8 @@ export class ListOfPatientsWithSearchComponent implements OnInit {
     this.getPatients();
   }
 
-  viewPatientProfile() {
-
+  viewPatientProfile(patient: PatientWithId) {
+    this.router.navigate(['/patient/profile/' + patient.id]);
   }
 
   getPatients() {

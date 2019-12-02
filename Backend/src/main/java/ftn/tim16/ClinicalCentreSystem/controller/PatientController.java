@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
@@ -113,4 +114,13 @@ public class PatientController {
         }
     }
 
+    @GetMapping(value = "/forMedicalStaff/{id}")
+    @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
+    public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable long id) {
+        PatientWithIdDTO patientWithIdDTO = patientService.getPatientForMedicalStaff(id);
+        if (patientWithIdDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(patientWithIdDTO, HttpStatus.OK);
+    }
 }

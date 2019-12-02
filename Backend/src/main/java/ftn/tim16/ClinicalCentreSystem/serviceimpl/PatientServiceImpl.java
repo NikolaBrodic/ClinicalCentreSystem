@@ -125,6 +125,11 @@ public class PatientServiceImpl implements PatientService {
         return null;
     }
 
+    @Override
+    public PatientWithIdDTO getPatientForMedicalStaff(Long id) {
+        return new PatientWithIdDTO(patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED));
+    }
+
     private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {
         if (patients == null || patients.isEmpty()) {
             return new ArrayList<>();
