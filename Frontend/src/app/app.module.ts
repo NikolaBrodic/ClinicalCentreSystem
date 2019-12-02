@@ -45,6 +45,7 @@ import { DoctorsExaminationComponent } from './components/doctors-examination/do
 import { NonAuthenticatedErrorPageComponent } from './components/non-authenticated-error-page/non-authenticated-error-page.component';
 import { NonAuthorizedErrorPageComponent } from './components/non-authorized-error-page/non-authorized-error-page.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { HeaderComponent } from './components/header/header.component';
     DoctorsExaminationComponent,
     NonAuthenticatedErrorPageComponent,
     NonAuthorizedErrorPageComponent,
-    HeaderComponent
+    HeaderComponent,
+    ListOfPatientsWithSearchComponent
   ],
   imports: [
     BrowserModule,

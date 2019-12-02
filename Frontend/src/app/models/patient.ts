@@ -2,7 +2,6 @@ import { PatientStatus } from './patientStatus';
 export class Patient {
     constructor(
         public email: string,
-        public password: string,
         public firstName: string,
         public lastName: string,
         public phoneNumber: string,
@@ -10,8 +9,9 @@ export class Patient {
         public city: string,
         public country: string,
         public healthInsuranceID: string,
-        public status: PatientStatus,
-        public id?: number
+        public status?: PatientStatus,
+        public id?: number,
+        public password?: string
     ) {
     }
 

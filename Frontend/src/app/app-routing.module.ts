@@ -1,3 +1,5 @@
+import { NurseGuard } from './guards/nurse.guard';
+import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
 import { DoctorGuard } from './guards/doctor.guard';
 import { ClinicAdminGuard } from './guards/clinic.admin.guard';
 import { PatientGuard } from './guards/patient.guard';
@@ -103,10 +105,18 @@ const routes: Routes = [
     component: DoctorsExaminationComponent,
     canActivate: [DoctorGuard],
   },
-
-  //********************* DOCTOR ***************************
+  {
+    path: 'doctor/patients',
+    component: ListOfPatientsWithSearchComponent,
+    canActivate: [DoctorGuard],
+  },
 
   //********************* NURSE ***************************
+  {
+    path: 'nurse/patients',
+    component: ListOfPatientsWithSearchComponent,
+    canActivate: [NurseGuard],
+  },
 
   //******************* ERROR PAGES ************************
   {

@@ -38,11 +38,11 @@ export class ExaminationTypeService {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
+
     if (sort) {
-      console.log(sort)
+
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
 
     }
