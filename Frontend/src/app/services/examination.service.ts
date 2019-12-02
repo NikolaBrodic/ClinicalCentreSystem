@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 export class ExaminationService {
   url = environment.baseUrl + environment.examination;
   selectedExamination: Examination;
+
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public getAwaitingExaminations(pageIndex, pageSize, sort: MatSort) {
@@ -22,10 +23,8 @@ export class ExaminationService {
     params = params.append('size', pageSize);
     if (sort) {
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
-
     }
 
     return this.httpClient.get(this.url + "/get-awaiting", {
@@ -40,8 +39,7 @@ export class ExaminationService {
     params = params.append('size', pageSize);
     if (sort) {
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
 
     }

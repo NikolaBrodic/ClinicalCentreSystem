@@ -8,22 +8,22 @@ import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import ftn.tim16.ClinicalCentreSystem.repository.NurseRepository;
-
 import ftn.tim16.ClinicalCentreSystem.service.*;
-import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.time.LocalDateTime;
 import java.util.Random;
 
 @Service
@@ -134,38 +134,52 @@ public class NurseServiceImpl implements NurseService {
         return nursesDTO;
     }
 
-    public Nurse getRandomNurse(Long clinic_id,LocalDateTime startDateTime,LocalDateTime endDateTime) {
-        List<Nurse> nurses = getAvailable(clinic_id,startDateTime,endDateTime);
-        if(nurses.isEmpty()){
+    public Nurse getRandomNurse(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<Nurse> nurses = getAvailable(clinic_id, startDateTime, endDateTime);
+        if (nurses.isEmpty()) {
             return null;
         }
         return nurses.get(new Random().nextInt(nurses.size()));
     }
 
-    private List<Nurse> getAvailable(Long clinic_id, LocalDateTime startDateTime,LocalDateTime endDateTime){
+    @Override
+    public Nurse getLoginNurse() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            Nurse nurse = nurseRepository.findByEmail(currentUser.getName());
+            if (nurse != null) {
+                return nurse;
+            }
+        } catch (UsernameNotFoundException ex) {
+
+        }
+        return null;
+    }
+
+    private List<Nurse> getAvailable(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         List<Nurse> nurses = nurseRepository.findByClinicId(clinic_id);
         List<Nurse> availableNurses = new ArrayList<>();
-        for (Nurse nurse: nurses) {
-            if(isAvailable(nurse.getId(),startDateTime,endDateTime)){
+        for (Nurse nurse : nurses) {
+            if (isAvailable(nurse.getId(), startDateTime, endDateTime)) {
                 availableNurses.add(nurse);
             }
         }
         return availableNurses;
     }
 
-    private boolean isAvailable(Long nurseId, LocalDateTime startDateTime,LocalDateTime endDateTime){
+    private boolean isAvailable(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         Nurse nurse = nurseRepository.getById(nurseId);
-        if(!nurse.isAvailable(startDateTime.toLocalTime(),endDateTime.toLocalTime())){
+        if (!nurse.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
 
-        if(timeOffNurseService.isNurseOnVacation(nurseId,startDateTime,endDateTime)){
+        if (timeOffNurseService.isNurseOnVacation(nurseId, startDateTime, endDateTime)) {
             return false;
         }
         List<Examination> examinations = examinationService.getNursesExamination(nurseId);
-        if(!examinations.isEmpty()){
-            for(Examination examination : examinations){
-                if(!examination.getInterval().isAvailable(startDateTime,endDateTime)){
+        if (!examinations.isEmpty()) {
+            for (Examination examination : examinations) {
+                if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {
                     return false;
                 }
             }

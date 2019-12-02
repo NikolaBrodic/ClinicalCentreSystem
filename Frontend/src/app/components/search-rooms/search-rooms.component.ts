@@ -1,11 +1,9 @@
-import { DateTime } from 'luxon';
+import { MatPaginator } from '@angular/material/paginator';
 import { Examination } from './../../models/examination';
 import { ExaminationService } from './../../services/examination.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { Time, formatDate } from '@angular/common';
-import { RoomWithNumber } from './../../models/roomWithNumber';
-import { MatPaginator } from '@angular/material/paginator';
+import { formatDate } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { RoomService } from './../../services/room.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,6 +11,7 @@ import { Room } from './../../models/room';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RoomsWithNumberOffItmes } from 'src/app/models/roomsWithNumberOffItmes';
 
 @Component({
   selector: 'app-search-rooms',
@@ -93,7 +92,7 @@ export class SearchRoomsComponent implements OnInit {
     );
   }
 
-  seacrhRooms() {
+  searchRooms() {
     /*if (this.searchDate && (!this.searchTimeStart || !this.searchTimeEnd)) {
        this.toastr.error("You have to set start and end time", 'Search room');
        return;
@@ -113,7 +112,7 @@ export class SearchRoomsComponent implements OnInit {
       const formattedDate = formatDate(this.searchDate, format, locale);
       this.roomService.getRoomsForAdminPaging
         (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, formattedDate, this.searchTimeStart, this.searchTimeEnd).
-        subscribe((data: RoomWithNumber) => {
+        subscribe((data: RoomsWithNumberOffItmes) => {
           this.numberOfItem = data.numberOfItems;
           this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
           this.roomsDataSource.sort = this.sort;
@@ -121,7 +120,7 @@ export class SearchRoomsComponent implements OnInit {
     } else {
       this.roomService.getRoomsForAdminPaging
         (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, this.searchDate, this.searchTimeStart, this.searchTimeEnd).
-        subscribe((data: RoomWithNumber) => {
+        subscribe((data: RoomsWithNumberOffItmes) => {
           this.numberOfItem = data.numberOfItems;
           this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
           this.roomsDataSource.sort = this.sort;

@@ -43,8 +43,7 @@ export class RoomService {
     params = params.append('size', pageSize);
     if (sort) {
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
 
     }

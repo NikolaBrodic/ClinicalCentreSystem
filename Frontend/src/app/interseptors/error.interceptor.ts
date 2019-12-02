@@ -11,6 +11,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
+                localStorage.removeItem('LoggedInUser');
                 this.router.navigate(['/error/non-authenticated']);
             } else if (err.status === 403) {
                 this.router.navigate(['/error/non-authorized']);

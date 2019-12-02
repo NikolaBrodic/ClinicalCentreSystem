@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
@@ -53,7 +54,7 @@ public class RoomServiceImpl implements RoomService {
     DateTimeIntervalService dateTimeIntervalService;
 
     @Override
-    public Room create(RoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
+    public Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
         }

@@ -48,7 +48,7 @@ public class Patient implements UserDetails {
     private PatientStatus status;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "patient")
+    @OneToOne(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
     @JsonIgnore

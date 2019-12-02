@@ -1,3 +1,4 @@
+import { MedicalStaffGuard } from './guards/medical.staff.guard';
 import { DoctorGuard } from './guards/doctor.guard';
 import { NurseGuard } from './guards/nurse.guard';
 import { PatientGuard } from './guards/patient.guard';
@@ -45,6 +46,8 @@ import { DoctorsExaminationComponent } from './components/doctors-examination/do
 import { NonAuthenticatedErrorPageComponent } from './components/non-authenticated-error-page/non-authenticated-error-page.component';
 import { NonAuthorizedErrorPageComponent } from './components/non-authorized-error-page/non-authorized-error-page.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
+import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +77,9 @@ import { HeaderComponent } from './components/header/header.component';
     DoctorsExaminationComponent,
     NonAuthenticatedErrorPageComponent,
     NonAuthorizedErrorPageComponent,
-    HeaderComponent
+    HeaderComponent,
+    ListOfPatientsWithSearchComponent,
+    PatientProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -117,7 +122,8 @@ import { HeaderComponent } from './components/header/header.component';
     ClinicAdminGuard,
     PatientGuard,
     DoctorGuard,
-    NurseGuard
+    NurseGuard,
+    MedicalStaffGuard
 
   ],
   bootstrap: [AppComponent]

@@ -1,3 +1,7 @@
+import { MedicalStaffGuard } from './guards/medical.staff.guard';
+import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
+import { NurseGuard } from './guards/nurse.guard';
+import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
 import { DoctorGuard } from './guards/doctor.guard';
 import { ClinicAdminGuard } from './guards/clinic.admin.guard';
 import { PatientGuard } from './guards/patient.guard';
@@ -104,7 +108,17 @@ const routes: Routes = [
     canActivate: [DoctorGuard],
   },
 
-  //********************* DOCTOR ***************************
+  //****************** MEDICAL STAFF *********
+  {
+    path: 'patient/profile/:id',
+    component: PatientProfileComponent,
+    canActivate: [MedicalStaffGuard]
+  },
+  {
+    path: 'medicalStaff/patients',
+    component: ListOfPatientsWithSearchComponent,
+    canActivate: [MedicalStaffGuard],
+  },
 
   //********************* NURSE ***************************
 
