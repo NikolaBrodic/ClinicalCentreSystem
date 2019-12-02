@@ -1,10 +1,10 @@
-import { Patient } from './patient';
+import { PatientWithId } from './patientWithId';
 
 export class PatientsWithNumberOffItmes {
-    patientDTOList: Patient[];
+    patientWithIdDTOS: PatientWithId[];
     numberOfItems: number;
-    constructor(patientDTOList: Patient[], numberOfItems: number) {
-        this.patientDTOList = patientDTOList;
+    constructor(patientWithIdDTOS: PatientWithId[], numberOfItems: number) {
+        this.patientWithIdDTOS = patientWithIdDTOS;
         this.numberOfItems = numberOfItems;
     }
 }

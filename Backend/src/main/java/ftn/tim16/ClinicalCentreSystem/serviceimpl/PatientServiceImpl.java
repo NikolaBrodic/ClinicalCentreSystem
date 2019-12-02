@@ -1,6 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
@@ -8,6 +11,11 @@ import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -91,6 +99,41 @@ public class PatientServiceImpl implements PatientService {
         patientRepository.deleteById(id);
 
         return true;
+    }
+
+    @Override
+    public PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page) {
+
+        Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
+                clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
+        List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
+                clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
+        return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
+    }
+
+    @Override
+    public Patient getLoginPatient() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            Patient patient = patientRepository.findByEmail(currentUser.getName());
+            if (patient != null) {
+                return patient;
+            }
+        } catch (UsernameNotFoundException ex) {
+
+        }
+        return null;
+    }
+
+    private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {
+        if (patients == null || patients.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<PatientWithIdDTO> patientWithIdDTOS = new ArrayList<>();
+        for (Patient patient : patients) {
+            patientWithIdDTOS.add(new PatientWithIdDTO(patient));
+        }
+        return patientWithIdDTOS;
     }
 
     //TODO: Change to use some made mapper as dependency

@@ -1,3 +1,4 @@
+import { PatientWithId } from './../../models/patientWithId';
 import { PatientsWithNumberOffItmes } from './../../models/patientsWithNumberOffItmes';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,7 +16,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./list-of-patients-with-search.component.css']
 })
 export class ListOfPatientsWithSearchComponent implements OnInit {
-  patientsDataSource: MatTableDataSource<Patient>;
+  patientsDataSource: MatTableDataSource<PatientWithId>;
   displayedColumns: string[] = ['firstName', 'lastName', 'healthInsuranceId', 'link'];
   numberOfItem: number;
   searchFirstName: string = "";
@@ -50,7 +51,7 @@ export class ListOfPatientsWithSearchComponent implements OnInit {
       this.searchHealthInsuranceID).
       subscribe((data: PatientsWithNumberOffItmes) => {
         this.numberOfItem = data.numberOfItems;
-        this.patientsDataSource = new MatTableDataSource(data.patientDTOList);
+        this.patientsDataSource = new MatTableDataSource(data.patientWithIdDTOS);
         this.patientsDataSource.sort = this.sort;
       })
 

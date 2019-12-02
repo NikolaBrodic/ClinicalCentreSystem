@@ -87,11 +87,60 @@ insert into room (label, kind,status,clinic_id) values ('Room 10', 'EXAMINATION'
 insert into nurse_authority(user_id, authority_id) values (1,5);
 
 /*PATIENT*/
-  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid)
- values ('patient@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent', 'Mali', '065258155','Marsala tita','Novi Sad',
- 'Srbija','0625351236915');
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pac1', 'Mali', '065258255','Marsala tita','Novi Sad',
+ 'Srbija','0625351236915','APPROVED');
 insert into patient_authority(user_id, authority_id) values (1,3);
 
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient2@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Mile2', 'Mali', '065258355','Marsala tita','Novi Sad',
+ 'Srbija','0625352236915','APPROVED');
+insert into patient_authority(user_id, authority_id) values (2,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient3@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Jelena3', 'Mali', '065258455','Marsala tita','Novi Sad',
+ 'Srbija','0625342236915','APPROVED');
+insert into patient_authority(user_id, authority_id) values (3,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient4@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', '4', 'Mali', '065258655','Marsala tita','Novi Sad',
+ 'Srbija','0625352237915','APPROVED');
+insert into patient_authority(user_id, authority_id) values (4,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient5@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent5', 'Mali', '067258755','Marsala tita','Novi Sad',
+ 'Srbija','0625352737919','APPROVED');
+insert into patient_authority(user_id, authority_id) values (5,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient6@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent6', 'Mali', '065258756','Marsala tita','Novi Sad',
+ 'Srbija','0625352737916','APPROVED');
+insert into patient_authority(user_id, authority_id) values (6,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient7@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent7', 'Milic', '065258757','Marsala tita','Novi Sad',
+ 'Srbija','0625352737918','APPROVED');
+insert into patient_authority(user_id, authority_id) values (7,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient8@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent8', 'Simic', '075258755','Marsala tita','Novi Sad',
+ 'Srbija','0625352748915','APPROVED');
+insert into patient_authority(user_id, authority_id) values (8,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient9@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent9', 'Brodic', '065256955','Marsala tita','Novi Sad',
+ 'Srbija','0625352737985','APPROVED');
+insert into patient_authority(user_id, authority_id) values (9,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient10@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent10', 'Jovic', '065255555','Marsala tita','Novi Sad',
+ 'Srbija','0625352737965','APPROVED');
+insert into patient_authority(user_id, authority_id) values (10,3);
+
+ insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('patient11@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Pacijent11', 'Popovic', '069058755','Marsala tita','Novi Sad',
+ 'Srbija','0625352737915','APPROVED');
+insert into patient_authority(user_id, authority_id) values (11,3);
 
 /*DOCTOR*/
 /* Password: Admin.04*/
@@ -188,3 +237,39 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',14,'AWAITING',1,1,1,1);
 
+/*Patient with id 3 */
+  insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 08:30','01.12.2019 09:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',15,'APPROVED',1,1,1,3);
+
+/*Patient with id 5 */
+insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 08:30','01.12.2019 09:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',16,'APPROVED',1,1,1,5);
+
+/*Patient with id 6 */
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',16,'APPROVED',1,1,1,6);
+
+/*Patient with id 7 */
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',15,'PREDEF_BOOKED',1,1,1,7);
+
+/*Patient with id 8 */
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',16,'PREDEF_BOOKED',1,1,1,8);
+
+/*Patient with id 9 */
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',16,'PREDEF_BOOKED',1,1,1,9);
+
+
+/*Patient with id 2 */
+ insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 08:30','01.12.2019 09:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',17,'AWAITING',1,1,1,2);
+
+/*Patient with id 4*/
+  insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 08:30','01.12.2019 09:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
+ values ('EXAMINATION',18,'APPROVED',1,2,4,4);

@@ -1,9 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,4 +16,9 @@ public interface PatientService {
     Patient approveRequestToRegister(Long id);
 
     boolean rejectRequestToRegister(Long id, String reason);
+
+    PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page);
+
+    Patient getLoginPatient();
+
 }
