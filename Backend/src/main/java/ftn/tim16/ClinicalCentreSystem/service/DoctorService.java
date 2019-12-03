@@ -20,4 +20,5 @@ public interface DoctorService  {
     void removeExamination(Examination examination,String email);
 
     Doctor getLoginDoctor();
+    List<DoctorDTO> findAllDoctorsBy(String firstName, String lastName);
 }

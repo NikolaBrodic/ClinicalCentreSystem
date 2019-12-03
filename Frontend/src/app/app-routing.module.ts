@@ -120,6 +120,13 @@ const routes: Routes = [
     canActivate: [MedicalStaffGuard],
   },
 
+  //********************* PATIENT ***************************
+  {
+    path: 'patient/profile',
+    component: PatientProfileComponent,
+    canActivate: [PatientGuard]
+  },
+
   //********************* NURSE ***************************
 
   //******************* ERROR PAGES ************************

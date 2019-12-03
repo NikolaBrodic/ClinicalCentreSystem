@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/patient")
 public class PatientController {
 
@@ -122,5 +124,15 @@ public class PatientController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(patientWithIdDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/profile")
+    @PreAuthorize("hasAnyRole('PATIENT')")
+    public ResponseEntity<List<DoctorDTO>> getAllDoctorsBy(@RequestParam(value = "firstName") String firstName,
+                                                           @RequestParam(value = "lastName") String lastName,
+                                                           @RequestParam(value = "averageRating") int averageRating) {
+
+        List<DoctorDTO> listOfDoctors = doctorService.findAllDoctorsBy(firstName, lastName);
+        return new ResponseEntity<>(listOfDoctors, HttpStatus.OK);
     }
 }

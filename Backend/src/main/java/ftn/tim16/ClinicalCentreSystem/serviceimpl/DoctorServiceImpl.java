@@ -118,6 +118,12 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<DoctorDTO> findAllDoctorsBy(String firstName, String lastName) {
+        List<Doctor> listOfDoctors = doctorRepository.findByFirstNameAndLastName(firstName, lastName);
+        return convertToDTO(listOfDoctors);
+    }
+
+    @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
         if (userDetails != null) {
