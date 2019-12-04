@@ -289,7 +289,7 @@ insert into doctor (email, password, first_name, last_name, phone_number,work_ho
 insert into doctor_authority(user_id, authority_id) values (9,4);
 
 insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
- values ('SestraKalendar@maildrop.cc', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Ivana', 'Ivanic', '045256159','06:00','19:00',1,'ACTIVE');
+ values ('SestraKalendar@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Ivana', 'Ivanic', '045256159','06:00','19:00',1,'ACTIVE');
 insert into nurse_authority(user_id, authority_id) values (9,5);
 
  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)

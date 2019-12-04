@@ -5,9 +5,11 @@ import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
+import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
+import ftn.tim16.ClinicalCentreSystem.service.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,9 @@ public class ExaminationController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private NurseService nurseService;
 
     @GetMapping(value = "/get-awaiting")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -86,6 +91,22 @@ public class ExaminationController {
 
         try {
             List<ExaminationDTO> examinationDTOs = convertToDTO(examinationService.getDoctorExaminations(doctor.getId()));
+            return new ResponseEntity<>(examinationDTOs, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/nurse-examinations")
+    @PreAuthorize("hasRole('NURSE')")
+    public ResponseEntity<List<ExaminationDTO>> getNurseExaminations() {
+        Nurse nurse = nurseService.getLoginNurse();
+        if (nurse == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            List<ExaminationDTO> examinationDTOs = convertToDTO(examinationService.getNurseExaminations(nurse.getId()));
             return new ResponseEntity<>(examinationDTOs, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
