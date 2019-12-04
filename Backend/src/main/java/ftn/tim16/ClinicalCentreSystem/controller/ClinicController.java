@@ -20,7 +20,7 @@ public class ClinicController {
     ClinicService clinicService;
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN','PATIENT')")
     public ResponseEntity<ClinicDTO> getClinic(@PathVariable Long id) {
         ClinicDTO clinicDTO = clinicService.findById(id);
         if (clinicDTO == null) {

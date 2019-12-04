@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class ClinicService {
   url = environment.baseUrl + environment.clinic;
 
+  clinic: BehaviorSubject<Clinic> = new BehaviorSubject<Clinic>(null);
   clinics: BehaviorSubject<Clinic[]> = new BehaviorSubject<Clinic[]>([]);
   addSuccessEmitter = new Subject<Clinic>();
 
@@ -24,9 +25,21 @@ export class ClinicService {
     this.httpClient.get(this.url + "/all").subscribe((data: Clinic[]) => {
       this.clinics.next(data)
     },
-      (error: HttpErrorResponse) => {
+    (error: HttpErrorResponse) => {
 
-      });
+    });
     return this.clinics.asObservable();
+  }
+
+  public getClinicById(clinicId): Observable<Clinic> {
+    this.httpClient.get(this.url + "/" + clinicId).subscribe(
+      (data: Clinic) => {
+        this.clinic.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+    return this.clinic.asObservable();
   }
 }
