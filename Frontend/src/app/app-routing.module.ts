@@ -26,6 +26,7 @@ import { PendingApprovalPatientComponent } from './components/pending-approval-p
 import { ErrorComponent } from './components/error/error.component';
 import { ListClinicsComponent } from './components/list-clinics/list-clinics.component';
 import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
+import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 
 
 const routes: Routes = [
@@ -115,8 +116,13 @@ const routes: Routes = [
     canActivate: [MedicalStaffGuard]
   },
   {
-    path: 'medicalStaff/patients',
+    path: 'medical-staff/patients',
     component: ListOfPatientsWithSearchComponent,
+    canActivate: [MedicalStaffGuard],
+  },
+  {
+    path: 'medical-staff/work-calendar',
+    component: WorkCalendarComponent,
     canActivate: [MedicalStaffGuard],
   },
 

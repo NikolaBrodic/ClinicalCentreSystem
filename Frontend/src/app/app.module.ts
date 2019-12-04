@@ -48,6 +48,8 @@ import { NonAuthorizedErrorPageComponent } from './components/non-authorized-err
 import { HeaderComponent } from './components/header/header.component';
 import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
+import { AxiomSchedulerModule } from 'axiom-scheduler';
+import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import { PatientProfileComponent } from './components/patient-profile/patient-pr
     NonAuthorizedErrorPageComponent,
     HeaderComponent,
     ListOfPatientsWithSearchComponent,
-    PatientProfileComponent
+    PatientProfileComponent,
+    WorkCalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +100,7 @@ import { PatientProfileComponent } from './components/patient-profile/patient-pr
     NgxMaterialTimepickerModule,
     DemoMaterialModule,
     MatNativeDateModule,
+    AxiomSchedulerModule,
   ],
   entryComponents: [
     ListOfExaminationTypesComponent,

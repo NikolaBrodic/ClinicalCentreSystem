@@ -1,0 +1,9 @@
+<ng-template #eventTemplate let-item="item">
+    <div class="event-template">
+        {{ item.data.title }} at <b> {{ item.from | date:'HH:mm' }} - {{ item.to | date:'HH:mm' }} </b>
+    </div>
+</ng-template>
+<ax-scheduler [axEventTemplate]="eventTemplate" [axSchedulerView]="'week'" [axViews]="calendarEventModel.viewsToChoose"
+    [axEventToolbar]="calendarEventModel.enableToolbar" [axAnimation]="calendarEventModel.animationType"
+    [axTheme]="calendarEventModel.theme" [axEvents]="events" [axShowLocale]="calendarEventModel.enableLocaleChange">
+</ax-scheduler>
