@@ -365,3 +365,22 @@ insert into time_off_doctor (status, type, doctor_id, interval_id)
 insert into date_time_interval (start_date_time, end_date_time) values ('10.12.2019 09:00','10.12.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('REJECTED', 'TIME_OFF', 7, 29);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('14.12.2019 09:30','16.12.2019 13:30');
+insert into time_off_nurse (status, type, nurse_id, interval_id)
+ values ('APPROVED', 'HOLIDAY', 9, 30);
+
+/* This shouldn't be displayed in calendar */
+insert into date_time_interval (start_date_time, end_date_time) values ('20.12.2019 09:00','25.12.2019 17:00');
+insert into time_off_nurse (status, type, nurse_id, interval_id)
+ values ('REJECTED', 'HOLIDAY', 9, 31);
+
+ /* Nurse should be able to request holiday/time off if the examination on that time was canceled */
+insert into date_time_interval (start_date_time, end_date_time) values ('09.12.2019 12:00','09.12.2019 16:00');
+insert into time_off_nurse (status, type, nurse_id, interval_id)
+ values ('APPROVED', 'TIME_OFF', 9, 32);
+
+/* This shouldn't be displayed in calendar */
+insert into date_time_interval (start_date_time, end_date_time) values ('10.12.2019 09:00','10.12.2019 11:00');
+insert into time_off_nurse (status, type, nurse_id, interval_id)
+ values ('REJECTED', 'TIME_OFF', 7, 33);
