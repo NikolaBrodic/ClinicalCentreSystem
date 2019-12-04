@@ -1,4 +1,4 @@
-export class CalendarEventModel {
+export class AxiomSchedulerParams {
     enableToolbar = true;
     theme = 'light';
     enableLocaleChange = false;

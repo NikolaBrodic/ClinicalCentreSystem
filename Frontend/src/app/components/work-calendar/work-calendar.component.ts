@@ -1,6 +1,7 @@
-import { CalendarEventModel } from './../../models/calendarEventModel';
+
 import { Component, OnInit } from '@angular/core';
 import { SAMPLE_EVENTS } from 'src/app/sample-events';
+import { AxiomSchedulerParams } from 'src/app/models/axiomSchedulerParams';
 
 @Component({
   selector: 'app-work-calendar',
@@ -9,13 +10,12 @@ import { SAMPLE_EVENTS } from 'src/app/sample-events';
 })
 export class WorkCalendarComponent implements OnInit {
 
-  calendarEventModel = new CalendarEventModel();
+  axiomSchedulerParams = new AxiomSchedulerParams();
   events = [...SAMPLE_EVENTS];
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.calendarEventModel);
   }
 
   // Use to refresh events in calendar if needed
