@@ -176,7 +176,7 @@ public class NurseServiceImpl implements NurseService {
         if (timeOffNurseService.isNurseOnVacation(nurseId, startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getNursesExamination(nurseId);
+        List<Examination> examinations = examinationService.getNurseExaminations(nurseId);
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {
                 if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {
