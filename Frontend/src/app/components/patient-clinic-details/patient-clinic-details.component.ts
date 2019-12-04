@@ -1,3 +1,4 @@
+import { ExaminationType } from 'src/app/models/examinationType';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { Clinic } from 'src/app/models/clinic';
@@ -13,6 +14,10 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
 
   public clinic: Clinic;
   public clinicExists: boolean;
+  public examinationTypes: ExaminationType[] = [
+    new ExaminationType('Operation', 1000),
+    new ExaminationType('Examination', 500),
+  ];
 
   constructor(
     private router: Router,
