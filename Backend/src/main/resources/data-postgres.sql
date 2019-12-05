@@ -71,8 +71,8 @@ values ('Nurse.07@maildrop.cc', '$2a$10$bKaCAUMqyrYHqL9y2CDXE.L1nFdlZdkj/ew2Zjzg
 insert into nurse_authority(user_id, authority_id) values (7,5);
 
 insert into room (label, kind,status,clinic_id) values ('Room 1 soba', 'EXAMINATION','EXISTING' ,1);
-/*insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 3', 'EXAMINATION','DELETED' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);
+/*insert into room (label, kind,status,clinic_id) values ('Room 3', 'EXAMINATION','DELETED' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 4', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 5', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 6', 'EXAMINATION','EXISTING' ,1);
@@ -332,13 +332,13 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examining (examination_id,doctor_id) values (26,7);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('08.12.2019 17:00','08.12.2019 17:30');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id)
- values ('EXAMINATION',23,'PREDEF_BOOKED',1,1,1,13,9);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
+ values ('EXAMINATION',23,'PREDEF_BOOKED',1,1,1,13,9,2);
 insert into examining (examination_id,doctor_id) values (27,7);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('08.12.2019 09:00','08.12.2019 10:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id)
- values ('EXAMINATION',24,'PREDEF_AVAILABLE',1,1,1,14,9);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,nurse_id)
+ values ('EXAMINATION',24,'PREDEF_AVAILABLE',1,1,1,9);
 insert into examining (examination_id,doctor_id) values (28,7);
 
 /* This shouldn't be displayed in calendar */
