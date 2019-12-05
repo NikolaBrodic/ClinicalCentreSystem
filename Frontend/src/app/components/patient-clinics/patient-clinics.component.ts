@@ -20,6 +20,8 @@ export class PatientClinicsComponent implements OnInit {
   public displayedColumns: string[] = ['name', 'clinicRating', 'address', 'id'];
   public searchString: string;
   public filterInput: HTMLInputElement;
+  public clinic: Clinic;
+  public examinationType: ExaminationType;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -31,7 +33,7 @@ export class PatientClinicsComponent implements OnInit {
   ngOnInit() {
     this.getAllClinicsForPatient();
   }
-
+  
   getAllClinicsForPatient() {
     this.filterInput = document.getElementById("filterInput") as HTMLInputElement;
     this.clinicService.getAllClinics().subscribe(
@@ -44,9 +46,13 @@ export class PatientClinicsComponent implements OnInit {
       }
     );
   }
-
+  
   applyFilter(filterValue: string) {
     this.patientClinicsDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  searchPatientClinics() {
+
   }
 
 }

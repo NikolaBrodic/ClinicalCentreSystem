@@ -1,3 +1,4 @@
+import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
 import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
@@ -131,6 +132,11 @@ const routes: Routes = [
   {
     path: 'patient/clinics',
     component: PatientClinicsComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/history-examinations-operations',
+    component: PatientHistoryExaminationsOperationsComponent,
     canActivate: [PatientGuard]
   },
 

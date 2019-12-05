@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
+import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     public List<Clinic> findAll() {
         return clinicRepository.findAll();
+    }
+
+    @Override
+    public List<Clinic> findByExaminationTypesContainsIgnoringCase(ExaminationType examinationType) {
+        return clinicRepository.findByExaminationTypesContainsIgnoringCase(examinationType);
     }
 }

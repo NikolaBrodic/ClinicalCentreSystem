@@ -1,16 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.*;
+import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
-import ftn.tim16.ClinicalCentreSystem.model.Clinic;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
-import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.NurseService;
-import ftn.tim16.ClinicalCentreSystem.service.PatientService;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,6 +37,9 @@ public class PatientController {
 
     @Autowired
     private ClinicService clinicService;
+
+    @Autowired
+    private ExaminationService examinationService;
 
     @GetMapping(value = "/{id}")
     public Patient getPatient(@PathVariable long id) {
@@ -136,6 +135,32 @@ public class PatientController {
 
         List<DoctorDTO> listOfDoctors = doctorService.findByFirstNameAndLastNameAndDoctorRating(firstName, lastName, doctorRating);
         return new ResponseEntity<>(listOfDoctors, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/filter-clinics")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody ExaminationType examinationType) {
+        List<Clinic> filteredClinics = clinicService.findByExaminationTypesContainsIgnoringCase(examinationType);
+        return new ResponseEntity<>(filteredClinics, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/examination-history/{patientId}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<Examination>> getAllExaminationsForPatient(@PathVariable Long patientId) {
+        // Filtered examinations get all examinations related to the logged in patient
+        List<Examination> filteredExaminations = examinationService.getExaminationsForPatient(patientId);
+
+        // However some examinations may be canceled so we have to add only those examinations which
+        // are not canceled. This array list will hold that.
+        List<Examination> availableStatus = new ArrayList<>();
+        for (Examination examination : filteredExaminations) {
+            if (examination.getStatus() != ExaminationStatus.CANCELED) {
+                availableStatus.add(examination);
+            }
+        }
+
+        // Return non-canceled examination history related for the logged in patient
+        return new ResponseEntity<>(availableStatus, HttpStatus.OK);
     }
 
 }

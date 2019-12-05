@@ -16,6 +16,8 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
 
     List<Examination> findByDoctorsIdAndStatusNot(Long id, ExaminationStatus status);
 
+    List<Examination> findByPatientId(Long id);
+
     List<Examination> findByNurseIdAndStatusNot(Long id, ExaminationStatus status);
 
     Examination getByIdAndStatusNot(Long id, ExaminationStatus status);

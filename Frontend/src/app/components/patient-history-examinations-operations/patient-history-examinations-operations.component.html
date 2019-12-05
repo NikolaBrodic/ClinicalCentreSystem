@@ -1,0 +1,84 @@
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="page-caption">
+            <h1 class="page-title">Your examinations and operations history</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.page-header-->
+  
+  <!-- page-content -->
+  <div class="card-section">
+    <div class="container">
+      <div class="card-block bg-white mb30">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <!-- section-title -->
+            <div class="section-title mb-0">
+              <h3>Info about the clinic</h3>
+              <table mat-table [dataSource]="examinationsDataSource" class="mat-elevation-z8 table" matSort>
+
+                  <ng-container matColumnDef="kind">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Kind
+                      </th>
+                      <td mat-cell *matCellDef="let element"> {{element.kind}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="date">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Date and time
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        Start: {{element.interval.startDateTime}}
+                        <br>
+                        End: {{element.interval.endDateTime}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="examinationType">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Examination type </th>
+                      <td mat-cell *matCellDef=" let element"> {{element.examinationType.label}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="clinicName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Clinic name </th>
+                      <td mat-cell *matCellDef=" let element"> {{element.clinic.name}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="doctorFullName">
+                      <th mat-header-cell *matHeaderCellDef> Doctors </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div *ngFor="let doctor of element.doctors">
+                          {{doctor.firstName}} {{doctor.lastName}}
+                        </div>
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="price">
+                      <th mat-header-cell *matHeaderCellDef> Price </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element.examinationType.price}}
+                      </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [pageSize]=itemsPerPage [(length)]=numberOfItems (click)="changePage()"
+                  showFirstLastButtons>
+              </mat-paginator>
+            <!-- /.section-title -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.page-content -->

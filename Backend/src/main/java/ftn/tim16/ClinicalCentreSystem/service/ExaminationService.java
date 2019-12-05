@@ -10,6 +10,7 @@ public interface ExaminationService {
     public List<Examination> getExaminations(Long idRoom);
     public List<Examination> getDoctorsExamination(Long idDoctor);
     public List<Examination> getNursesExamination(Long idNurse);
+    public List<Examination> getExaminationsForPatient(Long idPatient);
 
     public Examination getExamination(Long id);
     public ExaminationPagingDTO getAwaitingExaminations(String kind, ClinicAdministrator clinicAdministrator, Pageable page);

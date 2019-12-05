@@ -47,4 +47,5 @@ public class ClinicController {
         List<Clinic> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
+
 }

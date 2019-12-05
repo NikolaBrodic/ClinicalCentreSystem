@@ -50,6 +50,7 @@ import { ListOfPatientsWithSearchComponent } from './components/list-of-patients
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
+import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { PatientClinicsComponent } from './components/patient-clinics/patient-cl
     ListOfPatientsWithSearchComponent,
     PatientProfileComponent,
     PatientClinicDetailsComponent,
-    PatientClinicsComponent
+    PatientClinicsComponent,
+    PatientHistoryExaminationsOperationsComponent
   ],
   imports: [
     BrowserModule,
