@@ -139,11 +139,7 @@ public class Doctor implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status != DoctorStatus.ACTIVE) {
-            return false;
-        }
-
-        return true;
+        return (status == DoctorStatus.ACTIVE);
     }
 
 

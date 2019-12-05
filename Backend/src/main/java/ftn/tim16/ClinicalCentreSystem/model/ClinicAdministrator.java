@@ -45,6 +45,14 @@ public class ClinicAdministrator implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "clinic_admin_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+
     public ClinicAdministrator() {
     }
 
@@ -59,13 +67,6 @@ public class ClinicAdministrator implements UserDetails {
         this.status = UserStatus.NEVER_LOGGED_IN;
         this.examinations = new HashSet<>();
     }
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "clinic_admin_authority",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
@@ -101,10 +102,7 @@ public class ClinicAdministrator implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status == UserStatus.NEVER_LOGGED_IN) {
-            return false;
-        }
-        return true;
+        return (status == UserStatus.NEVER_LOGGED_IN);
     }
 
     public Long getId() {
