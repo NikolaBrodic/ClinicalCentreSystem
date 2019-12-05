@@ -2,21 +2,17 @@ package ftn.tim16.ClinicalCentreSystem.security;
 
 import ftn.tim16.ClinicalCentreSystem.common.TimeProvider;
 import ftn.tim16.ClinicalCentreSystem.model.*;
-import org.springframework.stereotype.Component;
-
-import java.sql.Timestamp;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Component
 public class TokenUtils {
@@ -33,13 +29,13 @@ public class TokenUtils {
     @Value("Authorization")
     private String AUTH_HEADER;
 
-    static final String AUDIENCE_UNKNOWN = "unknown";
-    static final String AUDIENCE_WEB = "web";
-    static final String AUDIENCE_MOBILE = "mobile";
-    static final String AUDIENCE_TABLET = "tablet";
+    private static final String AUDIENCE_UNKNOWN = "unknown";
+    private static final String AUDIENCE_WEB = "web";
+    private static final String AUDIENCE_MOBILE = "mobile";
+    private static final String AUDIENCE_TABLET = "tablet";
 
     @Autowired
-    TimeProvider timeProvider;
+    private TimeProvider timeProvider;
 
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
@@ -89,16 +85,16 @@ public class TokenUtils {
         final Date created = getIssuedAtDateFromToken(token);
         Timestamp timestamp = null;
 
-        if(userDetails instanceof ClinicalCentreAdministrator){
-            timestamp =((ClinicalCentreAdministrator) userDetails).getLastPasswordResetDate();
-        }else if(userDetails instanceof ClinicAdministrator){
-            timestamp =((ClinicAdministrator) userDetails).getLastPasswordResetDate();
-        }else if(userDetails instanceof Patient){
-            timestamp =((Patient) userDetails).getLastPasswordResetDate();
-        }else if(userDetails instanceof Doctor){
-            timestamp =((Doctor) userDetails).getLastPasswordResetDate();
-        }else if(userDetails instanceof Nurse){
-            timestamp =((Nurse) userDetails).getLastPasswordResetDate();
+        if (userDetails instanceof ClinicalCentreAdministrator) {
+            timestamp = ((ClinicalCentreAdministrator) userDetails).getLastPasswordResetDate();
+        } else if (userDetails instanceof ClinicAdministrator) {
+            timestamp = ((ClinicAdministrator) userDetails).getLastPasswordResetDate();
+        } else if (userDetails instanceof Patient) {
+            timestamp = ((Patient) userDetails).getLastPasswordResetDate();
+        } else if (userDetails instanceof Doctor) {
+            timestamp = ((Doctor) userDetails).getLastPasswordResetDate();
+        } else if (userDetails instanceof Nurse) {
+            timestamp = ((Nurse) userDetails).getLastPasswordResetDate();
         }
 
         return (username != null && username.equals(userDetails.getUsername())
