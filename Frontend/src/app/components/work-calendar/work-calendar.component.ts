@@ -1,3 +1,4 @@
+import { TimeOffDoctorService } from './../../services/time-off-doctor.service';
 import { Component, OnInit } from '@angular/core';
 import { AxiomSchedulerParams } from 'src/app/models/axiomSchedulerParams';
 import { ExaminationService } from 'src/app/services/examination.service';
@@ -6,6 +7,7 @@ import { ExaminationForWorkCalendar } from 'src/app/models/examinationForWorkCal
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { AxiomSchedulerEvent } from 'axiom-scheduler';
+import { TimeOffForWorkCalendar } from 'src/app/models/timeOffForWorkCalendar';
 
 @Component({
   selector: 'app-work-calendar',
@@ -15,7 +17,7 @@ import { AxiomSchedulerEvent } from 'axiom-scheduler';
 export class WorkCalendarComponent implements OnInit {
 
   axiomSchedulerParams = new AxiomSchedulerParams();
-  events: (ExaminationForWorkCalendar)[] = [];
+  events: (ExaminationForWorkCalendar | TimeOffForWorkCalendar)[] = [];
 
   colors = {
     "examination": "#3399FF",
@@ -25,11 +27,16 @@ export class WorkCalendarComponent implements OnInit {
     "time off": "#339933",
   }
 
-  constructor(private examinationService: ExaminationService, private userService: UserService, private router: Router) { }
+  constructor(
+    private examinationService: ExaminationService,
+    private timeOffDoctorService: TimeOffDoctorService,
+    private userService: UserService, private router: Router
+  ) { }
 
   ngOnInit() {
     if (this.userService.isDoctor()) {
       this.getDoctorExaminations();
+      this.getDoctorTimeOffs();
     }
     else if (this.userService.isNurse()) {
       this.getNurseExaminations();
@@ -38,17 +45,17 @@ export class WorkCalendarComponent implements OnInit {
 
   getDoctorExaminations() {
     this.examinationService.getDoctorExaminationsForWorkCalendar().subscribe((data: ExaminationForWorkCalendar[]) => {
-      this.convertToEvents(data);
+      this.convertExaminations(data);
     })
   }
 
   getNurseExaminations() {
     this.examinationService.getNurseExaminationsForWorkCalendar().subscribe((data: ExaminationForWorkCalendar[]) => {
-      this.convertToEvents(data);
+      this.convertExaminations(data);
     })
   }
 
-  convertToEvents(examinations: ExaminationForWorkCalendar[]) {
+  convertExaminations(examinations: ExaminationForWorkCalendar[]) {
     let event: any = {};
     examinations.forEach(item => {
       event = {
@@ -82,6 +89,82 @@ export class WorkCalendarComponent implements OnInit {
         true
       )
     );
+  }
+
+  getDoctorTimeOffs() {
+    this.timeOffDoctorService.getDoctorTimeOffs().subscribe((data: TimeOffForWorkCalendar[]) => {
+      this.convertTimeOffs(data);
+    })
+  }
+
+  convertTimeOffs(timeOffs: TimeOffForWorkCalendar[]) {
+    let event: any = {};
+    let dateFormat = "DD.MM.YYYY";
+    let dateTimeFormat = "DD.MM.YYYY HH:mm";
+
+    timeOffs.forEach(item => {
+      let itemType = item.type.replace('_', ' ');
+
+      let startDate = moment(item.interval.startDateTime.toString().substr(0, 10), dateFormat);
+      let endDate = moment(item.interval.endDateTime.toString().substr(0, 10), dateFormat);
+      if (startDate.isSame(endDate)) {
+        let startDateTime = moment(item.interval.startDateTime, dateTimeFormat);
+        let endDateTime = moment(item.interval.endDateTime, dateTimeFormat);
+
+        event = this.makeEvent(itemType, startDateTime, endDateTime, startDateTime, endDateTime);
+        this.events.push(event);
+      } else {
+        let firstDayStartTime = moment(item.interval.startDateTime, dateTimeFormat);
+        let firstDayEndTime = moment(item.interval.startDateTime, dateTimeFormat).set({ 'hour': 23, 'minute': 59 });
+
+        let lastDayStartTime = moment(item.interval.endDateTime, dateTimeFormat).set({ 'hour': 0, 'minute': 1 });
+        let lastDayEndTime = moment(item.interval.endDateTime, dateTimeFormat);
+
+        event = this.makeEvent(itemType, firstDayStartTime, lastDayEndTime, firstDayStartTime, firstDayEndTime);
+        this.events.push(event);
+
+        event = this.makeEvent(itemType, firstDayStartTime, lastDayEndTime, lastDayStartTime, lastDayEndTime);
+        this.events.push(event);
+
+        let lastDay = moment(item.interval.endDateTime, dateFormat);
+        for (let m = moment(firstDayStartTime, dateFormat).add(1, 'days'); m.isBefore(lastDay); m.add(1, 'days')) {
+          let dayStartTime = moment(m, dateFormat).set({ 'hour': 0, 'minute': 1 });
+          let dayEndTime = moment(m, dateFormat).set({ 'hour': 23, 'minute': 59 });
+
+          event = this.makeEvent(itemType, firstDayStartTime, lastDayEndTime, dayStartTime, dayEndTime);
+          this.events.push(event);
+        }
+      }
+    });
+
+    this.events.map(item =>
+      new AxiomSchedulerEvent(
+        item["data"]["type"],
+        new Date(item["from"]),
+        new Date(item["to"]),
+        {
+          type: item["data"]["type"],
+          from: item["data"]["from"],
+          to: item["data"]["to"],
+        },
+        item["color"],
+        true
+      )
+    );
+  }
+
+  makeEvent(itemType: string, fromForData: moment.Moment, toForData: moment.Moment, from: moment.Moment, to: moment.Moment) {
+    return {
+      "data": {
+        "type": itemType,
+        "from": fromForData,
+        "to": toForData,
+      },
+      "from": from.toISOString(),
+      "to": to.toISOString(),
+      "color": this.colors[itemType.toLowerCase()],
+      "locked": true,
+    }
   }
 
   // Use to refresh events in calendar if needed
