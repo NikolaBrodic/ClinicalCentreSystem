@@ -15,7 +15,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class DoctorsExaminationComponent implements OnInit {
   examinationsDataSource: MatTableDataSource<Examination>;
-  displayedColumns: string[] = ['patient', 'examinationType', 'doctors', 'interval', 'cancel'];
+  displayedColumns: string[] = ['patient', 'examinationType', 'doctors', 'date', 'time', 'cancel'];
   numberOfItem: number;
   constructor(private examinationService: ExaminationService, private router: Router, private toastr: ToastrService) { }
 

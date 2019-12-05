@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/examination")
 public class ExaminationController {
 
@@ -66,7 +67,7 @@ public class ExaminationController {
         }
     }
 
-    @DeleteMapping("cancel/{id}")
+    @DeleteMapping("/cancel/{id}")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<Examination> cancelExamination(@PathVariable("id") Long examinationId) {
         Doctor doctor = doctorService.getLoginDoctor();

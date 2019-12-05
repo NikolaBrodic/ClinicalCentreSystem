@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
@@ -42,10 +43,12 @@ public class Doctor implements UserDetails {
     @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
     private String phoneNumber;
 
+    @JsonFormat(pattern = "HH:mm")
     @NotNull
     @Column(nullable = false)
     private LocalTime workHoursFrom;
 
+    @JsonFormat(pattern = "HH:mm")
     @NotNull
     @Column(nullable = false)
     private LocalTime workHoursTo;

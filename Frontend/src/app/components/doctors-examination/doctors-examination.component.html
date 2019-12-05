@@ -1,7 +1,7 @@
 <br>
 <div class="container">
     <div class="card text-center w-60">
-        <h4 class="card-header"> List for examination</h4>
+        <h4 class="card-header"> List of scheduled examinations</h4>
         <div class="card-body">
             <br>
             <div class="row justify-content-center">
@@ -37,13 +37,21 @@
                         </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="interval">
+                    <ng-container matColumnDef="date">
                         <th mat-header-cell *matHeaderCellDef class="text-center">
-                            Date and time
+                            Date
                         </th>
                         <td mat-cell *matCellDef="let element" class="text-in-table">
-                            {{element.interval.startDateTime}} &nbsp; - &nbsp;
-                            {{element.interval.endDateTime }}
+                            {{element.interval.startDateTime | slice: 0:10}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="time">
+                        <th mat-header-cell *matHeaderCellDef class="text-center">
+                            Time
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="text-in-table">
+                            {{element.interval.startDateTime | slice: 10}} -
+                            {{element.interval.endDateTime | slice:10 }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="cancel">

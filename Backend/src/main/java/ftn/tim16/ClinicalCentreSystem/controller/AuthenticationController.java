@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 
