@@ -122,11 +122,7 @@ public class Patient implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status == PatientStatus.AWAITING_APPROVAL) {
-            return false;
-        }
-
-        return true;
+        return (status != PatientStatus.AWAITING_APPROVAL);
     }
 
     public Long getId() {

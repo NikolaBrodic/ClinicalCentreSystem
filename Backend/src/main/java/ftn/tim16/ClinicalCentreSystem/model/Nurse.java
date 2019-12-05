@@ -1,6 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,13 +35,15 @@ public class Nurse implements UserDetails {
     @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
     private String phoneNumber;
 
+    @JsonFormat(pattern = "HH:mm")
     @Column(nullable = false)
     private LocalTime workHoursFrom;
 
+    @JsonFormat(pattern = "HH:mm")
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @JsonIgnore
@@ -49,6 +53,7 @@ public class Nurse implements UserDetails {
     @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TimeOffNurse> timeOffNurses = new HashSet<>();
 
@@ -58,7 +63,7 @@ public class Nurse implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "nurse_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -120,10 +125,7 @@ public class Nurse implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status == UserStatus.NEVER_LOGGED_IN) {
-            return false;
-        }
-        return true;
+        return (status != UserStatus.NEVER_LOGGED_IN);
     }
 
     public Long getId() {

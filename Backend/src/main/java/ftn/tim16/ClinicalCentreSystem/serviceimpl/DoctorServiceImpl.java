@@ -73,7 +73,8 @@ public class DoctorServiceImpl implements DoctorService {
         if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getDoctorsExamination(doctor.getId());
+        List<Examination> examinations = examinationService.getDoctorExaminations(doctor.getId());
+
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {
                 if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {

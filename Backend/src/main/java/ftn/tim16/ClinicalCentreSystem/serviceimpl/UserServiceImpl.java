@@ -176,10 +176,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByEmail(email);
             if (clinicalCentreAdministrator != null) {
-                if (clinicalCentreAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (clinicalCentreAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
 
@@ -188,10 +185,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.findByEmail(email);
             if (clinicAdministrator != null) {
-                if (clinicAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (clinicAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
 
@@ -200,10 +194,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             Nurse nurse = nurseRepository.findByEmail(email);
             if (nurse != null) {
-                if (nurse.getStatus() == UserStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (nurse.getStatus() == UserStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
 
@@ -211,13 +202,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             Doctor doctor = doctorRepository.findByEmail(email);
             if (doctor != null) {
-                if (doctor.getStatus() == DoctorStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (doctor.getStatus() == DoctorStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
-
         }
         return false;
     }

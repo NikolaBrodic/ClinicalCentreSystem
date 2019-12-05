@@ -9,11 +9,7 @@ public class PasswordHasher {
     }
 
     public static boolean doesPasswordMatch(String plaintextPassword, String hashedPassword) {
-        if (BCrypt.checkpw(plaintextPassword, hashedPassword)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (BCrypt.checkpw(plaintextPassword, hashedPassword));
     }
 
 }

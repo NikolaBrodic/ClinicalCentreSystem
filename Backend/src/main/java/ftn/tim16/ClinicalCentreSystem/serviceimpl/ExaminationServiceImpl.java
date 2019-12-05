@@ -24,7 +24,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     private ExaminationRepository examinationRepository;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Override
     public List<Examination> getExaminations(Long idRoom) {
@@ -32,12 +32,12 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public List<Examination> getDoctorsExamination(Long idDoctor) {
+    public List<Examination> getDoctorExaminations(Long idDoctor) {
         return examinationRepository.findByDoctorsIdAndStatusNot(idDoctor, ExaminationStatus.CANCELED);
     }
 
     @Override
-    public List<Examination> getNursesExamination(Long idNurse) {
+    public List<Examination> getNurseExaminations(Long idNurse) {
         return examinationRepository.findByNurseIdAndStatusNot(idNurse, ExaminationStatus.CANCELED);
     }
 
@@ -81,7 +81,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public ExaminationPagingDTO getDoctorsExaminations(Doctor doctor, Pageable page) {
+    public ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page) {
         List<Examination> examinations = examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter
                 (doctor.getId(), ExaminationStatus.CANCELED, LocalDateTime.now());
 
