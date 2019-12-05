@@ -37,6 +37,11 @@
             <a mat-list-item (click)="onLogout()">Log out</a>
         </mat-nav-list>
 
+        <mat-nav-list *ngIf="isPatient()">
+            <a mat-list-item routerLink="/patient/clinic/1/details">Clinic Details</a>
+            <a mat-list-item (click)="onLogout()">Log out</a>
+        </mat-nav-list>
+
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">

@@ -18,6 +18,8 @@ public class ClinicDTO {
     @NotEmpty(message = "Address is empty.")
     private String address;
 
+    private Integer clinicRating;
+
     public ClinicDTO() {
     }
 
@@ -28,8 +30,16 @@ public class ClinicDTO {
         this.address = address;
     }
 
+    public ClinicDTO(Long id, String name, String description, String address, Integer clinicRating) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.clinicRating = clinicRating;
+    }
+
     public ClinicDTO(Clinic clinic) {
-        this(clinic.getId(), clinic.getName(), clinic.getAddress(), clinic.getDescription());
+        this(clinic.getId(), clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getClinicRating());
     }
 
     public Long getId() {
@@ -62,5 +72,13 @@ public class ClinicDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getClinicRating() {
+        return clinicRating;
+    }
+
+    public void setClinicRating(Integer clinicRating) {
+        this.clinicRating = clinicRating;
     }
 }

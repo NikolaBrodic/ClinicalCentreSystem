@@ -1,3 +1,4 @@
+import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
 import { NurseGuard } from './guards/nurse.guard';
@@ -118,6 +119,13 @@ const routes: Routes = [
     path: 'medicalStaff/patients',
     component: ListOfPatientsWithSearchComponent,
     canActivate: [MedicalStaffGuard],
+  },
+
+  //********************* PATIENT ***************************
+  {
+    path: 'patient/clinic/:id/details',
+    component: PatientClinicDetailsComponent,
+    canActivate: [PatientGuard]
   },
 
   //********************* NURSE ***************************

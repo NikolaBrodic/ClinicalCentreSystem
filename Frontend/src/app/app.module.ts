@@ -48,6 +48,7 @@ import { NonAuthorizedErrorPageComponent } from './components/non-authorized-err
 import { HeaderComponent } from './components/header/header.component';
 import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
+import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { PatientProfileComponent } from './components/patient-profile/patient-pr
     NonAuthorizedErrorPageComponent,
     HeaderComponent,
     ListOfPatientsWithSearchComponent,
-    PatientProfileComponent
+    PatientProfileComponent,
+    PatientClinicDetailsComponent
   ],
   imports: [
     BrowserModule,
