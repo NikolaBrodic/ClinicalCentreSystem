@@ -1,20 +1,35 @@
 <ng-template #eventTemplate let-item="item">
-    <div class="event-template" *ngIf="item">
-        <b>{{ item.data.kind | titlecase}}</b>
-        <span *ngIf="item.data.room">
-            <br>
-            <i>Room: </i>{{ item.data.room }}
-        </span>
-        <span *ngIf="item.data.patientFirstName && item.data.patientLastName">
-            <br>
-            <i>Patient: </i>{{ item.data.patientFirstName }} {{item.data.patientLastName}}
-        </span>
-        <span>
-            <br>
-            <i>Time: </i>{{ item.from | date:'HH:mm' }} - {{ item.to | date:'HH:mm' }}
-        </span>
+    <div class="event-template">
+        <div *ngIf="item.data.kind">
+            <b>{{ item.data.kind | titlecase}}</b>
+            <span *ngIf="item.data.room">
+                <br>
+                <i>Room: </i>{{ item.data.room }}
+            </span>
+            <span *ngIf="item.data.patientFirstName && item.data.patientLastName">
+                <br>
+                <i>Patient: </i>{{ item.data.patientFirstName }} {{item.data.patientLastName}}
+            </span>
+            <span>
+                <br>
+                <i>Time: </i>{{ item.from | date:'HH:mm' }} - {{ item.to | date:'HH:mm' }}
+            </span>
+        </div>
+        <div *ngIf="!item.data.kind">
+            <b>{{ item.data.type | titlecase}}</b>
+            <span>
+                <br>
+                <i>From: </i>{{ item.data.from | date:'dd.MM.yyyy.' }}
+            </span>
+            <span>
+                <br>
+                <i>To: </i>{{ item.data.to | date:'dd.MM.yyyy.' }}
+            </span>
+        </div>
     </div>
+
 </ng-template>
+
 <ax-scheduler [axEventTemplate]="eventTemplate" [axSchedulerView]="'week'"
     [axViews]="axiomSchedulerParams.viewsToChoose" [axEventToolbar]="axiomSchedulerParams.enableToolbar"
     [axAnimation]="axiomSchedulerParams.animationType" [axTheme]="axiomSchedulerParams.theme" [axEvents]="events"

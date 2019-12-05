@@ -28,7 +28,7 @@ public class TimeOffNurseController {
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<List<TimeOffNurse>> getAllTimeOffForDoctor() {
+    public ResponseEntity<List<TimeOffNurse>> getAllTimeOffForNurse() {
         Nurse nurse = nurseService.getLoginNurse();
         if (nurse == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
