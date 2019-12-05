@@ -42,7 +42,7 @@ public class ClinicController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN','PATIENT')")
     public ResponseEntity<List<Clinic>> getAllClinics() {
         List<Clinic> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);

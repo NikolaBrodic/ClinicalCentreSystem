@@ -49,6 +49,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ListOfPatientsWithSearchComponent } from './components/list-of-patients-with-search/list-of-patients-with-search.component';
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
+import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { PatientClinicDetailsComponent } from './components/patient-clinic-detai
     HeaderComponent,
     ListOfPatientsWithSearchComponent,
     PatientProfileComponent,
-    PatientClinicDetailsComponent
+    PatientClinicDetailsComponent,
+    PatientClinicsComponent
   ],
   imports: [
     BrowserModule,
