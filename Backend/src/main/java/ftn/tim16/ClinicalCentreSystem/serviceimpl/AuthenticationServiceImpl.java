@@ -24,7 +24,7 @@ import java.util.List;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
-    TokenUtils tokenUtils;
+    private TokenUtils tokenUtils;
 
     @Autowired
     private AuthenticationManager authenticationManager;
