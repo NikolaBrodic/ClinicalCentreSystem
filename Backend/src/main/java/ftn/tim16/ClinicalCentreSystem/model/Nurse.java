@@ -39,7 +39,7 @@ public class Nurse implements UserDetails {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @JsonIgnore
@@ -58,7 +58,7 @@ public class Nurse implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "nurse_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
