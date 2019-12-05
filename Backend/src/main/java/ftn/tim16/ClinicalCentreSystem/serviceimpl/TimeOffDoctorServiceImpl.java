@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffDoctor;
 import ftn.tim16.ClinicalCentreSystem.repository.TimeOffDoctorRepository;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
@@ -17,14 +18,19 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
 
     @Override
     public boolean isDoctorOnVacation(Long id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<TimeOffDoctor> timeOffDoctors = timeOffDoctorRepository.findByDoctorId(id);
-        if(!timeOffDoctors.isEmpty()){
-            for(TimeOffDoctor timeOffDoctor : timeOffDoctors){
-                if(!timeOffDoctor.getInterval().isAvailable(startDateTime,endDateTime)){
+        List<TimeOffDoctor> timeOffDoctors = timeOffDoctorRepository.findByDoctorIdAndStatus(id, TimeOffStatus.APPROVED);
+        if (!timeOffDoctors.isEmpty()) {
+            for (TimeOffDoctor timeOffDoctor : timeOffDoctors) {
+                if (!timeOffDoctor.getInterval().isAvailable(startDateTime, endDateTime)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public List<TimeOffDoctor> findByDoctorIdAndStatus(Long id, TimeOffStatus status) {
+        return timeOffDoctorRepository.findByDoctorIdAndStatus(id, status);
     }
 }

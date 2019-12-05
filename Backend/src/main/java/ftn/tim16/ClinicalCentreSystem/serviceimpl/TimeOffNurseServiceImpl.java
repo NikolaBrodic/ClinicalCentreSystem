@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
 import ftn.tim16.ClinicalCentreSystem.repository.TimeOffNurseRepository;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffNurseService;
@@ -17,14 +18,19 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
 
     @Override
     public boolean isNurseOnVacation(Long id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<TimeOffNurse> timeOffNurses = timeOffNurseRepository.findByNurseId(id);
-        if(!timeOffNurses.isEmpty()){
-            for(TimeOffNurse timeOffNurse : timeOffNurses){
-                if(!timeOffNurse.getInterval().isAvailable(startDateTime,endDateTime)){
+        List<TimeOffNurse> timeOffNurses = timeOffNurseRepository.findByNurseIdAndStatus(id, TimeOffStatus.APPROVED);
+        if (!timeOffNurses.isEmpty()) {
+            for (TimeOffNurse timeOffNurse : timeOffNurses) {
+                if (!timeOffNurse.getInterval().isAvailable(startDateTime, endDateTime)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public List<TimeOffNurse> findByNurseIdAndStatus(Long id, TimeOffStatus status) {
+        return timeOffNurseRepository.findByNurseIdAndStatus(id, status);
     }
 }

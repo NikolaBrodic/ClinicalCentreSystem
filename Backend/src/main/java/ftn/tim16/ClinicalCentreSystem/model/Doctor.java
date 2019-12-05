@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,6 +61,7 @@ public class Doctor implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ExaminationType specialized;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
 

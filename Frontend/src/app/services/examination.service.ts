@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Examination } from './../models/examination';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
+import { ExaminationForWorkCalendar } from '../models/examinationForWorkCalendar';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,14 @@ export class ExaminationService {
     return this.httpClient.get(this.url + "/get-doctors-examinations", {
       params: params
     });
+  }
+
+  public getDoctorExaminationsForWorkCalendar() {
+    return this.httpClient.get(this.url + "/doctor-examinations");
+  }
+
+  public getNurseExaminationsForWorkCalendar() {
+    return this.httpClient.get(this.url + "/nurse-examinations");
   }
 
   public cancelExamination(examination: Examination) {

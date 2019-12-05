@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,6 +50,7 @@ public class Nurse implements UserDetails {
     @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TimeOffNurse> timeOffNurses = new HashSet<>();
 
