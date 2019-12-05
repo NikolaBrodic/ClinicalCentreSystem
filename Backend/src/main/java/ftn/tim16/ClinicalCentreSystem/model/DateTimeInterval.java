@@ -55,10 +55,6 @@ public class DateTimeInterval {
         if (startExaminationTime.isAfter(startDateTime) && startExaminationTime.isBefore(endDateTime)) {
             return false;
         }
-
-        if (endExaminationTime.isAfter(startDateTime) && endExaminationTime.isBefore(endDateTime)) {
-            return false;
-        }
-        return true;
+        return !(endExaminationTime.isAfter(startDateTime) && endExaminationTime.isBefore(endDateTime));
     }
 }

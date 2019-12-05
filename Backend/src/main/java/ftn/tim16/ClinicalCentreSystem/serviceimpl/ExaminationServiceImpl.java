@@ -24,7 +24,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     private ExaminationRepository examinationRepository;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Override
     public List<Examination> getExaminations(Long idRoom) {
