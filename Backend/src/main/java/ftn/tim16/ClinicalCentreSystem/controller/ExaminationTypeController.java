@@ -2,7 +2,6 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypePagingDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
@@ -45,13 +44,13 @@ public class ExaminationTypeController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasAnyRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/pageAll")
@@ -63,17 +62,15 @@ public class ExaminationTypeController {
         }
         ExaminationTypePagingDTO examinationTypePagingDTO = new ExaminationTypePagingDTO(
                 examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic(), page),
-                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()).size());
+                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()).size());
         return new ResponseEntity<>(examinationTypePagingDTO, HttpStatus.OK);
     }
 
-    @PostMapping(
-            value = "/patient/all",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/patient/all/{id}")
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@RequestBody Clinic clinic) {
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic), HttpStatus.OK);
+    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@PathVariable("id") Long clinic_id) {
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic_id), HttpStatus.OK);
     }
 
 }

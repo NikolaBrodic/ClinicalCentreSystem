@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class PatientClinicDetailsComponent implements OnInit, OnChanges {
 
   public clinic: Clinic;
-  public clinicExists: boolean;
+  public clinicExists: boolean = false;
   public examinationTypes: ExaminationType[] = [];
 
   constructor(
@@ -39,11 +39,11 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
   ngOnChanges() {
   }
 
+
   fetchClinicDetails(clinicId) {
     this.clinicService.getClinicById(clinicId).subscribe(
-      (data) => {
-        console.log(clinicId);
-        if (data == null) {
+      (data: Clinic) => {
+        if (!data) {
           this.clinicExists = false;
           this.toastr.error("Clinic ID " + clinicId + " does not exist.", "Clinic not found");
           return;
@@ -65,9 +65,10 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
         );
       },
       (error) => {
-        console.log(error);
+
       }
     );
   }
+
 
 }

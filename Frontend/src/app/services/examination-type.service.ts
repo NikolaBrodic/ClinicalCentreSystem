@@ -30,19 +30,19 @@ export class ExaminationTypeService {
     this.httpClient.get(this.url + "/all").subscribe((data: ExaminationType[]) => {
       this.examinationTypesForAdmin.next(data);
     },
-    (error: HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
 
-    });
+      });
     return this.examinationTypesForAdmin.asObservable();
   }
 
   public getExaminationTypesForPatient(clinic: Clinic): Observable<ExaminationType[]> {
-    this.httpClient.post(this.url + "/patient/all", clinic).subscribe((data: ExaminationType[]) => {
+    this.httpClient.get(this.url + "/patient/all/" + clinic.id).subscribe((data: ExaminationType[]) => {
       this.examinationTypesForPatient.next(data);
     },
-    (error: HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
 
-    });
+      });
     return this.examinationTypesForPatient.asObservable();
   }
 

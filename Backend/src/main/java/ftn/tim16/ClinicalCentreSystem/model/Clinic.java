@@ -22,6 +22,9 @@ public class Clinic {
     @Column(nullable = false)
     private String address;
 
+    @Column
+    private Integer clinicRating;
+
     //You can't change this fetch type
     @JsonIgnore
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -60,6 +63,7 @@ public class Clinic {
         this.rooms = new HashSet<>();
         this.examinationTypes = new HashSet<>();
         this.clinicAdministrators = new HashSet<>();
+        this.clinicRating = 0;
     }
 
     public Long getId() {
@@ -132,6 +136,18 @@ public class Clinic {
 
     public void setClinicAdministrators(Set<ClinicAdministrator> clinicAdministrators) {
         this.clinicAdministrators = clinicAdministrators;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getClinicRating() {
+        return clinicRating;
+    }
+
+    public void setClinicRating(Integer clinicRating) {
+        this.clinicRating = clinicRating;
     }
 
     public void setAddress(String address) {

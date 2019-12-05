@@ -97,6 +97,7 @@ public class Doctor implements UserDetails {
         this.timeOffDoctors = new HashSet<>();
         this.examinations = new HashSet<Examination>();
         this.authorities = authorities;
+        this.doctorRating = 0;
     }
 
     public void setAuthorities(List<Authority> authorities) {

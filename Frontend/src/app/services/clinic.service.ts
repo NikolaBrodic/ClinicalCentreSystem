@@ -25,21 +25,14 @@ export class ClinicService {
     this.httpClient.get(this.url + "/all").subscribe((data: Clinic[]) => {
       this.clinics.next(data)
     },
-    (error: HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
 
-    });
+      });
     return this.clinics.asObservable();
   }
 
-  public getClinicById(clinicId): Observable<Clinic> {
-    this.httpClient.get(this.url + "/" + clinicId).subscribe(
-      (data: Clinic) => {
-        this.clinic.next(data);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
-    return this.clinic.asObservable();
+
+  public getClinicById(clinicId) {
+    return this.httpClient.get(this.url + "/" + clinicId);
   }
 }
