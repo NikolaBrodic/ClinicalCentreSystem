@@ -147,20 +147,8 @@ public class PatientController {
     @GetMapping(value = "/examination-history/{patientId}")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<Examination>> getAllExaminationsForPatient(@PathVariable Long patientId) {
-        // Filtered examinations get all examinations related to the logged in patient
         List<Examination> filteredExaminations = examinationService.getExaminationsForPatient(patientId);
-
-        // However some examinations may be canceled so we have to add only those examinations which
-        // are not canceled. This array list will hold that.
-        List<Examination> availableStatus = new ArrayList<>();
-        for (Examination examination : filteredExaminations) {
-            if (examination.getStatus() != ExaminationStatus.CANCELED) {
-                availableStatus.add(examination);
-            }
-        }
-
-        // Return non-canceled examination history related for the logged in patient
-        return new ResponseEntity<>(availableStatus, HttpStatus.OK);
+        return new ResponseEntity<>(filteredExaminations, HttpStatus.OK);
     }
 
 }

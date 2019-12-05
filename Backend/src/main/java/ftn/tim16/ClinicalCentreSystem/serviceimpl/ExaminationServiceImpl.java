@@ -43,7 +43,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public List<Examination> getExaminationsForPatient(Long idPatient) {
-        return examinationRepository.findByPatientId(idPatient);
+        return examinationRepository.findByPatientIdAndStatusNot(idPatient, ExaminationStatus.CANCELED);
     }
 
     @Override
