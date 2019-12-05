@@ -5,12 +5,12 @@ import { Patient } from './patient';
 
 export class ExaminationForWorkCalendar {
     id: number;
-    kind: String;
+    kind: string;
     interval: DateTimeInterval;
     room: Room;
     patient: Patient;
 
-    constructor(id: number, kind: String, interval: DateTimeInterval, room: Room, patient: Patient) {
+    constructor(id: number, kind: string, interval: DateTimeInterval, room: Room, patient: Patient) {
         this.id = id;
         this.kind = kind;
         this.interval = interval;

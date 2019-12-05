@@ -37,7 +37,8 @@ public class Examination {
     @Column
     private Integer discount;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Nurse nurse;
 
     @JsonIgnore

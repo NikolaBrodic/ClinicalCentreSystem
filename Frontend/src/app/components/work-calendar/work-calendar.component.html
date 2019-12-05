@@ -1,5 +1,5 @@
 <ng-template #eventTemplate let-item="item">
-    <div class="event-template">
+    <div class="event-template" *ngIf="item">
         <b>{{ item.data.kind | titlecase}}</b>
         <span *ngIf="item.data.room">
             <br>

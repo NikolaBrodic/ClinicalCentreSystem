@@ -4,6 +4,8 @@ import { ExaminationService } from 'src/app/services/examination.service';
 import { Router } from '@angular/router';
 import { ExaminationForWorkCalendar } from 'src/app/models/examinationForWorkCalendar';
 import * as moment from 'moment';
+import { UserService } from 'src/app/services/user.service';
+import { AxiomSchedulerEvent } from 'axiom-scheduler';
 
 @Component({
   selector: 'app-work-calendar',
@@ -23,14 +25,25 @@ export class WorkCalendarComponent implements OnInit {
     "time off": "#339933",
   }
 
-  constructor(private examinationService: ExaminationService, private router: Router) { }
+  constructor(private examinationService: ExaminationService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.getDoctorExaminations();
+    if (this.userService.isDoctor()) {
+      this.getDoctorExaminations();
+    }
+    else if (this.userService.isNurse()) {
+      this.getNurseExaminations();
+    }
   }
 
   getDoctorExaminations() {
     this.examinationService.getDoctorExaminationsForWorkCalendar().subscribe((data: ExaminationForWorkCalendar[]) => {
+      this.convertToEvents(data);
+    })
+  }
+
+  getNurseExaminations() {
+    this.examinationService.getNurseExaminationsForWorkCalendar().subscribe((data: ExaminationForWorkCalendar[]) => {
       this.convertToEvents(data);
     })
   }
@@ -50,8 +63,25 @@ export class WorkCalendarComponent implements OnInit {
         "color": this.colors[item.kind.toLowerCase()],
         "locked": true,
       }
+
       this.events.push(event);
     });
+
+    this.events.map(item =>
+      new AxiomSchedulerEvent(
+        item["data"]["kind"],
+        new Date(item["from"]),
+        new Date(item["to"]),
+        {
+          kind: item["data"]["kind"],
+          room: item["data"]["room"],
+          patientFirstName: item["data"]["patientFirstName"],
+          patientLastName: item["data"]["patientLastName"],
+        },
+        item["color"],
+        true
+      )
+    );
   }
 
   // Use to refresh events in calendar if needed

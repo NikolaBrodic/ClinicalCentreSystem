@@ -53,6 +53,10 @@ export class ExaminationService {
     return this.httpClient.get(this.url + "/doctor-examinations");
   }
 
+  public getNurseExaminationsForWorkCalendar() {
+    return this.httpClient.get(this.url + "/nurse-examinations");
+  }
+
   public cancelExamination(examination: Examination) {
     return this.httpClient.delete(this.url + "/cancel/" + examination.id);
   }
