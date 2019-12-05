@@ -11,7 +11,6 @@ import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
-import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -118,8 +117,9 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorDTO> findAllDoctorsBy(String firstName, String lastName) {
-        List<Doctor> listOfDoctors = doctorRepository.findByFirstNameAndLastName(firstName, lastName);
+    public List<DoctorDTO> findByFirstNameAndLastNameAndDoctorRating(String firstName, String lastName, int doctorRating) {
+        List<Doctor> listOfDoctors = doctorRepository.findByFirstNameAndLastNameAndDoctorRating(
+                firstName, lastName, doctorRating);
         return convertToDTO(listOfDoctors);
     }
 

@@ -144,16 +144,16 @@ insert into patient_authority(user_id, authority_id) values (11,3);
 
 /*DOCTOR*/
 /* Password: Admin.04*/
- insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
- values ('doca2@gmail.com', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Doca', 'Docic', '065256856','10:30','18:00',1,'ACTIVE',1);
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
+ values ('doca2@gmail.com', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Doca', 'Docic', '065256856','10:30','18:00',1,'ACTIVE',1,4);
 insert into doctor_authority(user_id, authority_id) values (1,4);
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('doca3@gmail.com', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Doca', 'Docic', '065257165','08:00','20:00',1,'ACTIVE',2);
 insert into doctor_authority(user_id, authority_id) values (2,4);
 
- insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
- values ('doca4@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Doca', 'Docic', '065256886','06:00','19:00',1,'ACTIVE',1);
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
+ values ('doca4@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Doca', 'Docic', '065256886','06:00','19:00',1,'ACTIVE',1,3);
 insert into doctor_authority(user_id, authority_id) values (3,4);
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
@@ -164,8 +164,8 @@ insert into doctor_authority(user_id, authority_id) values (4,4);
  values ('doca6@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Doca', 'Docic', '078256886','05:00','19:00',1,'ACTIVE',1);
 insert into doctor_authority(user_id, authority_id) values (5,4);
 
- insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
- values ('doca7@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Doca', 'Docic', '079256886','05:00','19:00',1,'ACTIVE',1);
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
+ values ('doca7@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Doca', 'Docic', '079256886','05:00','19:00',1,'ACTIVE',1,5);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'EXAMINATION',1,'EXISTING');

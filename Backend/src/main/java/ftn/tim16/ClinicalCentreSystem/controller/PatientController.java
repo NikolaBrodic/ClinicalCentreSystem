@@ -130,9 +130,9 @@ public class PatientController {
     @PreAuthorize("hasAnyRole('PATIENT')")
     public ResponseEntity<List<DoctorDTO>> getAllDoctorsBy(@RequestParam(value = "firstName") String firstName,
                                                            @RequestParam(value = "lastName") String lastName,
-                                                           @RequestParam(value = "averageRating") int averageRating) {
+                                                           @RequestParam(value = "averageRating") int doctorRating) {
 
-        List<DoctorDTO> listOfDoctors = doctorService.findAllDoctorsBy(firstName, lastName);
+        List<DoctorDTO> listOfDoctors = doctorService.findByFirstNameAndLastNameAndDoctorRating(firstName, lastName, doctorRating);
         return new ResponseEntity<>(listOfDoctors, HttpStatus.OK);
     }
 }

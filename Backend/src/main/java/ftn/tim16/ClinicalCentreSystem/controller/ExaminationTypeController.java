@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypePagingDTO;
+import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 
@@ -43,7 +45,7 @@ public class ExaminationTypeController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN')")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
@@ -65,5 +67,13 @@ public class ExaminationTypeController {
         return new ResponseEntity<>(examinationTypePagingDTO, HttpStatus.OK);
     }
 
+    @PostMapping(
+            value = "/patient/all",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@RequestBody Clinic clinic) {
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic), HttpStatus.OK);
+    }
 
 }

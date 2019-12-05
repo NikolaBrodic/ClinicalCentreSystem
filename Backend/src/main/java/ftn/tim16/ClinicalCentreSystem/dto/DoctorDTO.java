@@ -16,6 +16,7 @@ public class DoctorDTO {
     private String password;
     private ExaminationType specialized;
     private String phoneNumber;
+    private Integer doctorRating;
     public DoctorDTO(){
 
     }
@@ -105,5 +106,13 @@ public class DoctorDTO {
 
     public void setSpecialized(ExaminationType specialized) {
         this.specialized = specialized;
+    }
+
+    public Integer getDoctorRating() {
+        return doctorRating;
+    }
+
+    public void setDoctorRating(Integer doctorRating) {
+        this.doctorRating = doctorRating;
     }
 }

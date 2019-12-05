@@ -76,6 +76,9 @@ public class Doctor implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
+    @Column
+    private Integer doctorRating;
+
     public Doctor() {
     }
 
@@ -246,6 +249,14 @@ public class Doctor implements UserDetails {
 
     public Timestamp getLastPasswordResetDate() {
         return lastPasswordResetDate;
+    }
+
+    public Integer getDoctorRating() {
+        return doctorRating;
+    }
+
+    public void setDoctorRating(Integer doctorRating) {
+        this.doctorRating = doctorRating;
     }
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {

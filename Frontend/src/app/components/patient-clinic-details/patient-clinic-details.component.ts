@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { ExaminationTypeService } from './../../services/examination-type.service';
 import { ExaminationType } from 'src/app/models/examinationType';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClinicService } from 'src/app/services/clinic.service';
@@ -14,15 +16,14 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
 
   public clinic: Clinic;
   public clinicExists: boolean;
-  public examinationTypes: ExaminationType[] = [
-    new ExaminationType('Operation', 1000),
-    new ExaminationType('Examination', 500),
-  ];
+  public examinationTypes: ExaminationType[] = [];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private clinicService: ClinicService
+    private clinicService: ClinicService,
+    private examinationTypesService: ExaminationTypeService,
+    private toastr: ToastrService,
   ) {
   }
 
@@ -41,14 +42,27 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
   fetchClinicDetails(clinicId) {
     this.clinicService.getClinicById(clinicId).subscribe(
       (data) => {
+        console.log(clinicId);
         if (data == null) {
           this.clinicExists = false;
+          this.toastr.error("Clinic ID " + clinicId + " does not exist.", "Clinic not found");
           return;
         } else {
           this.clinicExists = true;
         }
 
         this.clinic = data;
+        this.clinic.id = clinicId;
+
+        this.examinationTypesService.getExaminationTypesForPatient(this.clinic).subscribe(
+          (data: ExaminationType[]) => {
+            for (let i = 0; i < data.length; i++) {
+              this.examinationTypes.push(data[i]);
+            }
+          },
+          error => {
+          }
+        );
       },
       (error) => {
         console.log(error);
