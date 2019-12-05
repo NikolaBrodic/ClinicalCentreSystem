@@ -17,7 +17,7 @@ export const environment = {
   nurse: '/api/nurse',
   examination: '/api/examination',
   timeOffDoctor: '/api/time-off-doctor',
-
+  timeOffNurse: '/api/time-off-nurse',
 };
 
 /*

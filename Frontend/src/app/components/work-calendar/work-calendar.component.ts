@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { AxiomSchedulerEvent } from 'axiom-scheduler';
 import { TimeOffForWorkCalendar } from 'src/app/models/timeOffForWorkCalendar';
+import { TimeOffNurseService } from 'src/app/services/time-off-nurse.service';
 
 @Component({
   selector: 'app-work-calendar',
@@ -30,6 +31,7 @@ export class WorkCalendarComponent implements OnInit {
   constructor(
     private examinationService: ExaminationService,
     private timeOffDoctorService: TimeOffDoctorService,
+    private timeOffNurseService: TimeOffNurseService,
     private userService: UserService, private router: Router
   ) { }
 
@@ -40,6 +42,7 @@ export class WorkCalendarComponent implements OnInit {
     }
     else if (this.userService.isNurse()) {
       this.getNurseExaminations();
+      this.getNurseTimeOffs();
     }
   }
 
@@ -93,6 +96,12 @@ export class WorkCalendarComponent implements OnInit {
 
   getDoctorTimeOffs() {
     this.timeOffDoctorService.getDoctorTimeOffs().subscribe((data: TimeOffForWorkCalendar[]) => {
+      this.convertTimeOffs(data);
+    })
+  }
+
+  getNurseTimeOffs() {
+    this.timeOffNurseService.getNurseTimeOffs().subscribe((data: TimeOffForWorkCalendar[]) => {
       this.convertTimeOffs(data);
     })
   }
