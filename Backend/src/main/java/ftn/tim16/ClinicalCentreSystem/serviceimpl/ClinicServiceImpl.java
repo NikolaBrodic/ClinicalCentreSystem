@@ -5,6 +5,7 @@ import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,9 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public List<Clinic> findByExaminationTypesContainsIgnoringCase(ExaminationType examinationType) {
-        return clinicRepository.findByExaminationTypesContainsIgnoringCase(examinationType);
+    public List<Clinic> findPatientClinicsBy(ExaminationType label, ExaminationType price) {
+        return clinicRepository.findByExaminationTypesPriceOrExaminationTypesLabelContainsIgnoringCase(label, price);
     }
+
+
 }

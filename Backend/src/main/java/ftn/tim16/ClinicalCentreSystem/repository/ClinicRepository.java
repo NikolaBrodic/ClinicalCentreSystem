@@ -15,5 +15,5 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long> {
 
     List<Clinic> findAll();
 
-    List<Clinic> findByExaminationTypesContainsIgnoringCase(ExaminationType examinationType);
+    List<Clinic> findByExaminationTypesPriceOrExaminationTypesLabelContainsIgnoringCase(ExaminationType label, ExaminationType price);
 }

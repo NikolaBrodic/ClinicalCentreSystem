@@ -19,7 +19,6 @@ export class PatientClinicsComponent implements OnInit {
   public patientClinicsDataSource: MatTableDataSource<Clinic>;
   public displayedColumns: string[] = ['name', 'clinicRating', 'address', 'id'];
   public searchString: string;
-  public filterInput: HTMLInputElement;
   public clinic: Clinic;
   public examinationType: ExaminationType;
 
@@ -35,7 +34,6 @@ export class PatientClinicsComponent implements OnInit {
   }
   
   getAllClinicsForPatient() {
-    this.filterInput = document.getElementById("filterInput") as HTMLInputElement;
     this.clinicService.getAllClinics().subscribe(
       (data) => {
         this.patientClinicsDataSource = new MatTableDataSource(data);
@@ -49,10 +47,6 @@ export class PatientClinicsComponent implements OnInit {
   
   applyFilter(filterValue: string) {
     this.patientClinicsDataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  searchPatientClinics() {
-
   }
 
 }

@@ -140,7 +140,7 @@ public class PatientController {
     @PostMapping(value = "/filter-clinics")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody ExaminationType examinationType) {
-        List<Clinic> filteredClinics = clinicService.findByExaminationTypesContainsIgnoringCase(examinationType);
+        List<Clinic> filteredClinics = clinicService.findPatientClinicsBy(examinationType, examinationType);
         return new ResponseEntity<>(filteredClinics, HttpStatus.OK);
     }
 
