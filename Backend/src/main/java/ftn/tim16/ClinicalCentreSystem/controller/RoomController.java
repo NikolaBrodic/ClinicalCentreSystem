@@ -79,6 +79,18 @@ public class RoomController {
         }
     }
 
+    @GetMapping(value = "/available-examination-rooms")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@RequestParam(value = "clinicId", required = true) Long clinicId,
+                                                                      @RequestParam(value = "startDateTime", required = true) String startDateTime,
+                                                                      @RequestParam(value = "endDateTime", required = true) String endDateTime) {
+        try {
+            List<RoomDTO> roomDTOS = roomService.getAvailableExaminationRooms(clinicId, startDateTime, endDateTime);
+            return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

@@ -65,4 +65,14 @@ public class DoctorController {
         }
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic(), page), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/available")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<DoctorDTO>> getAllAvailableDoctors(@RequestParam(value = "specialized", required = true) Long specializedId,
+                                                                  @RequestParam(value = "clinicId", required = true) Long clinicId,
+                                                                  @RequestParam(value = "startDateTime", required = true) String startDateTime,
+                                                                  @RequestParam(value = "endDateTime", required = true) String endDateTime) {
+
+        return new ResponseEntity<>(doctorService.getAllAvailableDoctors(specializedId, clinicId, startDateTime, endDateTime), HttpStatus.OK);
+    }
 }

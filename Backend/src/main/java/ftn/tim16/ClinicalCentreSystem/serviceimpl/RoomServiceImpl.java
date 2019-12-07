@@ -109,6 +109,12 @@ public class RoomServiceImpl implements RoomService {
         return new RoomPagingDTO(pages.getContent(), roomsInClinicAll.size());
     }
 
+    @Override
+    public List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime) {
+        List<Room> rooms = roomRepository.findByClinicIdAndStatusAndKind(clinicId, LogicalStatus.EXISTING, ExaminationKind.EXAMINATION);
+        return searchByDateAndTime(rooms, getLocalDateTime(startDateTime), getLocalDateTime(endDateTime));
+    }
+
     private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         List<RoomDTO> availableRoom = new ArrayList<>();

@@ -124,6 +124,23 @@ public class DoctorServiceImpl implements DoctorService {
         return convertToDTO(listOfDoctors);
     }
 
+    private LocalDateTime getLocalDateTime(String date) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(date, formatter);
+    }
+
+    @Override
+    public List<DoctorDTO> getAllAvailableDoctors(Long specializedId, Long clinicId, String startDateTime, String endDateTime) {
+        List<Doctor> doctors = doctorRepository.findByStatusNotAndClinicIdAndSpecializedId(DoctorStatus.DELETED, clinicId, specializedId);
+        List<DoctorDTO> availableDoctors = new ArrayList<>();
+        for (Doctor doctor : doctors) {
+            if (isAvailable(doctor, getLocalDateTime(startDateTime), getLocalDateTime(endDateTime))) {
+                availableDoctors.add(new DoctorDTO(doctor));
+            }
+        }
+        return availableDoctors;
+    }
+
     @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
