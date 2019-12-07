@@ -162,6 +162,11 @@ public class RoomServiceImpl implements RoomService {
         return LocalDate.parse(date, formatter);
     }
 
+    private LocalDateTime getLocalDateTime(String date) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(date, formatter);
+    }
+
     private ExaminationKind getKind(String kind) {
         try {
             return ExaminationKind.valueOf(kind.toUpperCase());
@@ -188,8 +193,8 @@ public class RoomServiceImpl implements RoomService {
         if (selectedExamination.getClinicAdministrator().getId() != clinicAdministrator.getId()) {
             return null;
         }
-
-        return assignRoom(selectedExamination.getId(), examination.getRoom());
+        RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
+        return assignRoom(selectedExamination.getId(), roomDTO);
     }
 
 

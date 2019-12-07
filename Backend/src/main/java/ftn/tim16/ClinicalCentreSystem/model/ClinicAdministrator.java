@@ -102,7 +102,10 @@ public class ClinicAdministrator implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return (status == UserStatus.NEVER_LOGGED_IN);
+        if (status == UserStatus.NEVER_LOGGED_IN) {
+            return false;
+        }
+        return true;
     }
 
     public Long getId() {

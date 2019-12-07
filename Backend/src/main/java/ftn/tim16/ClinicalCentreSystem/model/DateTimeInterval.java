@@ -13,12 +13,17 @@ public class DateTimeInterval {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    // @JsonSerialize(using = LocalDateTimeSerializer.class)
+    //@JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime startDateTime;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    // @JsonSerialize(using = LocalDateTimeSerializer.class)
+    //@JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 

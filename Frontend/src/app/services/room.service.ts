@@ -25,8 +25,9 @@ export class RoomService {
   }
 
   public assignRoom(room: Room, examination: Examination) {
-    return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room));
+    return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
   }
+
   public getAllRoomsForAdmin(): Observable<Room[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: Room[]) => {
       this.roomsForAdmin.next(data);

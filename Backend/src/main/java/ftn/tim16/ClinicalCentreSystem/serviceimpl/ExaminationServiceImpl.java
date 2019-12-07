@@ -8,6 +8,7 @@ import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +69,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<Examination> getAwaitingExaminations() {
         return examinationRepository.findByStatus(ExaminationStatus.AWAITING);
+    }
+
+    @Override
+    public ExaminationPagingDTO getPredefinedExaminations(ClinicAdministrator clinicAdministrator, Pageable page) {
+        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus
+                (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED);
+        Page<Examination> pageExaminations = examinationRepository.findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus
+                (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED, page);
+        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(pageExaminations.getContent(), examinations.size());
+        return examinationPagingDTO;
     }
 
     @Override

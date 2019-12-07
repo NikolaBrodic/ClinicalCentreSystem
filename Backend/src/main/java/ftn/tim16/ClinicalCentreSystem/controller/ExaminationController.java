@@ -114,6 +114,20 @@ public class ExaminationController {
         }
     }
 
+    @GetMapping(value = "/get-predefined-examinations")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ExaminationPagingDTO> getPredefinedExaminations(Pageable page) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getPredefinedExaminations(clinicAdministrator, page), HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     private List<ExaminationDTO> convertToDTO(List<Examination> examinations) {
         List<ExaminationDTO> examinationDTOs = new ArrayList<>();
         for (Examination examination : examinations) {
@@ -122,5 +136,6 @@ public class ExaminationController {
 
         return examinationDTOs;
     }
+
 
 }

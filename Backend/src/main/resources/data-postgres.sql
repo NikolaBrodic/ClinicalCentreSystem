@@ -14,10 +14,11 @@ insert into clinic (address, description, name,clinic_rating) values ('3.Oktobar
 insert into clinic (address, description, name,clinic_rating) values ('Marsala Tita 9c', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
 
 /*CLINIC ADMIN*/
-/* Password: Admin.01 */
-insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values
- ('Admin.01@maildrop.cc', '$2a$10$2FpM8YtFb.xVHejeWG8AsufRlbO9lL.YjI3OFsgq5dBHOXcgBkXSO', 'Marko', 'Marković', '064123456', 'ACTIVE',1);
+/* Password: Admin.04 */
+ insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values
+('2st.admin@maildrop.cc', '$2a$10$0fX3yNqeWX3O/f0HtZRtVOA/6SA1Jq2vqARolGgJjRu47FX4AE/Y.', 'Mark1o', 'Marković1', '064153456', 'ACTIVE',1);
 insert into clinic_admin_authority(user_id, authority_id) values (1,2);
+
 /* Password: Admin.02 */
 insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values
  ('example2@maildrop.cc', '$2a$10$tSSrg2pGJrulxcsYIPfQkusLZfwDKslf76oP8at5BQPbaAQl4Ixpq', 'Mario', 'Simic', '0652561980', 'ACTIVE',1);

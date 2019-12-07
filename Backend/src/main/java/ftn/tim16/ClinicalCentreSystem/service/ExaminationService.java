@@ -20,6 +20,8 @@ public interface ExaminationService {
 
     List<Examination> getAwaitingExaminations();
 
+    ExaminationPagingDTO getPredefinedExaminations(ClinicAdministrator clinicAdministrator, Pageable page);
+
     Examination assignRoom(Examination examination, Room room, Nurse chosenNurse);
 
     ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page);
