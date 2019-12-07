@@ -1,6 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,10 +43,12 @@ public class Doctor implements UserDetails {
     @Column(columnDefinition = "VARCHAR(11)", unique = true, nullable = false)
     private String phoneNumber;
 
+    @JsonFormat(pattern = "HH:mm")
     @NotNull
     @Column(nullable = false)
     private LocalTime workHoursFrom;
 
+    @JsonFormat(pattern = "HH:mm")
     @NotNull
     @Column(nullable = false)
     private LocalTime workHoursTo;
@@ -60,6 +64,7 @@ public class Doctor implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ExaminationType specialized;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TimeOffDoctor> timeOffDoctors = new HashSet<>();
 
@@ -75,6 +80,9 @@ public class Doctor implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+
+    @Column
+    private Integer doctorRating;
 
     public Doctor() {
     }
@@ -94,6 +102,7 @@ public class Doctor implements UserDetails {
         this.timeOffDoctors = new HashSet<>();
         this.examinations = new HashSet<Examination>();
         this.authorities = authorities;
+        this.doctorRating = 0;
     }
 
     public void setAuthorities(List<Authority> authorities) {
@@ -130,11 +139,7 @@ public class Doctor implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status != DoctorStatus.ACTIVE) {
-            return false;
-        }
-
-        return true;
+        return (status == DoctorStatus.ACTIVE);
     }
 
 
@@ -246,6 +251,14 @@ public class Doctor implements UserDetails {
 
     public Timestamp getLastPasswordResetDate() {
         return lastPasswordResetDate;
+    }
+
+    public Integer getDoctorRating() {
+        return doctorRating;
+    }
+
+    public void setDoctorRating(Integer doctorRating) {
+        this.doctorRating = doctorRating;
     }
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {

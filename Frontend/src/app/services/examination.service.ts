@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Examination } from './../models/examination';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
+import { ExaminationForWorkCalendar } from '../models/examinationForWorkCalendar';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ import { Injectable } from '@angular/core';
 export class ExaminationService {
   url = environment.baseUrl + environment.examination;
   selectedExamination: Examination;
+
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public getAwaitingExaminations(pageIndex, pageSize, sort: MatSort) {
@@ -22,10 +24,8 @@ export class ExaminationService {
     params = params.append('size', pageSize);
     if (sort) {
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
-
     }
 
     return this.httpClient.get(this.url + "/get-awaiting", {
@@ -40,14 +40,21 @@ export class ExaminationService {
     params = params.append('size', pageSize);
     if (sort) {
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
 
     }
     return this.httpClient.get(this.url + "/get-doctors-examinations", {
       params: params
     });
+  }
+
+  public getDoctorExaminationsForWorkCalendar() {
+    return this.httpClient.get(this.url + "/doctor-examinations");
+  }
+
+  public getNurseExaminationsForWorkCalendar() {
+    return this.httpClient.get(this.url + "/nurse-examinations");
   }
 
   public cancelExamination(examination: Examination) {

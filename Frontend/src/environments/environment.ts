@@ -15,7 +15,9 @@ export const environment = {
   clinic: '/api/clinic',
   clinicAdmin: '/api/clinic-administrator',
   nurse: '/api/nurse',
-  examination: '/api/examination'
+  examination: '/api/examination',
+  timeOffDoctor: '/api/time-off-doctor',
+  timeOffNurse: '/api/time-off-nurse',
 };
 
 /*

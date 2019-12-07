@@ -12,22 +12,23 @@ public class RoomDTO {
     private Long id;
 
     @NotEmpty(message = "Label is empty.")
-    @Size(message="Max size for label is 30.",max = 30)
+    @Size(message = "Max size for label is 30.", max = 30)
     private String label;
 
-    @NotNull(message="Kind is null.")
+    @NotNull(message = "Kind is null.")
     private String kind;
 
     private LocalDateTime available;
 
 
     public RoomDTO(Long id, String label, String kind) {
-        this.id=id;
+        this.id = id;
         this.label = label;
         this.kind = kind;
     }
+
     public RoomDTO(Room room) {
-        this(room.getId(),room.getLabel(),room.getKind().toString());
+        this(room.getId(), room.getLabel(), room.getKind().toString());
     }
 
     public Long getId() {
@@ -53,6 +54,7 @@ public class RoomDTO {
     public void setKind(String kind) {
         this.kind = kind;
     }
+
     public LocalDateTime getAvailable() {
         return available;
     }

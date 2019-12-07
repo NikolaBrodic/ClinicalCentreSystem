@@ -1,12 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
-import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.RoomRepository;
 import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,6 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
-    @Autowired
-    private ExaminationRepository examinationRepository;
 
     @Autowired
     private ExaminationService examinationService;
@@ -47,13 +45,13 @@ public class RoomServiceImpl implements RoomService {
     private NurseService nurseService;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Autowired
-    DateTimeIntervalService dateTimeIntervalService;
+    private DateTimeIntervalService dateTimeIntervalService;
 
     @Override
-    public Room create(RoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
+    public Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
         }
@@ -82,7 +80,7 @@ public class RoomServiceImpl implements RoomService {
             searchActive = false;
         }
         boolean dateSearchActive = true;
-        if (date.equals("undefined") || searchStartTime.equals("undefined") || searchEndTime.equals("undefined")) {
+        if ("undefined".equals(date) || "undefined".equals(searchStartTime) || "undefined".equals(searchEndTime)) {
             dateSearchActive = false;
         }
         if (!searchActive && !dateSearchActive) {
@@ -104,14 +102,14 @@ public class RoomServiceImpl implements RoomService {
         LocalDateTime startDateTime = getLocalDateTime(localDate, searchStartTime);
         LocalDateTime endDateTime = getLocalDateTime(localDate, searchEndTime);
 
-        List<RoomDTO> availableRoom = searchByDateAndTime(roomsInClinicAll, localDate, startDateTime, endDateTime);
+        List<RoomDTO> availableRoom = searchByDateAndTime(roomsInClinicAll, startDateTime, endDateTime);
         int start = (int) page.getOffset();
         int end = (start + page.getPageSize()) > availableRoom.size() ? availableRoom.size() : (start + page.getPageSize());
         Page<RoomDTO> pages = new PageImpl<RoomDTO>(availableRoom.subList(start, end), page, availableRoom.size());
         return new RoomPagingDTO(pages.getContent(), roomsInClinicAll.size());
     }
 
-    private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDate localDate, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         List<RoomDTO> availableRoom = new ArrayList<>();
         for (Room currentRoom : roomsInClinicAll) {
@@ -290,8 +288,7 @@ public class RoomServiceImpl implements RoomService {
         List<Examination> examinations = examinationService.getAwaitingExaminations();
         for (Examination examination : examinations) {
             List<Room> allRooms = roomRepository.findByClinicIdAndStatusAndKind(examination.getClinic().getId(), LogicalStatus.EXISTING, examination.getKind());
-            List<RoomDTO> availableRoom = searchByDateAndTime(allRooms, examination.getInterval().getStartDateTime().toLocalDate(),
-                    examination.getInterval().getStartDateTime(), examination.getInterval().getEndDateTime());
+            List<RoomDTO> availableRoom = searchByDateAndTime(allRooms, examination.getInterval().getStartDateTime(), examination.getInterval().getEndDateTime());
 
             assignRoom(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())));
         }

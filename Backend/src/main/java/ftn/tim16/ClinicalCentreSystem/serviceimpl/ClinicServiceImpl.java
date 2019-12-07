@@ -13,7 +13,7 @@ import java.util.List;
 public class ClinicServiceImpl implements ClinicService {
 
     @Autowired
-    ClinicRepository clinicRepository;
+    private ClinicRepository clinicRepository;
 
     @Override
     public ClinicDTO findById(Long id) {

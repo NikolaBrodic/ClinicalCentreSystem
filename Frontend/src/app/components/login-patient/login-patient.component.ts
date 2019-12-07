@@ -53,6 +53,10 @@ export class LoginPatientComponent implements OnInit {
       data => {
         //TODO: When you add home pages for users you need to do redirect to each one.
         this.toastr.success("You have successfuly logged in!", 'Login');
+        let role = JSON.parse(localStorage.getItem('LoggedInUser'))['role'];
+        if (role === 'PATIENT') {
+          this.router.navigate(['/patient/profile']);
+        }
       },
       error => {
         if (error.status == 403) {

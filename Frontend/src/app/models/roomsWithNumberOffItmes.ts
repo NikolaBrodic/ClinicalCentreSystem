@@ -1,6 +1,6 @@
 import { Room } from './room';
 
-export class RoomWithNumber {
+export class RoomsWithNumberOffItmes {
     roomDTOList: Room[];
     numberOfItems: number;
     constructor(roomDTOList: Room[], numberOfItems: number) {

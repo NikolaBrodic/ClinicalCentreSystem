@@ -48,7 +48,7 @@ public class Patient implements UserDetails {
     private PatientStatus status;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "patient")
+    @OneToOne(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
     @JsonIgnore
@@ -122,11 +122,7 @@ public class Patient implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status == PatientStatus.AWAITING_APPROVAL) {
-            return false;
-        }
-
-        return true;
+        return (status != PatientStatus.AWAITING_APPROVAL);
     }
 
     public Long getId() {

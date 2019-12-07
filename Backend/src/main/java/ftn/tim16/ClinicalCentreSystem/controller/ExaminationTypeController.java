@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 
@@ -49,7 +50,7 @@ public class ExaminationTypeController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/pageAll")
@@ -61,9 +62,15 @@ public class ExaminationTypeController {
         }
         ExaminationTypePagingDTO examinationTypePagingDTO = new ExaminationTypePagingDTO(
                 examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic(), page),
-                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic()).size());
+                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()).size());
         return new ResponseEntity<>(examinationTypePagingDTO, HttpStatus.OK);
     }
 
+
+    @GetMapping(value = "/patient/all/{id}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@PathVariable("id") Long clinic_id) {
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic_id), HttpStatus.OK);
+    }
 
 }

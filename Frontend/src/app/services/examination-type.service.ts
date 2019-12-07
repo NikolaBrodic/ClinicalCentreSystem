@@ -1,3 +1,4 @@
+import { Clinic } from 'src/app/models/clinic';
 import { ExaminationTypeWithNumber } from './../models/examinationTypewuthNumber';
 import { environment } from './../../environments/environment';
 import { ExaminationType } from './../models/examinationType';
@@ -15,6 +16,7 @@ export class ExaminationTypeService {
   url = environment.baseUrl + environment.examinationType;
 
   examinationTypesForAdmin: BehaviorSubject<ExaminationType[]> = new BehaviorSubject<ExaminationType[]>([]);
+  examinationTypesForPatient: BehaviorSubject<ExaminationType[]> = new BehaviorSubject<ExaminationType[]>([]);
   updateSuccessEmitter = new Subject<ExaminationType>();
   createSuccessEmitter = new Subject<ExaminationType>();
 
@@ -34,15 +36,25 @@ export class ExaminationTypeService {
     return this.examinationTypesForAdmin.asObservable();
   }
 
+  public getExaminationTypesForPatient(clinic: Clinic): Observable<ExaminationType[]> {
+    this.httpClient.get(this.url + "/patient/all/" + clinic.id).subscribe((data: ExaminationType[]) => {
+      this.examinationTypesForPatient.next(data);
+    },
+      (error: HttpErrorResponse) => {
+
+      });
+    return this.examinationTypesForPatient.asObservable();
+  }
+
   public getExaminationTypesForAdminPaging(pageIndex, pageSize, sort: MatSort) {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
+
     if (sort) {
-      console.log(sort)
+
       if (sort.active) {
-        params = params.append('sort', sort.active);
-        params = params.append('direction', sort.direction);
+        params = params.append('sort', sort.active + "," + sort.direction);
       }
 
     }

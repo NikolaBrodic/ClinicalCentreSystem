@@ -11,7 +11,6 @@ import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
-import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -68,16 +67,17 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         //TODO: CHECK VACATION
-        if(!doctor.isAvailable(startDateTime.toLocalTime(),endDateTime.toLocalTime())){
+        if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
-        if(timeOffDoctorService.isDoctorOnVacation(doctor.getId(),startDateTime,endDateTime)){
+        if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getDoctorsExamination(doctor.getId());
-        if(!examinations.isEmpty()){
-            for(Examination examination : examinations){
-                if(!examination.getInterval().isAvailable(startDateTime,endDateTime)){
+        List<Examination> examinations = examinationService.getDoctorExaminations(doctor.getId());
+
+        if (!examinations.isEmpty()) {
+            for (Examination examination : examinations) {
+                if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {
                     return false;
                 }
             }
@@ -87,9 +87,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinic_id) {
-        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinic_id,specialized,DoctorStatus.DELETED);
-        for (Doctor doctor: doctors) {
-            if(isAvailable(doctor,startDateTime,endDateTime)){
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinic_id, specialized, DoctorStatus.DELETED);
+        for (Doctor doctor : doctors) {
+            if (isAvailable(doctor, startDateTime, endDateTime)) {
                 return doctor;
             }
         }
@@ -97,7 +97,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void removeExamination(Examination examination,String email) {
+    public void removeExamination(Examination examination, String email) {
         Doctor doc = doctorRepository.findByEmail(email);
         doc.getExaminations().remove(examination);
         doctorRepository.save(doc);
@@ -115,6 +115,13 @@ public class DoctorServiceImpl implements DoctorService {
             return null;
         }
         return null;
+    }
+
+    @Override
+    public List<DoctorDTO> findByFirstNameAndLastNameAndDoctorRating(String firstName, String lastName, int doctorRating) {
+        List<Doctor> listOfDoctors = doctorRepository.findByFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndDoctorRating(
+                firstName, lastName, doctorRating);
+        return convertToDTO(listOfDoctors);
     }
 
     @Override
@@ -140,7 +147,7 @@ public class DoctorServiceImpl implements DoctorService {
         RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
         String generatedPassword = randomPasswordGenerator.generatePassword();
         String hashedPassword = passwordEncoder.encode(generatedPassword);
-        
+
         List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
 
         Doctor newDoctor = new Doctor(doctor.getEmail(), hashedPassword, doctor.getFirstName(),

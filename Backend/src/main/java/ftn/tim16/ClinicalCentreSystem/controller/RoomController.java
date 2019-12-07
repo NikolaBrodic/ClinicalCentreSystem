@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
@@ -32,7 +33,7 @@ public class RoomController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> create(@Valid @RequestBody RoomDTO roomDTO) {
+    public ResponseEntity<Room> create(@Valid @RequestBody CreateRoomDTO roomDTO) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
 
         if (clinicAdministrator == null) {

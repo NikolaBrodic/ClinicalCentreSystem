@@ -10,8 +10,7 @@ export class Patient {
         public city: string,
         public country: string,
         public healthInsuranceID: string,
-        public status: PatientStatus,
-        public id?: number
+        public status?: PatientStatus
     ) {
     }
 

@@ -3,20 +3,26 @@ package ftn.tim16.ClinicalCentreSystem.service;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface ExaminationService {
 
-    public List<Examination> getExaminations(Long idRoom);
-    public List<Examination> getDoctorsExamination(Long idDoctor);
-    public List<Examination> getNursesExamination(Long idNurse);
+    List<Examination> getExaminations(Long idRoom);
 
-    public Examination getExamination(Long id);
-    public ExaminationPagingDTO getAwaitingExaminations(String kind, ClinicAdministrator clinicAdministrator, Pageable page);
-    public List<Examination> getAwaitingExaminations();
-    public Examination assignRoom(Examination examination, Room room, Nurse chosenNurse);
+    List<Examination> getDoctorExaminations(Long idDoctor);
 
-    public ExaminationPagingDTO getDoctorsExaminations(Doctor doctor, Pageable page);
+    List<Examination> getNurseExaminations(Long idNurse);
 
-    public Examination cancelExamination(Doctor doctor, Long examinationId);
+    Examination getExamination(Long id);
+
+    ExaminationPagingDTO getAwaitingExaminations(String kind, ClinicAdministrator clinicAdministrator, Pageable page);
+
+    List<Examination> getAwaitingExaminations();
+
+    Examination assignRoom(Examination examination, Room room, Nurse chosenNurse);
+
+    ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page);
+
+    Examination cancelExamination(Doctor doctor, Long examinationId);
 }

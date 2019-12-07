@@ -9,7 +9,6 @@ import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,9 +55,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -180,10 +176,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByEmail(email);
             if (clinicalCentreAdministrator != null) {
-                if (clinicalCentreAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (clinicalCentreAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
 
@@ -192,10 +185,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.findByEmail(email);
             if (clinicAdministrator != null) {
-                if (clinicAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (clinicAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
 
@@ -204,10 +194,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             Nurse nurse = nurseRepository.findByEmail(email);
             if (nurse != null) {
-                if (nurse.getStatus() == UserStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (nurse.getStatus() == UserStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
 
@@ -215,13 +202,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         try {
             Doctor doctor = doctorRepository.findByEmail(email);
             if (doctor != null) {
-                if (doctor.getStatus() == DoctorStatus.NEVER_LOGGED_IN) {
-                    return true;
-                }
-                return false;
+                return (doctor.getStatus() == DoctorStatus.NEVER_LOGGED_IN);
             }
         } catch (UsernameNotFoundException ex) {
-
         }
         return false;
     }
