@@ -38,6 +38,16 @@ export class RoomService {
     return this.roomsForAdmin.asObservable();
   }
 
+  public getAvailableExaminationRooms(startDateTime: string, endDateTime: string) {
+    let params = new HttpParams();
+    params = params.append('startDateTime', startDateTime);
+    params = params.append('endDateTime', endDateTime);
+
+    return this.httpClient.get(this.url + "/available-examination-rooms", {
+      params: params
+    });
+  }
+
   public getRoomsForAdminPaging(pageIndex, pageSize, sort: MatSort, kind, search, searchDate, searchStartTime, searchEndTime) {
     let params = new HttpParams();
     params = params.append('page', pageIndex);

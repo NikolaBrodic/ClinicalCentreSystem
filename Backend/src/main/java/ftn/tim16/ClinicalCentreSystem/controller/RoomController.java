@@ -81,11 +81,14 @@ public class RoomController {
 
     @GetMapping(value = "/available-examination-rooms")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@RequestParam(value = "clinicId", required = true) Long clinicId,
-                                                                      @RequestParam(value = "startDateTime", required = true) String startDateTime,
+    public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@RequestParam(value = "startDateTime", required = true) String startDateTime,
                                                                       @RequestParam(value = "endDateTime", required = true) String endDateTime) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         try {
-            List<RoomDTO> roomDTOS = roomService.getAvailableExaminationRooms(clinicId, startDateTime, endDateTime);
+            List<RoomDTO> roomDTOS = roomService.getAvailableExaminationRooms(clinicAdministrator.getClinic().getId(), startDateTime, endDateTime);
             return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
