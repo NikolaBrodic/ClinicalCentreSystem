@@ -95,6 +95,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
     this.getDoctors();
     this.getRooms();
   }
+
   create() {
     if (this.addPredefinedExaminationForm.invalid) {
       this.toastr.error("Please enter a valid data.", 'Create predefined examination');
