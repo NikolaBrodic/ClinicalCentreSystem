@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 
 import { Doctor } from './../models/doctor';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -30,5 +30,16 @@ export class DoctorService {
 
       });
     return this.doctorsForAdmin.asObservable();
+  }
+
+  public getAllAvailableDoctors(specialized: any, startDateTime: string, endDateTime: string) {
+    let params = new HttpParams();
+    params = params.append('specialized', specialized);
+    params = params.append('startDateTime', startDateTime);
+    params = params.append('endDateTime', endDateTime);
+
+    return this.httpClient.get(this.url + "/available", {
+      params: params
+    });
   }
 }

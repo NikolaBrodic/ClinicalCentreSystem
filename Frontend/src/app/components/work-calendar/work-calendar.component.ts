@@ -68,8 +68,8 @@ export class WorkCalendarComponent implements OnInit {
           "patientFirstName": item.patient ? item.patient.firstName : null,
           "patientLastName": item.patient ? item.patient.lastName : null,
         },
-        "from": moment(item.interval.startDateTime, "DD.MM.YYYY HH:mm").toISOString(),
-        "to": moment(item.interval.endDateTime, "DD.MM.YYYY HH:mm").toISOString(),
+        "from": moment(item.interval.startDateTime, "YYYY-MM-DD HH:mm").toISOString(),
+        "to": moment(item.interval.endDateTime, "YYYY-MM-DD HH:mm").toISOString(),
         "color": this.colors[item.kind.toLowerCase()],
         "locked": true,
       }
@@ -108,8 +108,8 @@ export class WorkCalendarComponent implements OnInit {
 
   convertTimeOffs(timeOffs: TimeOffForWorkCalendar[]) {
     let event: any = {};
-    let dateFormat = "DD.MM.YYYY";
-    let dateTimeFormat = "DD.MM.YYYY HH:mm";
+    let dateFormat = "YYYY-MM-DD";
+    let dateTimeFormat = "YYYY-MM-DD HH:mm";
 
     timeOffs.forEach(item => {
       let itemType = item.type.replace('_', ' ');

@@ -1,5 +1,5 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { AddClinicComponent } from './../add-clinic/add-clinic.component';
+import { AddClinicComponent } from '../add-clinic/add-clinic.component';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Clinic } from 'src/app/models/clinic';

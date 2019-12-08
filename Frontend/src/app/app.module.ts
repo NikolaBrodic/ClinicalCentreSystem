@@ -1,3 +1,5 @@
+import { AddPredefinedExaminationComponent } from './components/add-predefined-examination/add-predefined-examination.component';
+import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
 import { DoctorGuard } from './guards/doctor.guard';
 import { NurseGuard } from './guards/nurse.guard';
@@ -84,7 +86,10 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
     ListOfPatientsWithSearchComponent,
     PatientProfileComponent,
     PatientClinicDetailsComponent,
-    WorkCalendarComponent
+    WorkCalendarComponent,
+    ListOfCreatedPredefinedExaminationComponent,
+    AddPredefinedExaminationComponent
+
   ],
   imports: [
     BrowserModule,
@@ -120,6 +125,8 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
     AddClinicAdministratorComponent,
     ListNursesComponent,
     AddNurseComponent,
+    ListOfCreatedPredefinedExaminationComponent,
+    AddPredefinedExaminationComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

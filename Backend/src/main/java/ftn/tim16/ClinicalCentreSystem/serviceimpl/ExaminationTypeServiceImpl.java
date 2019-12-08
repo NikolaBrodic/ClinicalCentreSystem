@@ -45,6 +45,11 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinic.getId(), LogicalStatus.EXISTING, page));
     }
 
+    @Override
+    public ExaminationType findById(Long id) {
+        return examinationTypeRepository.findByIdAndStatusNot(id, LogicalStatus.DELETED);
+    }
+
     private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes) {
         if (examinationTypes == null || examinationTypes.isEmpty()) {
             return new ArrayList<>();

@@ -1,3 +1,4 @@
+import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
@@ -83,6 +84,11 @@ const routes: Routes = [
   {
     path: 'clinic-admin/examination/get-awaiting',
     component: ListExaminationsRequestComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/predefined-examination/get-all',
+    component: ListOfCreatedPredefinedExaminationComponent,
     canActivate: [ClinicAdminGuard],
   },
 

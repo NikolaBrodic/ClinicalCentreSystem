@@ -51,6 +51,11 @@ public class RoomServiceImpl implements RoomService {
     private DateTimeIntervalService dateTimeIntervalService;
 
     @Override
+    public Room findById(Long id) {
+        return roomRepository.getByIdAndStatusNot(id, LogicalStatus.DELETED);
+    }
+
+    @Override
     public Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
@@ -109,6 +114,12 @@ public class RoomServiceImpl implements RoomService {
         return new RoomPagingDTO(pages.getContent(), roomsInClinicAll.size());
     }
 
+    @Override
+    public List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime) {
+        List<Room> rooms = roomRepository.findByClinicIdAndStatusAndKind(clinicId, LogicalStatus.EXISTING, ExaminationKind.EXAMINATION);
+        return searchByDateAndTime(rooms, getLocalDateTime(startDateTime), getLocalDateTime(endDateTime));
+    }
+
     private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         List<RoomDTO> availableRoom = new ArrayList<>();
@@ -162,6 +173,11 @@ public class RoomServiceImpl implements RoomService {
         return LocalDate.parse(date, formatter);
     }
 
+    private LocalDateTime getLocalDateTime(String date) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(date, formatter);
+    }
+
     private ExaminationKind getKind(String kind) {
         try {
             return ExaminationKind.valueOf(kind.toUpperCase());
@@ -188,14 +204,14 @@ public class RoomServiceImpl implements RoomService {
         if (selectedExamination.getClinicAdministrator().getId() != clinicAdministrator.getId()) {
             return null;
         }
-
-        return assignRoom(selectedExamination.getId(), examination.getRoom());
+        RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
+        return assignRoom(selectedExamination.getId(), roomDTO);
     }
 
 
     private Room assignRoom(Long examinationId, RoomDTO roomDTO) {
         Examination selectedExamination = examinationService.getExamination(examinationId);
-        Room room = roomRepository.getById(roomDTO.getId());
+        Room room = findById(roomDTO.getId());
         if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
@@ -240,7 +256,7 @@ public class RoomServiceImpl implements RoomService {
         }
 
         sendMail(selectedExamination, doctor, selectedExamination.getPatient());
-        return roomRepository.getById(roomDTO.getId());
+        return findById(roomDTO.getId());
     }
 
     private void sendMail(Examination examination, Doctor doctor, Patient patient) {

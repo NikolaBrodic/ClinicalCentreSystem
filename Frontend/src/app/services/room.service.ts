@@ -25,8 +25,9 @@ export class RoomService {
   }
 
   public assignRoom(room: Room, examination: Examination) {
-    return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room));
+    return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
   }
+
   public getAllRoomsForAdmin(): Observable<Room[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: Room[]) => {
       this.roomsForAdmin.next(data);
@@ -35,6 +36,16 @@ export class RoomService {
 
       });
     return this.roomsForAdmin.asObservable();
+  }
+
+  public getAvailableExaminationRooms(startDateTime: string, endDateTime: string) {
+    let params = new HttpParams();
+    params = params.append('startDateTime', startDateTime);
+    params = params.append('endDateTime', endDateTime);
+
+    return this.httpClient.get(this.url + "/available-examination-rooms", {
+      params: params
+    });
   }
 
   public getRoomsForAdminPaging(pageIndex, pageSize, sort: MatSort, kind, search, searchDate, searchStartTime, searchEndTime) {

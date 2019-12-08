@@ -37,7 +37,7 @@ export class ListExaminationsRequestComponent implements OnInit {
 
   assignRoom(element: Examination) {
     this.examinationService.selectedExamination = element;
-    this.router.navigate(['/clinicAdministrator/search-rooms'], { queryParams: { kind: 'examination' } });
+    this.router.navigate(['/clinic-admin/search-rooms'], { queryParams: { kind: 'examination' } });
 
   }
 

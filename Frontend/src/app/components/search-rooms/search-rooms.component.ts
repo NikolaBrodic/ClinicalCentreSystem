@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomsWithNumberOffItmes } from 'src/app/models/roomsWithNumberOffItmes';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-search-rooms',
   templateUrl: './search-rooms.component.html',
@@ -64,10 +64,11 @@ export class SearchRoomsComponent implements OnInit {
       this.router.navigate(['/error']);
       return;
     }
-    this.searchDate = new Date(formatDate(this.examination.interval.startDateTime.toString(), 'MM.dd.yyyy', 'en-US'));
+    let dateFormat = "DD.MM.YYYY";
+    this.searchDate = moment(this.examination.interval.startDateTime.toString().substr(0, 10), dateFormat).toDate();
     console.log(this.searchDate);
-    this.searchTimeStart = formatDate(this.examination.interval.startDateTime.toString(), 'hh:mm', 'en-US');
-    this.searchTimeEnd = formatDate(this.examination.interval.endDateTime.toString(), 'hh:mm', 'en-US');
+    this.searchTimeStart = this.examination.interval.startDateTime.toString().substr(11);
+    this.searchTimeEnd = this.examination.interval.endDateTime.toString().substr(11);
     this.getRoomsForAdminPaging();
   }
 

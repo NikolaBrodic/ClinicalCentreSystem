@@ -1,0 +1,101 @@
+<h1 mat-dialog-title>Add predefined examination</h1>
+<mat-dialog-content class="dialog-class">
+    <mat-horizontal-stepper [linear]="true" #stepper>
+        <ng-template matStepLabel></ng-template>
+        <mat-step [stepControl]="dateTimeTypeForm">
+            <form [formGroup]="dateTimeTypeForm" class="form-full-width">
+                <mat-form-field class="form-full-width mt-2">
+                    <input matInput [matDatepicker]=" picker" placeholder="Date" formControlName="date" readonly
+                        [min]="minDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+
+                <table class="form-full-width mt-3" cellspacing="0">
+                    <tr>
+                        <td>From:</td>
+                        <td>
+                            <div class="form-full-width-td">
+                                <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="timeFrom">
+                                </ngx-timepicker-field>
+                            </div>
+                        </td>
+                        <td>To:</td>
+                        <td>
+                            <div class="form-full-width-td ml-2">
+                                <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="timeTo">
+                                </ngx-timepicker-field>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+                <div>
+                    <mat-error *ngIf="timeError">
+                        Please choose start and end time of examination. Start time must be before end time.
+                    </mat-error>
+                </div>
+                <mat-form-field class="form-full-width mt-2">
+                    <mat-label>Examination type</mat-label>
+                    <mat-select formControlName="examinationType">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let examinationType of examinationTypes" [value]="examinationType">
+                            {{examinationType.label}} &nbsp; ( {{examinationType.price}} RSD)
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <mat-dialog-actions class="mt-2 mb-1">
+                <button mat-raised-button color="primary" (click)="next()" matStepperNext>Next</button>
+            </mat-dialog-actions>
+        </mat-step>
+        <mat-step [stepControl]="addPredefinedExaminationForm">
+            <ng-template matStepLabel></ng-template>
+            <form [formGroup]="addPredefinedExaminationForm" class="form-full-width">
+                <mat-form-field class="form-full-width mt-2">
+                    <mat-label>Doctor</mat-label>
+                    <mat-select formControlName="doctor">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let doctor of doctors" [value]="doctor">
+                            {{doctor.firstName}} &nbsp; {{doctor.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="form-full-width mt-2">
+                    <mat-label>Room</mat-label>
+                    <mat-select formControlName="room">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let room of rooms" [value]="room">
+                            {{room.label}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="form-full-width mt-3">
+                    <input matInput placeholder="Discount" formControlName="discount" type="number" value="0">
+                    <mat-error
+                        *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['required']">
+                        Please enter discount.
+                    </mat-error>
+                    <mat-error
+                        *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['min']">
+                        Discount must be a number greater than 0.
+                    </mat-error>
+                    <mat-error
+                        *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['max']">
+                        Discount must be a number lower than 0.
+                    </mat-error>
+                </mat-form-field>
+            </form>
+
+            <mat-dialog-actions class="mt-2 mb-1">
+                <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="create()"
+                    [disabled]="!addPredefinedExaminationForm.valid">Add</button>
+            </mat-dialog-actions>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+
+</mat-dialog-content>
