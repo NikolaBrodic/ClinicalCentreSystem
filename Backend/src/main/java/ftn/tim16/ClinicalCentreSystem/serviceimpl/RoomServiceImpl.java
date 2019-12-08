@@ -51,6 +51,11 @@ public class RoomServiceImpl implements RoomService {
     private DateTimeIntervalService dateTimeIntervalService;
 
     @Override
+    public Room findById(Long id) {
+        return roomRepository.getByIdAndStatusNot(id, LogicalStatus.DELETED);
+    }
+
+    @Override
     public Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
@@ -206,7 +211,7 @@ public class RoomServiceImpl implements RoomService {
 
     private Room assignRoom(Long examinationId, RoomDTO roomDTO) {
         Examination selectedExamination = examinationService.getExamination(examinationId);
-        Room room = roomRepository.getById(roomDTO.getId());
+        Room room = findById(roomDTO.getId());
         if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
@@ -251,7 +256,7 @@ public class RoomServiceImpl implements RoomService {
         }
 
         sendMail(selectedExamination, doctor, selectedExamination.getPatient());
-        return roomRepository.getById(roomDTO.getId());
+        return findById(roomDTO.getId());
     }
 
     private void sendMail(Examination examination, Doctor doctor, Patient patient) {

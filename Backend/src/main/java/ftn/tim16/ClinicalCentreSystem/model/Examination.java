@@ -57,9 +57,34 @@ public class Examination {
     @Column
     private Integer clinicRating;
 
+    public Examination() {
+        this.doctorRating = 0;
+        this.clinicRating = 0;
+    }
+
+    public Examination(ExaminationKind kind, DateTimeInterval interval, ExaminationStatus status, ExaminationType examinationType,
+                       Room room, Integer discount, Nurse nurse,
+                       Clinic clinic, ClinicAdministrator clinicAdministrator) {
+        this.kind = kind;
+        this.interval = interval;
+        this.status = status;
+        this.examinationType = examinationType;
+        this.doctors = doctors;
+        this.room = room;
+        this.discount = discount;
+        this.nurse = nurse;
+        this.clinic = clinic;
+        this.clinicAdministrator = clinicAdministrator;
+        this.doctorRating = 0;
+        this.clinicRating = 0;
+
+        doctors = new HashSet<Doctor>();
+    }
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private ClinicAdministrator clinicAdministrator;
+
 
     public Long getId() {
         return id;

@@ -72,7 +72,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
 
   getRooms() {
     if (this.dateTimeTypeForm.value.date && this.dateTimeTypeForm.value.timeFrom && this.dateTimeTypeForm.value.timeTo) {
-      var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
+      var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US');
       var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
       var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
       this.roomService.getAvailableExaminationRooms(startDateTime, endDateTime).subscribe((data: Room[]) => {
@@ -105,11 +105,12 @@ export class AddPredefinedExaminationComponent implements OnInit {
       return;
     }
 
-    var startDateTime = this.dateTimeTypeForm.value.date + " " + this.dateTimeTypeForm.value.timeFrom;
-    var endDateTime = this.dateTimeTypeForm.value.date + " " + this.dateTimeTypeForm.value.timeTo;
+    var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
+    var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
+    var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
 
     const predefinedExamination = new PredefinedExamination(startDateTime, endDateTime, this.dateTimeTypeForm.value.examinationType,
-      this.addPredefinedExaminationForm.value.doctor, this.addPredefinedExaminationForm.value.room, this.addPredefinedExaminationForm.value.discount);
+      this.addPredefinedExaminationForm.value.doctor, this.addPredefinedExaminationForm.value.room.id, this.addPredefinedExaminationForm.value.discount);
 
     this.examinationService.createPredefinedExamination(predefinedExamination).subscribe(
       responseData => {

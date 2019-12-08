@@ -14,4 +14,6 @@ public interface ExaminationTypeService {
     List<ExaminationTypeDTO> findAllTypesInClinic(Long clinic_id);
 
     List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic, Pageable page);
+
+    ExaminationType findById(Long id);
 }

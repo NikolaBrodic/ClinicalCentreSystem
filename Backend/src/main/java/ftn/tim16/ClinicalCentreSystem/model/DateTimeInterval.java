@@ -28,6 +28,16 @@ public class DateTimeInterval {
     @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
+    public DateTimeInterval() {
+    }
+
+    public DateTimeInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        timeOffDoctors = new HashSet<>();
+        examinations = new HashSet<>();
+    }
+
     public Long getId() {
         return id;
     }

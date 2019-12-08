@@ -12,7 +12,7 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<Room, Long> {
     Room findByLabelIgnoringCase(String label);
 
-    Room getById(Long id);
+    Room getByIdAndStatusNot(Long id, LogicalStatus status);
 
     List<Room> findByClinicIdAndStatus(Long id, LogicalStatus status);
 

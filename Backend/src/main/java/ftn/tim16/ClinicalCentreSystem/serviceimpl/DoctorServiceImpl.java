@@ -7,10 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
-import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +45,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private ExaminationService examinationService;
+
+    @Autowired
+    private ExaminationTypeService examinationTypeService;
 
     @Autowired
     private TimeOffDoctorService timeOffDoctorService;
@@ -142,6 +142,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor getDoctor(Long id) {
+        return doctorRepository.findByIdAndStatusNot(id, DoctorStatus.DELETED);
+    }
+
+    @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
         if (userDetails != null) {
@@ -156,7 +161,7 @@ public class DoctorServiceImpl implements DoctorService {
         if (workHoursFrom.isAfter(workHoursTo)) {
             return null;
         }
-        ExaminationType examinationType = examinationTypeRepository.getById(doctor.getSpecialized().getId());
+        ExaminationType examinationType = examinationTypeService.findById(doctor.getSpecialized().getId());
         if (examinationType == null) {
             return null;
         }

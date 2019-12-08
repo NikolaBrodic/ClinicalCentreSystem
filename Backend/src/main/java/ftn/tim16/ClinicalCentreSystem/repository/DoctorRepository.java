@@ -13,6 +13,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     Doctor findByEmailIgnoringCase(String email);
 
+    Doctor findByIdAndStatusNot(Long id, DoctorStatus doctorStatus);
+
     Doctor findByPhoneNumber(String phoneNumber);
 
     List<Doctor> findByClinicIdAndStatusNot(Long id, DoctorStatus status);
@@ -26,4 +28,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> findByClinicIdAndSpecializedAndStatusNot(Long clinic_id, ExaminationType specialized, DoctorStatus status);
 
     List<Doctor> findByStatusNotAndClinicIdAndSpecializedId(DoctorStatus status, Long clinicId, Long specializedId);
+
 }
