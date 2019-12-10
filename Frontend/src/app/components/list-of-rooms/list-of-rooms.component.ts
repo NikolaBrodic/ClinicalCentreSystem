@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { MatSort } from '@angular/material/sort';
 import { AddRoomComponent } from './../add-room/add-room.component';
 import { RoomService } from './../../services/room.service';
@@ -22,7 +23,7 @@ export class ListOfRoomsComponent implements OnInit {
   numberOfItem: number;
 
   constructor(public dialog: MatDialog,
-    private roomService: RoomService) { }
+    private roomService: RoomService, private toastr: ToastrService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -58,8 +59,16 @@ export class ListOfRoomsComponent implements OnInit {
 
   }
 
-  deleteRoom() {
-
+  deleteRoom(room: Room) {
+    this.roomService.deleteRoom(room.id).subscribe(
+      responseData => {
+        this.getRoomsForAdmin();
+        this.toastr.success("Successfully deleted room.", 'Delete room');
+      },
+      message => {
+        this.toastr.error("You can not delete this room because this room is reserved..", 'Delete room');
+      }
+    );
   }
 
 }

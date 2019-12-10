@@ -31,7 +31,6 @@ export class SearchRoomsComponent implements OnInit {
   searchTimeEnd: String;
   minDate = new Date();
   examination: Examination;
-  private selectedExamination: Subscription;
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
@@ -64,11 +63,13 @@ export class SearchRoomsComponent implements OnInit {
       this.router.navigate(['/error']);
       return;
     }
-    let dateFormat = "DD.MM.YYYY";
+    let dateFormat = "YYYY-MM-DD";
     this.searchDate = moment(this.examination.interval.startDateTime.toString().substr(0, 10), dateFormat).toDate();
-    console.log(this.searchDate);
+
     this.searchTimeStart = this.examination.interval.startDateTime.toString().substr(11);
+
     this.searchTimeEnd = this.examination.interval.endDateTime.toString().substr(11);
+
     this.getRoomsForAdminPaging();
   }
 
@@ -86,9 +87,10 @@ export class SearchRoomsComponent implements OnInit {
     this.roomService.assignRoom(element, this.examination).subscribe(
       responseData => {
         this.toastr.success("Successfully assigned examination room ", 'Assign room');
+        this.router.navigate(['/clinic-admin/examination/get-awaiting']);
       },
       message => {
-        this.toastr.error("Error", 'Assign room');
+        this.toastr.error("You can not assign this room. Please choose another one.", 'Assign room');
       }
     );
   }
@@ -107,27 +109,27 @@ export class SearchRoomsComponent implements OnInit {
   }
 
   getRoomsForAdminPaging() {
-    const format = 'dd/MM/yyyy';
+
+    const format = 'yyyy-MM-dd';
     const locale = 'en-US';
     if (this.searchDate) {
-      const formattedDate = formatDate(this.searchDate, format, locale);
-      this.roomService.getRoomsForAdminPaging
-        (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, formattedDate, this.searchTimeStart, this.searchTimeEnd).
-        subscribe((data: RoomsWithNumberOffItmes) => {
-          this.numberOfItem = data.numberOfItems;
-          this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
-          this.roomsDataSource.sort = this.sort;
-        })
+      this.requestForGettingRooms(formatDate(this.searchDate, format, locale));
+
     } else {
-      this.roomService.getRoomsForAdminPaging
-        (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, this.searchDate, this.searchTimeStart, this.searchTimeEnd).
-        subscribe((data: RoomsWithNumberOffItmes) => {
-          this.numberOfItem = data.numberOfItems;
-          this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
-          this.roomsDataSource.sort = this.sort;
-        })
+      this.requestForGettingRooms(this.searchDate);
     }
 
+  }
+
+  requestForGettingRooms(date) {
+
+    this.roomService.getRoomsForAdminPaging
+      (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, date, this.searchTimeStart, this.searchTimeEnd).
+      subscribe((data: RoomsWithNumberOffItmes) => {
+        this.numberOfItem = data.numberOfItems;
+        this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
+        this.roomsDataSource.sort = this.sort;
+      })
   }
 
   changePage() {

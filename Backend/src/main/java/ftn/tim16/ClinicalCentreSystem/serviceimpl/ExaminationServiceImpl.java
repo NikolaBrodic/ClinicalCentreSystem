@@ -181,6 +181,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctor_id, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
+    @Override
+    public List<Examination> getUpcomingExaminationsInRoom(Long room_id) {
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(room_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
     private LocalDateTime getLocalDateTime(LocalDate date, String time) throws DateTimeParseException {
         LocalTime localTime = LocalTime.parse(time.substring(11), DateTimeFormatter.ofPattern("HH:mm"));
         return LocalDateTime.of(date, localTime);

@@ -68,4 +68,9 @@ export class RoomService {
     });
   }
 
+
+  public deleteRoom(id: number) {
+    return this.httpClient.delete(this.url + '/' + id);
+  }
+
 }
