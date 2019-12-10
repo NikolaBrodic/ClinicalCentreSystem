@@ -147,6 +147,25 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor deleteDoctor(Long clinic_id, Long id) {
+
+        Doctor doctor = getDoctor(id);
+
+        if (doctor.getClinic().getId() != clinic_id) {
+            return null;
+        }
+        List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(id);
+
+        if (upcomingExaminations != null) {
+            if (!upcomingExaminations.isEmpty()) {
+                return null;
+            }
+        }
+        doctor.setStatus(DoctorStatus.DELETED);
+        return doctorRepository.save(doctor);
+    }
+
+    @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
         if (userDetails != null) {

@@ -42,4 +42,8 @@ export class DoctorService {
       params: params
     });
   }
+
+  public deleteDoctor(id: number) {
+    return this.httpClient.delete(this.url + '/' + id);
+  }
 }

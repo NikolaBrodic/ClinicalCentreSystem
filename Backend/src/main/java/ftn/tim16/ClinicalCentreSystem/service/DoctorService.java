@@ -30,4 +30,6 @@ public interface DoctorService {
     List<DoctorDTO> getAllAvailableDoctors(Long specializedId, Long clinicId, String startDateTime, String endDateTime);
 
     Doctor getDoctor(Long id);
+
+    Doctor deleteDoctor(Long clinic_id, Long id);
 }

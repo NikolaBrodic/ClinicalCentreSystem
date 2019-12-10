@@ -176,6 +176,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationRepository.save(examination);
     }
 
+    @Override
+    public List<Examination> getDoctorsUpcomingExaminations(Long doctor_id) {
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctor_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
     private LocalDateTime getLocalDateTime(LocalDate date, String time) throws DateTimeParseException {
         LocalTime localTime = LocalTime.parse(time.substring(11), DateTimeFormatter.ofPattern("HH:mm"));
         return LocalDateTime.of(date, localTime);
@@ -220,5 +225,6 @@ public class ExaminationServiceImpl implements ExaminationService {
             return null;
         }
     }
+
 
 }

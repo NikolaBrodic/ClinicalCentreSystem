@@ -62,8 +62,7 @@
                             <ng-container matColumnDef="delete">
                                 <th mat-header-cell *matHeaderCellDef> Link to delete </th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-raised-button (click)="deleteDoctor()"
-                                        disabled="disabled">Delete</button>
+                                    <button mat-raised-button (click)="deleteDoctor(element)">Delete</button>
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>

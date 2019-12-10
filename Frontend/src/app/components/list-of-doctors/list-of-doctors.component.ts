@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { DoctorService } from './../../services/doctor.service';
 import { Doctor } from './../../models/doctor';
 import { AddDoctorComponent } from './../add-doctor/add-doctor.component';
@@ -20,7 +21,8 @@ export class ListOfDoctorsComponent implements OnInit {
   private successCreatedDoctor: Subscription;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(public dialog: MatDialog, public doctorService: DoctorService) { }
+  constructor(public dialog: MatDialog, public doctorService: DoctorService,
+    public toastr: ToastrService) { }
 
   ngOnInit() {
     this.getDoctorsForAdmin();
@@ -52,7 +54,18 @@ export class ListOfDoctorsComponent implements OnInit {
   openEditingDialog() {
 
   }
-  deleteDoctor() {
 
+  deleteDoctor(doctor: Doctor) {
+
+    this.doctorService.deleteDoctor(doctor.id).subscribe(
+      responseData => {
+        this.getDoctorsForAdmin();
+        this.toastr.success("Successfully deleted doctor.", 'Delete doctor');
+      },
+      message => {
+        this.toastr.error("You can not delete this doctor because he has upcoming appointments.", 'Delete doctor');
+      }
+    );
   }
+
 }
