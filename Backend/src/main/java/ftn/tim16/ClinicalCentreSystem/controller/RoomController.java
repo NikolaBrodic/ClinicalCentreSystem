@@ -115,4 +115,19 @@ public class RoomController {
         roomService.automaticallyAssignRoom();
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Room> deleteRoom(@PathVariable("id") Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Room room = roomService.deleteRoom(clinicAdministrator.getClinic().getId(), id);
+        if (room == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(room, HttpStatus.OK);
+    }
+
 }

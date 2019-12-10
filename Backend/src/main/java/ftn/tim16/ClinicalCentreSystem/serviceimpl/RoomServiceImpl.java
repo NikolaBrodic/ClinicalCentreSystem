@@ -75,20 +75,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomPagingDTO findAllRoomsInClinic(String kind, Clinic clinic, Pageable page, String search, String date, String searchStartTime, String searchEndTime) throws DateTimeParseException {
+    public RoomPagingDTO findAllRoomsInClinic(String kind, Clinic clinic, Pageable page, String search,
+                                              String date, String searchStartTime, String searchEndTime) throws DateTimeParseException {
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
             return null;
         }
-        boolean searchActive = true;
-        if (search == null || search.isEmpty()) {
-            searchActive = false;
-        }
+
         boolean dateSearchActive = true;
         if ("undefined".equals(date) || "undefined".equals(searchStartTime) || "undefined".equals(searchEndTime)) {
             dateSearchActive = false;
         }
-        if (!searchActive && !dateSearchActive) {
+        if ((search == null || search.isEmpty()) && !dateSearchActive) {
             RoomPagingDTO roomPagingDTO = new RoomPagingDTO(convertToDTO(
                     roomRepository.findByClinicIdAndStatusAndKind(clinic.getId(), LogicalStatus.EXISTING, examinationKind, page).getContent()),
                     findAllRoomsInClinic(clinic).size());
@@ -103,6 +101,7 @@ public class RoomServiceImpl implements RoomService {
                     (search, clinic.getId(), LogicalStatus.EXISTING, examinationKind, page);
             return new RoomPagingDTO(convertToDTO(roomsInClinicPage.getContent()), roomsInClinicAll.size());
         }
+
         LocalDate localDate = getDate(date);
         LocalDateTime startDateTime = getLocalDateTime(localDate, searchStartTime);
         LocalDateTime endDateTime = getLocalDateTime(localDate, searchEndTime);
@@ -118,6 +117,30 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime) {
         List<Room> rooms = roomRepository.findByClinicIdAndStatusAndKind(clinicId, LogicalStatus.EXISTING, ExaminationKind.EXAMINATION);
         return searchByDateAndTime(rooms, getLocalDateTime(startDateTime), getLocalDateTime(endDateTime));
+    }
+
+    @Override
+    public Room deleteRoom(Long clinic_id, Long room_id) {
+        Room room = roomRepository.getByIdAndStatusNot(room_id, LogicalStatus.DELETED);
+
+        if (room == null) {
+            return null;
+        }
+
+        if (room.getClinic().getId() != clinic_id) {
+            return null;
+        }
+
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(room_id);
+
+        if (upcomingExaminations != null) {
+            if (!upcomingExaminations.isEmpty()) {
+                return null;
+            }
+        }
+
+        room.setStatus(LogicalStatus.DELETED);
+        return roomRepository.save(room);
     }
 
     private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
@@ -169,7 +192,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     private LocalDate getDate(String date) throws DateTimeParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(date, formatter);
     }
 
