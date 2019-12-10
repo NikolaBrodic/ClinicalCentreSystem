@@ -10,7 +10,6 @@ import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,8 +40,13 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
-    public List<ExaminationTypeDTO> findAllTypesInClinic(Clinic clinic, Pageable page) {
-        return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinic.getId(), LogicalStatus.EXISTING, page));
+    public List<ExaminationTypeDTO> searchTypesInClinic(Clinic clinic, String searchLabel, Double searchPrice) {
+        if (searchPrice != null) {
+            return convertToDTO(examinationTypeRepository.findByClinicIdAndStatusAndLabelContainsIgnoringCaseAndPrice(clinic.getId(), LogicalStatus.EXISTING,
+                    searchLabel, searchPrice));
+        }
+        return convertToDTO(examinationTypeRepository.findByClinicIdAndStatusAndLabelContainsIgnoringCase(clinic.getId(),
+                LogicalStatus.EXISTING, searchLabel));
     }
 
     @Override

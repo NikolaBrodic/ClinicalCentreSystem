@@ -46,20 +46,11 @@ export class ExaminationTypeService {
     return this.examinationTypesForPatient.asObservable();
   }
 
-  public getExaminationTypesForAdminPaging(pageIndex, pageSize, sort: MatSort) {
+  public getExaminationTypesWithSearch(searchLabel: string, searchPrice: any) {
     let params = new HttpParams();
-    params = params.append('page', pageIndex);
-    params = params.append('size', pageSize);
-
-    if (sort) {
-
-      if (sort.active) {
-        params = params.append('sort', sort.active + "," + sort.direction);
-      }
-
-    }
-
-    return this.httpClient.get(this.url + "/pageAll", {
+    params = params.append('searchLabel', searchLabel);
+    params = params.append('searchPrice', searchPrice);
+    return this.httpClient.get(this.url + "/search-types", {
       params: params
     });
   }

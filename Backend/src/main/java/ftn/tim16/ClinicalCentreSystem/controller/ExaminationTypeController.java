@@ -1,13 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypePagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,17 +51,21 @@ public class ExaminationTypeController {
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/pageAll")
+    @GetMapping(value = "/search-types")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<ExaminationTypePagingDTO> getAllExaminationTypesForAdmin(Pageable page) {
+    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin(@RequestParam(value = "searchLabel") String searchLabel,
+                                                                                   @RequestParam(value = "searchPrice") String searchPrice) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationTypePagingDTO examinationTypePagingDTO = new ExaminationTypePagingDTO(
-                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic(), page),
-                examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()).size());
-        return new ResponseEntity<>(examinationTypePagingDTO, HttpStatus.OK);
+        Double price;
+        try {
+            price = Double.parseDouble(searchPrice);
+        } catch (Exception e) {
+            price = null;
+        }
+        return new ResponseEntity<>(examinationTypeService.searchTypesInClinic(clinicAdministrator.getClinic(), searchLabel, price), HttpStatus.OK);
     }
 
 
