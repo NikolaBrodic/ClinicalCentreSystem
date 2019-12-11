@@ -11,7 +11,6 @@ import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
-import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ClinicAdministratorServiceImpl implements ClinicAdministratorService {
@@ -107,7 +107,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         String generatedPassword = randomPasswordGenerator.generatePassword();
         String hashedPassword = passwordEncoder.encode(generatedPassword);
 
-        List<Authority> authorities = authenticationService.findByName("ROLE_CLINIC_ADMIN");
+        Set<Authority> authorities = authenticationService.findByName("ROLE_CLINIC_ADMIN");
 
         ClinicAdministrator newClinicAdministrator = new ClinicAdministrator(clinicAdministratorDTO.getEmail(), hashedPassword,
                 clinicAdministratorDTO.getFirstName(), clinicAdministratorDTO.getLastName(), clinicAdministratorDTO.getPhoneNumber(),

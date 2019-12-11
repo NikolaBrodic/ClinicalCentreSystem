@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -177,7 +178,7 @@ public class DoctorServiceImpl implements DoctorService {
         System.out.println(generatedPassword);
         String hashedPassword = passwordEncoder.encode(generatedPassword);
 
-        List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
+        Set<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
 
         Doctor newDoctor = new Doctor(doctor.getEmail(), hashedPassword, doctor.getFirstName(),
                 doctor.getLastName(), doctor.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(),

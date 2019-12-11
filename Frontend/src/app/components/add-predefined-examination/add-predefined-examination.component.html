@@ -73,7 +73,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="form-full-width mt-3">
-                    <input matInput placeholder="Discount" formControlName="discount" type="number" value="0">
+                    <input matInput placeholder="Discount" formControlName="discount" type="number">
                     <mat-error
                         *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['required']">
                         Please enter discount.

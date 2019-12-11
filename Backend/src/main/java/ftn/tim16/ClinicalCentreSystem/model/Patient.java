@@ -8,7 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Patient implements UserDetails {
@@ -41,8 +44,8 @@ public class Patient implements UserDetails {
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String country;
 
-    @Column(columnDefinition = "VARCHAR(13)", unique = true, nullable = false)
-    private String healthInsuranceID;
+    @Column(name = "healthInsuranceId", columnDefinition = "VARCHAR(13)", unique = true, nullable = false)
+    private String healthInsuranceId;
 
     @Enumerated(EnumType.STRING)
     private PatientStatus status;
@@ -63,14 +66,14 @@ public class Patient implements UserDetails {
             name = "patient_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
     public Patient() {
 
     }
 
     public Patient(String email, String password, String firstName, String lastName, String phoneNumber, String address,
-                   String city, String country, String healthInsuranceID, List<Authority> authorities) {
+                   String city, String country, String healthInsuranceID, Set<Authority> authorities) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -79,7 +82,7 @@ public class Patient implements UserDetails {
         this.address = address;
         this.city = city;
         this.country = country;
-        this.healthInsuranceID = healthInsuranceID;
+        this.healthInsuranceId = healthInsuranceID;
         this.status = PatientStatus.AWAITING_APPROVAL;
         this.medicalRecord = null;
         this.examinations = new HashSet<>();
@@ -88,7 +91,7 @@ public class Patient implements UserDetails {
         this.authorities = authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 
@@ -195,12 +198,12 @@ public class Patient implements UserDetails {
         this.country = country;
     }
 
-    public String getHealthInsuranceID() {
-        return healthInsuranceID;
+    public String getHealthInsuranceId() {
+        return healthInsuranceId;
     }
 
-    public void setHealthInsuranceID(String healthInsuranceID) {
-        this.healthInsuranceID = healthInsuranceID;
+    public void setHealthInsuranceId(String healthInsuranceId) {
+        this.healthInsuranceId = healthInsuranceId;
     }
 
     public PatientStatus getStatus() {

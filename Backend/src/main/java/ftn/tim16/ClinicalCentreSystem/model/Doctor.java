@@ -12,7 +12,10 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Doctor implements UserDetails {
@@ -79,7 +82,7 @@ public class Doctor implements UserDetails {
             name = "doctor_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
     @Column
     private Integer doctorRating;
@@ -89,7 +92,7 @@ public class Doctor implements UserDetails {
     }
 
     public Doctor(String email, String password, String firstName, String lastName, String phoneNumber, LocalTime workHoursFrom,
-                  LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status, List<Authority> authorities) {
+                  LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status, Set<Authority> authorities) {
         this.email = email;
         setPassword(password);
         this.firstName = firstName;
@@ -106,7 +109,7 @@ public class Doctor implements UserDetails {
         this.doctorRating = 0;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 

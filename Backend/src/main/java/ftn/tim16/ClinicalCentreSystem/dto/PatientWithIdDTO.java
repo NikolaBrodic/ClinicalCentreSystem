@@ -44,7 +44,7 @@ public class PatientWithIdDTO {
 
     public PatientWithIdDTO(Patient patient) {
         this(patient.getId(), patient.getEmail(), patient.getFirstName(), patient.getLastName(), patient.getPhoneNumber(),
-                patient.getAddress(), patient.getCity(), patient.getCountry(), patient.getHealthInsuranceID());
+                patient.getAddress(), patient.getCity(), patient.getCountry(), patient.getHealthInsuranceId());
     }
 
     public Long getId() {

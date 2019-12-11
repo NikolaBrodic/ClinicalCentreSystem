@@ -107,6 +107,9 @@ public class RoomServiceImpl implements RoomService {
         LocalDateTime endDateTime = getLocalDateTime(localDate, searchEndTime);
 
         List<RoomDTO> availableRoom = searchByDateAndTime(roomsInClinicAll, startDateTime, endDateTime);
+        if (availableRoom.isEmpty()) {
+            availableRoom = getRoomOnAnotherDate(roomsInClinicAll, startDateTime, endDateTime);
+        }
         int start = (int) page.getOffset();
         int end = (start + page.getPageSize()) > availableRoom.size() ? availableRoom.size() : (start + page.getPageSize());
         Page<RoomDTO> pages = new PageImpl<RoomDTO>(availableRoom.subList(start, end), page, availableRoom.size());
@@ -144,7 +147,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-
         List<RoomDTO> availableRoom = new ArrayList<>();
         for (Room currentRoom : roomsInClinicAll) {
             if (isAvailable(currentRoom, startDateTime, endDateTime)) {
@@ -153,10 +155,6 @@ public class RoomServiceImpl implements RoomService {
                 availableRoom.add(roomDTO);
             }
         }
-        if (availableRoom.isEmpty()) {
-            availableRoom = getRoomOnAnotherDate(roomsInClinicAll, startDateTime, endDateTime);
-        }
-
         return availableRoom;
     }
 
@@ -328,7 +326,9 @@ public class RoomServiceImpl implements RoomService {
         for (Examination examination : examinations) {
             List<Room> allRooms = roomRepository.findByClinicIdAndStatusAndKind(examination.getClinic().getId(), LogicalStatus.EXISTING, examination.getKind());
             List<RoomDTO> availableRoom = searchByDateAndTime(allRooms, examination.getInterval().getStartDateTime(), examination.getInterval().getEndDateTime());
-
+            if (availableRoom.isEmpty()) {
+                availableRoom = getRoomOnAnotherDate(allRooms, examination.getInterval().getStartDateTime(), examination.getInterval().getEndDateTime());
+            }
             assignRoom(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())));
         }
     }

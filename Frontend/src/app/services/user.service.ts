@@ -44,6 +44,7 @@ export class UserService {
 
   tokenIsPresent() {
     return this.access_token != undefined && this.access_token != null;
+
   }
 
   getToken() {
