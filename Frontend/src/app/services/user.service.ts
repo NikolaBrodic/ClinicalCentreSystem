@@ -1,15 +1,13 @@
+import { map, catchError } from 'rxjs/operators';
 import { LoggedInUser } from './../models/loggedInUser';
-
 import { UserTokenState } from './../models/userTokenState';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { UserLoginRequest } from './../models/userLoginRequest';
 import { User } from '../models/user';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { equal } from 'assert';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +19,7 @@ export class UserService {
   private req: UserTokenState
   public loggedInUserSubject: BehaviorSubject<LoggedInUser>;
   public loggedInUser: Observable<LoggedInUser>;
+  loggedInSuccess: BehaviorSubject<LoggedInUser> = new BehaviorSubject<LoggedInUser>(null);
 
   constructor(private httpClient: HttpClient, private router: Router) {
     this.loggedInUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('LoggedInUser')));

@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
-    Doctor findByEmailIgnoringCase(String email);
-
     Doctor findByIdAndStatusNot(Long id, DoctorStatus doctorStatus);
 
     Doctor findByPhoneNumber(String phoneNumber);

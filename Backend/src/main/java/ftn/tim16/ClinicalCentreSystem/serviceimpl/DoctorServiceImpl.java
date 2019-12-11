@@ -6,11 +6,8 @@ import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
-import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
 import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,9 +27,6 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private DoctorRepository doctorRepository;
-
-    @Autowired
-    private ExaminationTypeRepository examinationTypeRepository;
 
     @Autowired
     private UserServiceImpl userService;
@@ -168,25 +162,21 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
-        if (userDetails != null) {
-            return null;
-        }
-        if (doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
+
+        if (userDetails != null || doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
             return null;
         }
 
         LocalTime workHoursFrom = LocalTime.parse(doctor.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime workHoursTo = LocalTime.parse(doctor.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
-        if (workHoursFrom.isAfter(workHoursTo)) {
-            return null;
-        }
         ExaminationType examinationType = examinationTypeService.findById(doctor.getSpecialized().getId());
-        if (examinationType == null) {
+        if (workHoursFrom.isAfter(workHoursTo) || examinationType == null) {
             return null;
         }
 
         RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
         String generatedPassword = randomPasswordGenerator.generatePassword();
+        System.out.println(generatedPassword);
         String hashedPassword = passwordEncoder.encode(generatedPassword);
 
         List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
@@ -203,20 +193,7 @@ public class DoctorServiceImpl implements DoctorService {
         return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED));
     }
 
-    @Override
-    public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic, Pageable page) {
-        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED, page));
-    }
-
     private List<DoctorDTO> convertToDTO(List<Doctor> doctors) {
-        List<DoctorDTO> doctorDTOS = new ArrayList<>();
-        for (Doctor doctor : doctors) {
-            doctorDTOS.add(new DoctorDTO(doctor));
-        }
-        return doctorDTOS;
-    }
-
-    private List<DoctorDTO> convertToDTO(Page<Doctor> doctors) {
         List<DoctorDTO> doctorDTOS = new ArrayList<>();
         for (Doctor doctor : doctors) {
             doctorDTOS.add(new DoctorDTO(doctor));

@@ -38,7 +38,7 @@ public class ExaminationTypeController {
         if (createdExaminationType == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<ExaminationType>(createdExaminationType, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdExaminationType, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/all")

@@ -3,7 +3,7 @@ import { DoctorService } from './../../services/doctor.service';
 import { Doctor } from './../../models/doctor';
 import { AddDoctorComponent } from './../add-doctor/add-doctor.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';

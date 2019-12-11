@@ -16,8 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             } else if (err.status === 403) {
                 this.router.navigate(['/error/non-authorized']);
             }
-            const error = err.error.message || err.statusText;
-            return throwError(error);
+            return throwError(err);
         }))
     }
 }

@@ -85,6 +85,7 @@ public class Doctor implements UserDetails {
     private Integer doctorRating;
 
     public Doctor() {
+
     }
 
     public Doctor(String email, String password, String firstName, String lastName, String phoneNumber, LocalTime workHoursFrom,

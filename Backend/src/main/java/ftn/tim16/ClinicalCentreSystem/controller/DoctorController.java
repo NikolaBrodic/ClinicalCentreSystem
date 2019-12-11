@@ -7,7 +7,6 @@ import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +40,7 @@ public class DoctorController {
             if (createdDoctor == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdDoctor, HttpStatus.CREATED);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -55,16 +54,6 @@ public class DoctorController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/pageAll")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin(Pageable page) {
-        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
-        if (clinicAdministrator == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic(), page), HttpStatus.OK);
     }
 
     @GetMapping(value = "/available")

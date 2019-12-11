@@ -49,7 +49,7 @@ public class AuthenticationController {
             return new ResponseEntity<LoggedInUserDTO>(loggedInUserDTO, HttpStatus.OK);
         } catch (AuthenticationException ex) {
             if (userService.neverLoggedIn(authenticationRequest.getUsername())) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
