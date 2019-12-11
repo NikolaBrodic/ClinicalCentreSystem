@@ -17,7 +17,7 @@ import { AddNurseComponent } from '../add-nurse/add-nurse.component';
 })
 export class PatientHistoryExaminationsOperationsComponent implements OnInit {
 
-  examinationsDataSource: MatTableDataSource<Examination[]>;
+  examinationsDataSource: MatTableDataSource<Examination>;
   displayedColumns: string[] = ['kind', 'date', 'examinationType', 'clinicName', 'doctorFullName', 'price'];
   numberOfItems: number;
   itemsPerPage = environment.itemsPerPage;

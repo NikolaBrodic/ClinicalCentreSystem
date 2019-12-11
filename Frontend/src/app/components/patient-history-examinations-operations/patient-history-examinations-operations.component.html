@@ -51,7 +51,7 @@
                       </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="doctorFullName">
+                  <ng-container matColumnDef="doctorFullName" (click)="sortEvent()">
                       <th mat-header-cell *matHeaderCellDef> Doctors </th>
                       <td mat-cell *matCellDef="let element">
                         <div *ngFor="let doctor of element.doctors">
@@ -60,7 +60,7 @@
                       </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="price">
+                  <ng-container matColumnDef="price" (click)="sortEvent()">
                       <th mat-header-cell *matHeaderCellDef> Price </th>
                       <td mat-cell *matCellDef="let element">
                         {{element.examinationType.price}}
