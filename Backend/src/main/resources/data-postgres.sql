@@ -396,3 +396,14 @@ insert into diagnose (title, description) values ('Asthma', 'Asthma is a conditi
   'bronchodilators (LABAs) are used in the treatment of asthma.');
 insert into diagnose (title, description) values ('Diabetes', 'Diabetes is a chronic condition characterized by high levels ' ||
  'of sugar (glucose) in the blood. Symptoms of diabetes include increased urine output, thirst, hunger, and fatigue.');
+
+insert into medicine (label, chemical_composition, "usage") values ('Vicodin', 'hydrocodone, acetaminophen, mauris, natoque ',
+ 'Vicodin is a popular drug for treating acute or chronic moderate to moderately severe pain. Its most common side effects are ' ||
+ 'lightheadedness, dizziness, sedation, nausea, and vomiting. Vicodin can reduce breathing, impair thinking, reduce ' ||
+ 'physical abilities, and is habit forming.');
+
+insert into medicine (label, chemical_composition, "usage") values ('Lipitor', 'atorvastatin, auctor, consectetur, dapibus, facilisis',
+ 'Lipitor is a "statin" (HMG-CoA reductase inhibitors) approved for treating high cholesterol. It also prevents chest pain, ' ||
+ 'stroke, heart attack in individuals with coronary artery disease. It causes minor side effects such as constipation, ' ||
+ 'diarrhea, fatigue, gas, heartburn, and headache. Like other statins it can cause muscle pain and muscle break down. ');
+
