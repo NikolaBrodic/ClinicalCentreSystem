@@ -29,6 +29,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { ListClinicsComponent } from './components/list-clinics/list-clinics.component';
 import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
+import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 
 
 const routes: Routes = [
@@ -106,6 +107,11 @@ const routes: Routes = [
   {
     path: 'clinical-centre-admin/clinic-administrators',
     component: ListClinicAdministratorsComponent,
+    canActivate: [ClinicalCentreAdminGuard]
+  },
+  {
+    path: 'clinical-centre-admin/diagnosis',
+    component: ListDiagnosisComponent,
     canActivate: [ClinicalCentreAdminGuard]
   },
 

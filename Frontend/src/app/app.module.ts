@@ -53,6 +53,7 @@ import { PatientProfileComponent } from './components/patient-profile/patient-pr
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { AxiomSchedulerModule } from 'axiom-scheduler';
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
+import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
     PatientClinicDetailsComponent,
     WorkCalendarComponent,
     ListOfCreatedPredefinedExaminationComponent,
-    AddPredefinedExaminationComponent
+    AddPredefinedExaminationComponent,
+    ListDiagnosisComponent
 
   ],
   imports: [
@@ -126,7 +128,9 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
     ListNursesComponent,
     AddNurseComponent,
     ListOfCreatedPredefinedExaminationComponent,
-    AddPredefinedExaminationComponent
+    AddPredefinedExaminationComponent,
+    ListDiagnosisComponent,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
