@@ -54,6 +54,7 @@ import { PatientClinicDetailsComponent } from './components/patient-clinic-detai
 import { AxiomSchedulerModule } from 'axiom-scheduler';
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
+import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnos
     WorkCalendarComponent,
     ListOfCreatedPredefinedExaminationComponent,
     AddPredefinedExaminationComponent,
-    ListDiagnosisComponent
+    ListDiagnosisComponent,
+    AddDiagnoseComponent
 
   ],
   imports: [
@@ -130,7 +132,7 @@ import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnos
     ListOfCreatedPredefinedExaminationComponent,
     AddPredefinedExaminationComponent,
     ListDiagnosisComponent,
-
+    AddDiagnoseComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
 import { Diagnose } from 'src/app/models/diagnose';
 import { DiagnoseService } from 'src/app/services/diagnose.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Subscription } from 'rxjs';
+import { AddDiagnoseComponent } from '../add-diagnose/add-diagnose.component';
 
 @Component({
   selector: 'app-list-diagnosis',
@@ -21,17 +23,25 @@ export class ListDiagnosisComponent implements OnInit {
   displayedColumns: string[] = ['title', 'description'];
   expandedElement: Diagnose | null;
 
+  private addDiagnoseSuccess: Subscription;
+
   constructor(
     private diagnoseService: DiagnoseService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
-
     this.fetchData();
+
+    this.addDiagnoseSuccess = this.diagnoseService.addSuccessEmitter.subscribe(
+      () => {
+        this.fetchData();
+      }
+    )
   }
 
   openAddDialog() {
-
+    this.dialog.open(AddDiagnoseComponent);
   }
 
   fetchData() {
