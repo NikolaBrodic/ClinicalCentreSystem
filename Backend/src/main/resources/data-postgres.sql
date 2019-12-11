@@ -390,3 +390,9 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
 insert into date_time_interval (start_date_time, end_date_time) values ('10.11.2019 09:00','10.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('REJECTED', 'TIME_OFF', 7, 33);*/
+
+insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
+ 'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
+  'bronchodilators (LABAs) are used in the treatment of asthma.');
+insert into diagnose (title, description) values ('Diabetes', 'Diabetes is a chronic condition characterized by high levels ' ||
+ 'of sugar (glucose) in the blood. Symptoms of diabetes include increased urine output, thirst, hunger, and fatigue.');

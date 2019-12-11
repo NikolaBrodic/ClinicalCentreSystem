@@ -34,7 +34,7 @@ public class ClinicAdministratorController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(clinicAdministrator, HttpStatus.OK);
+        return new ResponseEntity<>(clinicAdministrator, HttpStatus.CREATED);
     }
 
 }
