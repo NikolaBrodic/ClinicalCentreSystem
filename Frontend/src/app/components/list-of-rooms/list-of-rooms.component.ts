@@ -66,7 +66,7 @@ export class ListOfRoomsComponent implements OnInit {
         this.toastr.success("Successfully deleted room.", 'Delete room');
       },
       message => {
-        this.toastr.error("You can not delete this room because this room is reserved..", 'Delete room');
+        this.toastr.error("You can not delete this room because this room is reserved.", 'Delete room');
       }
     );
   }
