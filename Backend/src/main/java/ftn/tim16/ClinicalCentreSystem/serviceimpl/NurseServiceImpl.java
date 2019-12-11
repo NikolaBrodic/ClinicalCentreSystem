@@ -41,7 +41,7 @@ public class NurseServiceImpl implements NurseService {
     private AuthenticationService authenticationService;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Autowired
     private ExaminationService examinationService;

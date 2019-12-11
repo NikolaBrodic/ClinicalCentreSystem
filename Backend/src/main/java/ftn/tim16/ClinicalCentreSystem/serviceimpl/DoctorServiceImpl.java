@@ -150,10 +150,8 @@ public class DoctorServiceImpl implements DoctorService {
         }
         List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(id);
 
-        if (upcomingExaminations != null) {
-            if (!upcomingExaminations.isEmpty()) {
-                return null;
-            }
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return null;
         }
         doctor.setStatus(DoctorStatus.DELETED);
         return doctorRepository.save(doctor);

@@ -81,10 +81,7 @@ public class ClinicalCentreAdministrator implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (status == UserStatus.NEVER_LOGGED_IN) {
-            return false;
-        }
-        return true;
+        return (status != UserStatus.NEVER_LOGGED_IN);
     }
 
     public Long getId() {

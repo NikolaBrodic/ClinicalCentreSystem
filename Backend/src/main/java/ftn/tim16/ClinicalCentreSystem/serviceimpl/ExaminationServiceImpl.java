@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashSet;
 import java.util.List;
 
 @Transactional
@@ -123,12 +124,19 @@ public class ExaminationServiceImpl implements ExaminationService {
         if (examination == null) {
             return null;
         }
+
+        boolean foundDoctor = false;
         for (Doctor doc : examination.getDoctors()) {
-            if (doc.getId() != doctor.getId()) {
-                return null;
+            if (doc.getId() == doctor.getId()) {
+                foundDoctor = true;
+                break;
             }
-            break;
         }
+
+        if (!foundDoctor) {
+            return null;
+        }
+
         //Doctor can cancel scheduled examination/operation only 24 hours before it is going to be held.
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime examinationCanCancel = examination.getInterval().getStartDateTime().minusHours(24);
@@ -136,13 +144,14 @@ public class ExaminationServiceImpl implements ExaminationService {
             return null;
         }
         examination.setStatus(ExaminationStatus.CANCELED);
-        examination.getDoctors().remove(doctor);
+        examination.setDoctors(new HashSet<>());
         Nurse nurse = examination.getNurse();
         examination.setNurse(null);
 
         sendMail(examination, doctor, nurse, examination.getPatient());
         return examinationRepository.save(examination);
     }
+
 
     @Override
     public Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
