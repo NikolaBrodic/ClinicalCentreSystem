@@ -9,5 +9,5 @@ public interface DiagnoseRepository extends JpaRepository<Diagnose, Long> {
 
     List<Diagnose> findAll();
 
-    Diagnose findByTitle(String title);
+    Diagnose findByTitleIgnoringCase(String title);
 }
