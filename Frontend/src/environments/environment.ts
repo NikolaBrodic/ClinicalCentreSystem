@@ -19,6 +19,7 @@ export const environment = {
   timeOffDoctor: '/api/time-off-doctor',
   timeOffNurse: '/api/time-off-nurse',
   diagnose: '/api/diagnose',
+  medicine: '/api/medicine',
 };
 
 /*
