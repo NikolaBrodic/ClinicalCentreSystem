@@ -44,6 +44,9 @@ public class DoctorServiceImpl implements DoctorService {
     private AuthenticationService authenticationService;
 
     @Autowired
+    private EmailNotificationService emailNotificationService;
+
+    @Autowired
     private ExaminationService examinationService;
 
     @Autowired
@@ -195,7 +198,11 @@ public class DoctorServiceImpl implements DoctorService {
                 doctor.getLastName(), doctor.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(),
                 examinationType, DoctorStatus.NEVER_LOGGED_IN, authorities);
 
-        return doctorRepository.save(newDoctor);
+        Doctor savedDoctor = doctorRepository.save(newDoctor);
+
+        composeAndSendEmail(savedDoctor.getEmail(), clinicAdministrator.getClinic().getName(), generatedPassword);
+
+        return savedDoctor;
     }
 
     @Override
@@ -206,6 +213,27 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic, Pageable page) {
         return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED, page));
+    }
+
+    private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
+        String subject = "New position: Doctor";
+        StringBuilder sb = new StringBuilder();
+        sb.append("You have been registered as a doctor of a ");
+        sb.append(clinicName);
+        sb.append(" Clinic. From now on, you are in charge of examining patients and performing operations to them.");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("     ");
+        sb.append(generatedPassword);
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("Because of the security protocol, you will have to change this given password the first time you log in.");
+        String text = sb.toString();
+
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
     }
 
     private List<DoctorDTO> convertToDTO(List<Doctor> doctors) {
