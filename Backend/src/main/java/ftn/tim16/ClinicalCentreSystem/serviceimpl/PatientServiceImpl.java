@@ -28,7 +28,7 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepository patientRepository;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Override
     public Patient changePassword(String newPassword, Patient user) {

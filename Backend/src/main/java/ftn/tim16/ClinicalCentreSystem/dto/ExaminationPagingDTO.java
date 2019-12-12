@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.dto;
 
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 

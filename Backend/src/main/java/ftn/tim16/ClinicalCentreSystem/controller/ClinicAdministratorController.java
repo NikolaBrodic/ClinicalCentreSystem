@@ -18,7 +18,7 @@ import java.util.List;
 public class ClinicAdministratorController {
 
     @Autowired
-    ClinicAdministratorService clinicAdministratorService;
+    private ClinicAdministratorService clinicAdministratorService;
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")

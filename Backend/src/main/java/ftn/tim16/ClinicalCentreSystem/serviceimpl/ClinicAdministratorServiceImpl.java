@@ -42,14 +42,8 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private AuthenticationService authenticationService;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
-/*
-    @Override
-    public List<ClinicAdministrator> getClinicAdministrators() {
-        return clinicAdministratorRepository.findAll();
-    }
-*/
-
+    private EmailNotificationService emailNotificationService;
+    
     @Override
     public ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user) {
         user.setPassword(newPassword);
