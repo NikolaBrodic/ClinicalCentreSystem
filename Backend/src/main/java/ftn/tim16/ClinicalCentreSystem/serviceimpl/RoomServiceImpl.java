@@ -136,10 +136,8 @@ public class RoomServiceImpl implements RoomService {
 
         List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(room_id);
 
-        if (upcomingExaminations != null) {
-            if (!upcomingExaminations.isEmpty()) {
-                return null;
-            }
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return null;
         }
 
         room.setStatus(LogicalStatus.DELETED);
