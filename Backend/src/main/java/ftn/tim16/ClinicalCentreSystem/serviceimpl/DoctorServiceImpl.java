@@ -6,14 +6,8 @@ import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
-import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
-import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,15 +21,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private DoctorRepository doctorRepository;
-
-    @Autowired
-    private ExaminationTypeRepository examinationTypeRepository;
 
     @Autowired
     private UserServiceImpl userService;
@@ -47,7 +39,13 @@ public class DoctorServiceImpl implements DoctorService {
     private AuthenticationService authenticationService;
 
     @Autowired
+    private EmailNotificationService emailNotificationService;
+
+    @Autowired
     private ExaminationService examinationService;
+
+    @Autowired
+    private ExaminationTypeService examinationTypeService;
 
     @Autowired
     private TimeOffDoctorService timeOffDoctorService;
@@ -124,37 +122,76 @@ public class DoctorServiceImpl implements DoctorService {
         return convertToDTO(listOfDoctors);
     }
 
+    private LocalDateTime getLocalDateTime(String date) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(date, formatter);
+    }
+
+    @Override
+    public List<DoctorDTO> getAllAvailableDoctors(Long specializedId, Long clinicId, String startDateTime, String endDateTime) {
+        List<Doctor> doctors = doctorRepository.findByStatusNotAndClinicIdAndSpecializedId(DoctorStatus.DELETED, clinicId, specializedId);
+        List<DoctorDTO> availableDoctors = new ArrayList<>();
+        for (Doctor doctor : doctors) {
+            if (isAvailable(doctor, getLocalDateTime(startDateTime), getLocalDateTime(endDateTime))) {
+                availableDoctors.add(new DoctorDTO(doctor));
+            }
+        }
+        return availableDoctors;
+    }
+
+    @Override
+    public Doctor getDoctor(Long id) {
+        return doctorRepository.findByIdAndStatusNot(id, DoctorStatus.DELETED);
+    }
+
+    @Override
+    public Doctor deleteDoctor(Long clinic_id, Long id) {
+
+        Doctor doctor = getDoctor(id);
+
+        if (doctor.getClinic().getId() != clinic_id) {
+            return null;
+        }
+        List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(id);
+
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return null;
+        }
+        doctor.setStatus(DoctorStatus.DELETED);
+        return doctorRepository.save(doctor);
+    }
+
     @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
-        if (userDetails != null) {
-            return null;
-        }
-        if (doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
+
+        if (userDetails != null || doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
             return null;
         }
 
         LocalTime workHoursFrom = LocalTime.parse(doctor.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime workHoursTo = LocalTime.parse(doctor.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
-        if (workHoursFrom.isAfter(workHoursTo)) {
-            return null;
-        }
-        ExaminationType examinationType = examinationTypeRepository.getById(doctor.getSpecialized().getId());
-        if (examinationType == null) {
+        ExaminationType examinationType = examinationTypeService.findById(doctor.getSpecialized().getId());
+        if (workHoursFrom.isAfter(workHoursTo) || examinationType == null) {
             return null;
         }
 
         RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
         String generatedPassword = randomPasswordGenerator.generatePassword();
+        System.out.println(generatedPassword);
         String hashedPassword = passwordEncoder.encode(generatedPassword);
 
-        List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
+        Set<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
 
         Doctor newDoctor = new Doctor(doctor.getEmail(), hashedPassword, doctor.getFirstName(),
                 doctor.getLastName(), doctor.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(),
                 examinationType, DoctorStatus.NEVER_LOGGED_IN, authorities);
 
-        return doctorRepository.save(newDoctor);
+        Doctor savedDoctor = doctorRepository.save(newDoctor);
+
+        composeAndSendEmail(savedDoctor.getEmail(), clinicAdministrator.getClinic().getName(), generatedPassword);
+
+        return savedDoctor;
     }
 
     @Override
@@ -163,19 +200,33 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic, Pageable page) {
-        return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED, page));
+    public List<DoctorDTO> searchDoctorsInClinic(Clinic clinic, String firstName, String lastName, String specializedFor) {
+        return convertToDTO(doctorRepository.findByClinicIdAndStatusNotAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndSpecializedLabelContainsIgnoringCase(
+                clinic.getId(), DoctorStatus.DELETED, firstName, lastName, specializedFor));
+    }
+
+    private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
+        String subject = "New position: Doctor";
+        StringBuilder sb = new StringBuilder();
+        sb.append("You have been registered as a doctor of a ");
+        sb.append(clinicName);
+        sb.append(" Clinic. From now on, you are in charge of examining patients and performing operations to them.");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("     ");
+        sb.append(generatedPassword);
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("Because of the security protocol, you will have to change this given password the first time you log in.");
+        String text = sb.toString();
+
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
     }
 
     private List<DoctorDTO> convertToDTO(List<Doctor> doctors) {
-        List<DoctorDTO> doctorDTOS = new ArrayList<>();
-        for (Doctor doctor : doctors) {
-            doctorDTOS.add(new DoctorDTO(doctor));
-        }
-        return doctorDTOS;
-    }
-
-    private List<DoctorDTO> convertToDTO(Page<Doctor> doctors) {
         List<DoctorDTO> doctorDTOS = new ArrayList<>();
         for (Doctor doctor : doctors) {
             doctorDTOS.add(new DoctorDTO(doctor));

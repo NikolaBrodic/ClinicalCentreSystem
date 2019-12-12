@@ -1,6 +1,8 @@
+import { environment } from './../../../environments/environment';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { AddClinicComponent } from './../add-clinic/add-clinic.component';
-import { Component, OnInit } from '@angular/core';
+import { AddClinicComponent } from '../add-clinic/add-clinic.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Clinic } from 'src/app/models/clinic';
 import { Subscription } from 'rxjs';
@@ -15,8 +17,10 @@ export class ListClinicsComponent implements OnInit {
 
   clinicsDataSource: MatTableDataSource<Clinic>;
   displayedColumns: string[] = ['name', 'address'];
+  addClinicSuccess: Subscription;
+  itemsPerPage = environment.itemsPerPage;
 
-  private addClinicSuccess: Subscription;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -40,6 +44,7 @@ export class ListClinicsComponent implements OnInit {
   fetchData() {
     this.clinicsService.getAllClinics().subscribe(data => {
       this.clinicsDataSource = new MatTableDataSource(data);
+      this.clinicsDataSource.paginator = this.paginator;
     })
   }
 

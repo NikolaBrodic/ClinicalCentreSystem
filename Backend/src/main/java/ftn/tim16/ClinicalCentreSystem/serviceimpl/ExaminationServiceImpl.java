@@ -1,19 +1,24 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
-import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.HashSet;
 import java.util.List;
 
 @Transactional
@@ -25,6 +30,18 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     private EmailNotificationService emailNotificationService;
+
+    @Autowired
+    private ExaminationTypeService examinationTypeService;
+
+    @Autowired
+    private NurseService nurseService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private RoomService roomService;
 
     @Override
     public List<Examination> getExaminations(Long idRoom) {
@@ -71,6 +88,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public ExaminationPagingDTO getPredefinedExaminations(ClinicAdministrator clinicAdministrator, Pageable page) {
+        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus
+                (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED);
+        Page<Examination> pageExaminations = examinationRepository.findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus
+                (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED, page);
+        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(pageExaminations.getContent(), examinations.size());
+        return examinationPagingDTO;
+    }
+
+    @Override
     public Examination assignRoom(Examination selectedExamination, Room room, Nurse chosenNurse) {
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
@@ -82,6 +109,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page) {
+        //Doctor can cancel examination just 24 hours before.
         List<Examination> examinations = examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter
                 (doctor.getId(), ExaminationStatus.CANCELED, LocalDateTime.now());
 
@@ -96,12 +124,19 @@ public class ExaminationServiceImpl implements ExaminationService {
         if (examination == null) {
             return null;
         }
+
+        boolean foundDoctor = false;
         for (Doctor doc : examination.getDoctors()) {
-            if (doc.getId() != doctor.getId()) {
-                return null;
+            if (doc.getId() == doctor.getId()) {
+                foundDoctor = true;
+                break;
             }
-            break;
         }
+
+        if (!foundDoctor) {
+            return null;
+        }
+
         //Doctor can cancel scheduled examination/operation only 24 hours before it is going to be held.
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime examinationCanCancel = examination.getInterval().getStartDateTime().minusHours(24);
@@ -109,13 +144,68 @@ public class ExaminationServiceImpl implements ExaminationService {
             return null;
         }
         examination.setStatus(ExaminationStatus.CANCELED);
-        examination.getDoctors().remove(doctor);
+        examination.setDoctors(new HashSet<>());
         Nurse nurse = examination.getNurse();
         examination.setNurse(null);
 
         sendMail(examination, doctor, nurse, examination.getPatient());
         return examinationRepository.save(examination);
     }
+
+
+    @Override
+    public Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
+        LocalDate localDate = getDate(predefinedExaminationDTO.getStartDateTime());
+        LocalDateTime startDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getStartDateTime());
+        LocalDateTime endDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getEndDateTime());
+
+        if (startDateTime.isBefore(LocalDateTime.now()) || startDateTime.isAfter(endDateTime)) {
+            return null;
+        }
+
+        ExaminationType examinationType = examinationTypeService.findById(predefinedExaminationDTO.getExaminationTypeDTO().getId());
+        Doctor doctor = doctorService.getDoctor(predefinedExaminationDTO.getDoctorDTO().getId());
+        Room room = roomService.findById(predefinedExaminationDTO.getRoom());
+
+        if (examinationType == null || doctor == null || room == null) {
+            return null;
+        }
+
+        Nurse nurse = nurseService.getRandomNurse(clinicAdministrator.getClinic().getId(), startDateTime, endDateTime);
+
+        if (nurse == null) {
+            return null;
+        }
+
+        DateTimeInterval dateTimeInterval = new DateTimeInterval(startDateTime, endDateTime);
+        Examination examination = new Examination(ExaminationKind.EXAMINATION, dateTimeInterval, ExaminationStatus.PREDEF_AVAILABLE, examinationType,
+                room, predefinedExaminationDTO.getDiscount(), nurse, clinicAdministrator.getClinic(), clinicAdministrator);
+        examination.getDoctors().add(doctor);
+
+        return examinationRepository.save(examination);
+    }
+
+    @Override
+    public List<Examination> getDoctorsUpcomingExaminations(Long doctor_id) {
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctor_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
+    @Override
+    public List<Examination> getUpcomingExaminationsInRoom(Long room_id) {
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(room_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
+    private LocalDateTime getLocalDateTime(LocalDate date, String time) throws DateTimeParseException {
+        LocalTime localTime = LocalTime.parse(time.substring(11), DateTimeFormatter.ofPattern("HH:mm"));
+        return LocalDateTime.of(date, localTime);
+    }
+
+    private LocalDate getDate(String date) throws DateTimeParseException {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(date.substring(0, 10), formatter);
+    }
+
 
     private void sendMail(Examination examination, Doctor doctor, Nurse nurse, Patient patient) {
         if (nurse == null || patient == null) {
@@ -149,4 +239,6 @@ public class ExaminationServiceImpl implements ExaminationService {
             return null;
         }
     }
+
+
 }

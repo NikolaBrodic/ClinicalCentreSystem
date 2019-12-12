@@ -1,5 +1,7 @@
+import { environment } from './../../../environments/environment';
+import { MatPaginator } from '@angular/material/paginator';
 import { RequestToRegisterService } from './../../services/request-to-register.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { RequestToRegister } from 'src/app/models/request-to-register';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,8 +19,11 @@ export class ListRequestsToRegisterComponent implements OnInit {
   requestToRegisterDataSource: MatTableDataSource<RequestToRegister>
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'approve', 'reject'];
 
-  private rejectingRequestSuccess: Subscription;
-  private approvingRequestSuccess: Subscription;
+  rejectingRequestSuccess: Subscription;
+  approvingRequestSuccess: Subscription;
+  itemsPerPage = environment.itemsPerPage;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private requestToRegisterService: RequestToRegisterService,
@@ -44,6 +49,7 @@ export class ListRequestsToRegisterComponent implements OnInit {
   fetchData() {
     this.requestToRegisterService.getRequestsToRegister().subscribe(data => {
       this.requestToRegisterDataSource = new MatTableDataSource(data);
+      this.requestToRegisterDataSource.paginator = this.paginator;
     });
   }
 

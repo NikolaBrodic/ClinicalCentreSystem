@@ -18,6 +18,8 @@ export const environment = {
   examination: '/api/examination',
   timeOffDoctor: '/api/time-off-doctor',
   timeOffNurse: '/api/time-off-nurse',
+  diagnose: '/api/diagnose',
+  medicine: '/api/medicine',
 };
 
 /*

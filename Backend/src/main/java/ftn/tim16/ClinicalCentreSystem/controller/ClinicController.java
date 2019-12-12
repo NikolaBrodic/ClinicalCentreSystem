@@ -38,7 +38,7 @@ public class ClinicController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(clinic, HttpStatus.OK);
+        return new ResponseEntity<>(clinic, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/all")

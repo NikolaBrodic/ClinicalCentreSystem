@@ -1,3 +1,5 @@
+import { AddPredefinedExaminationComponent } from './components/add-predefined-examination/add-predefined-examination.component';
+import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
 import { DoctorGuard } from './guards/doctor.guard';
 import { NurseGuard } from './guards/nurse.guard';
@@ -51,6 +53,9 @@ import { PatientProfileComponent } from './components/patient-profile/patient-pr
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { AxiomSchedulerModule } from 'axiom-scheduler';
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
+import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
+import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.component';
+import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +89,13 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
     ListOfPatientsWithSearchComponent,
     PatientProfileComponent,
     PatientClinicDetailsComponent,
-    WorkCalendarComponent
+    WorkCalendarComponent,
+    ListOfCreatedPredefinedExaminationComponent,
+    AddPredefinedExaminationComponent,
+    ListDiagnosisComponent,
+    AddDiagnoseComponent,
+    ListMedicinesComponent
+
   ],
   imports: [
     BrowserModule,
@@ -120,6 +131,11 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
     AddClinicAdministratorComponent,
     ListNursesComponent,
     AddNurseComponent,
+    ListOfCreatedPredefinedExaminationComponent,
+    AddPredefinedExaminationComponent,
+    ListDiagnosisComponent,
+    AddDiagnoseComponent,
+    ListMedicinesComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

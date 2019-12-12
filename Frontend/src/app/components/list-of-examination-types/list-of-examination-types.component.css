@@ -35,3 +35,18 @@
 .mat-cell {
     vertical-align: middle;
 }
+
+#search:hover, #search:active {
+    cursor: pointer;
+}
+
+.mat-column-update{
+    width: 20% !important;
+    margin:5px;
+}
+
+.mat-column-delete{
+    width: 20% !important;
+    margin:5px;
+}
+

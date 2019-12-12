@@ -7,7 +7,6 @@ import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +39,7 @@ public class DoctorController {
             if (createdDoctor == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdDoctor, HttpStatus.CREATED);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -56,13 +55,42 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/pageAll")
+    @GetMapping(value = "/search")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin(Pageable page) {
+    public ResponseEntity<List<DoctorDTO>> searchDoctorsInClinic(@RequestParam(value = "firstName") String firstName,
+                                                                 @RequestParam(value = "lastName") String lastName,
+                                                                 @RequestParam(value = "specializedFor") String specializedFor) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic(), page), HttpStatus.OK);
+        return new ResponseEntity<>(doctorService.searchDoctorsInClinic(clinicAdministrator.getClinic(), firstName, lastName, specializedFor), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/available")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<DoctorDTO>> getAllAvailableDoctors(@RequestParam(value = "specialized", required = true) Long specializedId,
+                                                                  @RequestParam(value = "startDateTime", required = true) String startDateTime,
+                                                                  @RequestParam(value = "endDateTime", required = true) String endDateTime) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(doctorService.getAllAvailableDoctors(specializedId, clinicAdministrator.getClinic().getId(), startDateTime, endDateTime), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Doctor> deleteDoctor(@PathVariable("id") Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Doctor doctor = doctorService.deleteDoctor(clinicAdministrator.getClinic().getId(), id);
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(doctor, HttpStatus.OK);
+    }
+
 }

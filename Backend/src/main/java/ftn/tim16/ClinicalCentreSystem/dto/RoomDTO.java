@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
 
 import javax.validation.constraints.NotEmpty;
@@ -18,10 +19,18 @@ public class RoomDTO {
     @NotNull(message = "Kind is null.")
     private String kind;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime available;
 
 
     public RoomDTO(Long id, String label, String kind) {
+        this.id = id;
+        this.label = label;
+        this.kind = kind;
+    }
+
+    public RoomDTO(Long id, String label, String kind, LocalDateTime available) {
+        this.available = available;
         this.id = id;
         this.label = label;
         this.kind = kind;

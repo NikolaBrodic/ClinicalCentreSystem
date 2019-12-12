@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PatientService } from 'src/app/services/patient.service';
 
 export class Patient {
   constructor(
@@ -51,17 +50,13 @@ export class LoginPatientComponent implements OnInit {
 
     this.userService.login(user).subscribe(
       data => {
-        //TODO: When you add home pages for users you need to do redirect to each one.
         this.toastr.success("You have successfuly logged in!", 'Login');
-        let role = JSON.parse(localStorage.getItem('LoggedInUser'))['role'];
-        if (role === 'PATIENT') {
-          this.router.navigate(['/patient/profile']);
-        }
+        this.redirectToHomePage();
       },
       error => {
-        if (error.status == 403) {
+        if (error.status == 406) {
           this.toastr.info("You have to change received generic password on first attempt to login.", 'Login');
-          this.router.navigate(['/user/changePassword']);
+          this.router.navigate(['/user/change-password']);
         } else {
           this.toastr.error("Invalid email or password. Please try again.", 'Login');
         }
@@ -69,4 +64,17 @@ export class LoginPatientComponent implements OnInit {
     )
   }
 
+  redirectToHomePage() {
+    if (this.userService.isPatient()) {
+      this.router.navigate(['/patient/profile']);
+    } else if (this.userService.isClinicAdmin()) {
+      this.router.navigate(['/clinic-admin/examination-types']);
+    } else if (this.userService.isClinicalCentreAdmin()) {
+      this.router.navigate(['/clinical-centre-admin/requests-to-register']);
+    } else if (this.userService.isDoctor() || this.userService.isNurse()) {
+      this.router.navigate(['/medical-staff/work-calendar']);
+    } else {
+      this.userService.logout();
+    }
+  }
 }

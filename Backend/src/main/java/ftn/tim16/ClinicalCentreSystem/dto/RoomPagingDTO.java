@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class RoomPagingDTO {

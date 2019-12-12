@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,13 +16,14 @@ public class Medicine {
     @Column(unique = true, columnDefinition = "VARCHAR(30)", nullable = false)
     private String label;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR")
     private String chemicalComposition;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR")
     private String usage;
 
-    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
 
     public Long getId() {

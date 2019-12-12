@@ -24,9 +24,17 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
 
     Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
 
+    Page<Examination> findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus(Long id, ExaminationStatus status, Long id2, ExaminationStatus status2, Pageable page);
+
+    List<Examination> findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus(Long id, ExaminationStatus status, Long id2, ExaminationStatus status2);
+
     List<Examination> findByStatus(ExaminationStatus status);
 
     List<Examination> findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter(Long id, ExaminationStatus status, LocalDateTime localDateTime);
 
     Page<Examination> findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter(Long id, ExaminationStatus status, LocalDateTime localDateTime, Pageable page);
+
+    List<Examination> findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
+
+    List<Examination> findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
 }

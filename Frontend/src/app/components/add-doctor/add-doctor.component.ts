@@ -1,4 +1,3 @@
-import { Time } from '@angular/common';
 import { ExaminationTypeService } from './../../services/examination-type.service';
 import { Doctor } from './../../models/doctor';
 import { DoctorService } from './../../services/doctor.service';
@@ -21,6 +20,7 @@ export class AddDoctorComponent implements OnInit {
     public dialogRef: MatDialogRef<AddDoctorComponent>) { }
 
   ngOnInit() {
+
     this.addDoctorForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       firstName: new FormControl(null, [Validators.required]),
@@ -30,6 +30,7 @@ export class AddDoctorComponent implements OnInit {
       workHoursTo: new FormControl(null, [Validators.required]),
       specialized: new FormControl(null, [Validators.required]),
     });
+
     this.getSpecializations();
   }
 
@@ -40,6 +41,7 @@ export class AddDoctorComponent implements OnInit {
   }
 
   create() {
+
     if (this.addDoctorForm.invalid) {
       this.toastr.error("Please enter a valid data.", 'Add doctor');
       return;
@@ -55,9 +57,9 @@ export class AddDoctorComponent implements OnInit {
 
     this.doctorService.create(doctor).subscribe(
       responseData => {
+        this.toastr.success("Successfully created a new doctor.", 'Add doctor');
         this.addDoctorForm.reset();
         this.dialogRef.close();
-        this.toastr.success("Successfully created a new doctor.", 'Add doctor');
         this.doctorService.createSuccessEmitter.next(doctor);
       },
       message => {

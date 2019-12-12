@@ -14,11 +14,11 @@ public class DateTimeInterval {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(nullable = false)
     private LocalDateTime startDateTime;
 
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
@@ -27,6 +27,16 @@ public class DateTimeInterval {
 
     @OneToMany(mappedBy = "interval", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
+
+    public DateTimeInterval() {
+    }
+
+    public DateTimeInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        timeOffDoctors = new HashSet<>();
+        examinations = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -53,6 +63,12 @@ public class DateTimeInterval {
             return false;
         }
         if (startExaminationTime.isAfter(startDateTime) && startExaminationTime.isBefore(endDateTime)) {
+            return false;
+        }
+        if (startExaminationTime.isBefore(startDateTime) && endExaminationTime.isAfter(endDateTime)) {
+            return false;
+        }
+        if (startExaminationTime.isBefore(startDateTime) && endExaminationTime.isAfter(startDateTime)) {
             return false;
         }
         return !(endExaminationTime.isAfter(startDateTime) && endExaminationTime.isBefore(endDateTime));

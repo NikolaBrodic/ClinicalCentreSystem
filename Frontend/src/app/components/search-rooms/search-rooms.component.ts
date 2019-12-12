@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomsWithNumberOffItmes } from 'src/app/models/roomsWithNumberOffItmes';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-search-rooms',
   templateUrl: './search-rooms.component.html',
@@ -31,7 +31,6 @@ export class SearchRoomsComponent implements OnInit {
   searchTimeEnd: String;
   minDate = new Date();
   examination: Examination;
-  private selectedExamination: Subscription;
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
@@ -64,15 +63,18 @@ export class SearchRoomsComponent implements OnInit {
       this.router.navigate(['/error']);
       return;
     }
-    this.searchDate = new Date(formatDate(this.examination.interval.startDateTime.toString(), 'MM.dd.yyyy', 'en-US'));
-    console.log(this.searchDate);
-    this.searchTimeStart = formatDate(this.examination.interval.startDateTime.toString(), 'hh:mm', 'en-US');
-    this.searchTimeEnd = formatDate(this.examination.interval.endDateTime.toString(), 'hh:mm', 'en-US');
-    this.getRoomsForAdminPaging();
+    let dateFormat = "YYYY-MM-DD";
+    this.searchDate = moment(this.examination.interval.startDateTime.toString().substr(0, 10), dateFormat).toDate();
+
+    this.searchTimeStart = this.examination.interval.startDateTime.toString().substr(11);
+
+    this.searchTimeEnd = this.examination.interval.endDateTime.toString().substr(11);
+
+    this.getRoomsForAdminPaging(0);
   }
 
   sortEvent() {
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(0);
   }
 
   assignRoom(element: Room) {
@@ -85,9 +87,10 @@ export class SearchRoomsComponent implements OnInit {
     this.roomService.assignRoom(element, this.examination).subscribe(
       responseData => {
         this.toastr.success("Successfully assigned examination room ", 'Assign room');
+        this.router.navigate(['/clinic-admin/examination/get-awaiting']);
       },
       message => {
-        this.toastr.error("Error", 'Assign room');
+        this.toastr.error("You can not assign this room. Please choose another one.", 'Assign room');
       }
     );
   }
@@ -102,35 +105,35 @@ export class SearchRoomsComponent implements OnInit {
          return;
        }*/
 
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(0);
   }
 
-  getRoomsForAdminPaging() {
-    const format = 'dd/MM/yyyy';
+  getRoomsForAdminPaging(pageIndex: number) {
+
+    const format = 'yyyy-MM-dd';
     const locale = 'en-US';
     if (this.searchDate) {
-      const formattedDate = formatDate(this.searchDate, format, locale);
-      this.roomService.getRoomsForAdminPaging
-        (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, formattedDate, this.searchTimeStart, this.searchTimeEnd).
-        subscribe((data: RoomsWithNumberOffItmes) => {
-          this.numberOfItem = data.numberOfItems;
-          this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
-          this.roomsDataSource.sort = this.sort;
-        })
+      this.requestForGettingRooms(formatDate(this.searchDate, format, locale), pageIndex);
+
     } else {
-      this.roomService.getRoomsForAdminPaging
-        (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, this.searchDate, this.searchTimeStart, this.searchTimeEnd).
-        subscribe((data: RoomsWithNumberOffItmes) => {
-          this.numberOfItem = data.numberOfItems;
-          this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
-          this.roomsDataSource.sort = this.sort;
-        })
+      this.requestForGettingRooms(this.searchDate, pageIndex);
     }
 
   }
 
+  requestForGettingRooms(date: any, pageIndex: number) {
+    this.paginator.pageIndex = pageIndex;
+    this.roomService.getRoomsForAdminPaging
+      (pageIndex, 5, this.sort, this.kind, this.searchLabel, date, this.searchTimeStart, this.searchTimeEnd).
+      subscribe((data: RoomsWithNumberOffItmes) => {
+        this.numberOfItem = data.numberOfItems;
+        this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
+        this.roomsDataSource.sort = this.sort;
+      })
+  }
+
   changePage() {
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(this.paginator.pageIndex);
   }
 
 }

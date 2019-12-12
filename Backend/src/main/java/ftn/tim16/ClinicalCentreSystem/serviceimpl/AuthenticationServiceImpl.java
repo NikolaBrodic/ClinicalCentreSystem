@@ -17,8 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -48,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return null;
         }
 
-        if (patientRepository.findByHealthInsuranceID(patientDTO.getHealthInsuranceID()) != null) {
+        if (patientRepository.findByHealthInsuranceId(patientDTO.getHealthInsuranceID()) != null) {
             return null;
         }
 
@@ -57,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String hashedPassword = passwordEncoder.encode(patientDTO.getPassword());
-        List<Authority> authorities = findByName("ROLE_PATIENT");
+        Set<Authority> authorities = findByName("ROLE_PATIENT");
 
         Patient newPatient = new Patient(patientDTO.getEmail(), hashedPassword, patientDTO.getFirstName(),
                 patientDTO.getLastName(), patientDTO.getPhoneNumber(), patientDTO.getAddress(), patientDTO.getCity(),
@@ -85,17 +85,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public List<Authority> findByName(String name) {
+    public Set<Authority> findByName(String name) {
         Authority auth = this.authorityRepository.findByName(name);
-        List<Authority> authorities = new ArrayList<>();
+        Set<Authority> authorities = new HashSet<>();
         authorities.add(auth);
         return authorities;
     }
 
     @Override
-    public List<Authority> findById(Long id) {
+    public Set<Authority> findById(Long id) {
         Authority auth = this.authorityRepository.getOne(id);
-        List<Authority> authorities = new ArrayList<>();
+        Set<Authority> authorities = new HashSet<>();
         authorities.add(auth);
         return authorities;
     }

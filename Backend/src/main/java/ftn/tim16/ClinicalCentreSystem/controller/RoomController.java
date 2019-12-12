@@ -43,7 +43,7 @@ public class RoomController {
         if (createdRoom == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Room>(createdRoom, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
 
@@ -78,6 +78,21 @@ public class RoomController {
         }
     }
 
+    @GetMapping(value = "/available-examination-rooms")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@RequestParam(value = "startDateTime", required = true) String startDateTime,
+                                                                      @RequestParam(value = "endDateTime", required = true) String endDateTime) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            List<RoomDTO> roomDTOS = roomService.getAvailableExaminationRooms(clinicAdministrator.getClinic().getId(), startDateTime, endDateTime);
+            return new ResponseEntity<>(roomDTOS, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -97,6 +112,21 @@ public class RoomController {
     @Scheduled(cron = "${room.cron}")
     public void assignRoom() {
         roomService.automaticallyAssignRoom();
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Room> deleteRoom(@PathVariable("id") Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Room room = roomService.deleteRoom(clinicAdministrator.getClinic().getId(), id);
+        if (room == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(room, HttpStatus.OK);
     }
 
 }

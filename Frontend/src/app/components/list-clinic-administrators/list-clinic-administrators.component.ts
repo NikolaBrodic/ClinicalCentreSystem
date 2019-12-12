@@ -1,7 +1,9 @@
+import { MatPaginator } from '@angular/material/paginator';
+import { environment } from './../../../environments/environment';
 import { AddClinicAdministratorComponent } from './../add-clinic-administrator/add-clinic-administrator.component';
 
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { ClinicAdministrator } from 'src/app/models/clinicAdministrator';
 import { Subscription } from 'rxjs';
@@ -20,8 +22,10 @@ export class ListClinicAdministratorsComponent implements OnInit {
   clinics: Clinic[] = [];
   clinic: Clinic;
   clinicId0: Clinic;
+  itemsPerPage = environment.itemsPerPage;
+  addClinicAdminSuccess: Subscription;
 
-  private addClinicAdminSuccess: Subscription;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -49,6 +53,7 @@ export class ListClinicAdministratorsComponent implements OnInit {
   fetchData() {
     this.clinicAdminService.getAllClinicAdminsInClinic(this.clinic).subscribe(data => {
       this.clinicAdminsDataSource = new MatTableDataSource(data);
+      this.clinicAdminsDataSource.paginator = this.paginator;
     });
   }
 

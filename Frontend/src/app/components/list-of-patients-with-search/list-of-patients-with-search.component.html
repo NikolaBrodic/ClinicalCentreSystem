@@ -92,8 +92,8 @@
                             <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
-                        <mat-paginator class=" table" [pageSize]="5" [(length)]=numberOfItem (click)="changePage()"
-                            showFirstLastButtons>
+                        <mat-paginator class=" table" [pageSize]=itemsPerPage [(length)]=numberOfItem
+                            (click)="changePage()" showFirstLastButtons>
                         </mat-paginator>
                     </div>
                     <!-- /.section-title -->

@@ -42,7 +42,7 @@
                             Date
                         </th>
                         <td mat-cell *matCellDef="let element" class="text-in-table">
-                            {{element.interval.startDateTime | slice: 0:10}}
+                            {{element.interval.startDateTime | date:"dd.MM.yyyy."}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="time">
@@ -50,8 +50,8 @@
                             Time
                         </th>
                         <td mat-cell *matCellDef="let element" class="text-in-table">
-                            {{element.interval.startDateTime | slice: 10}} -
-                            {{element.interval.endDateTime | slice:10 }}
+                            {{element.interval.startDateTime | date:"HH:mm"}} -
+                            {{element.interval.endDateTime |  date:"HH:mm" }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="cancel">

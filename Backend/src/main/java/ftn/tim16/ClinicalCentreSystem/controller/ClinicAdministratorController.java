@@ -18,13 +18,14 @@ import java.util.List;
 public class ClinicAdministratorController {
 
     @Autowired
-    ClinicAdministratorService clinicAdministratorService;
+    private ClinicAdministratorService clinicAdministratorService;
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<List<ClinicAdministratorDTO>> getAllClinicAdministratorsInClinic(@RequestParam Long clinicId) {
         return new ResponseEntity<>(clinicAdministratorService.getAllClinicAdministratorsInClinic(clinicId), HttpStatus.OK);
     }
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
@@ -34,7 +35,7 @@ public class ClinicAdministratorController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(clinicAdministrator, HttpStatus.OK);
+        return new ResponseEntity<>(clinicAdministrator, HttpStatus.CREATED);
     }
 
 }

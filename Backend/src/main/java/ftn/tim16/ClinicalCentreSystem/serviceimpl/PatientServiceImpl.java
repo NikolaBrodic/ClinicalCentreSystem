@@ -28,7 +28,7 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepository patientRepository;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Override
     public Patient changePassword(String newPassword, Patient user) {
@@ -63,14 +63,7 @@ public class PatientServiceImpl implements PatientService {
 
         Patient updatedPatient = patientRepository.save(patient);
 
-        String subject = "Request to register approved";
-        StringBuilder sb = new StringBuilder();
-        sb.append("Great news! Your request to register as a patient is approved by a clinical centre administrator.");
-        sb.append(System.lineSeparator());
-        sb.append(System.lineSeparator());
-        sb.append("You can now login to the Clinical Centre System and start using it.");
-        String text = sb.toString();
-        emailNotificationService.sendEmail(patient.getEmail(), subject, text);
+        composeAndSendApprovalEmail(updatedPatient.getEmail());
 
         return updatedPatient;
     }
@@ -85,6 +78,26 @@ public class PatientServiceImpl implements PatientService {
             return false;
         }
 
+        patientRepository.deleteById(id);
+
+        composeAndSendRejectionEmail(patient.getEmail(), reason);
+
+        return true;
+    }
+
+    private void composeAndSendApprovalEmail(String recipientEmail) {
+        String subject = "Request to register approved";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Great news! Your request to register as a patient is approved by a clinical centre administrator.");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("You can now login to the Clinical Centre System and start using it.");
+        String text = sb.toString();
+
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
+    }
+
+    private void composeAndSendRejectionEmail(String recipientEmail, String reason) {
         String subject = "Request to register rejected";
         StringBuilder sb = new StringBuilder();
         sb.append("Your request to register as a patient is rejected by a clinical centre administrator.");
@@ -94,21 +107,22 @@ public class PatientServiceImpl implements PatientService {
         sb.append(System.lineSeparator());
         sb.append(reason);
         String text = sb.toString();
-        emailNotificationService.sendEmail(patient.getEmail(), subject, text);
 
-        patientRepository.deleteById(id);
-
-        return true;
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
     }
 
     @Override
     public PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page) {
+        try {
+            Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
+            List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
+            return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
+        } catch (Error e) {
+            return null;
+        }
 
-        Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
-                clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
-        List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
-                clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
-        return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
     }
 
     @Override
