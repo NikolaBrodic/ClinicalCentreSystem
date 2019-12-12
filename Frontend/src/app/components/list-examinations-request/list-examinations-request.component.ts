@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router';
 import { ExaminationPagingDTO } from './../../models/examinations';
 import { ExaminationService } from './../../services/examination.service';
@@ -17,6 +18,8 @@ export class ListExaminationsRequestComponent implements OnInit {
   examinationsDataSource: MatTableDataSource<Examination>;
   displayedColumns: string[] = ['patient', 'examinationType', 'doctors', 'interval', 'assign'];
   numberOfItem: number;
+  itemsPerPage = environment.itemsPerPage;
+
   constructor(public dialog: MatDialog, private examinationService: ExaminationService, private router: Router) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;

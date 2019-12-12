@@ -26,6 +26,7 @@ public class ClinicAdministratorController {
         return new ResponseEntity<>(clinicAdministratorService.getAllClinicAdministratorsInClinic(clinicId), HttpStatus.OK);
     }
 
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<ClinicAdministrator> addClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO clinicAdministratorDTO) {

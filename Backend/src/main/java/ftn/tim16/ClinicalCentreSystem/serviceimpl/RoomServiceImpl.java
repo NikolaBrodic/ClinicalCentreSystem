@@ -79,11 +79,14 @@ public class RoomServiceImpl implements RoomService {
                                               String date, String searchStartTime, String searchEndTime) throws DateTimeParseException {
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
-            return null;
+            RoomPagingDTO roomPagingDTO = new RoomPagingDTO(convertToDTO(
+                    roomRepository.findByLabelContainsIgnoringCaseAndClinicIdAndStatus(search, clinic.getId(), LogicalStatus.EXISTING, page).getContent()),
+                    roomRepository.findByLabelContainsIgnoringCaseAndClinicIdAndStatus(search, clinic.getId(), LogicalStatus.EXISTING).size());
+            return roomPagingDTO;
         }
 
         boolean dateSearchActive = true;
-        if ("undefined".equals(date) || "undefined".equals(searchStartTime) || "undefined".equals(searchEndTime)) {
+        if (date.isEmpty() || searchStartTime.isEmpty() || searchEndTime.isEmpty()) {
             dateSearchActive = false;
         }
         if ((search == null || search.isEmpty()) && !dateSearchActive) {

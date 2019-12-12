@@ -1,3 +1,7 @@
+import { isUndefined } from 'util';
+import { RoomsWithNumberOffItmes } from './../../models/roomsWithNumberOffItmes';
+import { environment } from './../../../environments/environment';
+import { MatPaginator } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { MatSort } from '@angular/material/sort';
 import { AddRoomComponent } from './../add-room/add-room.component';
@@ -17,34 +21,52 @@ export class ListOfRoomsComponent implements OnInit {
 
   roomsDataSource: MatTableDataSource<Room>;
   displayedColumns: string[] = ['label', 'kind', 'update', 'delete'];
-  public searchString: string;
+  searchString: string;
   filterInput: HTMLInputElement;
-  private successCreatedRoom: Subscription;
+  successCreatedRoom: Subscription;
   numberOfItem: number;
+  itemsPerPage = environment.itemsPerPage;
+  searchExaminationType: string;
+  searchLabel: string = "";
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private toastr: ToastrService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    this.getRoomsForAdmin();
+    this.searchRooms(0);
 
     this.successCreatedRoom = this.roomService.createSuccessEmitter.subscribe(
       data => {
-        this.getRoomsForAdmin();
+        this.searchExaminationType = "All";
+        this.searchLabel = "";
+        this.searchRooms(0);
       }
     );
   }
 
-  getRoomsForAdmin() {
-    this.filterInput = document.getElementById("filterInput") as HTMLInputElement;
-    this.filterInput.value = "";
-    this.roomService.getAllRoomsForAdmin().subscribe(data => {
-      this.roomsDataSource = new MatTableDataSource(data);
-      this.roomsDataSource.sort = this.sort;
-    })
+  searchRooms(pageIndex: number) {
+    if (isUndefined(this.searchExaminationType)) {
+      this.searchExaminationType = "";
+    }
+    this.paginator.pageIndex = pageIndex;
+    this.roomService.getRoomsForAdminPaging
+      (pageIndex, 5, this.sort, this.searchExaminationType.toLowerCase(), this.searchLabel, "", "", "").
+      subscribe((data: RoomsWithNumberOffItmes) => {
+        this.numberOfItem = data.numberOfItems;
+        this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
+        this.roomsDataSource.sort = this.sort;
+      })
+  }
+
+  sortEvent() {
+    this.searchRooms(0);
+  }
+
+  changePage() {
+    this.searchRooms(this.paginator.pageIndex);
   }
 
   openCreatingDialog() {
@@ -62,7 +84,7 @@ export class ListOfRoomsComponent implements OnInit {
   deleteRoom(room: Room) {
     this.roomService.deleteRoom(room.id).subscribe(
       responseData => {
-        this.getRoomsForAdmin();
+        this.searchRooms(0);
         this.toastr.success("Successfully deleted room.", 'Delete room');
       },
       message => {

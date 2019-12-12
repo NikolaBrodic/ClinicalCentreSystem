@@ -192,6 +192,12 @@ public class DoctorServiceImpl implements DoctorService {
         return convertToDTO(doctorRepository.findByClinicIdAndStatusNot(clinic.getId(), DoctorStatus.DELETED));
     }
 
+    @Override
+    public List<DoctorDTO> searchDoctorsInClinic(Clinic clinic, String firstName, String lastName, String specializedFor) {
+        return convertToDTO(doctorRepository.findByClinicIdAndStatusNotAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndSpecializedLabelContainsIgnoringCase(
+                clinic.getId(), DoctorStatus.DELETED, firstName, lastName, specializedFor));
+    }
+
     private List<DoctorDTO> convertToDTO(List<Doctor> doctors) {
         List<DoctorDTO> doctorDTOS = new ArrayList<>();
         for (Doctor doctor : doctors) {

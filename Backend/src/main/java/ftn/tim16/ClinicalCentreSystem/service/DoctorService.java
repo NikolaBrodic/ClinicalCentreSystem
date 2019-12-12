@@ -12,6 +12,8 @@ public interface DoctorService {
 
     List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic);
 
+    List<DoctorDTO> searchDoctorsInClinic(Clinic clinic, String firstName, String lastName, String specializedFor);
+
     Doctor changePassword(String newPassword, Doctor user);
 
     boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
