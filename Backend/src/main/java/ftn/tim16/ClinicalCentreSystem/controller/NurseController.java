@@ -23,10 +23,10 @@ import java.util.List;
 public class NurseController {
 
     @Autowired
-    NurseService nurseService;
+    private NurseService nurseService;
 
     @Autowired
-    ClinicAdministratorService clinicAdministratorService;
+    private ClinicAdministratorService clinicAdministratorService;
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

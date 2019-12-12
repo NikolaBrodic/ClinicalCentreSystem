@@ -113,12 +113,16 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page) {
+        try {
+            Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
+            List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
+            return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
+        } catch (Error e) {
+            return null;
+        }
 
-        Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
-                clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
-        List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
-                clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
-        return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
     }
 
     @Override

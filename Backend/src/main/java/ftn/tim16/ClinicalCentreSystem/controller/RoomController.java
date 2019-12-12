@@ -22,7 +22,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/room")
 public class RoomController {
 
@@ -44,7 +43,7 @@ public class RoomController {
         if (createdRoom == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Room>(createdRoom, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
 

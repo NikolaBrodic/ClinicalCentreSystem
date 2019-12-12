@@ -11,7 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Nurse implements UserDetails {
@@ -63,19 +66,19 @@ public class Nurse implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "nurse_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
     public Nurse() {
 
     }
 
     public Nurse(String email, String password, String firstName, String lastName, String phoneNumber,
-                 LocalTime workHoursFrom, LocalTime workHoursTo, Clinic clinic, List<Authority> authorities) {
+                 LocalTime workHoursFrom, LocalTime workHoursTo, Clinic clinic, Set<Authority> authorities) {
         this.email = email;
         setPassword(password);
         this.firstName = firstName;
@@ -91,7 +94,7 @@ public class Nurse implements UserDetails {
         this.authorities = authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 

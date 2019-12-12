@@ -43,7 +43,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
     this.addPredefinedExaminationForm = new FormGroup({
       doctor: new FormControl(null, [Validators.required]),
       room: new FormControl(null, [Validators.required]),
-      discount: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(99)])
+      discount: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(99)])
     });
     this.getExaminationTypes();
   }

@@ -7,7 +7,6 @@ import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/doctor")
 public class DoctorController {
 
@@ -41,7 +39,7 @@ public class DoctorController {
             if (createdDoctor == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<Doctor>(createdDoctor, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdDoctor, HttpStatus.CREATED);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -57,14 +55,16 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/pageAll")
+    @GetMapping(value = "/search")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<DoctorDTO>> getAllDoctorsForAdmin(Pageable page) {
+    public ResponseEntity<List<DoctorDTO>> searchDoctorsInClinic(@RequestParam(value = "firstName") String firstName,
+                                                                 @RequestParam(value = "lastName") String lastName,
+                                                                 @RequestParam(value = "specializedFor") String specializedFor) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(doctorService.findAllDoctorsInClinic(clinicAdministrator.getClinic(), page), HttpStatus.OK);
+        return new ResponseEntity<>(doctorService.searchDoctorsInClinic(clinicAdministrator.getClinic(), firstName, lastName, specializedFor), HttpStatus.OK);
     }
 
     @GetMapping(value = "/available")

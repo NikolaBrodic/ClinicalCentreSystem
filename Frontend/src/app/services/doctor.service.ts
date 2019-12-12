@@ -13,6 +13,7 @@ export class DoctorService {
   url = environment.baseUrl + environment.doctor;
 
   doctorsForAdmin: BehaviorSubject<Doctor[]> = new BehaviorSubject<Doctor[]>([]);
+  searchDoctorsForAdmin: BehaviorSubject<Doctor[]> = new BehaviorSubject<Doctor[]>([]);
   updateSuccessEmitter = new Subject<Doctor>();
   createSuccessEmitter = new Subject<Doctor>();
 
@@ -31,6 +32,24 @@ export class DoctorService {
       });
     return this.doctorsForAdmin.asObservable();
   }
+
+  public searchDoctorsForAdminRequest(firstName: string, lastName: string, specializedFor: string): Observable<Doctor[]> {
+    let params = new HttpParams();
+    params = params.append('firstName', firstName);
+    params = params.append('lastName', lastName);
+    params = params.append('specializedFor', specializedFor);
+
+    this.httpClient.get(this.url + "/search", {
+      params: params
+    }).subscribe((data: Doctor[]) => {
+      this.searchDoctorsForAdmin.next(data);
+    },
+      (error: HttpErrorResponse) => {
+
+      });
+    return this.searchDoctorsForAdmin.asObservable();
+  }
+
 
   public getAllAvailableDoctors(specialized: any, startDateTime: string, endDateTime: string) {
     let params = new HttpParams();

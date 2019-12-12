@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Service
 public class NurseServiceImpl implements NurseService {
@@ -88,7 +89,7 @@ public class NurseServiceImpl implements NurseService {
         String generatedPassword = randomPasswordGenerator.generatePassword();
         String hashedPassword = passwordEncoder.encode(generatedPassword);
 
-        List<Authority> authorities = authenticationService.findByName("ROLE_NURSE");
+        Set<Authority> authorities = authenticationService.findByName("ROLE_NURSE");
 
         Nurse newNurse = new Nurse(nurseDTO.getEmail(), hashedPassword, nurseDTO.getFirstName(), nurseDTO.getLastName(),
                 nurseDTO.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(), authorities);

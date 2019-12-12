@@ -17,15 +17,15 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Patient findByIdAndStatus(Long id, PatientStatus status);
 
-    Patient findByHealthInsuranceID(String healthInsuranceID);
+    Patient findByHealthInsuranceId(String healthInsuranceID);
 
     Patient findByPhoneNumber(String phoneNumber);
 
-    Page<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
-            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceID, ExaminationStatus exStatus,
-            Long id2, PatientStatus status2, String firstName2, String lastName2, String healthInsuranceID2, ExaminationStatus exStatus2, Pageable page);
+    Page<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
+            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceId, ExaminationStatus exStatus,
+            Long id2, PatientStatus status2, String firstName2, String lastName2, String healthInsuranceId2, ExaminationStatus exStatus2, Pageable page);
 
-    List<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIDContainsAndExaminationsStatus(
-            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceID, ExaminationStatus exStatus,
-            Long id2, PatientStatus status2, String firstName2, String lastName2, String healthInsuranceID2, ExaminationStatus exStatus2);
+    List<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
+            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceId, ExaminationStatus exStatus,
+            Long id2, PatientStatus status2, String firstName2, String lastName2, String healthInsuranceId2, ExaminationStatus exStatus2);
 }

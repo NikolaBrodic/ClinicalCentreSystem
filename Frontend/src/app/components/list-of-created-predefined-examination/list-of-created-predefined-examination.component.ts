@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { AddPredefinedExaminationComponent } from './../add-predefined-examination/add-predefined-examination.component';
 import { Subscription } from 'rxjs';
 import { ExaminationPagingDTO } from './../../models/examinations';
@@ -20,7 +21,8 @@ export class ListOfCreatedPredefinedExaminationComponent implements OnInit {
   displayedColumns: string[] = ['date', 'time', 'examinationType', 'doctor', 'room', 'originalPrice', 'discountPrice', 'edit'];
   numberOfItem: number;
   expandedElement: Examination | null;
-  private successCreatedPredefinedExamination: Subscription;
+  successCreatedPredefinedExamination: Subscription;
+  itemsPerPage = environment.itemsPerPage;
 
   constructor(public dialog: MatDialog, private examinationService: ExaminationService, private router: Router) { }
 

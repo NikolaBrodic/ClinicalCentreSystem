@@ -7,6 +7,10 @@
                 *ngIf="addExaminationTypeForm.get('label').errors && addExaminationTypeForm.get('label').errors['required']">
                 Please enter examination type's label.
             </mat-error>
+            <mat-error
+                *ngIf="addExaminationTypeForm.get('label').errors && addExaminationTypeForm.get('label').errors['maxlength']">
+                Max size for label is 30.
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="form-full-width mt-2">

@@ -57,6 +57,10 @@ public class Examination {
     @Column
     private Integer clinicRating;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ClinicAdministrator clinicAdministrator;
+
     public Examination() {
         this.doctorRating = 0;
         this.clinicRating = 0;
@@ -80,11 +84,6 @@ public class Examination {
 
         doctors = new HashSet<Doctor>();
     }
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ClinicAdministrator clinicAdministrator;
-
 
     public Long getId() {
         return id;

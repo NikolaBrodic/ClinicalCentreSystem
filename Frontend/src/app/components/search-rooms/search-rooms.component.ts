@@ -70,11 +70,11 @@ export class SearchRoomsComponent implements OnInit {
 
     this.searchTimeEnd = this.examination.interval.endDateTime.toString().substr(11);
 
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(0);
   }
 
   sortEvent() {
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(0);
   }
 
   assignRoom(element: Room) {
@@ -105,26 +105,26 @@ export class SearchRoomsComponent implements OnInit {
          return;
        }*/
 
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(0);
   }
 
-  getRoomsForAdminPaging() {
+  getRoomsForAdminPaging(pageIndex: number) {
 
     const format = 'yyyy-MM-dd';
     const locale = 'en-US';
     if (this.searchDate) {
-      this.requestForGettingRooms(formatDate(this.searchDate, format, locale));
+      this.requestForGettingRooms(formatDate(this.searchDate, format, locale), pageIndex);
 
     } else {
-      this.requestForGettingRooms(this.searchDate);
+      this.requestForGettingRooms(this.searchDate, pageIndex);
     }
 
   }
 
-  requestForGettingRooms(date) {
-
+  requestForGettingRooms(date: any, pageIndex: number) {
+    this.paginator.pageIndex = pageIndex;
     this.roomService.getRoomsForAdminPaging
-      (this.paginator.pageIndex, 5, this.sort, this.kind, this.searchLabel, date, this.searchTimeStart, this.searchTimeEnd).
+      (pageIndex, 5, this.sort, this.kind, this.searchLabel, date, this.searchTimeStart, this.searchTimeEnd).
       subscribe((data: RoomsWithNumberOffItmes) => {
         this.numberOfItem = data.numberOfItems;
         this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
@@ -133,7 +133,7 @@ export class SearchRoomsComponent implements OnInit {
   }
 
   changePage() {
-    this.getRoomsForAdminPaging();
+    this.getRoomsForAdminPaging(this.paginator.pageIndex);
   }
 
 }

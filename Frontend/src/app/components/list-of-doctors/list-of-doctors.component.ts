@@ -1,9 +1,11 @@
+import { environment } from './../../../environments/environment';
+import { MatPaginator } from '@angular/material/paginator';
 import { ToastrService } from 'ngx-toastr';
 import { DoctorService } from './../../services/doctor.service';
 import { Doctor } from './../../models/doctor';
 import { AddDoctorComponent } from './../add-doctor/add-doctor.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -16,10 +18,15 @@ import { MatSort } from '@angular/material/sort';
 export class ListOfDoctorsComponent implements OnInit {
   doctorsDataSource: MatTableDataSource<Doctor>;
   displayedColumns: string[] = ['firstName', 'lastName', 'specializedfor', 'workhours', 'delete'];
-  public searchString: string;
-  filterInput: HTMLInputElement;
-  private successCreatedDoctor: Subscription;
+  searchString: string;
+  searchFirstName: string = "";
+  searchLastName: string = "";
+  searchSpecializedFor: string = "";
+  itemsPerPage = environment.itemsPerPage;
+  successCreatedDoctor: Subscription;
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog, public doctorService: DoctorService,
     public toastr: ToastrService) { }
@@ -35,14 +42,20 @@ export class ListOfDoctorsComponent implements OnInit {
   }
 
   getDoctorsForAdmin() {
-    this.filterInput = document.getElementById("filterInput") as HTMLInputElement;
-    this.filterInput.value = "";
     this.doctorService.getAllDoctorsForAdmin().subscribe(data => {
       this.doctorsDataSource = new MatTableDataSource(data);
       this.doctorsDataSource.sort = this.sort;
+      this.doctorsDataSource.paginator = this.paginator;
     })
   }
 
+  search() {
+    this.doctorService.searchDoctorsForAdminRequest(this.searchFirstName, this.searchLastName, this.searchSpecializedFor).subscribe(data => {
+      this.doctorsDataSource = new MatTableDataSource(data);
+      this.doctorsDataSource.sort = this.sort;
+      this.doctorsDataSource.paginator = this.paginator;
+    })
+  }
   openCreatingDialog() {
     this.dialog.open(AddDoctorComponent);
   }

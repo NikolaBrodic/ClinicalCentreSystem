@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/examination")
 public class ExaminationController {
 
@@ -125,7 +124,7 @@ public class ExaminationController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getPredefinedExaminations(clinicAdministrator, page), HttpStatus.OK);
+            return new ResponseEntity<>(examinationService.getPredefinedExaminations(clinicAdministrator, page), HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
