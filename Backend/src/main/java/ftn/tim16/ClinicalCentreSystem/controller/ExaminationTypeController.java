@@ -28,7 +28,6 @@ public class ExaminationTypeController {
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<ExaminationType> create(@Valid @RequestBody ExaminationTypeDTO examinationType) {

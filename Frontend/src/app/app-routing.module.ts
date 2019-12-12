@@ -1,4 +1,6 @@
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
+import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
+import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
@@ -143,6 +145,16 @@ const routes: Routes = [
   {
     path: 'patient/clinic/:id/details',
     component: PatientClinicDetailsComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/clinics',
+    component: PatientClinicsComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/examination-history',
+    component: PatientHistoryExaminationsOperationsComponent,
     canActivate: [PatientGuard]
   },
 

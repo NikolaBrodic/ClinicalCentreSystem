@@ -1,17 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
+import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.NurseService;
-import ftn.tim16.ClinicalCentreSystem.service.PatientService;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,6 +34,12 @@ public class PatientController {
 
     @Autowired
     private NurseService nurseService;
+
+    @Autowired
+    private ClinicService clinicService;
+
+    @Autowired
+    private ExaminationService examinationService;
 
     @GetMapping(value = "/{id}")
     public Patient getPatient(@PathVariable long id) {
@@ -127,7 +128,7 @@ public class PatientController {
     }
 
     @GetMapping(value = "/profile")
-    @PreAuthorize("hasAnyRole('PATIENT')")
+    @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<DoctorDTO>> getAllDoctorsBy(@RequestParam(value = "firstName") String firstName,
                                                            @RequestParam(value = "lastName") String lastName,
                                                            @RequestParam(value = "averageRating") int doctorRating) {
@@ -135,4 +136,19 @@ public class PatientController {
         List<DoctorDTO> listOfDoctors = doctorService.findByFirstNameAndLastNameAndDoctorRating(firstName, lastName, doctorRating);
         return new ResponseEntity<>(listOfDoctors, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/clinics-filter")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody Examination examination) {
+        List<Clinic> filteredClinics = clinicService.findClinicsByExaminations(examination);
+        return new ResponseEntity<>(filteredClinics, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/examination-history/{patientId}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<Examination>> getAllExaminationsForPatient(@PathVariable Long patientId) {
+        List<Examination> filteredExaminations = examinationService.getExaminationsForPatient(patientId);
+        return new ResponseEntity<>(filteredExaminations, HttpStatus.OK);
+    }
+
 }

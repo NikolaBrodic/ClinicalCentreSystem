@@ -170,7 +170,7 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'EXAMINATION',1,'EXISTING');
-insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 09:00','13.12.2019 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 09:00','12.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id)
  values ('EXAMINATION',1,'AWAITING',1,1,1,2,1);
 insert into examining (examination_id,doctor_id) values (1,4);

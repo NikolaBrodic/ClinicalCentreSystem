@@ -32,9 +32,9 @@ export class RoomService {
     this.httpClient.get(this.url + "/all").subscribe((data: Room[]) => {
       this.roomsForAdmin.next(data);
     },
-      (error: HttpErrorResponse) => {
-
-      });
+    (error: HttpErrorResponse) => {
+      
+    });
     return this.roomsForAdmin.asObservable();
   }
 

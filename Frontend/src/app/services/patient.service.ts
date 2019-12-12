@@ -1,3 +1,4 @@
+import { Examination } from './../models/examination';
 import { Router } from '@angular/router';
 import { PatientWithId } from './../models/patientWithId';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -5,7 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { environment } from './../../environments/environment';
 import { Patient } from './../models/patient';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Clinic } from '../models/clinic';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,8 @@ export class PatientService {
   urlPatient = environment.baseUrl + environment.patient;
   selectedPatient: PatientWithId;
   subjectForSelectedPatient = new BehaviorSubject<PatientWithId>(null);
+  patientExaminationHistory: BehaviorSubject<Examination[]> = new BehaviorSubject<Examination[]>([]);
+  filteredClinics: BehaviorSubject<Clinic[]> = new BehaviorSubject<Clinic[]>([]);
 
   constructor(
     private httpClient: HttpClient,
@@ -60,7 +64,30 @@ export class PatientService {
     });
   }
 
+  public getExaminationHistoryForPatient(patientId): Observable<Examination[]> {
+    this.httpClient.get(this.urlPatient + '/examination-history/' + patientId).subscribe(
+      (data: Examination[]) => {
+        this.patientExaminationHistory.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        
+      }
+    );
+    return this.patientExaminationHistory.asObservable();
+  }
+
   public getPatientForMedicalStaff(id: number) {
     return this.httpClient.get(this.urlPatient + "/forMedicalStaff/" + id);
   }
+
+  public getFilteredClinicsByExamination(examination: Examination): Observable<Clinic[]> {
+    this.httpClient.post(this.urlPatient + "/clinics-filter", examination).subscribe((data: Clinic[]) => {
+      this.filteredClinics.next(data)
+    },
+    (error: HttpErrorResponse) => {
+
+    });
+    return this.filteredClinics.asObservable();
+  }
+
 }

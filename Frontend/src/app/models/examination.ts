@@ -1,3 +1,4 @@
+import { Clinic } from 'src/app/models/clinic';
 import { Patient } from './../components/login-patient/login-patient.component';
 import { Nurse } from './nurse';
 import { Room } from './room';
@@ -17,8 +18,9 @@ export class Examination {
     discount: number;
     nurse: Nurse;
     patient: Patient;
+    clinic: Clinic;
     constructor(id: number, kind: String, interval: DateTimeInterval, status: String, examinationType: ExaminationType, doctors: Doctor[],
-        room: Room, discount: number, nurse: Nurse, patient: Patient) {
+        room: Room, discount: number, nurse: Nurse, patient: Patient, clinic?: Clinic) {
         this.id = id;
         this.kind = kind;
         this.interval = interval;
@@ -29,5 +31,6 @@ export class Examination {
         this.discount = discount;
         this.nurse = nurse;
         this.patient = patient;
+        this.clinic = clinic;
     }
 }

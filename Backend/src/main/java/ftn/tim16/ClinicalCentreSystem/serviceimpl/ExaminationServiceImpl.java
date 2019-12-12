@@ -58,6 +58,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public List<Examination> getExaminationsForPatient(Long idPatient) {
+        return examinationRepository.findByPatientIdAndStatusNot(idPatient, ExaminationStatus.CANCELED);
+    }
+
+    @Override
     public Examination getExamination(Long id) {
         try {
             return examinationRepository.getByIdAndStatusNot(id, ExaminationStatus.CANCELED);
@@ -142,6 +147,16 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         sendMail(examination, doctor, nurse, examination.getPatient());
         return examinationRepository.save(examination);
+    }
+
+    @Override
+    public List<Examination> getDoctorsExamination(Long idDoctor) {
+        return null;
+    }
+
+    @Override
+    public List<Examination> getNursesExamination(Long idNurse) {
+        return null;
     }
 
     @Override

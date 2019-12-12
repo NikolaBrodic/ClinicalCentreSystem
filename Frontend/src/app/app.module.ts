@@ -55,6 +55,8 @@ import { AxiomSchedulerModule } from 'axiom-scheduler';
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.component';
+import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
+import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
 
 @NgModule({
   declarations: [
@@ -92,8 +94,9 @@ import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.com
     ListOfCreatedPredefinedExaminationComponent,
     AddPredefinedExaminationComponent,
     ListDiagnosisComponent,
-    AddDiagnoseComponent
-
+    AddDiagnoseComponent,
+    PatientClinicsComponent,
+    PatientHistoryExaminationsOperationsComponent,
   ],
   imports: [
     BrowserModule,

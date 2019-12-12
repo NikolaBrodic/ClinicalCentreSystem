@@ -31,7 +31,6 @@ export class ClinicService {
     return this.clinics.asObservable();
   }
 
-
   public getClinicById(clinicId) {
     return this.httpClient.get(this.url + "/" + clinicId);
   }

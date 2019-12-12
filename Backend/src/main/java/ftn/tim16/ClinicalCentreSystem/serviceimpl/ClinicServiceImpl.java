@@ -2,8 +2,11 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
+import ftn.tim16.ClinicalCentreSystem.model.Examination;
+import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +53,10 @@ public class ClinicServiceImpl implements ClinicService {
     public List<Clinic> findAll() {
         return clinicRepository.findAll();
     }
+
+    @Override
+    public List<Clinic> findClinicsByExaminations(Examination examination) {
+        return clinicRepository.findByExaminations(examination);
+    }
+
 }
