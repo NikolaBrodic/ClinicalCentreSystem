@@ -1,7 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.model.Diagnose;
-import ftn.tim16.ClinicalCentreSystem.service.DiagnoseService;
+import ftn.tim16.ClinicalCentreSystem.model.Medicine;
+import ftn.tim16.ClinicalCentreSystem.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/diagnose", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DiagnoseController {
+@RequestMapping(value = "/api/medicine", produces = MediaType.APPLICATION_JSON_VALUE)
+public class MedicineController {
 
     @Autowired
-    private DiagnoseService diagnoseService;
+    private MedicineService medicineService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<Diagnose> addDiagnose(@RequestBody Diagnose diagnose) {
-        Diagnose createdDiagnose = diagnoseService.create(diagnose);
-        if (createdDiagnose == null) {
+    public ResponseEntity<Medicine> addMedicine(@RequestBody Medicine medicine) {
+        Medicine createdMedicine = medicineService.create(medicine);
+        if (createdMedicine == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(createdDiagnose, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdMedicine, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<List<Diagnose>> getAllDiagnosis() {
-        return new ResponseEntity<>(diagnoseService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Medicine>> getAllMedicines() {
+        return new ResponseEntity<>(medicineService.findAll(), HttpStatus.OK);
     }
 
 }

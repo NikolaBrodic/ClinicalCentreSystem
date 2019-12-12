@@ -12,7 +12,7 @@ import java.util.List;
 public class DiagnoseServiceImpl implements DiagnoseService {
 
     @Autowired
-    DiagnoseRepository diagnoseRepository;
+    private DiagnoseRepository diagnoseRepository;
 
     @Override
     public List<Diagnose> findAll() {
@@ -21,7 +21,7 @@ public class DiagnoseServiceImpl implements DiagnoseService {
 
     @Override
     public Diagnose findByTitle(String title) {
-        return diagnoseRepository.findByTitle(title);
+        return diagnoseRepository.findByTitleIgnoringCase(title);
     }
 
     @Override

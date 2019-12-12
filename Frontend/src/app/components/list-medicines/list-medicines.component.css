@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
 .page-header { 
-    background: url(src\assets\background-images\diagnose_background.jpg)no-repeat; 
+    background: url(src\assets\background-images\medicine_background.jpg)no-repeat; 
     position: relative; 
     background-size: cover; 
 }
@@ -25,7 +25,7 @@
 }
 
 .card-block { 
-    padding: 40px 100px; 
+    padding: 40px; 
 }
 
 .section-title { 
@@ -41,7 +41,11 @@
 }
 
 .first {
-    width: 40%;
+    width: 25%;
+}
+
+.second {
+    width: 30%;
 }
 
 .ellipsis {
@@ -85,6 +89,6 @@ tr.element-row:not(.expanded-row):active {
     display: flex;
 }
 
-.element-description {
+.element-div {
     margin-bottom: 10px;
 }
