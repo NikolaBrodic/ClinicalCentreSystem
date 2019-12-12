@@ -16,7 +16,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 

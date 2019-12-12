@@ -22,7 +22,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/room")
 public class RoomController {
 
