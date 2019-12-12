@@ -26,4 +26,8 @@ export class MedicineService {
     return this.medicines.asObservable();
   }
 
+  public add(medicine: Medicine) {
+    return this.httpClient.post(this.url, medicine);
+  }
+
 }

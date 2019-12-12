@@ -43,7 +43,7 @@ export class AddClinicComponent implements OnInit {
         this.clinicService.addSuccessEmitter.next(clinic);
       },
       errorMessage => {
-        this.toastr.error("Clinic with same name or address already exists.", "Add clinic");
+        this.toastr.error("Clinic with the same name or address already exists.", "Add clinic");
       }
     );
   }

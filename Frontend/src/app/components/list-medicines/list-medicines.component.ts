@@ -4,6 +4,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Subscription } from 'rxjs';
 import { Medicine } from 'src/app/models/medicine';
 import { MedicineService } from 'src/app/services/medicine.service';
+import { AddMedicineComponent } from '../add-medicine/add-medicine.component';
 
 @Component({
   selector: 'app-list-medicines',
@@ -31,9 +32,16 @@ export class ListMedicinesComponent implements OnInit {
 
   ngOnInit() {
     this.fetchData();
+
+    this.addMedicineSuccess = this.medicineService.addSuccessEmitter.subscribe(
+      () => {
+        this.fetchData();
+      }
+    )
   }
 
   openAddDialog() {
+    this.dialog.open(AddMedicineComponent);
   }
 
   fetchData() {
