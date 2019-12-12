@@ -250,15 +250,16 @@ public class RoomServiceImpl implements RoomService {
         if (doctor == null) {
             return null;
         }
+        Nurse chosenNurse = null;
         if (roomDTO.getAvailable().equals(selectedExamination.getInterval().getStartDateTime())) {
-            Nurse chosenNurse = nurseService.getRandomNurse(selectedExamination.getClinic().getId(), selectedExamination.getInterval().getStartDateTime()
+            chosenNurse = nurseService.getRandomNurse(selectedExamination.getClinic().getId(), selectedExamination.getInterval().getStartDateTime()
                     , selectedExamination.getInterval().getEndDateTime());
             examinationService.assignRoom(selectedExamination, room, chosenNurse);
         } else {
             DateTimeInterval dateTimeInterval = dateTimeIntervalService.create(roomDTO.getAvailable(),
                     roomDTO.getAvailable().plusSeconds(duration));
             if (dateTimeInterval != null) {
-                Nurse chosenNurse = nurseService.getRandomNurse(selectedExamination.getClinic().getId(), dateTimeInterval.getStartDateTime(),
+                chosenNurse = nurseService.getRandomNurse(selectedExamination.getClinic().getId(), dateTimeInterval.getStartDateTime(),
                         dateTimeInterval.getEndDateTime());
                 //treba da proverim da li je doktor tad slobodan, ako nije mora da ga izabere! Pazi da doktor mora da bude slobodan i specijalizovan
                 if (!doctorService.isAvailable(doctor, dateTimeInterval.getStartDateTime(), dateTimeInterval.getEndDateTime())) {
@@ -278,13 +279,13 @@ public class RoomServiceImpl implements RoomService {
 
         }
 
-        sendMail(selectedExamination, doctor, selectedExamination.getPatient());
+        sendMail(selectedExamination, doctor, selectedExamination.getPatient(), chosenNurse);
         return findById(roomDTO.getId());
     }
 
-    private void sendMail(Examination examination, Doctor doctor, Patient patient) {
+    private void sendMail(Examination examination, Doctor doctor, Patient patient, Nurse nurse) {
 
-        if (doctor == null || patient == null) {
+        if (doctor == null || patient == null || nurse == null) {
             return;
         }
         String subject = "Notice: Examination room for the examination has been assigned";
@@ -302,12 +303,13 @@ public class RoomServiceImpl implements RoomService {
         sb.append(examination.getInterval().getEndDateTime().format(timeFormatter));
         String text = sb.toString();
         emailNotificationService.sendEmail(doctor.getEmail(), subject, text);
-        sb.append(". The examination will be held by ");
+        sb.append(". The examination will be held by the doctor ");
         sb.append(doctor.getFirstName());
         sb.append(" ");
         sb.append(doctor.getLastName());
-        String text1 = sb.toString();
-        emailNotificationService.sendEmail(patient.getEmail(), subject, text1);
+        String textWithDoctor = sb.toString();
+        emailNotificationService.sendEmail(patient.getEmail(), subject, textWithDoctor);
+        emailNotificationService.sendEmail(nurse.getEmail(), subject, textWithDoctor);
     }
 
     private boolean isAvailable(Room currentRoom, LocalDateTime startDateTime, LocalDateTime endDateTime) {

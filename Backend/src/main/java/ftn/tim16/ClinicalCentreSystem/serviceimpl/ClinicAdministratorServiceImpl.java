@@ -11,7 +11,6 @@ import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
-import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,13 +41,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private AuthenticationService authenticationService;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
-/*
-    @Override
-    public List<ClinicAdministrator> getClinicAdministrators() {
-        return clinicAdministratorRepository.findAll();
-    }
-*/
+    private EmailNotificationService emailNotificationService;
 
     @Override
     public ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user) {
@@ -115,10 +108,16 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
 
         ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.save(newClinicAdministrator);
 
+        composeAndSendEmail(clinicAdministrator.getEmail(), clinic.getName(), generatedPassword);
+
+        return clinicAdministrator;
+    }
+
+    private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
         String subject = "New position: Clinic Administrator";
         StringBuilder sb = new StringBuilder();
         sb.append("You have been registered as a clinic administrator of a ");
-        sb.append(clinic.getName());
+        sb.append(clinicName);
         sb.append(" Clinic. From now on, you are in charge of managing the business of the clinic.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
@@ -131,9 +130,8 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         sb.append(System.lineSeparator());
         sb.append("Because of the security protocol, you will have to change this given password the first time you log in.");
         String text = sb.toString();
-        emailNotificationService.sendEmail(clinicAdministrator.getEmail(), subject, text);
 
-        return clinicAdministrator;
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
     }
 
     private List<ClinicAdministratorDTO> convertToDTO(List<ClinicAdministrator> clinicAdmins) {

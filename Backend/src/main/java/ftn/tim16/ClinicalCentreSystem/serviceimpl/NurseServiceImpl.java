@@ -41,7 +41,7 @@ public class NurseServiceImpl implements NurseService {
     private AuthenticationService authenticationService;
 
     @Autowired
-    EmailNotificationService emailNotificationService;
+    private EmailNotificationService emailNotificationService;
 
     @Autowired
     private ExaminationService examinationService;
@@ -95,10 +95,16 @@ public class NurseServiceImpl implements NurseService {
 
         Nurse nurse = nurseRepository.save(newNurse);
 
+        composeAndSendEmail(nurse.getEmail(), clinicAdministrator.getClinic().getName(), generatedPassword);
+
+        return nurse;
+    }
+
+    private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
         String subject = "New position: Nurse";
         StringBuilder sb = new StringBuilder();
         sb.append("You have been registered as a nurse of a ");
-        sb.append(clinicAdministrator.getClinic().getName());
+        sb.append(clinicName);
         sb.append(" Clinic. From now on, you are in charge of stamping prescriptions to patients and helping doctors on examinations.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
@@ -111,9 +117,8 @@ public class NurseServiceImpl implements NurseService {
         sb.append(System.lineSeparator());
         sb.append("Because of the security protocol, you will have to change this given password the first time you log in.");
         String text = sb.toString();
-        emailNotificationService.sendEmail(nurse.getEmail(), subject, text);
 
-        return nurse;
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
     }
 
     private List<NurseDTO> convertToDTO(List<Nurse> nurses) {
