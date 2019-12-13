@@ -43,6 +43,7 @@ export class ListOfCreatedPredefinedExaminationComponent implements OnInit {
       this.numberOfItem = data.numberOfItems;
       this.examinationsDataSource = new MatTableDataSource(data.examinationList);
       this.examinationsDataSource.sort = this.sort;
+      this.examinationsDataSource.paginator = this.paginator;
     })
   }
 
