@@ -1,3 +1,4 @@
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { environment } from './../../../environments/environment';
 import { AddClinicAdministratorComponent } from './../add-clinic-administrator/add-clinic-administrator.component';
@@ -26,6 +27,7 @@ export class ListClinicAdministratorsComponent implements OnInit {
   addClinicAdminSuccess: Subscription;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -54,6 +56,7 @@ export class ListClinicAdministratorsComponent implements OnInit {
     this.clinicAdminService.getAllClinicAdminsInClinic(this.clinic).subscribe(data => {
       this.clinicAdminsDataSource = new MatTableDataSource(data);
       this.clinicAdminsDataSource.paginator = this.paginator;
+      this.clinicAdminsDataSource.sort = this.sort;
     });
   }
 
