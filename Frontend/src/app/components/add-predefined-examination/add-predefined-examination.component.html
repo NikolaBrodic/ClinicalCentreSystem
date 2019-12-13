@@ -40,7 +40,7 @@
                     <mat-select formControlName="examinationType">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let examinationType of examinationTypes" [value]="examinationType">
-                            {{examinationType.label}} &nbsp; ( {{examinationType.price}} RSD)
+                            {{examinationType.label}} ( {{examinationType.price}} RSD)
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -57,7 +57,7 @@
                     <mat-select formControlName="doctor">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let doctor of doctors" [value]="doctor">
-                            {{doctor.firstName}} &nbsp; {{doctor.lastName}}
+                            {{doctor.firstName}} {{doctor.lastName}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
