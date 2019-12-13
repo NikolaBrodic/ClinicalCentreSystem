@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
@@ -22,8 +23,9 @@ export class ListMedicinesComponent implements OnInit {
   medicinesDataSource: MatTableDataSource<Medicine>;
   displayedColumns: string[] = ['label', 'chemicalComposition', 'usage'];
   expandedElement: Medicine | null;
+  addMedicineSuccess: Subscription;
 
-  private addMedicineSuccess: Subscription;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private medicineService: MedicineService,
@@ -47,6 +49,7 @@ export class ListMedicinesComponent implements OnInit {
   fetchData() {
     this.medicineService.getAllMedicines().subscribe(data => {
       this.medicinesDataSource = new MatTableDataSource(data);
+      this.medicinesDataSource.sort = this.sort;
     })
   }
 }

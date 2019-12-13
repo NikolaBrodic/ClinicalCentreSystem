@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { environment } from './../../../environments/environment';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { Diagnose } from 'src/app/models/diagnose';
 import { DiagnoseService } from 'src/app/services/diagnose.service';
@@ -22,8 +25,9 @@ export class ListDiagnosisComponent implements OnInit {
   diagnosisDataSource: MatTableDataSource<Diagnose>;
   displayedColumns: string[] = ['title', 'description'];
   expandedElement: Diagnose | null;
-
   addDiagnoseSuccess: Subscription;
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private diagnoseService: DiagnoseService,
@@ -47,6 +51,7 @@ export class ListDiagnosisComponent implements OnInit {
   fetchData() {
     this.diagnoseService.getAllDiagnosis().subscribe(data => {
       this.diagnosisDataSource = new MatTableDataSource(data);
+      this.diagnosisDataSource.sort = this.sort;
     })
   }
 }

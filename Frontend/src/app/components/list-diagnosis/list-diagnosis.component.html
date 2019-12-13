@@ -25,9 +25,9 @@
                     <!-- section-title -->
                     <div class="section-title mb-0">
                         <table mat-table [dataSource]="diagnosisDataSource" multiTemplateDataRows
-                            class="mat-elevation-z8">
+                            class="mat-elevation-z8" matSort>
                             <ng-container matColumnDef="title">
-                                <th mat-header-cell *matHeaderCellDef> Title </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
                                 <td mat-cell *matCellDef="let element" class="first font-boldness">
                                     {{element.title}}
                                 </td>
@@ -51,7 +51,7 @@
                                 </td>
                             </ng-container>
 
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                             <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row"
                                 [class.expanded-row]="expandedElement === element"
                                 (click)="expandedElement = expandedElement === element ? null : element">
