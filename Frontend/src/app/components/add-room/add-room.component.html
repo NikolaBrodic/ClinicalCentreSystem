@@ -6,6 +6,9 @@
             <mat-error *ngIf="addRoomForm.get('label').errors && addRoomForm.get('label').errors['required']">
                 Please enter room's label.
             </mat-error>
+            <mat-error *ngIf="addRoomForm.get('label').errors && addRoomForm.get('label').errors['maxlength']">
+                Maximal number of characters for this field is 30.
+            </mat-error>
         </mat-form-field>
         <br>
 

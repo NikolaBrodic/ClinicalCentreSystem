@@ -1,3 +1,4 @@
+import { MatSort } from '@angular/material/sort';
 import { environment } from './../../../environments/environment';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,6 +22,7 @@ export class ListClinicsComponent implements OnInit {
   itemsPerPage = environment.itemsPerPage;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -45,6 +47,7 @@ export class ListClinicsComponent implements OnInit {
     this.clinicsService.getAllClinics().subscribe(data => {
       this.clinicsDataSource = new MatTableDataSource(data);
       this.clinicsDataSource.paginator = this.paginator;
+      this.clinicsDataSource.sort = this.sort;
     })
   }
 

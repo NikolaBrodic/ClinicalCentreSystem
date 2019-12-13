@@ -10,6 +10,10 @@
                             *ngIf="addNurseForm.get('firstName').errors && addNurseForm.get('firstName').errors['required']">
                             Please enter nurse's first name.
                         </mat-error>
+                        <mat-error
+                            *ngIf="addNurseForm.get('firstName').errors && addNurseForm.get('firstName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
+                        </mat-error>
                     </mat-form-field>
                 </td>
                 <td>
@@ -18,6 +22,10 @@
                         <mat-error
                             *ngIf="addNurseForm.get('lastName').errors && addNurseForm.get('lastName').errors['required']">
                             Please enter nurse's last name.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="addNurseForm.get('lastName').errors && addNurseForm.get('lastName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
                         </mat-error>
                     </mat-form-field>
                 </td>
@@ -43,7 +51,8 @@
                 </td>
             </tr>
         </table>
-        <mat-error *ngIf="addNurseForm.get('workHoursFrom').errors || addNurseForm.get('workHoursTo').errors">
+        <mat-error *ngIf="addNurseForm.get('workHoursFrom').errors || addNurseForm.get('workHoursTo').errors"
+            class="work-hours">
             Work hours are required to fill in.
         </mat-error>
         <mat-form-field class="form-full-width mt-3">

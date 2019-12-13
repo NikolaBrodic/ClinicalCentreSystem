@@ -10,6 +10,10 @@
                             *ngIf="addDoctorForm.get('firstName').errors && addDoctorForm.get('firstName').errors['required']">
                             Please enter doctor's first name.
                         </mat-error>
+                        <mat-error
+                            *ngIf="addDoctorForm.get('firstName').errors && addDoctorForm.get('firstName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
+                        </mat-error>
                     </mat-form-field>
                 </td>
                 <td>
@@ -18,6 +22,10 @@
                         <mat-error
                             *ngIf="addDoctorForm.get('lastName').errors && addDoctorForm.get('lastName').errors['required']">
                             Please enter doctor's last name.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="addDoctorForm.get('lastName').errors && addDoctorForm.get('lastName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
                         </mat-error>
                     </mat-form-field>
                 </td>
@@ -53,7 +61,8 @@
                 </td>
             </tr>
         </table>
-        <mat-error *ngIf="addDoctorForm.get('workHoursFrom').errors || addDoctorForm.get('workHoursTo').errors">
+        <mat-error *ngIf="addDoctorForm.get('workHoursFrom').errors || addDoctorForm.get('workHoursTo').errors"
+            class="work-hours">
             Work hours are required to fill in.
         </mat-error>
         <mat-form-field class="form-full-width mt-3">

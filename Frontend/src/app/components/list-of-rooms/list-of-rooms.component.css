@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
+h1 {
+    display: table;
+    margin: 0px auto 0px auto;
+    padding: 10px;
+    color: #3f51b5;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0 0 5px 5px rgba(255,255,255,0.9);
+}
+
 .page-header { 
     background: url(src\assets\background-images\room_background.jpg)no-repeat; 
     position: relative; 
@@ -12,8 +21,7 @@
 }
 .page-title { 
     font-size: 60px; 
-    line-height: 1; 
-    color: black; 
+    line-height: 1;
     text-align: center; 
     font-family: 'Ubuntu', cursive; 
     font-weight: 600; 
@@ -25,7 +33,9 @@
 }
 
 .card-block { 
-    padding: 20px 40px 40px 40px;
+    padding: 20px 40px 10px 40px;
+    width: 80%;    
+    margin: auto; 
 }
 
 .section-title { 
@@ -40,13 +50,19 @@
     cursor: pointer;
 }
 
-/*
-.mat-column-update{
-    width: 20% !important;
-    margin:5px;
+.full-width-field {
+    width: 100%;
 }
-.mat-column-delete{
-    width: 20% !important;
-    margin:5px;
+
+.btn-position {
+    margin-top: 9px;
+    margin-left: 20px;
 }
-*/
+
+.update-btn {
+    color: #3f51b5;
+}
+
+.delete-btn {
+    color: red;
+}

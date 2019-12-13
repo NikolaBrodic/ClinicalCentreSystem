@@ -1,3 +1,4 @@
+import { MatSort } from '@angular/material/sort';
 import { environment } from './../../../environments/environment';
 import { isUndefined } from 'util';
 import { ExaminationTypeWithNumber } from './../../models/examinationTypewuthNumber';
@@ -25,6 +26,7 @@ export class ListOfExaminationTypesComponent implements OnInit {
   itemsPerPage = environment.itemsPerPage;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public dialog: MatDialog,
     private examinationTypeService: ExaminationTypeService) { }
@@ -55,6 +57,7 @@ export class ListOfExaminationTypesComponent implements OnInit {
     this.examinationTypeService.getExaminationTypesWithSearch(searchLabel, searchPrice).subscribe((data: ExaminationType[]) => {
       this.examinationTypesDataSource = new MatTableDataSource(data);
       this.examinationTypesDataSource.paginator = this.paginator;
+      this.examinationTypesDataSource.sort = this.sort;
     })
   }
 
