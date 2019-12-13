@@ -3,9 +3,8 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <h1 class="page-title">Patients in the clinic</h1>
                 <div class="page-caption">
-
+                    <h1 class="page-title">Patients in the clinic</h1>
                 </div>
             </div>
         </div>
@@ -19,8 +18,8 @@
         <div class="card-block bg-white mb30">
 
             <div class="row searchRow">
-                <div class="col-4 searchInput">
-                    <mat-form-field>
+                <div class="col-3">
+                    <mat-form-field class="full-width-field">
                         <mat-label>Search by first name</mat-label>
                         <input matInput [(ngModel)]="searchFirstName">
                         <button mat-button matPrefix mat-icon-button>
@@ -29,8 +28,8 @@
 
                     </mat-form-field>
                 </div>
-                <div class="col-4">
-                    <mat-form-field>
+                <div class="col-3">
+                    <mat-form-field class="full-width-field">
                         <mat-label>Search by last name</mat-label>
                         <input matInput [(ngModel)]="searchLastName">
                         <button mat-button matPrefix mat-icon-button>
@@ -39,8 +38,8 @@
 
                     </mat-form-field>
                 </div>
-                <div class="col-4 text-right">
-                    <mat-form-field>
+                <div class="col-4">
+                    <mat-form-field class="full-width-field">
                         <mat-label>Search by health insurance ID</mat-label>
                         <input matInput id="healthInsuranceID" [(ngModel)]="searchHealthInsuranceID" pattern="[0-9]+"
                             maxlength=13>
@@ -49,8 +48,10 @@
                         </button>
 
                     </mat-form-field>
+                </div>
+                <div class="col-2 btn-position">
                     <mat-dialog-actions>
-                        <button mat-stroked-button (click)="searchPatients()">Search</button>
+                        <button mat-raised-button color="primary" (click)="searchPatients()">Search</button>
                     </mat-dialog-actions>
                 </div>
             </div>
@@ -65,7 +66,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()">
                                     First name </th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{element.firstName}}&nbsp;&nbsp;</td>
+                                    {{element.firstName}}</td>
                             </ng-container>
 
                             <ng-container matColumnDef="lastName">
@@ -83,8 +84,9 @@
 
                             <ng-container matColumnDef="link">
                                 <th mat-header-cell *matHeaderCellDef> Link to patient's prifile </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <button mat-raised-button (click)="viewPatientProfile(element)">View
+                                <td mat-cell *matCellDef="let element" class="view">
+                                    <button mat-raised-button class="view-btn"
+                                        (click)="viewPatientProfile(element)">View
                                         profile</button>
                                 </td>
                             </ng-container>
