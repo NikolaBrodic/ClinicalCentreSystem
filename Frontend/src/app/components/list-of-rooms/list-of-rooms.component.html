@@ -45,9 +45,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-2 btn-position">
-                                <mat-dialog-actions>
-                                    <button mat-raised-button color="primary" (click)="searchRooms()">Search</button>
-                                </mat-dialog-actions>
+                                <button mat-raised-button color="primary" (click)="searchRooms()">Search</button>
                             </div>
                         </div>
 
@@ -56,7 +54,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Label
                                 </th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{element.label}}&nbsp;&nbsp;
+                                    {{element.label}}
                                 </td>
                             </ng-container>
 

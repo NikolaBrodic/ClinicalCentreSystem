@@ -61,7 +61,8 @@
                 </td>
             </tr>
         </table>
-        <mat-error *ngIf="addDoctorForm.get('workHoursFrom').errors || addDoctorForm.get('workHoursTo').errors">
+        <mat-error *ngIf="addDoctorForm.get('workHoursFrom').errors || addDoctorForm.get('workHoursTo').errors"
+            class="work-hours">
             Work hours are required to fill in.
         </mat-error>
         <mat-form-field class="form-full-width mt-3">

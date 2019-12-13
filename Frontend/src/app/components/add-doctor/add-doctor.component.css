@@ -13,3 +13,9 @@
 .mat-dialog-actions {
     justify-content: flex-end;
 }
+
+.work-hours {
+  color: black;
+  margin-top: .66667em;
+  font-size: 80%;
+}

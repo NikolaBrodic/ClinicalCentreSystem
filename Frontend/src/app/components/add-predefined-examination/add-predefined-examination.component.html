@@ -37,9 +37,8 @@
                     <mat-select formControlName="examinationType">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let examinationType of examinationTypes" [value]="examinationType">
-                            <<<<<<< HEAD {{examinationType.label}} ( {{examinationType.price}}
-                                RSD)======={{examinationType.label}} ({{examinationType.price}} RSD)>>>>>>>
-                                improvement/pageDesign2
+                            {{examinationType.label}} ({{examinationType.price}}
+                            RSD)
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

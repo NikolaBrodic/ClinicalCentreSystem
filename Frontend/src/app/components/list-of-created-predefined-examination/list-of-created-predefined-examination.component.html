@@ -38,7 +38,7 @@
                                 <th mat-header-cell *matHeaderCellDef> Time </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{element.interval.startDateTime | date:"HH:mm"}}
-                                    -&nbsp;{{element.interval.endDateTime | date:"HH:mm" }}
+                                    —&nbsp;{{element.interval.endDateTime | date:"HH:mm" }}
                                 </td>
                             </ng-container>
 
@@ -55,7 +55,6 @@
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div *ngIf="element.doctors && element.doctors[0]"> {{element.doctors[0].firstName}}
-                                        &nbsp;
                                         {{element.doctors[0].lastName}} </div>
                                     <div *ngIf="!(element.doctors && element.doctors[0])">&nbsp;/&nbsp;
                                     </div>
@@ -91,9 +90,9 @@
                             </ng-container>
 
                             <ng-container matColumnDef="edit">
-                                <th mat-header-cell *matHeaderCellDef>Link to edit </th>
+                                <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-raised-button class="update-btn" disable="disabled"
+                                    <button mat-raised-button class="update-btn" disabled="disabled"
                                         (click)="editPredefinedExamination(element)">Edit</button>
                                 </td>
                             </ng-container>

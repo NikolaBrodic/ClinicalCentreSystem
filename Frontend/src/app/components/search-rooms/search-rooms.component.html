@@ -4,11 +4,7 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="page-caption">
-                    <h1 class="page-title">Choose a room for examination which will be held
-                        {{searchDate | date:"dd.MM.yyyy"}}
-                        {{searchTimeStart}} -&nbsp;
-                        {{searchTimeEnd}}
-                    </h1>
+                    <h1 class="page-title">Assign room</h1>
                 </div>
             </div>
         </div>
@@ -24,8 +20,13 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <!-- section-title -->
                     <div class="section-title mb-0">
+                        <div class="info">
+                            Assign room for the examination scheduled for {{searchDate | date:"dd.MM.yyyy."}}
+                            between {{searchTimeStart}} and {{searchTimeEnd}}
+                        </div>
+
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <mat-form-field class="full-width-field">
                                     <mat-label>Search by label</mat-label>
                                     <input matInput [(ngModel)]="searchLabel">
@@ -35,14 +36,12 @@
 
                                 </mat-form-field>
                             </div>
-                            <div class="col-2 btn-position">
-                                <mat-dialog-actions>
-                                    <button mat-raised-button color="primary" (click)="searchRooms()">Search</button>
-                                </mat-dialog-actions>
+                            <div class="col-5 btn-position">
+                                <button mat-raised-button color="primary" (click)="searchRooms()">Search</button>
                             </div>
                         </div>
-                        <table mat-table [dataSource]="roomsDataSource" class="mat-elevation-z8 table" matSort>
 
+                        <table mat-table [dataSource]="roomsDataSource" class="mat-elevation-z8 table" matSort>
                             <ng-container matColumnDef="label">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Label
                                 </th>

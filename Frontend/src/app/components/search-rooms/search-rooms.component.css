@@ -9,6 +9,13 @@ h1 {
     box-shadow: 0 0 5px 5px rgba(13,198,231,0.8);
 }
 
+.info {
+    text-align: center;
+    font-weight: 500;
+    font-size: 140%;
+    margin-bottom: 20px;
+}
+
 .page-header { 
     background: url(src\assets\background-images\default_background.jpg)no-repeat; 
     position: relative; 

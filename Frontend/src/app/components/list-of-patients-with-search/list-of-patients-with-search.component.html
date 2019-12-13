@@ -50,9 +50,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-2 btn-position">
-                    <mat-dialog-actions>
-                        <button mat-raised-button color="primary" (click)="searchPatients()">Search</button>
-                    </mat-dialog-actions>
+                    <button mat-raised-button color="primary" (click)="searchPatients()">Search</button>
                 </div>
             </div>
 
@@ -63,27 +61,27 @@
                         <table mat-table [dataSource]="patientsDataSource" class="mat-elevation-z8 table" matSort>
 
                             <ng-container matColumnDef="firstName">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()">
-                                    First name </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()">First name
+                                </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{element.firstName}}</td>
                             </ng-container>
 
                             <ng-container matColumnDef="lastName">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Last name
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()">Last name
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
                             </ng-container>
 
 
                             <ng-container matColumnDef="healthInsuranceId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Health
-                                    insurance ID </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()">Health
+                                    insurance ID</th>
                                 <td mat-cell *matCellDef="let element"> {{element.healthInsuranceID}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="link">
-                                <th mat-header-cell *matHeaderCellDef> Link to patient's prifile </th>
+                                <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element" class="view">
                                     <button mat-raised-button class="view-btn"
                                         (click)="viewPatientProfile(element)">View
