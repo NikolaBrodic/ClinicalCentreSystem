@@ -1,17 +1,16 @@
 <h1 mat-dialog-title>Add predefined examination</h1>
 <mat-dialog-content class="dialog-class">
-    <mat-horizontal-stepper [linear]="true" #stepper>
-        <ng-template matStepLabel></ng-template>
+    <mat-vertical-stepper [linear]="true" #stepper>
         <mat-step [stepControl]="dateTimeTypeForm">
             <form [formGroup]="dateTimeTypeForm" class="form-full-width">
-                <mat-form-field class="form-full-width mt-2">
+                <ng-template matStepLabel>Specify date, time and examination type</ng-template>
+                <mat-form-field class="form-full-width">
                     <input matInput [matDatepicker]=" picker" placeholder="Date" formControlName="date" readonly
                         [min]="minDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker disabled="false"></mat-datepicker>
                 </mat-form-field>
-
-                <table class="form-full-width mt-3" cellspacing="0">
+                <table class="form-full-width mt-2" cellspacing="0">
                     <tr>
                         <td>From:</td>
                         <td>
@@ -28,37 +27,38 @@
                             </div>
                         </td>
                     </tr>
-
                 </table>
-                <div>
-                    <mat-error *ngIf="timeError">
-                        Please choose start and end time of examination. Start time must be before end time.
-                    </mat-error>
-                </div>
-                <mat-form-field class="form-full-width mt-2">
+                <mat-error *ngIf="timeError" class="time-err">
+                    Please choose start and end time of examination.<br>
+                    Start time must be before end time.
+                </mat-error>
+                <mat-form-field class="form-full-width mt-3">
                     <mat-label>Examination type</mat-label>
                     <mat-select formControlName="examinationType">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let examinationType of examinationTypes" [value]="examinationType">
-                            {{examinationType.label}} ( {{examinationType.price}} RSD)
+                            <<<<<<< HEAD {{examinationType.label}} ( {{examinationType.price}}
+                                RSD)======={{examinationType.label}} ({{examinationType.price}} RSD)>>>>>>>
+                                improvement/pageDesign2
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </form>
-            <mat-dialog-actions class="mt-2 mb-1">
+            <mat-dialog-actions class="mt-2">
                 <button mat-raised-button color="primary" (click)="next()" matStepperNext>Next</button>
             </mat-dialog-actions>
         </mat-step>
+
+
         <mat-step [stepControl]="addPredefinedExaminationForm">
-            <ng-template matStepLabel></ng-template>
             <form [formGroup]="addPredefinedExaminationForm" class="form-full-width">
-                <mat-form-field class="form-full-width mt-2">
+                <ng-template matStepLabel>Specify doctor, room and discount</ng-template>
+                <mat-form-field class="form-full-width">
                     <mat-label>Doctor</mat-label>
                     <mat-select formControlName="doctor">
                         <mat-option>None</mat-option>
-                        <mat-option *ngFor="let doctor of doctors" [value]="doctor">
-                            {{doctor.firstName}} {{doctor.lastName}}
-                        </mat-option>
+                        <mat-option *ngFor="let doctor of doctors" [value]="doctor">{{doctor.firstName}}
+                            {{doctor.lastName}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -66,25 +66,20 @@
                     <mat-label>Room</mat-label>
                     <mat-select formControlName="room">
                         <mat-option>None</mat-option>
-                        <mat-option *ngFor="let room of rooms" [value]="room">
-                            {{room.label}}
-                        </mat-option>
+                        <mat-option *ngFor="let room of rooms" [value]="room">{{room.label}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="form-full-width mt-3">
                     <input matInput placeholder="Discount" formControlName="discount" type="number">
+                    <span matSuffix class="ml-2">%</span>
                     <mat-error
                         *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['required']">
-                        Please enter discount.
+                        Please enter a discount.
                     </mat-error>
                     <mat-error
-                        *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['min']">
-                        Discount must be a number greater than 0.
-                    </mat-error>
-                    <mat-error
-                        *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['max']">
-                        Discount must be a number lower than 0.
+                        *ngIf="addPredefinedExaminationForm.get('discount').errors && addPredefinedExaminationForm.get('discount').errors['min'] && addPredefinedExaminationForm.get('discount').errors['max']">
+                        Discount can be between 1% and 99%.
                     </mat-error>
                 </mat-form-field>
             </form>
@@ -95,7 +90,6 @@
                     [disabled]="!addPredefinedExaminationForm.valid">Add</button>
             </mat-dialog-actions>
         </mat-step>
-
-    </mat-horizontal-stepper>
+    </mat-vertical-stepper>
 
 </mat-dialog-content>
