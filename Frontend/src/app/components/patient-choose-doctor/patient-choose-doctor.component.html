@@ -1,0 +1,109 @@
+<!-- page-header -->
+<div class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="page-caption">
+          <h1 class="page-title">Choose a doctor</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+  <div class="container">
+    <div class="card-block bg-white mb30">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <!-- section-title -->
+          <div class="section-title mb-0">
+            <div>
+              <h3>Filter doctors</h3>
+              <table class="mat-elevation-z8 table">
+                <tr>
+                  <th>First Name</th>
+                  <td class="text-in-table">
+                    <mat-form-field class="example-full-width">
+                      <input matInput [(ngModel)]="doctorFirstName">
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Last Name</th>
+                  <td class="text-in-table">
+                    <mat-form-field class="example-full-width">
+                      <input matInput [(ngModel)]="doctorLastName">
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Min doctor's rating</th>
+                  <td class="text-in-table">
+                    <mat-form-field class="example-full-width">
+                      <input matInput type="number" [(ngModel)]="doctorRating">
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <th></th>
+                  <td class="text-in-table">
+                    <button mat-raised-button (click)="searchPatientDoctors()" color="primary">Search</button>
+                  </td>
+                </tr>
+              </table>
+              <br>
+              <h3>Available doctors</h3>
+              <table mat-table [dataSource]="patientDoctorsDataSource" class="mat-elevation-z8 table" matSort>
+
+                  <ng-container matColumnDef="firstName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                      <td mat-cell *matCellDef="let element">
+                          {{element.firstName}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="lastName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element.lastName}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="doctorRating">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Doctor rating </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element.doctorRating}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="availableAt">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Available at </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{element.workHoursFrom}} - {{element.workHoursTo}}
+                      </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Link to examination details </th>
+                      <td mat-cell *matCellDef="let element">
+                        <a routerLink="/patient/clinic/{{element.id}}/details">Link to examination details</a>
+                      </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+            <button mat-raised-button color="primary" (click)="searchClinics()">Back</button>&nbsp;
+            <button mat-raised-button color="primary" (click)="lastCheck()">Next</button>
+          </div>
+          <!-- /.section-title -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.page-content -->

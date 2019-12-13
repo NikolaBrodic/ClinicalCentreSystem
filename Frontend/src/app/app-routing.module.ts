@@ -1,3 +1,4 @@
+import { PatientChooseDoctorComponent } from './components/patient-choose-doctor/patient-choose-doctor.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
 import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
@@ -150,6 +151,11 @@ const routes: Routes = [
   {
     path: 'patient/clinics',
     component: PatientClinicsComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/choose-doctor',
+    component: PatientChooseDoctorComponent,
     canActivate: [PatientGuard]
   },
   {

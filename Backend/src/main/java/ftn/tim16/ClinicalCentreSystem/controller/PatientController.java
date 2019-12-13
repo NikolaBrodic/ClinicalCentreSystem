@@ -151,4 +151,19 @@ public class PatientController {
         return new ResponseEntity<>(filteredExaminations, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/choose-doctor")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsForPatient(@RequestBody Doctor doctor) {
+        List<DoctorDTO> filteredDoctors = doctorService.findByFirstNameAndLastNameAndDoctorRating(
+                doctor.getFirstName(), doctor.getLastName(), doctor.getDoctorRating());
+        return new ResponseEntity<>(filteredDoctors, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/all-doctors")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsForPatient(@RequestBody Clinic clinic) {
+        List<DoctorDTO> allDoctors = doctorService.findAllDoctorsInClinic(clinic);
+        return new ResponseEntity<>(allDoctors, HttpStatus.OK);
+    }
+
 }

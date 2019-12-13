@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PatientService } from 'src/app/services/patient.service';
 import { DateTimeInterval } from './../../models/dateTimeInterval';
 import { Examination } from './../../models/examination';
@@ -37,6 +38,7 @@ export class PatientClinicsComponent implements OnInit {
     public dialog: MatDialog,
     public clinicService: ClinicService,
     public patientService: PatientService,
+    public router: Router,
     ) { }
 
   ngOnInit() {
@@ -109,6 +111,10 @@ export class PatientClinicsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  chooseDoctor() {
+    this.router.navigate(['/patient/choose-doctor']);
   }
 
 }

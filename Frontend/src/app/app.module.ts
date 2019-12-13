@@ -57,6 +57,7 @@ import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnos
 import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.component';
 import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
 import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
+import { PatientChooseDoctorComponent } from './components/patient-choose-doctor/patient-choose-doctor.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { PatientHistoryExaminationsOperationsComponent } from './components/pati
     AddDiagnoseComponent,
     PatientClinicsComponent,
     PatientHistoryExaminationsOperationsComponent,
+    PatientChooseDoctorComponent,
   ],
   imports: [
     BrowserModule,

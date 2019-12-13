@@ -8,6 +8,7 @@ import { Patient } from './../models/patient';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Clinic } from '../models/clinic';
+import { Doctor } from '../models/doctor';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,11 @@ export class PatientService {
   urlPatient = environment.baseUrl + environment.patient;
   selectedPatient: PatientWithId;
   subjectForSelectedPatient = new BehaviorSubject<PatientWithId>(null);
+
   patientExaminationHistory: BehaviorSubject<Examination[]> = new BehaviorSubject<Examination[]>([]);
   filteredClinics: BehaviorSubject<Clinic[]> = new BehaviorSubject<Clinic[]>([]);
+  filteredDoctors: BehaviorSubject<Doctor[]> = new BehaviorSubject<Doctor[]>([]);
+  allDoctors: BehaviorSubject<Doctor[]> = new BehaviorSubject<Doctor[]>([]);
 
   constructor(
     private httpClient: HttpClient,
@@ -88,6 +92,30 @@ export class PatientService {
 
     });
     return this.filteredClinics.asObservable();
+  }
+
+  public getFilteredDoctors(doctor: Doctor): Observable<Doctor[]> {
+    this.httpClient.post(this.urlPatient + "/choose-doctor", doctor).subscribe(
+      (data: Doctor[]) => {
+        this.filteredDoctors.next(data);
+      },
+      (error) => {
+
+      }
+    );
+    return this.filteredDoctors.asObservable();
+  }
+
+  public getAllDoctorsInClinic(clinic: Clinic): Observable<Doctor[]> {
+    this.httpClient.post(this.urlPatient + "/all-doctors", clinic).subscribe(
+      (data: Doctor[]) => {
+        this.allDoctors.next(data);
+      },
+      (error) => {
+
+      }
+    );
+    return this.allDoctors.asObservable();
   }
 
 }
