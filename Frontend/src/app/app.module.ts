@@ -56,6 +56,7 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.component';
 import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
+import { AddMedicineComponent } from './components/add-medicine/add-medicine.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { ListMedicinesComponent } from './components/list-medicines/list-medicin
     AddPredefinedExaminationComponent,
     ListDiagnosisComponent,
     AddDiagnoseComponent,
-    ListMedicinesComponent
+    ListMedicinesComponent,
+    AddMedicineComponent
 
   ],
   imports: [
@@ -136,6 +138,7 @@ import { ListMedicinesComponent } from './components/list-medicines/list-medicin
     ListDiagnosisComponent,
     AddDiagnoseComponent,
     ListMedicinesComponent,
+    AddMedicineComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

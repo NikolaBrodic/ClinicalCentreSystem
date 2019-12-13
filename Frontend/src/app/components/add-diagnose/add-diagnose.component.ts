@@ -42,7 +42,7 @@ export class AddDiagnoseComponent implements OnInit {
         this.diagnoseService.addSuccessEmitter.next(diagnose);
       },
       errorMessage => {
-        this.toastr.error("Diagnose with same title already exists.", "Add diagnose");
+        this.toastr.error("Diagnose with the ame title already exists.", "Add diagnose");
       }
     );
   }
