@@ -25,7 +25,9 @@
 }
 
 .card-block { 
-    padding: 40px 150px; 
+    padding: 40px; 
+    width: 80%;    
+    margin: auto; 
 }
 
 .section-title { 
