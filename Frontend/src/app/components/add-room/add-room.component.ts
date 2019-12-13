@@ -20,7 +20,7 @@ export class AddRoomComponent implements OnInit {
 
   ngOnInit() {
     this.addRoomForm = new FormGroup({
-      label: new FormControl(null, Validators.required),
+      label: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
       kind: new FormControl(null, Validators.required)
     });
 

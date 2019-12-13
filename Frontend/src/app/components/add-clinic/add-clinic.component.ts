@@ -21,7 +21,7 @@ export class AddClinicComponent implements OnInit {
 
   ngOnInit() {
     this.addClinicForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
+      name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       address: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required]),
     });

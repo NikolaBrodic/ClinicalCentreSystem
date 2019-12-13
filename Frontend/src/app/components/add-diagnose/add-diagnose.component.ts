@@ -21,7 +21,7 @@ export class AddDiagnoseComponent implements OnInit {
 
   ngOnInit() {
     this.addDiagnoseForm = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
+      title: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
       description: new FormControl(null, [Validators.required]),
     });
   }

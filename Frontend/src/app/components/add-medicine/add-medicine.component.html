@@ -3,8 +3,11 @@
     <form [formGroup]="addMedicineForm" class="form-full-width">
         <mat-form-field class="form-full-width">
             <input matInput placeholder="Label" formControlName="label">
-            <mat-error *ngIf="addMedicineForm.get('label').invalid">
+            <mat-error *ngIf="addMedicineForm.get('label').errors && addMedicineForm.get('label').errors['required']">
                 Please enter medicine's label.
+            </mat-error>
+            <mat-error *ngIf="addMedicineForm.get('label').errors && addMedicineForm.get('label').errors['maxlength']">
+                Maximal number of characters for this field is 30.
             </mat-error>
         </mat-form-field>
 

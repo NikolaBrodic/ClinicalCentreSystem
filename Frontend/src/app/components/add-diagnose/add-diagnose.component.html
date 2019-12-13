@@ -3,8 +3,11 @@
     <form [formGroup]="addDiagnoseForm" class="form-full-width">
         <mat-form-field class="form-full-width">
             <input matInput placeholder="Title" formControlName="title">
-            <mat-error *ngIf="addDiagnoseForm.get('title').invalid">
+            <mat-error *ngIf="addDiagnoseForm.get('title').errors && addDiagnoseForm.get('title').errors['required']">
                 Please enter diagnose's title.
+            </mat-error>
+            <mat-error *ngIf="addDiagnoseForm.get('title').errors && addDiagnoseForm.get('title').errors['maxlength']">
+                Maximal number of characters for this field is 30.
             </mat-error>
         </mat-form-field>
 

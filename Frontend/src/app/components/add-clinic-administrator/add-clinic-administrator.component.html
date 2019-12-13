@@ -10,6 +10,10 @@
                             *ngIf="addClinicAdminForm.get('firstName').errors && addClinicAdminForm.get('firstName').errors['required']">
                             Please enter administrator's first name.
                         </mat-error>
+                        <mat-error
+                            *ngIf="addClinicAdminForm.get('firstName').errors && addClinicAdminForm.get('firstName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
+                        </mat-error>
                     </mat-form-field>
                 </td>
                 <td>
@@ -18,6 +22,10 @@
                         <mat-error
                             *ngIf="addClinicAdminForm.get('lastName').errors && addClinicAdminForm.get('lastName').errors['required']">
                             Please enter administrator's last name.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="addClinicAdminForm.get('lastName').errors && addClinicAdminForm.get('lastName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
                         </mat-error>
                     </mat-form-field>
                 </td>

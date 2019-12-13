@@ -29,8 +29,8 @@ export class AddClinicAdministratorComponent implements OnInit {
 
     this.addClinicAdminForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      firstName: new FormControl(null, [Validators.required]),
-      lastName: new FormControl(null, [Validators.required]),
+      firstName: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
+      lastName: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
       phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern("0[0-9]+")]),
       clinic: new FormControl(null, [Validators.required]),
     });

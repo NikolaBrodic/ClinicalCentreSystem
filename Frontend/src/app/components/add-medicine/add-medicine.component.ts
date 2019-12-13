@@ -21,7 +21,7 @@ export class AddMedicineComponent implements OnInit {
 
   ngOnInit() {
     this.addMedicineForm = new FormGroup({
-      label: new FormControl(null, [Validators.required]),
+      label: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
       chemicalComposition: new FormControl(null, [Validators.required]),
       usage: new FormControl(null, [Validators.required]),
     });
