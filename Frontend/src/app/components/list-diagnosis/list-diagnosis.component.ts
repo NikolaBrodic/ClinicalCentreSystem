@@ -23,7 +23,7 @@ export class ListDiagnosisComponent implements OnInit {
   displayedColumns: string[] = ['title', 'description'];
   expandedElement: Diagnose | null;
 
-  private addDiagnoseSuccess: Subscription;
+  addDiagnoseSuccess: Subscription;
 
   constructor(
     private diagnoseService: DiagnoseService,

@@ -87,4 +87,5 @@ tr.element-row:not(.expanded-row):active {
 
 .element-description {
     margin-bottom: 10px;
+    white-space: pre-wrap;
 }

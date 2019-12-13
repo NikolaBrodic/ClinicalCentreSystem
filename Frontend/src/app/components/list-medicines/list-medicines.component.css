@@ -91,4 +91,5 @@ tr.element-row:not(.expanded-row):active {
 
 .element-div {
     margin-bottom: 10px;
+    white-space: pre-wrap;
 }
