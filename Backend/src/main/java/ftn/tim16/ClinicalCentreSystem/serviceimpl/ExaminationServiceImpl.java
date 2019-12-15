@@ -186,19 +186,20 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public List<Examination> getDoctorsUpcomingExaminations(Long doctor_id) {
-        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctor_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    public List<Examination> getDoctorsUpcomingExaminations(Long doctorId) {
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctorId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
     @Override
-    public List<Examination> getUpcomingExaminationsInRoom(Long room_id) {
-        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(room_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    public List<Examination> getUpcomingExaminationsInRoom(Long roomId) {
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(roomId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
     @Override
     public List<Examination> getUpcomingExaminationsOfExaminationType(Long examinationTypeId) {
         return examinationRepository.findByExaminationTypeIdAndStatusNotAndIntervalEndDateTimeAfter(examinationTypeId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
+
 
     private LocalDateTime getLocalDateTime(LocalDate date, String time) throws DateTimeParseException {
         LocalTime localTime = LocalTime.parse(time.substring(11), DateTimeFormatter.ofPattern("HH:mm"));

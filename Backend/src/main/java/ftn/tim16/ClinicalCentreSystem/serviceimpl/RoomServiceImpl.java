@@ -126,18 +126,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room deleteRoom(Long clinic_id, Long room_id) {
-        Room room = roomRepository.getByIdAndStatusNot(room_id, LogicalStatus.DELETED);
+    public Room deleteRoom(Long clinicId, Long roomId) {
+        Room room = roomRepository.getByIdAndStatusNot(roomId, LogicalStatus.DELETED);
 
         if (room == null) {
             return null;
         }
 
-        if (room.getClinic().getId() != clinic_id) {
+        if (room.getClinic().getId() != clinicId) {
             return null;
         }
 
-        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(room_id);
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(roomId);
 
         if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
             return null;

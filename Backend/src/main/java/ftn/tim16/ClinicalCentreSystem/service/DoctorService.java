@@ -18,7 +18,7 @@ public interface DoctorService {
 
     boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-    Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinic_id);
+    Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId);
 
     void removeExamination(Examination examination, String email);
 
@@ -30,7 +30,7 @@ public interface DoctorService {
 
     Doctor getDoctor(Long id);
 
-    Doctor deleteDoctor(Long clinic_id, Long id);
+    Doctor deleteDoctor(Long clinicId, Long id);
 
     List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId);
 }

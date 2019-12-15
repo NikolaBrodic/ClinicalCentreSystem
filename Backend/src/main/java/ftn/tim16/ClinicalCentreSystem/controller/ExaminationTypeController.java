@@ -89,4 +89,18 @@ public class ExaminationTypeController {
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic_id), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ExaminationType> deleteExaminationType(@PathVariable("id") Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        ExaminationType examinationType = examinationTypeService.deleteExaminationType(clinicAdministrator.getClinic().getId(), id);
+        if (examinationType == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(examinationType, HttpStatus.ACCEPTED);
+    }
+
 }

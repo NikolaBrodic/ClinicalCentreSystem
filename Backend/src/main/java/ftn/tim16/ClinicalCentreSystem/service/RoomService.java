@@ -27,5 +27,5 @@ public interface RoomService {
 
     List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime);
 
-    Room deleteRoom(Long clinic_id, Long room_id);
+    Room deleteRoom(Long clinicId, Long roomId);
 }

@@ -17,4 +17,6 @@ public interface ExaminationTypeService {
     List<ExaminationTypeDTO> searchTypesInClinic(Clinic clinic, String searchLabel, Double searchPrice);
 
     ExaminationType findById(Long id);
+
+    ExaminationType deleteExaminationType(Long clinicId, Long id);
 }

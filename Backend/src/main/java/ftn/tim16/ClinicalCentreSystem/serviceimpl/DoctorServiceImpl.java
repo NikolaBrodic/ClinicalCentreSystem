@@ -84,8 +84,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinic_id) {
-        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinic_id, specialized, DoctorStatus.DELETED);
+    public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {
             if (isAvailable(doctor, startDateTime, endDateTime)) {
                 return doctor;
@@ -145,13 +145,13 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor deleteDoctor(Long clinic_id, Long id) {
+    public Doctor deleteDoctor(Long clinicId, Long id) {
 
         Doctor doctor = getDoctor(id);
         if (doctor == null) {
             return null;
         }
-        if (doctor.getClinic().getId() != clinic_id) {
+        if (doctor.getClinic().getId() != clinicId) {
             return null;
         }
         List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(id);

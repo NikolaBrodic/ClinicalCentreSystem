@@ -73,7 +73,7 @@
                             <ng-container matColumnDef="delete" class="update-delete">
                                 <th mat-header-cell *matHeaderCellDef> </th>
                                 <td mat-cell *matCellDef="let element" class="update-delete">
-                                    <button mat-raised-button (click)="deleteType()" disabled="disabled">Delete</button>
+                                    <button mat-raised-button (click)="deleteType(element)">Delete</button>
                                 </td>
                             </ng-container>
 
