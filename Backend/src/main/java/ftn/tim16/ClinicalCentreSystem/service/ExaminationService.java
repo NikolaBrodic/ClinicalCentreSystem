@@ -34,4 +34,6 @@ public interface ExaminationService {
     List<Examination> getDoctorsUpcomingExaminations(Long doctor_id);
 
     List<Examination> getUpcomingExaminationsInRoom(Long room_id);
+
+    List<Examination> getUpcomingExaminationsOfExaminationType(Long examinationTypeId);
 }

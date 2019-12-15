@@ -22,6 +22,7 @@ export class ListOfExaminationTypesComponent implements OnInit {
   searchLabel: string;
   searchPrice: string;
   successCreatedType: Subscription;
+  successEditedType: Subscription;
   numberOfItem: number;
   itemsPerPage = environment.itemsPerPage;
 
@@ -35,6 +36,11 @@ export class ListOfExaminationTypesComponent implements OnInit {
   ngOnInit() {
     this.getExaminationTypesWithSearch("", "");
     this.successCreatedType = this.examinationTypeService.createSuccessEmitter.subscribe(
+      data => {
+        this.search();
+      }
+    );
+    this.successEditedType = this.examinationTypeService.updateSuccessEmitter.subscribe(
       data => {
         this.search();
       }
