@@ -1,3 +1,4 @@
+import { EditRoom } from './../../../models/editRoom';
 import { Room } from './../../../models/room';
 import { RoomService } from './../../../services/room.service';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -34,21 +35,23 @@ export class EditRoomComponent implements OnInit {
 
   edit() {
     if (this.editRoomForm.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Add room');
+      this.toastr.error("Please enter a valid data.", 'Edit room');
       return;
     }
 
-    const room = new Room(this.editRoomForm.value.label, this.editRoomForm.value.kind);
+    const room = new EditRoom(this.selectedRoom.id, this.editRoomForm.value.label, this.editRoomForm.value.kind);
 
     this.roomService.edit(room).subscribe(
-      responseData => {
+      (responseData: Room) => {
         this.editRoomForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully changed a room.", 'Edit room');
-        this.roomService.createSuccessEmitter.next(room);
+        this.roomService.createSuccessEmitter.next(responseData);
       },
       message => {
-        this.toastr.error("Room with same label aready exist.", 'Edit room');
+        this.toastr.error("You can not edit this room because this room is reserved for some examination or room with same label already exist.",
+          'Edit room ');
+        this.dialogRef.close();
       }
     );
   }

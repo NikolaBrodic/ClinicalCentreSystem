@@ -1,9 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
@@ -17,6 +14,8 @@ public interface RoomService {
 
     Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator);
 
+    Room edit(EditRoomDTO roomDTO, Long clinicId);
+
     Room assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator);
 
     void automaticallyAssignRoom();
@@ -27,5 +26,5 @@ public interface RoomService {
 
     List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime);
 
-    Room deleteRoom(Long clinic_id, Long room_id);
+    Room deleteRoom(Long clinicId, Long roomId);
 }

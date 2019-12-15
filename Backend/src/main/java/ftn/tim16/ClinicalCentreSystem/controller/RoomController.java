@@ -1,9 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
@@ -46,6 +43,19 @@ public class RoomController {
         return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Room> edit(@Valid @RequestBody EditRoomDTO roomDTO) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Room changedRoom = roomService.edit(roomDTO, clinicAdministrator.getClinic().getId());
+        if (changedRoom == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(changedRoom, HttpStatus.ACCEPTED);
+    }
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -94,7 +104,7 @@ public class RoomController {
         }
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/assign", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Room> assignRoom(@Valid @RequestBody AssignExaminationDTO examination) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();

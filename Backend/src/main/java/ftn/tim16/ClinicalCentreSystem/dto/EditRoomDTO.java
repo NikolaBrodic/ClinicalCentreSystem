@@ -1,15 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import ftn.tim16.ClinicalCentreSystem.model.Room;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
-public class RoomDTO {
-
+public class EditRoomDTO {
     @NotNull(message = "Id is null.")
     private Long id;
 
@@ -20,25 +15,14 @@ public class RoomDTO {
     @NotNull(message = "Kind is null.")
     private String kind;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime available;
-
-
-    public RoomDTO(Long id, String label, String kind) {
+    public EditRoomDTO(Long id, String label, String kind) {
         this.id = id;
         this.label = label;
         this.kind = kind;
     }
 
-    public RoomDTO(Long id, String label, String kind, LocalDateTime available) {
-        this.available = available;
-        this.id = id;
-        this.label = label;
-        this.kind = kind;
-    }
+    public EditRoomDTO() {
 
-    public RoomDTO(Room room) {
-        this(room.getId(), room.getLabel(), room.getKind().toString());
     }
 
     public Long getId() {
@@ -63,13 +47,5 @@ public class RoomDTO {
 
     public void setKind(String kind) {
         this.kind = kind;
-    }
-
-    public LocalDateTime getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(LocalDateTime available) {
-        this.available = available;
     }
 }

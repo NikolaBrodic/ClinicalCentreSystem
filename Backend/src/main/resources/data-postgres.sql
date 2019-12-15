@@ -35,18 +35,6 @@ insert into clinic_admin_authority(user_id, authority_id) values (4,2);
 insert into examination_type (label, price,status,clinic_id) values ('Ginekolog', '5000','EXISTING' ,1);
 insert into examination_type (label, price,status,clinic_id) values ('Zubar', '2000','EXISTING',1);
 
-/*ROOM*/
-/*insert into room (label, kind,status,clinic_id) values ('Room 1', 'OPERATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 3', 'OPERATION','DELETED' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 4', 'OPERATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 5', 'OPERATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 6', 'OPERATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 7', 'OPERATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 8', 'OPERATION','DELETED' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 9', 'OPERATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 10', 'OPERATION','EXISTING' ,1);*/
-
 /*NURSE*/
 insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
 values ('Nurse.01@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Milica', 'Milić', '065432432','06:00','14:00',1,'ACTIVE');
@@ -79,9 +67,9 @@ insert into room (label, kind,status,clinic_id) values ('RoomE 1', 'EXAMINATION'
 insert into room (label, kind,status,clinic_id) values ('RoomE 2', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('RoomE 3', 'EXAMINATION','DELETED' ,1);
 insert into room (label, kind,status,clinic_id) values ('RoomO 4', 'OPERATION','EXISTING' ,1);
-
-/*insert into room (label, kind,status,clinic_id) values ('Room 5', 'EXAMINATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 5', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 6', 'EXAMINATION','EXISTING' ,1);
+/*
 insert into room (label, kind,status,clinic_id) values ('Room 7', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 8', 'EXAMINATION','DELETED' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 9', 'EXAMINATION','EXISTING' ,1);
@@ -421,4 +409,12 @@ insert into medicine (label, chemical_composition, "usage") values ('Lipitor', '
  'stroke, heart attack in individuals with coronary artery disease. It causes minor side effects such as constipation, ' ||
  'diarrhea, fatigue, gas, heartburn, and headache. Like other statins it can cause muscle pain and muscle break down. ');
 
+ insert into date_time_interval (start_date_time, end_date_time) values ('10.11.2019 08:30','10.11.2019 09:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id )
+ values ('EXAMINATION',34,'APPROVED',1,1,1,1,5);
+insert into examining (examination_id,doctor_id) values (30,7);
 
+ insert into date_time_interval (start_date_time, end_date_time) values ('08.02.2020 08:30','08.02.2020 09:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id )
+ values ('EXAMINATION',35,'APPROVED',1,1,1,1,6);
+ insert into examining (examination_id,doctor_id) values (31,7);
