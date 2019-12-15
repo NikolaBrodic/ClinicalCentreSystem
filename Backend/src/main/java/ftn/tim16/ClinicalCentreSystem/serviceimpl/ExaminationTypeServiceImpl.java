@@ -84,10 +84,8 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
         List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
 
-        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
-            return false;
-        }
-        return true;
+      
+        return !(upcomingExaminations != null && !upcomingExaminations.isEmpty());
     }
 
     private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes) {
