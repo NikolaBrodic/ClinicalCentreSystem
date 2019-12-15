@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
 import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.EditClinicAdminDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
@@ -65,6 +66,27 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
 
         }
         return null;
+    }
+
+    @Override
+    public ClinicAdministrator editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO) {
+        ClinicAdministrator clinicAdministrator = getLoginAdmin();
+
+        if (clinicAdministrator.getId() != editClinicAdminDTO.getId()) {
+            return null;
+        }
+
+        clinicAdministrator.setFirstName(editClinicAdminDTO.getFirstName());
+        clinicAdministrator.setLastName(editClinicAdminDTO.getLastName());
+        clinicAdministrator.setPhoneNumber(editClinicAdminDTO.getPhoneNumber());
+
+        return clinicAdministratorRepository.save(clinicAdministrator);
+    }
+
+    @Override
+    public EditClinicAdminDTO findClinicAdminById(Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.getByIdAndStatusNot(id, UserStatus.NEVER_LOGGED_IN);
+        return new EditClinicAdminDTO(clinicAdministrator);
     }
 
     @Override

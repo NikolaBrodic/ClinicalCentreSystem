@@ -1,6 +1,6 @@
+
 import { environment } from './../../../environments/environment';
 import { MatPaginator } from '@angular/material/paginator';
-import { RequestToRegisterService } from './../../services/request-to-register.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { RequestToRegister } from 'src/app/models/request-to-register';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RejectRequestToRegisterComponent } from '../reject-request-to-register/reject-request-to-register.component';
 import { Subscription } from 'rxjs';
 import { ApproveRequestToRegisterComponent } from '../approve-request-to-register/approve-request-to-register.component';
+import { RequestToRegisterService } from 'src/app/services/request-to.register.service';
 
 @Component({
   selector: 'app-list-requests-to-register',

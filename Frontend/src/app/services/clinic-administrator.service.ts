@@ -1,4 +1,5 @@
-import { environment } from './../../environments/environment';
+import { ClinicAdmin } from '../models/clinicAdmin';
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { ClinicAdministrator } from '../models/clinicAdministrator';
@@ -19,6 +20,14 @@ export class ClinicAdministratorService {
 
   public add(clinicAdmin: ClinicAdministrator) {
     return this.httpClient.post(this.url, clinicAdmin);
+  }
+
+  public put(clinicAdmin: ClinicAdmin) {
+    return this.httpClient.put(this.url, clinicAdmin);
+  }
+
+  public get(id: number) {
+    return this.httpClient.get(this.url + "/" + id);
   }
 
   public getAllClinicAdminsInClinic(clinic: Clinic): Observable<ClinicAdministrator[]> {

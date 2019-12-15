@@ -1,6 +1,6 @@
 import { ExaminationType } from './../../../models/examinationType';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ExaminationTypeService } from './../../../services/examination-type.service';
+import { ExaminationTypeService } from '../../../services/examination-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';

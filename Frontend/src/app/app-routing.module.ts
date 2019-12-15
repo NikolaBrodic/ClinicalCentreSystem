@@ -1,3 +1,4 @@
+import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
 import { PriceListComponent } from './components/price-list/price-list.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
@@ -97,6 +98,11 @@ const routes: Routes = [
   {
     path: 'clinic-admin/predefined-examination/get-all',
     component: ListOfCreatedPredefinedExaminationComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/edit-personal-information',
+    component: EditPersonalInformationClinicAdminComponent,
     canActivate: [ClinicAdminGuard],
   },
 

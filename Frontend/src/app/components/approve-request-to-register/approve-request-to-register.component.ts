@@ -1,8 +1,8 @@
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Inject } from '@angular/core';
-import { RequestToRegisterService } from 'src/app/services/request-to-register.service';
 import { RejectRequestToRegisterComponent } from '../reject-request-to-register/reject-request-to-register.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { RequestToRegisterService } from 'src/app/services/request-to.register.service';
 
 @Component({
   selector: 'app-approve-request-to-register',
