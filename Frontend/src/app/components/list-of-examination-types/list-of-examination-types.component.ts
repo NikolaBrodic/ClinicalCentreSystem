@@ -1,7 +1,6 @@
 import { MatSort } from '@angular/material/sort';
 import { environment } from './../../../environments/environment';
 import { isUndefined } from 'util';
-import { ExaminationTypeWithNumber } from './../../models/examinationTypewuthNumber';
 import { ExaminationTypeService } from '../../services/examination-type.service';
 import { ExaminationType } from '../../models/examinationType';
 import { AddExaminationTypeComponent } from '../add-examination-type/add-examination-type.component';
@@ -10,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
+import { EditExaminationTypeComponent } from '../edit/edit-examination-type/edit-examination-type.component';
 
 @Component({
   selector: 'app-list-of-examination-types',
@@ -46,9 +46,10 @@ export class ListOfExaminationTypesComponent implements OnInit {
     this.dialog.open(AddExaminationTypeComponent);
   }
 
-  openEditingDialog() {
-
+  openEditingDialog(examinationType: ExaminationType) {
+    this.dialog.open(EditExaminationTypeComponent, { data: examinationType });
   }
+
   deleteType() {
 
   }

@@ -26,6 +26,10 @@ export class ExaminationTypeService {
     return this.httpClient.post(this.url, examinationType);
   }
 
+  public edit(examinationType: ExaminationType) {
+    return this.httpClient.put(this.url, examinationType);
+  }
+
   public getExaminationTypesForAdmin(): Observable<ExaminationType[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: ExaminationType[]) => {
       this.examinationTypesForAdmin.next(data);
