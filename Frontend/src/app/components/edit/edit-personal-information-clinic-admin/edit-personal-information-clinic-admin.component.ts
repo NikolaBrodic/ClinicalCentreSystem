@@ -54,7 +54,6 @@ export class EditPersonalInformationClinicAdminComponent implements OnInit {
 
     this.clinicAdministratorService.put(admin).subscribe(
       responseData => {
-        this.editPersonalInformation.reset();
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
       message => {

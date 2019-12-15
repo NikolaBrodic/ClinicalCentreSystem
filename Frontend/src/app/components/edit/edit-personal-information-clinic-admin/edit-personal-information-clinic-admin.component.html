@@ -23,22 +23,25 @@
                         <form [formGroup]="editPersonalInformation" class="mat-elevation-z8 form">
                             <table class="form-full-width table-font" cellspacing="0">
                                 <tr>
-                                    <td class="label">Email</td>
-                                    <td>{{loggedClinicAdmin.firstName}} {{loggedClinicAdmin.lastName}}</td>
+                                    <td>Email</td>
+                                    <td>{{loggedClinicAdmin.email}}</td>
                                 </tr>
                                 <br>
+
                                 <tr>
-                                    <td class="label">Password</td>
+                                    <td>Password</td>
                                     <td><a mat-list-item routerLink="/user/change-password">Change password</a>
                                     </td>
                                 </tr>
                                 <br>
-                            </table>
-                            <table class="form-full-width" cellspacing="0">
                                 <tr>
                                     <td>
+                                        <label>First name</label>
+                                    </td>
+                                    <td>
                                         <mat-form-field class="form-full-width-td">
-                                            <input matInput placeholder="First name" formControlName="firstName">
+                                            <input matInput formControlName="firstName">
+                                            <i matSuffix class="material-icons">edit</i>
                                             <mat-error
                                                 *ngIf="editPersonalInformation.get('firstName').errors && editPersonalInformation.get('firstName').errors['required']">
                                                 Please enter your first name.
@@ -47,11 +50,17 @@
                                                 *ngIf="editPersonalInformation.get('firstName').errors && editPersonalInformation.get('firstName').errors['maxlength']">
                                                 Maximal number of characters for this field is 30.
                                             </mat-error>
+
                                         </mat-form-field>
                                     </td>
+                                <tr>
                                     <td>
-                                        <mat-form-field class="form-full-width-td ml-2">
-                                            <input matInput placeholder="Last name" formControlName="lastName">
+                                        <label>Last name</label>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="form-full-width-td">
+                                            <input matInput formControlName="lastName">
+                                            <i matSuffix class="material-icons">edit</i>
                                             <mat-error
                                                 *ngIf="editPersonalInformation.get('lastName').errors && editPersonalInformation.get('lastName').errors['required']">
                                                 Please enter your last name.
@@ -63,26 +72,34 @@
                                         </mat-form-field>
                                     </td>
                                 </tr>
-                            </table>
-                            <mat-form-field class="form-full-width mt-2">
-                                <input matInput placeholder="Phone number" formControlName="phoneNumber">
-                                <mat-error
-                                    *ngIf="editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['required']">
-                                    Please enter your phone number.
-                                </mat-error>
-                                <mat-error
-                                    *ngIf="editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['pattern']">
-                                    Phone number must begin with 0 and can contain digits only.
-                                </mat-error>
-                                <mat-error
-                                    *ngIf="editPersonalInformation.get('phoneNumber').errors && (editPersonalInformation.get('phoneNumber').errors['minlength'] 
-                                     || editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['maxlength'])">
-                                    Phone number can contain between 9 and 10 digits.
-                                </mat-error>
-                            </mat-form-field>
-                            <br>
+                                <tr>
+                                    <td>
+                                        <label>Phone number</label>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="form-full-width-td">
+                                            <input matInput formControlName="phoneNumber">
+                                            <i matSuffix class="material-icons">edit</i>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['required']">
+                                                Please enter your phone number.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['pattern']">
+                                                Phone number must begin with 0 and can contain digits only.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('phoneNumber').errors && (editPersonalInformation.get('phoneNumber').errors['minlength'] 
+                                             || editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['maxlength'])">
+                                                Phone number can contain between 9 and 10 digits.
+                                            </mat-error>
+                                        </mat-form-field>
 
-                            <div align="end">
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div class="button-save">
                                 <button mat-raised-button color="primary" (click)="saveChanges()"
                                     [disabled]="!editPersonalInformation.valid">Save changes</button>
                             </div>
