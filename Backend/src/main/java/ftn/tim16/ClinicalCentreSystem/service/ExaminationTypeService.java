@@ -1,14 +1,16 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.CreateExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
-import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
 import java.util.List;
 
 public interface ExaminationTypeService {
-    ExaminationType create(ExaminationTypeDTO examinationType, ClinicAdministrator clinicAdministrator);
+    ExaminationType create(CreateExaminationTypeDTO examinationType, Clinic clinic);
+
+    ExaminationType edit(ExaminationTypeDTO examinationType, Long clinicId);
 
     List<ExaminationTypeDTO> findAllTypesInClinic(Long clinic_id);
 

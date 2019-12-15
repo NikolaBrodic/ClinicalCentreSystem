@@ -148,7 +148,9 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor deleteDoctor(Long clinic_id, Long id) {
 
         Doctor doctor = getDoctor(id);
-
+        if (doctor == null) {
+            return null;
+        }
         if (doctor.getClinic().getId() != clinic_id) {
             return null;
         }
@@ -159,6 +161,11 @@ public class DoctorServiceImpl implements DoctorService {
         }
         doctor.setStatus(DoctorStatus.DELETED);
         return doctorRepository.save(doctor);
+    }
+
+    @Override
+    public List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId) {
+        return doctorRepository.findByStatusNotAndClinicIdAndSpecializedId(DoctorStatus.DELETED, clinicId, specializedId);
     }
 
     @Override
