@@ -1,4 +1,4 @@
-import { ExaminationTypeService } from './../../services/examination-type.service';
+import { ExaminationTypeService } from '../../services/examination-type.service';
 import { Doctor } from './../../models/doctor';
 import { DoctorService } from './../../services/doctor.service';
 import { Component, OnInit } from '@angular/core';

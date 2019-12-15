@@ -1,4 +1,5 @@
-import { RequestToRegisterService } from './../../services/request-to-register.service';
+import { RequestToRegisterService } from './../../services/request-to.register.service';
+
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';

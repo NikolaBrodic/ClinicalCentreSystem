@@ -1,11 +1,10 @@
 import { ToastrService } from 'ngx-toastr';
-import { ExaminationTypeService } from './../../services/examination-type.service';
+import { ExaminationTypeService } from '../../services/examination-type.service';
 import { ExaminationType } from 'src/app/models/examinationType';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { Clinic } from 'src/app/models/clinic';
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-patient-clinic-details',

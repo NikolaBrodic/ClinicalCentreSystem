@@ -1,6 +1,6 @@
 import { Clinic } from 'src/app/models/clinic';
-import { environment } from './../../environments/environment';
-import { ExaminationType } from './../models/examinationType';
+import { environment } from '../../environments/environment';
+import { ExaminationType } from '../models/examinationType';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';

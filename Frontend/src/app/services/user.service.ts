@@ -15,10 +15,10 @@ import { Router } from '@angular/router';
 export class UserService {
 
   url = environment.baseUrl + environment.user;
-  private access_token = null;
-  private req: UserTokenState
-  public loggedInUserSubject: BehaviorSubject<LoggedInUser>;
-  public loggedInUser: Observable<LoggedInUser>;
+  access_token = null;
+  req: UserTokenState
+  loggedInUserSubject: BehaviorSubject<LoggedInUser>;
+  loggedInUser: Observable<LoggedInUser>;
   loggedInSuccess: BehaviorSubject<LoggedInUser> = new BehaviorSubject<LoggedInUser>(null);
 
   constructor(private httpClient: HttpClient, private router: Router) {
