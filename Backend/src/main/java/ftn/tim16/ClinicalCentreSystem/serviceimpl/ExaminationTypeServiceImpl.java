@@ -2,10 +2,10 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
-import ftn.tim16.ClinicalCentreSystem.model.Clinic;
-import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
+import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationTypeRepository;
+import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
+import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,12 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
     @Autowired
     private ExaminationTypeRepository examinationTypeRepository;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private ExaminationService examinationService;
 
     @Override
     public ExaminationType create(ExaminationTypeDTO examinationTypeDTO, ClinicAdministrator clinicAdministrator) {
@@ -47,6 +53,28 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     @Override
     public ExaminationType findById(Long id) {
         return examinationTypeRepository.findByIdAndStatusNot(id, LogicalStatus.DELETED);
+    }
+
+    @Override
+    public ExaminationType deleteExaminationType(Long clinic_id, Long examinationTypeId) {
+        ExaminationType examinationType = findById(examinationTypeId);
+
+        if (examinationType.getClinic().getId() != clinic_id) {
+            return null;
+        }
+        List<Doctor> doctors = doctorService.findDoctorsByClinicIdAndExaminationTypeId(clinic_id, examinationTypeId);
+        if (doctors != null && !doctors.isEmpty()) {
+            return null;
+        }
+
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
+
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return null;
+        }
+        examinationType.setStatus(LogicalStatus.DELETED);
+
+        return examinationTypeRepository.save(examinationType);
     }
 
     private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes) {

@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 
@@ -72,6 +73,20 @@ public class ExaminationTypeController {
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@PathVariable("id") Long clinic_id) {
         return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic_id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ExaminationType> deleteExaminationType(@PathVariable("id") Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        ExaminationType examinationType = examinationTypeService.deleteExaminationType(clinicAdministrator.getClinic().getId(), id);
+        if (examinationType == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(examinationType, HttpStatus.OK);
     }
 
 }

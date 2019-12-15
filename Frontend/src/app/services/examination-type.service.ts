@@ -55,4 +55,7 @@ export class ExaminationTypeService {
     });
   }
 
+  public deleteType(id: number) {
+    return this.httpClient.delete(this.url + '/' + id);
+  }
 }

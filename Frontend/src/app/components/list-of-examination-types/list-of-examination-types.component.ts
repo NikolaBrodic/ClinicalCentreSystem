@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { MatSort } from '@angular/material/sort';
 import { environment } from './../../../environments/environment';
 import { isUndefined } from 'util';
@@ -29,7 +30,7 @@ export class ListOfExaminationTypesComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public dialog: MatDialog,
-    private examinationTypeService: ExaminationTypeService) { }
+    private examinationTypeService: ExaminationTypeService, private toastr: ToastrService) { }
 
 
   ngOnInit() {
@@ -49,8 +50,18 @@ export class ListOfExaminationTypesComponent implements OnInit {
   openEditingDialog() {
 
   }
-  deleteType() {
 
+  deleteType(type: ExaminationType) {
+    this.examinationTypeService.deleteType(type.id).subscribe(
+      responseData => {
+        this.search();
+        this.toastr.success("Successfully deleted examination type.", 'Delete examination type');
+      },
+      message => {
+        this.toastr.error("You can not delete this examination type because this examination type is specialization of some doctor or type of some examination.",
+          'Delete examination type');
+      }
+    );
   }
 
   getExaminationTypesWithSearch(searchLabel: string, searchPrice: any) {

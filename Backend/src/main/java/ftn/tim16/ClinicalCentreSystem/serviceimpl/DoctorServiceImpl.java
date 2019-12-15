@@ -162,6 +162,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId) {
+        return doctorRepository.findByStatusNotAndClinicIdAndSpecializedId(DoctorStatus.DELETED, clinicId, specializedId);
+    }
+
+    @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
 
