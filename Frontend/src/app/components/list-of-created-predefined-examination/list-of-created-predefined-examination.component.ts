@@ -18,7 +18,7 @@ import { MatSort } from '@angular/material/sort';
 export class ListOfCreatedPredefinedExaminationComponent implements OnInit {
 
   examinationsDataSource: MatTableDataSource<Examination>;
-  displayedColumns: string[] = ['date', 'time', 'examinationType', 'doctor', 'room', 'originalPrice', 'discountPrice', 'edit'];
+  displayedColumns: string[] = ['date', 'time', 'examinationType', 'doctor', 'room', 'originalPrice', 'discountPrice'];
   numberOfItem: number;
   expandedElement: Examination | null;
   successCreatedPredefinedExamination: Subscription;
@@ -45,10 +45,6 @@ export class ListOfCreatedPredefinedExaminationComponent implements OnInit {
       this.examinationsDataSource.sort = this.sort;
       this.examinationsDataSource.paginator = this.paginator;
     })
-  }
-
-  editPredefinedExamination() {
-
   }
 
   createPredefinedExamination() {

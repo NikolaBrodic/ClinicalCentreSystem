@@ -1,3 +1,4 @@
+import { EditRoomComponent } from './../edit/edit-room/edit-room.component';
 import { isUndefined } from 'util';
 import { RoomsWithNumberOffItmes } from './../../models/roomsWithNumberOffItmes';
 import { environment } from './../../../environments/environment';
@@ -77,8 +78,8 @@ export class ListOfRoomsComponent implements OnInit {
     this.roomsDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openEditingDialog() {
-
+  openEditingDialog(room: Room) {
+    this.dialog.open(EditRoomComponent, { data: room });
   }
 
   deleteRoom(room: Room) {

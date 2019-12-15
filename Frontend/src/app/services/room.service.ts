@@ -24,6 +24,10 @@ export class RoomService {
     return this.httpClient.post(this.url, room);
   }
 
+  public edit(room: Room) {
+    return this.httpClient.put(this.url, room);
+  }
+
   public assignRoom(room: Room, examination: Examination) {
     return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
   }
