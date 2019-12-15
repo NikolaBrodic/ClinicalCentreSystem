@@ -56,25 +56,38 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
-    public ExaminationType deleteExaminationType(Long clinic_id, Long examinationTypeId) {
+    public ExaminationType deleteExaminationType(Long clinicId, Long examinationTypeId) {
         ExaminationType examinationType = findById(examinationTypeId);
-
-        if (examinationType.getClinic().getId() != clinic_id) {
+        if (examinationType == null) {
             return null;
         }
-        List<Doctor> doctors = doctorService.findDoctorsByClinicIdAndExaminationTypeId(clinic_id, examinationTypeId);
-        if (doctors != null && !doctors.isEmpty()) {
+        if (examinationType.getClinic().getId() != clinicId) {
             return null;
         }
 
-        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
-
-        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+        if (!isEditable(examinationTypeId, examinationType.getClinic().getId(), clinicId)) {
             return null;
         }
         examinationType.setStatus(LogicalStatus.DELETED);
 
         return examinationTypeRepository.save(examinationType);
+    }
+
+    private boolean isEditable(Long examinationTypeId, Long examinationTypeClinicId, Long clinicId) {
+        if (examinationTypeClinicId != clinicId) {
+            return false;
+        }
+        List<Doctor> doctors = doctorService.findDoctorsByClinicIdAndExaminationTypeId(clinicId, examinationTypeId);
+        if (doctors != null && !doctors.isEmpty()) {
+            return false;
+        }
+
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
+
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes) {

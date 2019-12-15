@@ -88,9 +88,9 @@ public class DoctorController {
         }
         Doctor doctor = doctorService.deleteDoctor(clinicAdministrator.getClinic().getId(), id);
         if (doctor == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(doctor, HttpStatus.OK);
+        return new ResponseEntity<>(doctor, HttpStatus.ACCEPTED);
     }
 
 }

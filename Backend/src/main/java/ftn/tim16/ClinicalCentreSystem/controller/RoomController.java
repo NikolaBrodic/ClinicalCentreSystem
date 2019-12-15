@@ -124,9 +124,9 @@ public class RoomController {
 
         Room room = roomService.deleteRoom(clinicAdministrator.getClinic().getId(), id);
         if (room == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(room, HttpStatus.OK);
+        return new ResponseEntity<>(room, HttpStatus.ACCEPTED);
     }
 
 }

@@ -16,7 +16,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "/api/examination-type")
 public class ExaminationTypeController {
 
@@ -84,9 +83,9 @@ public class ExaminationTypeController {
         }
         ExaminationType examinationType = examinationTypeService.deleteExaminationType(clinicAdministrator.getClinic().getId(), id);
         if (examinationType == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(examinationType, HttpStatus.OK);
+        return new ResponseEntity<>(examinationType, HttpStatus.ACCEPTED);
     }
 
 }

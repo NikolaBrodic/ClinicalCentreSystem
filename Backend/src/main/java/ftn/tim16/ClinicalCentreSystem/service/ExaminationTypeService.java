@@ -16,5 +16,5 @@ public interface ExaminationTypeService {
 
     ExaminationType findById(Long id);
 
-    ExaminationType deleteExaminationType(Long clinic_id, Long id);
+    ExaminationType deleteExaminationType(Long clinicId, Long id);
 }
