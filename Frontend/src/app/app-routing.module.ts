@@ -1,3 +1,4 @@
+import { PriceListComponent } from './components/price-list/price-list.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
@@ -66,6 +67,11 @@ const routes: Routes = [
   {
     path: 'clinic-admin/examination-types',
     component: ListOfExaminationTypesComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/price-list',
+    component: PriceListComponent,
     canActivate: [ClinicAdminGuard],
   },
   {

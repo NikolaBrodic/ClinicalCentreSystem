@@ -1,14 +1,11 @@
 import { Clinic } from 'src/app/models/clinic';
-import { ExaminationTypeWithNumber } from './../models/examinationTypewuthNumber';
 import { environment } from './../../environments/environment';
 import { ExaminationType } from './../models/examinationType';
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
-import { isUndefined } from 'util';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +16,20 @@ export class ExaminationTypeService {
   examinationTypesForPatient: BehaviorSubject<ExaminationType[]> = new BehaviorSubject<ExaminationType[]>([]);
   updateSuccessEmitter = new Subject<ExaminationType>();
   createSuccessEmitter = new Subject<ExaminationType>();
+  updatePriceSuccessEmitter = new Subject<ExaminationType>();
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public create(examinationType: ExaminationType) {
     return this.httpClient.post(this.url, examinationType);
+  }
+
+  public edit(examinationType: ExaminationType) {
+    return this.httpClient.put(this.url, examinationType);
+  }
+
+  public editPriceList(examinationType: ExaminationType) {
+    return this.httpClient.put(this.url + "/edit-price-list", examinationType);
   }
 
   public getExaminationTypesForAdmin(): Observable<ExaminationType[]> {

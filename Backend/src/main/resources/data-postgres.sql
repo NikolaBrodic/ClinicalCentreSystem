@@ -35,6 +35,8 @@ insert into clinic_admin_authority(user_id, authority_id) values (4,2);
 insert into examination_type (label, price,status,clinic_id) values ('Ginekolog', '5000','EXISTING' ,1);
 insert into examination_type (label, price,status,clinic_id) values ('Zubar', '2000','EXISTING',1);
 
+insert into examination_type (label, price,status,clinic_id) values ('Opsta praksa', '1000','EXISTING' ,1);
+insert into examination_type (label, price,status,clinic_id) values ('Dermatolog', '1500','EXISTING',1);
 /*ROOM*/
 /*insert into room (label, kind,status,clinic_id) values ('Room 1', 'OPERATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);
@@ -75,10 +77,11 @@ insert into nurse (email, password, first_name, last_name, phone_number,work_hou
 values ('Nurse.07@maildrop.cc', '$2a$10$bKaCAUMqyrYHqL9y2CDXE.L1nFdlZdkj/ew2ZjzgGfITqMwVoCzu.', 'Danica', 'Danicic', '0663698914','13:00','21:00',1,'ACTIVE');
 insert into nurse_authority(user_id, authority_id) values (7,5);
 
-insert into room (label, kind,status,clinic_id) values ('RoomE 1', 'EXAMINATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('RoomE 2', 'EXAMINATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('RoomE 3', 'EXAMINATION','DELETED' ,1);
-insert into room (label, kind,status,clinic_id) values ('RoomO 4', 'OPERATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 1', 'EXAMINATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 3', 'EXAMINATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 4', 'OPERATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 5', 'EXAMINATION','EXISTING' ,1);
 
 /*insert into room (label, kind,status,clinic_id) values ('Room 5', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 6', 'EXAMINATION','EXISTING' ,1);
@@ -421,4 +424,20 @@ insert into medicine (label, chemical_composition, "usage") values ('Lipitor', '
  'stroke, heart attack in individuals with coronary artery disease. It causes minor side effects such as constipation, ' ||
  'diarrhea, fatigue, gas, heartburn, and headache. Like other statins it can cause muscle pain and muscle break down. ');
 
+insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
+ values ('goran.smiljanic@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Goran', 'Smiljanic', '038856886','06:00','18:00',1,'ACTIVE',3);
+insert into doctor_authority(user_id, authority_id) values (10,4);
 
+insert into date_time_interval (start_date_time, end_date_time) values ('01.02.2020 09:00','01.02.2020 10:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,nurse_id,discount,room_id)
+ values ('EXAMINATION',34,'PREDEF_AVAILABLE',3,1,1,9,10,5);
+insert into examining (examination_id,doctor_id) values (30,10);
+
+insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
+ values ('milovan.smiljanic@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Milovan', 'Smiljanic', '044856886','06:00','18:00',1,'ACTIVE',4);
+insert into doctor_authority(user_id, authority_id) values (11,4);
+
+insert into date_time_interval (start_date_time, end_date_time) values ('10.10.2019 09:00','10.10.2019 10:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,nurse_id,discount,room_id)
+ values ('EXAMINATION',35,'PREDEF_AVAILABLE',4,1,1,9,10,5);
+insert into examining (examination_id,doctor_id) values (30,11);
