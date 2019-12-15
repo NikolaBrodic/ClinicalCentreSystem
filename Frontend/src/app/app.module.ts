@@ -146,6 +146,7 @@ import { EditExaminationTypeComponent } from './components/edit/edit-examination
     ListMedicinesComponent,
     AddMedicineComponent,
     EditExaminationTypeComponent,
+    EditPriceListComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

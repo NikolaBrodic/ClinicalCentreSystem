@@ -1,3 +1,6 @@
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { EditPriceListComponent } from './../edit/edit-price-list/edit-price-list.component';
 import { ExaminationTypeService } from './../../services/examination-type.service';
 import { isUndefined } from 'util';
 import { MatSort } from '@angular/material/sort';
@@ -19,20 +22,27 @@ export class PriceListComponent implements OnInit {
   searchPrice: string;
   numberOfItem: number;
   itemsPerPage = environment.itemsPerPage;
+  successEditedType: Subscription;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(
+  constructor(public dialog: MatDialog,
     private examinationTypeService: ExaminationTypeService) { }
 
 
   ngOnInit() {
+
+    this.successEditedType = this.examinationTypeService.updatePriceSuccessEmitter.subscribe(
+      data => {
+        this.search();
+      }
+    );
     this.getExaminationTypesWithSearch("", "");
   }
 
   openEditingDialog(examinationType: ExaminationType) {
-
+    this.dialog.open(EditPriceListComponent, { data: examinationType });
   }
 
   getExaminationTypesWithSearch(searchLabel: string, searchPrice: any) {
