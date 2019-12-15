@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Edit room</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="editRoomForm" class="form-full-width">
+        <mat-form-field class="form-full-width">
+            <input matInput placeholder="Label" formControlName="label">
+            <mat-error *ngIf="editRoomForm.get('label').errors && editRoomForm.get('label').errors['required']">
+                Please enter room's label.
+            </mat-error>
+            <mat-error *ngIf="editRoomForm.get('label').errors && editRoomForm.get('label').errors['maxlength']">
+                Maximal number of characters for this field is 30.
+            </mat-error>
+        </mat-form-field>
+        <br>
+
+        <table class="form-full-width mt-3" cellspacing="0">
+            <tr>
+                <td><label id="kind-radio-group">Intended for:</label></td>
+                <td>
+                    <mat-radio-group aria-labelledby="kind-radio-group" formControlName="kind"
+                        class="form-full-width-td">
+                        <mat-radio-button class="ml-4" *ngFor="let element of kinds" [value]="element">
+                            {{element | titlecase }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </td>
+            </tr>
+        </table>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions class="mt-3 mb-1">
+    <button mat-raised-button color="primary" (click)="edit()" [disabled]="!editRoomForm.valid">Save changes</button>
+</mat-dialog-actions>

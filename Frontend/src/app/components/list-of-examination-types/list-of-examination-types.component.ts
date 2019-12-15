@@ -56,11 +56,6 @@ export class ListOfExaminationTypesComponent implements OnInit {
   openEditingDialog(examinationType: ExaminationType) {
     this.dialog.open(EditExaminationTypeComponent, { data: examinationType });
   }
-<<<<<<< HEAD
-
-  deleteType() {
-=======
->>>>>>> feature/deleteExaminationType
 
   deleteType(type: ExaminationType) {
     this.examinationTypeService.deleteType(type.id).subscribe(

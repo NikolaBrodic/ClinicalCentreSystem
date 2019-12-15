@@ -1,3 +1,4 @@
+import { EditRoom } from './../models/editRoom';
 import { AssignExaminationDTO } from './../models/assignexamination';
 import { Examination } from './../models/examination';
 import { MatSort } from '@angular/material/sort';
@@ -24,8 +25,12 @@ export class RoomService {
     return this.httpClient.post(this.url, room);
   }
 
+  public edit(room: EditRoom) {
+    return this.httpClient.put(this.url, room);
+  }
+
   public assignRoom(room: Room, examination: Examination) {
-    return this.httpClient.put(this.url, new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
+    return this.httpClient.put(this.url + "/assign", new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
   }
 
   public getAllRoomsForAdmin(): Observable<Room[]> {

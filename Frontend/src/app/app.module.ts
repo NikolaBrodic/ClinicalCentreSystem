@@ -58,6 +58,7 @@ import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.com
 import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
 import { AddMedicineComponent } from './components/add-medicine/add-medicine.component';
 import { EditExaminationTypeComponent } from './components/edit/edit-examination-type/edit-examination-type.component';
+import { EditRoomComponent } from './components/edit/edit-room/edit-room.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { EditExaminationTypeComponent } from './components/edit/edit-examination
     AddDiagnoseComponent,
     ListMedicinesComponent,
     AddMedicineComponent,
-    EditExaminationTypeComponent
+    EditExaminationTypeComponent,
+    EditRoomComponent,
 
   ],
   imports: [
@@ -142,6 +144,7 @@ import { EditExaminationTypeComponent } from './components/edit/edit-examination
     ListMedicinesComponent,
     AddMedicineComponent,
     EditExaminationTypeComponent,
+    EditRoomComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

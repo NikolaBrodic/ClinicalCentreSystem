@@ -1,9 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -66,6 +63,29 @@ public class RoomServiceImpl implements RoomService {
         }
         Room room = new Room(roomDTO.getLabel(), examinationKind, clinicAdministrator.getClinic());
         return roomRepository.save(room);
+    }
+
+    @Override
+    public Room edit(EditRoomDTO roomDTO, Long clinicId) {
+        Room existingRoom = findById(roomDTO.getId());
+        if (existingRoom == null) {
+            return null;
+        }
+        Room roomWithSameLabel = roomRepository.findByLabelIgnoringCase(roomDTO.getLabel());
+        if (roomWithSameLabel != null && roomWithSameLabel.getId() != existingRoom.getId()) {
+            return null;
+        }
+
+        if (!isEditable(existingRoom.getId(), existingRoom.getClinic().getId(), clinicId)) {
+            return null;
+        }
+        ExaminationKind examinationKind = getKind(roomDTO.getKind());
+        if (examinationKind == null) {
+            return null;
+        }
+        existingRoom.setLabel(roomDTO.getLabel());
+        existingRoom.setKind(examinationKind);
+        return roomRepository.save(existingRoom);
     }
 
 
@@ -133,21 +153,24 @@ public class RoomServiceImpl implements RoomService {
             return null;
         }
 
-        if (room.getClinic().getId() != clinicId) {
+        if (!isEditable(roomId, room.getClinic().getId(), clinicId)) {
             return null;
         }
-
-        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(roomId);
-
-        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
-            return null;
-        }
-
         room.setStatus(LogicalStatus.DELETED);
         return roomRepository.save(room);
     }
 
-    private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    private boolean isEditable(Long roomId, Long existingRoomClinicId, Long clinicId) {
+        if (existingRoomClinicId != clinicId) {
+            return false;
+        }
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(roomId);
+
+        return !(upcomingExaminations != null && !upcomingExaminations.isEmpty());
+    }
+
+    private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime
+            startDateTime, LocalDateTime endDateTime) {
         List<RoomDTO> availableRoom = new ArrayList<>();
         for (Room currentRoom : roomsInClinicAll) {
             if (isAvailable(currentRoom, startDateTime, endDateTime)) {
@@ -160,7 +183,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
-    private List<RoomDTO> getRoomOnAnotherDate(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    private List<RoomDTO> getRoomOnAnotherDate(List<Room> roomsInClinicAll, LocalDateTime
+            startDateTime, LocalDateTime endDateTime) {
         List<RoomDTO> available = new ArrayList<>();
         long duration = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
         for (Room currentRoom : roomsInClinicAll) {
