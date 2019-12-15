@@ -7,8 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-public class ExaminationTypeDTO {
-    @NotNull(message = "Id is null.")
+public class CreateExaminationTypeDTO {
     private Long id;
 
     @NotEmpty(message = "Label is empty.")
@@ -19,17 +18,17 @@ public class ExaminationTypeDTO {
     @Positive(message = "Price is not a positive number.")
     private Double price;
 
-    public ExaminationTypeDTO() {
+    public CreateExaminationTypeDTO() {
     }
 
-    public ExaminationTypeDTO(Long id, String label, Double price) {
+    public CreateExaminationTypeDTO(Long id, String label, Double price) {
         super();
         this.id = id;
         this.label = label;
         this.price = price;
     }
 
-    public ExaminationTypeDTO(ExaminationType examinationType) {
+    public CreateExaminationTypeDTO(ExaminationType examinationType) {
         this(examinationType.getId(), examinationType.getLabel(), examinationType.getPrice());
     }
 
