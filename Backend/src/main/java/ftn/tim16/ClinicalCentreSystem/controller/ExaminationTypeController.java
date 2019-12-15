@@ -55,6 +55,20 @@ public class ExaminationTypeController {
         return new ResponseEntity<>(changedExaminationType, HttpStatus.ACCEPTED);
     }
 
+    @PutMapping(value = "/edit-price-list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ExaminationType> editPriceList(@Valid @RequestBody ExaminationTypeDTO examinationType) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        ExaminationType changedExaminationType = examinationTypeService.editPriceList(examinationType, clinicAdministrator.getClinic().getId());
+        if (changedExaminationType == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(changedExaminationType, HttpStatus.ACCEPTED);
+    }
+
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {

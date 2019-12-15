@@ -12,6 +12,8 @@ public interface ExaminationTypeService {
 
     ExaminationType edit(ExaminationTypeDTO examinationType, Long clinicId);
 
+    ExaminationType editPriceList(ExaminationTypeDTO examinationType, Long clinicId);
+
     List<ExaminationTypeDTO> findAllTypesInClinic(Long clinic_id);
 
     List<ExaminationTypeDTO> searchTypesInClinic(Clinic clinic, String searchLabel, Double searchPrice);

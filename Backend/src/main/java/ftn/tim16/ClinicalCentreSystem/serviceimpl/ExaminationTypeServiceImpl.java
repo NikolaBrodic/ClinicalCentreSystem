@@ -57,6 +57,22 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         return examinationTypeRepository.save(existingExaminationType);
     }
 
+    @Override
+    public ExaminationType editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
+        ExaminationType existingExaminationType = findById(examinationType.getId());
+        if (existingExaminationType == null) {
+            return null;
+        }
+
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationType.getId());
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return null;
+        }
+
+        existingExaminationType.setPrice(examinationType.getPrice());
+        return examinationTypeRepository.save(existingExaminationType);
+    }
+
     private boolean isEditable(Long examinationTypeId, Long examinationTypeClinicId, Long clinicId) {
         if (examinationTypeClinicId != clinicId) {
             return false;
@@ -67,7 +83,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         }
 
         List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
-        
+
         return !(upcomingExaminations != null && !upcomingExaminations.isEmpty());
     }
 
