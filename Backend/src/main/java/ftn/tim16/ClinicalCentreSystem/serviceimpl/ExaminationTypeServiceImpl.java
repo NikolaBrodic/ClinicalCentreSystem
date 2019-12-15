@@ -58,6 +58,21 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         return examinationTypeRepository.save(existingExaminationType);
     }
 
+    @Override
+    public ExaminationType editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
+        ExaminationType existingExaminationType = findById(examinationType.getId());
+        if (existingExaminationType == null) {
+            return null;
+        }
+
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationType.getId());
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return null;
+        }
+
+        existingExaminationType.setPrice(examinationType.getPrice());
+        return examinationTypeRepository.save(existingExaminationType);
+    }
 
     @Override
     public List<ExaminationTypeDTO> findAllTypesInClinic(Long clinic_id) {
