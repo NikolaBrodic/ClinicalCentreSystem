@@ -1,5 +1,6 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
+import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
@@ -29,7 +30,7 @@ public class EditDoctorDTO {
     private String email;
 
     @NotNull
-    private ExaminationType specialized;
+    private ExaminationTypeDTO specialized;
 
     @NotEmpty(message = "Phone number is empty.")
     @Size(min = 9, max = 10)
@@ -43,21 +44,32 @@ public class EditDoctorDTO {
     }
 
     public EditDoctorDTO(Long id, String firstName, String lastName, String workHoursFrom, String workHoursTo, String email,
-                         ExaminationType specialized, String phoneNumber, ClinicDTO clinicDTO) {
+                         ExaminationType specialized, String phoneNumber, Clinic clinicDTO) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.workHoursFrom = workHoursFrom;
         this.workHoursTo = workHoursTo;
         this.email = email;
-        this.specialized = specialized;
+        if (specialized != null) {
+            this.specialized = new ExaminationTypeDTO(specialized);
+        } else {
+            this.specialized = null;
+        }
+
         this.phoneNumber = phoneNumber;
-        this.clinicDTO = clinicDTO;
+
+        if (clinicDTO != null) {
+            this.clinicDTO = new ClinicDTO(clinicDTO);
+        } else {
+            this.clinicDTO = null;
+        }
+
     }
 
     public EditDoctorDTO(Doctor doctor) {
         this(doctor.getId(), doctor.getFirstName(), doctor.getLastName(), doctor.getWorkHoursFrom().toString(), doctor.getWorkHoursTo().toString(), doctor.getEmail(),
-                doctor.getSpecialized(), doctor.getPhoneNumber(), new ClinicDTO(doctor.getClinic()));
+                doctor.getSpecialized(), doctor.getPhoneNumber(), doctor.getClinic());
     }
 
     public Long getId() {
@@ -108,11 +120,11 @@ public class EditDoctorDTO {
         this.email = email;
     }
 
-    public ExaminationType getSpecialized() {
+    public ExaminationTypeDTO getSpecialized() {
         return specialized;
     }
 
-    public void setSpecialized(ExaminationType specialized) {
+    public void setSpecialized(ExaminationTypeDTO specialized) {
         this.specialized = specialized;
     }
 

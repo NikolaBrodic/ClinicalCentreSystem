@@ -1,8 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AwaitingApprovalPatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.PatientPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
@@ -51,7 +51,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient approveRequestToRegister(Long id) {
+    public PatientWithIdDTO approveRequestToRegister(Long id) {
         Patient patient = patientRepository.findById(id).orElseGet(null);
 
         if (patient == null) {
@@ -65,7 +65,7 @@ public class PatientServiceImpl implements PatientService {
 
         composeAndSendApprovalEmail(updatedPatient.getEmail());
 
-        return updatedPatient;
+        return new PatientWithIdDTO(updatedPatient);
     }
 
     @Override

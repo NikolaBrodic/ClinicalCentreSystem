@@ -1,8 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.*;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateRoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Room;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +33,13 @@ public class RoomController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> create(@Valid @RequestBody CreateRoomDTO roomDTO) {
+    public ResponseEntity<RoomWithIdDTO> create(@Valid @RequestBody CreateRoomDTO roomDTO) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
 
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Room createdRoom = roomService.create(roomDTO, clinicAdministrator);
+        RoomWithIdDTO createdRoom = roomService.create(roomDTO, clinicAdministrator);
         if (createdRoom == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -45,12 +48,12 @@ public class RoomController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> edit(@Valid @RequestBody EditRoomDTO roomDTO) {
+    public ResponseEntity<RoomWithIdDTO> edit(@Valid @RequestBody RoomWithIdDTO roomDTO) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Room changedRoom = roomService.edit(roomDTO, clinicAdministrator.getClinic().getId());
+        RoomWithIdDTO changedRoom = roomService.edit(roomDTO, clinicAdministrator.getClinic().getId());
         if (changedRoom == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -106,17 +109,17 @@ public class RoomController {
 
     @PutMapping(value = "/assign", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> assignRoom(@Valid @RequestBody AssignExaminationDTO examination) {
+    public ResponseEntity<RoomWithIdDTO> assignRoom(@Valid @RequestBody AssignExaminationDTO examination) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
 
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Room assignedRoom = roomService.assignRoom(examination, clinicAdministrator);
+        RoomWithIdDTO assignedRoom = roomService.assignRoom(examination, clinicAdministrator);
         if (assignedRoom == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Room>(assignedRoom, HttpStatus.OK);
+        return new ResponseEntity<>(assignedRoom, HttpStatus.OK);
     }
 
     @Scheduled(cron = "${room.cron}")
@@ -126,13 +129,13 @@ public class RoomController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Room> deleteRoom(@PathVariable("id") Long id) {
+    public ResponseEntity<RoomWithIdDTO> deleteRoom(@PathVariable("id") Long id) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Room room = roomService.deleteRoom(clinicAdministrator.getClinic().getId(), id);
+        RoomWithIdDTO room = roomService.deleteRoom(clinicAdministrator.getClinic().getId(), id);
         if (room == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

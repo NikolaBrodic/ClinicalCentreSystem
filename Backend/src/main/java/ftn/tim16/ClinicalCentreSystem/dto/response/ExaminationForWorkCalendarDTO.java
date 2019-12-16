@@ -1,23 +1,32 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.response;
 
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.Patient;
-import ftn.tim16.ClinicalCentreSystem.model.Room;
 
-public class ExaminationDTO {
+public class ExaminationForWorkCalendarDTO {
     private Long id;
     private String kind;
     private DateTimeInterval interval;
-    private Room room;
-    private Patient patient;
+    private RoomWithIdDTO room;
+    private PatientWithIdDTO patient;
 
-    public ExaminationDTO(Examination examination) {
+    public ExaminationForWorkCalendarDTO(Examination examination) {
         this.id = examination.getId();
         this.interval = examination.getInterval();
-        this.room = examination.getRoom();
-        this.patient = examination.getPatient();
+        if (examination.getRoom() != null) {
+            this.room = new RoomWithIdDTO(examination.getRoom());
+        } else {
+            this.room = null;
+        }
+        if (examination.getPatient() != null) {
+            this.patient = new PatientWithIdDTO(examination.getPatient());
+        } else {
+            this.patient = null;
+        }
+
         this.kind = examination.getKind().toString();
         if (examination.getStatus() == ExaminationStatus.PREDEF_BOOKED || examination.getStatus() == ExaminationStatus.PREDEF_AVAILABLE) {
             this.kind = "PREDEF. EXAMINATION";
@@ -48,19 +57,19 @@ public class ExaminationDTO {
         this.interval = interval;
     }
 
-    public Room getRoom() {
+    public RoomWithIdDTO getRoom() {
         return room;
     }
 
-    public void setRoom(Room room) {
+    public void setRoom(RoomWithIdDTO room) {
         this.room = room;
     }
 
-    public Patient getPatient() {
+    public PatientWithIdDTO getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient) {
+    public void setPatient(PatientWithIdDTO patient) {
         this.patient = patient;
     }
 }

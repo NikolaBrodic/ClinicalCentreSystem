@@ -1,8 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
-import ftn.tim16.ClinicalCentreSystem.dto.EditNurseDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditNurseDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.NurseDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
@@ -70,7 +70,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public Nurse create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator) {
+    public NurseDTO create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator) {
         UserDetails userDetails = userService.findUserByEmail(nurseDTO.getEmail());
         if (userDetails != null) {
             return null;
@@ -99,7 +99,7 @@ public class NurseServiceImpl implements NurseService {
 
         composeAndSendEmail(nurse.getEmail(), clinicAdministrator.getClinic().getName(), generatedPassword);
 
-        return nurse;
+        return new NurseDTO(nurseRepository.save(nurse));
     }
 
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
@@ -164,7 +164,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public Nurse editPersonalInformation(EditNurseDTO editNurseDTO) {
+    public NurseDTO editPersonalInformation(EditNurseDTO editNurseDTO) {
         Nurse nurse = getLoginNurse();
 
         if (nurse.getId() != editNurseDTO.getId()) {
@@ -188,7 +188,7 @@ public class NurseServiceImpl implements NurseService {
         nurse.setFirstName(editNurseDTO.getFirstName());
         nurse.setLastName(editNurseDTO.getLastName());
         nurse.setPhoneNumber(editNurseDTO.getPhoneNumber());
-        return nurseRepository.save(nurse);
+        return new NurseDTO(nurseRepository.save(nurse));
     }
 
     private boolean isEditable(Long nurseId) {

@@ -1,44 +1,59 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import ftn.tim16.ClinicalCentreSystem.model.Patient;
 
-public class PatientDTO {
+public class PatientWithIdDTO {
 
-    @NotEmpty(message = "Email is empty.")
-    @Email(message = "Email is invalid.")
+    private Long id;
+
     private String email;
 
-    @NotEmpty(message = "Password is empty.")
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")
-    private String password;
 
-    @NotEmpty(message = "First name is empty.")
     private String firstName;
 
-    @NotEmpty(message = "Last name is empty.")
+
     private String lastName;
 
-    @NotEmpty(message = "Phone number is empty.")
-    @Size(min = 9, max = 10)
-    @Pattern(regexp = "0[0-9]+")
+
     private String phoneNumber;
 
-    @NotEmpty(message = "Address is empty.")
+
     private String address;
 
-    @NotEmpty(message = "City is empty.")
+
     private String city;
 
-    @NotEmpty(message = "Country is empty.")
+
     private String country;
 
-    @NotEmpty(message = "Health insurance ID is empty.")
-    @Size(min = 13, max = 13)
-    @Pattern(regexp = "[0-9]+")
+
     private String healthInsuranceID;
+
+    public PatientWithIdDTO(Long id, String email, String firstName, String lastName, String phoneNumber, String address,
+                            String city, String country, String healthInsuranceID) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.healthInsuranceID = healthInsuranceID;
+    }
+
+    public PatientWithIdDTO(Patient patient) {
+        this(patient.getId(), patient.getEmail(), patient.getFirstName(), patient.getLastName(), patient.getPhoneNumber(),
+                patient.getAddress(), patient.getCity(), patient.getCountry(), patient.getHealthInsuranceId());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -48,13 +63,6 @@ public class PatientDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getFirstName() {
         return firstName;

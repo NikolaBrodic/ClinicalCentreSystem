@@ -1,13 +1,10 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
+import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
-public class NurseDTO {
+public class ClinicAdministratorDTO {
     private Long id;
 
     @NotEmpty(message = "Email is empty.")
@@ -22,33 +19,28 @@ public class NurseDTO {
     @Size(message = "Max size for last name is 30.", max = 30)
     private String lastName;
 
-    @NotEmpty(message = "Start work hours is empty.")
-    private String workHoursFrom;
-
-    @NotEmpty(message = "End work hours is empty.")
-    private String workHoursTo;
-
     @NotEmpty(message = "Phone number is empty.")
     @Size(min = 9, max = 10)
     @Pattern(regexp = "0[0-9]+")
     private String phoneNumber;
 
-    public NurseDTO() {
+    @NotNull
+    private ClinicDTO clinic;
+
+    public ClinicAdministratorDTO() {
     }
 
-    public NurseDTO(Long id, String email, String firstName, String lastName, String workHoursFrom, String workHoursTo, String phoneNumber) {
+    public ClinicAdministratorDTO(Long id, String email, String firstName, String lastName, String phoneNumber) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.workHoursFrom = workHoursFrom;
-        this.workHoursTo = workHoursTo;
         this.phoneNumber = phoneNumber;
     }
 
-    public NurseDTO(Nurse nurse) {
-        this(nurse.getId(), nurse.getEmail(), nurse.getFirstName(), nurse.getLastName(),
-                nurse.getWorkHoursFrom().toString(), nurse.getWorkHoursTo().toString(), nurse.getPhoneNumber());
+    public ClinicAdministratorDTO(ClinicAdministrator clinicAdministrator) {
+        this(clinicAdministrator.getId(), clinicAdministrator.getEmail(), clinicAdministrator.getFirstName(),
+                clinicAdministrator.getLastName(), clinicAdministrator.getPhoneNumber());
     }
 
     public Long getId() {
@@ -83,27 +75,19 @@ public class NurseDTO {
         this.lastName = lastName;
     }
 
-    public String getWorkHoursFrom() {
-        return workHoursFrom;
-    }
-
-    public void setWorkHoursFrom(String workHoursFrom) {
-        this.workHoursFrom = workHoursFrom;
-    }
-
-    public String getWorkHoursTo() {
-        return workHoursTo;
-    }
-
-    public void setWorkHoursTo(String workHoursTo) {
-        this.workHoursTo = workHoursTo;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public ClinicDTO getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(ClinicDTO clinic) {
+        this.clinic = clinic;
     }
 }

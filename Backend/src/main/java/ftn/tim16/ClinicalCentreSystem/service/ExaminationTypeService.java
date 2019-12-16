@@ -1,18 +1,19 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.CreateExaminationTypeDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
 import java.util.List;
 
 public interface ExaminationTypeService {
-    ExaminationType create(CreateExaminationTypeDTO examinationType, Clinic clinic);
 
-    ExaminationType edit(ExaminationTypeDTO examinationType, Long clinicId);
+    ExaminationTypeDTO create(CreateExaminationTypeDTO examinationType, Clinic clinic);
 
-    ExaminationType editPriceList(ExaminationTypeDTO examinationType, Long clinicId);
+    ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId);
+
+    ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId);
 
     List<ExaminationTypeDTO> findAllTypesInClinic(Long clinicId);
 
@@ -20,5 +21,5 @@ public interface ExaminationTypeService {
 
     ExaminationType findById(Long id);
 
-    ExaminationType deleteExaminationType(Long clinicId, Long id);
+    ExaminationTypeDTO deleteExaminationType(Long clinicId, Long id);
 }

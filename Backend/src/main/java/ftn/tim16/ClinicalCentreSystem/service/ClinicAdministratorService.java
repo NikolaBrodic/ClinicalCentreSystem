@@ -1,7 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.EditClinicAdminDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicAdministratorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditClinicAdminDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 
 import java.util.List;
@@ -12,11 +12,11 @@ public interface ClinicAdministratorService {
 
     ClinicAdministrator getLoginAdmin();
 
-    ClinicAdministrator editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO);
+    ClinicAdministratorDTO editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO);
 
     EditClinicAdminDTO findClinicAdminById(Long id);
 
     List<ClinicAdministratorDTO> getAllClinicAdministratorsInClinic(Long id);
 
-    ClinicAdministrator create(ClinicAdministratorDTO clinicAdministratorDTO);
+    ClinicAdministratorDTO create(ClinicAdministratorDTO clinicAdministratorDTO);
 }

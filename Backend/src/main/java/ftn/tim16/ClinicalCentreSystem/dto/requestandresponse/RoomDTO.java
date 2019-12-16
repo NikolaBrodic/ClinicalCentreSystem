@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import ftn.tim16.ClinicalCentreSystem.model.Room;

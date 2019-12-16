@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Clinic;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +31,8 @@ public class ClinicController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<Clinic> addClinic(@RequestBody ClinicDTO clinicDTO) {
-        Clinic clinic = clinicService.create(clinicDTO);
+    public ResponseEntity<ClinicDTO> addClinic(@RequestBody ClinicDTO clinicDTO) {
+        ClinicDTO clinic = clinicService.create(clinicDTO);
         if (clinic == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -43,8 +42,8 @@ public class ClinicController {
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
-    public ResponseEntity<List<Clinic>> getAllClinics() {
-        List<Clinic> allClinics = clinicService.findAll();
+    public ResponseEntity<List<ClinicDTO>> getAllClinics() {
+        List<ClinicDTO> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
 }

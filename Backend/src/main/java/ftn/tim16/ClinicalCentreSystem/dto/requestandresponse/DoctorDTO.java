@@ -1,10 +1,7 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
-
-import java.time.LocalTime;
 
 public class DoctorDTO {
 
@@ -14,17 +11,15 @@ public class DoctorDTO {
 
     private String lastName;
 
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime workHoursFrom;
+    private String workHoursFrom;
 
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime workHoursTo;
+    private String workHoursTo;
 
     private String email;
 
     private String password;
 
-    private ExaminationType specialized;
+    private ExaminationTypeDTO specialized;
 
     private String phoneNumber;
 
@@ -34,7 +29,7 @@ public class DoctorDTO {
 
     }
 
-    public DoctorDTO(Long id, String phoneNumber, String firstName, String lastName, LocalTime workHoursFrom, LocalTime workHoursTo, String email, String password, ExaminationType specialized) {
+    public DoctorDTO(Long id, String phoneNumber, String firstName, String lastName, String workHoursFrom, String workHoursTo, String email, String password, ExaminationType specialized) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
@@ -43,11 +38,16 @@ public class DoctorDTO {
         this.workHoursTo = workHoursTo;
         this.email = email;
         this.password = password;
-        this.specialized = specialized;
+        if (specialized != null) {
+            this.specialized = new ExaminationTypeDTO(specialized);
+        } else {
+            this.specialized = null;
+        }
+
     }
 
     public DoctorDTO(Doctor doctor) {
-        this(doctor.getId(), doctor.getPhoneNumber(), doctor.getFirstName(), doctor.getLastName(), doctor.getWorkHoursFrom(), doctor.getWorkHoursTo(), doctor.getEmail(),
+        this(doctor.getId(), doctor.getPhoneNumber(), doctor.getFirstName(), doctor.getLastName(), doctor.getWorkHoursFrom().toString(), doctor.getWorkHoursTo().toString(), doctor.getEmail(),
                 doctor.getPassword(), doctor.getSpecialized());
     }
 
@@ -83,19 +83,19 @@ public class DoctorDTO {
         this.lastName = lastName;
     }
 
-    public LocalTime getWorkHoursFrom() {
+    public String getWorkHoursFrom() {
         return workHoursFrom;
     }
 
-    public void setWorkHoursFrom(LocalTime workHoursFrom) {
+    public void setWorkHoursFrom(String workHoursFrom) {
         this.workHoursFrom = workHoursFrom;
     }
 
-    public LocalTime getWorkHoursTo() {
+    public String getWorkHoursTo() {
         return workHoursTo;
     }
 
-    public void setWorkHoursTo(LocalTime workHoursTo) {
+    public void setWorkHoursTo(String workHoursTo) {
         this.workHoursTo = workHoursTo;
     }
 
@@ -115,11 +115,11 @@ public class DoctorDTO {
         this.password = password;
     }
 
-    public ExaminationType getSpecialized() {
+    public ExaminationTypeDTO getSpecialized() {
         return specialized;
     }
 
-    public void setSpecialized(ExaminationType specialized) {
+    public void setSpecialized(ExaminationTypeDTO specialized) {
         this.specialized = specialized;
     }
 
