@@ -35,6 +35,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
     this.doctorService.get(this.userService.getLoggedInUser().id).subscribe(
       (responseData: Doctor) => {
         this.loggedInDoctor = responseData;
+
         this.editPersonalInformation.patchValue(
           {
             'firstName': this.loggedInDoctor.firstName,
@@ -45,26 +46,38 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
             'phoneNumber': this.loggedInDoctor.phoneNumber
           }
         );
+        this.getSpecializations();
       },
       message => {
-        // this.userService.logout();
+        this.userService.logout();
       }
     );
-    this.getSpecializations();
+
   }
 
   getSpecializations() {
-    this.examinationTypeService.getExaminationTypesByClinicId(this.loggedInDoctor.clinic.id).subscribe(data => {
+    this.examinationTypeService.getExaminationTypesByClinicId(this.loggedInDoctor.clinicDTO.id).subscribe(data => {
       this.specializations = data;
+      this.selectSpecialization();
     })
   }
 
+  selectSpecialization() {
+    this.specializations.forEach((element: ExaminationType) => {
+      if (element.id == this.loggedInDoctor.specialized.id) {
+        this.editPersonalInformation.controls['specialized'].setValue(element);
+      }
+    });
+  }
   saveChanges() {
     if (this.editPersonalInformation.invalid) {
       this.toastr.error("Please enter a valid data.", 'Edit personal information');
       return;
     }
-
+    if (this.editPersonalInformation.value.workHoursFrom >= this.editPersonalInformation.value.workHoursTo) {
+      this.toastr.error("Starting work hours must be before ending work hours.", 'Edit personal information');
+      return;
+    }
     const doctor = new Doctor(this.loggedInDoctor.email, this.editPersonalInformation.value.firstName, this.editPersonalInformation.value.lastName,
       this.editPersonalInformation.value.phoneNumber, this.editPersonalInformation.value.workHoursFrom, this.editPersonalInformation.value.workHoursTo,
       this.editPersonalInformation.value.specialized, this.loggedInDoctor.id);
@@ -74,7 +87,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
       message => {
-        this.toastr.error("Error! Please try again.", 'Edit personal information');
+        this.toastr.error("You can not change work hours and specialization because you have scheduled examinations.", 'Edit personal information');
       }
     );
   }

@@ -98,9 +98,9 @@ public class ExaminationTypeController {
 
 
     @GetMapping(value = "/by-clinic-id/{id}")
-    @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@PathVariable("id") Long clinic_id) {
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic_id), HttpStatus.OK);
+    @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
+    public ResponseEntity<List<ExaminationTypeDTO>> findAllExaminationTypesByClinicId(@PathVariable("id") Long clinicId) {
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

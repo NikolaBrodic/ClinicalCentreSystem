@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
@@ -93,4 +94,19 @@ public class DoctorController {
         return new ResponseEntity<>(doctor, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping(value = "/{id}")
+    public EditDoctorDTO getDoctor(@PathVariable Long id) {
+
+        return doctorService.findDoctorById(id);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Doctor> editPersonalInformation(@Valid @RequestBody EditDoctorDTO doctorDTO) {
+        Doctor doctor = doctorService.editPersonalInformation(doctorDTO);
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(doctor, HttpStatus.CREATED);
+    }
 }

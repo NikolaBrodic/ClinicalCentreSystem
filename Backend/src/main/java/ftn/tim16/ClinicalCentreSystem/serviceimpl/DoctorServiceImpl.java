@@ -3,6 +3,7 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
@@ -151,21 +152,61 @@ public class DoctorServiceImpl implements DoctorService {
         if (doctor == null) {
             return null;
         }
-        if (doctor.getClinic().getId() != clinicId) {
+        if (doctor.getClinic().getId() != clinicId || !isEditable(id)) {
             return null;
         }
-        List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(id);
 
-        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
-            return null;
-        }
         doctor.setStatus(DoctorStatus.DELETED);
         return doctorRepository.save(doctor);
+    }
+
+    private boolean isEditable(Long doctorId) {
+        List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(doctorId);
+
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId) {
         return doctorRepository.findByStatusNotAndClinicIdAndSpecializedId(DoctorStatus.DELETED, clinicId, specializedId);
+    }
+
+    @Override
+    public Doctor editPersonalInformation(EditDoctorDTO editDoctorDTO) {
+        Doctor doctor = getLoginDoctor();
+
+        if (doctor.getId() != editDoctorDTO.getId()) {
+            return null;
+        }
+
+        LocalTime workHoursFrom = LocalTime.parse(editDoctorDTO.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime workHoursTo = LocalTime.parse(editDoctorDTO.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
+        ExaminationType examinationType = examinationTypeService.findById(editDoctorDTO.getSpecialized().getId());
+        if (workHoursFrom.isAfter(workHoursTo) || examinationType == null) {
+            return null;
+        }
+
+        if (!workHoursFrom.equals(doctor.getWorkHoursFrom()) || !workHoursTo.equals(doctor.getWorkHoursTo()) || doctor.getSpecialized().getId() != editDoctorDTO.getSpecialized().getId()) {
+            if (!isEditable(editDoctorDTO.getId())) {
+                return null;
+            }
+            doctor.setWorkHoursFrom(workHoursFrom);
+            doctor.setWorkHoursTo(workHoursTo);
+            doctor.setSpecialized(examinationType);
+        }
+
+        doctor.setFirstName(editDoctorDTO.getFirstName());
+        doctor.setLastName(editDoctorDTO.getLastName());
+        doctor.setPhoneNumber(editDoctorDTO.getPhoneNumber());
+        return doctorRepository.save(doctor);
+    }
+
+    @Override
+    public EditDoctorDTO findDoctorById(Long id) {
+        return new EditDoctorDTO(doctorRepository.findByIdAndStatus(id, DoctorStatus.ACTIVE));
     }
 
     @Override

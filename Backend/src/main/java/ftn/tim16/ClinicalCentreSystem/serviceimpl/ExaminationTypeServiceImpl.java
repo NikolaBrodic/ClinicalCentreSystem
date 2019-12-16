@@ -75,8 +75,8 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
-    public List<ExaminationTypeDTO> findAllTypesInClinic(Long clinic_id) {
-        return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinic_id, LogicalStatus.EXISTING));
+    public List<ExaminationTypeDTO> findAllTypesInClinic(Long clinicId) {
+        return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinicId, LogicalStatus.EXISTING));
     }
 
     @Override
