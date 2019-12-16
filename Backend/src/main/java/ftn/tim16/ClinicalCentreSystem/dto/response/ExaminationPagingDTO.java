@@ -1,24 +1,29 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.response;
 
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExaminationPagingDTO {
 
-    private List<Examination> examinationList;
+    private List<ExaminationDTO> examinationList;
     private Integer numberOfItems;
 
     public ExaminationPagingDTO(List<Examination> examinationList, Integer numberOfItems) {
-        this.examinationList = examinationList;
+        List<ExaminationDTO> examinationDTOS = new ArrayList<>();
+        for (Examination examination : examinationList) {
+            examinationDTOS.add(new ExaminationDTO(examination));
+        }
+        this.examinationList = examinationDTOS;
         this.numberOfItems = numberOfItems;
     }
 
-    public List<Examination> getExaminationList() {
+    public List<ExaminationDTO> getExaminationList() {
         return examinationList;
     }
 
-    public void setExaminationList(List<Examination> examinationList) {
+    public void setExaminationList(List<ExaminationDTO> examinationList) {
         this.examinationList = examinationList;
     }
 

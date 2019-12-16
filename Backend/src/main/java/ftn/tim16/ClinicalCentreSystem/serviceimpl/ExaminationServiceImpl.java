@@ -1,7 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -119,7 +120,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public Examination cancelExamination(Doctor doctor, Long examinationId) {
+    public ExaminationDTO cancelExamination(Doctor doctor, Long examinationId) {
         Examination examination = getExamination(examinationId);
         if (examination == null) {
             return null;
@@ -149,12 +150,12 @@ public class ExaminationServiceImpl implements ExaminationService {
         examination.setNurse(null);
 
         sendMail(examination, doctor, nurse, examination.getPatient());
-        return examinationRepository.save(examination);
+        return new ExaminationDTO(examinationRepository.save(examination));
     }
 
 
     @Override
-    public Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
+    public ExaminationDTO createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
         LocalDate localDate = getDate(predefinedExaminationDTO.getStartDateTime());
         LocalDateTime startDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getStartDateTime());
         LocalDateTime endDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getEndDateTime());
@@ -182,7 +183,7 @@ public class ExaminationServiceImpl implements ExaminationService {
                 room, predefinedExaminationDTO.getDiscount(), nurse, clinicAdministrator.getClinic(), clinicAdministrator);
         examination.getDoctors().add(doctor);
 
-        return examinationRepository.save(examination);
+        return new ExaminationDTO(examinationRepository.save(examination));
     }
 
     @Override

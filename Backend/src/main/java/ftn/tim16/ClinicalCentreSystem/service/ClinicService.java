@@ -1,6 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ClinicDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface ClinicService {
 
     Clinic findByAddress(String address);
 
-    Clinic create(ClinicDTO clinicDTO);
+    ClinicDTO create(ClinicDTO clinicDTO);
 
-    List<Clinic> findAll();
+    List<ClinicDTO> findAll();
 }

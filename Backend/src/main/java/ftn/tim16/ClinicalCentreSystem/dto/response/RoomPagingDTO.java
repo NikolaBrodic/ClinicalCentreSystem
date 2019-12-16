@@ -1,4 +1,6 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.response;
+
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
 
 import java.util.List;
 

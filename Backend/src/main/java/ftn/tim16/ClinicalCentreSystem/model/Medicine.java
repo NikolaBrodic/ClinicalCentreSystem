@@ -21,10 +21,20 @@ public class Medicine {
 
     @Column(nullable = false, columnDefinition = "VARCHAR")
     private String usage;
-
     @JsonIgnore
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Prescription> prescriptions = new HashSet<>();
+
+    public Medicine() {
+
+    }
+
+    public Medicine(String label, String chemicalComposition, String usage) {
+        this.label = label;
+        this.chemicalComposition = chemicalComposition;
+        this.usage = usage;
+        this.prescriptions = new HashSet<>();
+    }
 
     public Long getId() {
         return id;

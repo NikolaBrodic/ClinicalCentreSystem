@@ -1,10 +1,12 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
+
+import ftn.tim16.ClinicalCentreSystem.model.Room;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class EditRoomDTO {
+public class RoomWithIdDTO {
     @NotNull(message = "Id is null.")
     private Long id;
 
@@ -15,13 +17,17 @@ public class EditRoomDTO {
     @NotNull(message = "Kind is null.")
     private String kind;
 
-    public EditRoomDTO(Long id, String label, String kind) {
+    public RoomWithIdDTO(Long id, String label, String kind) {
         this.id = id;
         this.label = label;
         this.kind = kind;
     }
 
-    public EditRoomDTO() {
+    public RoomWithIdDTO(Room room) {
+        this(room.getId(), room.getLabel(), room.getKind().toString());
+    }
+
+    public RoomWithIdDTO() {
 
     }
 

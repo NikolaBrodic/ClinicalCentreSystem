@@ -1,6 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.UserDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {

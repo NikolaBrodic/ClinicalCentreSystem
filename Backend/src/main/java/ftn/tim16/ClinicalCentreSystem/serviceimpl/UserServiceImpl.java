@@ -1,6 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;

@@ -1,11 +1,13 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-public class EditNurseDTO {
-    @NotNull
+public class NurseDTO {
     private Long id;
 
     @NotEmpty(message = "Email is empty.")
@@ -31,12 +33,10 @@ public class EditNurseDTO {
     @Pattern(regexp = "0[0-9]+")
     private String phoneNumber;
 
-    public EditNurseDTO() {
-
+    public NurseDTO() {
     }
 
-    public EditNurseDTO(Long id, String email, String firstName, String lastName, String workHoursFrom,
-                        String workHoursTo, String phoneNumber) {
+    public NurseDTO(Long id, String email, String firstName, String lastName, String workHoursFrom, String workHoursTo, String phoneNumber) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -46,7 +46,7 @@ public class EditNurseDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public EditNurseDTO(Nurse nurse) {
+    public NurseDTO(Nurse nurse) {
         this(nurse.getId(), nurse.getEmail(), nurse.getFirstName(), nurse.getLastName(),
                 nurse.getWorkHoursFrom().toString(), nurse.getWorkHoursTo().toString(), nurse.getPhoneNumber());
     }

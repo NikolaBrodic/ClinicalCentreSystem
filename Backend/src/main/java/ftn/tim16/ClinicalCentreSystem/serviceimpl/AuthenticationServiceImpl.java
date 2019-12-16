@@ -1,7 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.LoggedInUserDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.AuthorityRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
@@ -42,7 +42,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public Patient registerPatient(PatientDTO patientDTO) {
+    public PatientDTO registerPatient(PatientDTO patientDTO) {
         UserDetails userDetails = userService.findUserByEmail(patientDTO.getEmail());
         if (userDetails != null) {
             return null;
@@ -63,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 patientDTO.getLastName(), patientDTO.getPhoneNumber(), patientDTO.getAddress(), patientDTO.getCity(),
                 patientDTO.getCountry(), patientDTO.getHealthInsuranceID(), authorities);
 
-        return patientRepository.save(newPatient);
+        return new PatientDTO(patientRepository.save(newPatient));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.CreateExaminationTypeDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
@@ -31,17 +31,17 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
 
     @Override
-    public ExaminationType create(CreateExaminationTypeDTO examinationTypeDTO, Clinic clinic) {
+    public ExaminationTypeDTO create(CreateExaminationTypeDTO examinationTypeDTO, Clinic clinic) {
         if (examinationTypeRepository.findByLabelIgnoringCase(examinationTypeDTO.getLabel()) != null) {
             return null;
         }
         ExaminationType examinationType = new ExaminationType(examinationTypeDTO.getLabel(), examinationTypeDTO.getPrice(),
                 clinic, LogicalStatus.EXISTING);
-        return examinationTypeRepository.save(examinationType);
+        return new ExaminationTypeDTO(examinationTypeRepository.save(examinationType));
     }
 
     @Override
-    public ExaminationType edit(ExaminationTypeDTO examinationType, Long clinicId) {
+    public ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId) {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
             return null;
@@ -55,11 +55,11 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         }
         existingExaminationType.setLabel(examinationType.getLabel());
         existingExaminationType.setPrice(examinationType.getPrice());
-        return examinationTypeRepository.save(existingExaminationType);
+        return new ExaminationTypeDTO(examinationTypeRepository.save(existingExaminationType));
     }
 
     @Override
-    public ExaminationType editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
+    public ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
             return null;
@@ -71,7 +71,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         }
 
         existingExaminationType.setPrice(examinationType.getPrice());
-        return examinationTypeRepository.save(existingExaminationType);
+        return new ExaminationTypeDTO(examinationTypeRepository.save(existingExaminationType));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
-    public ExaminationType deleteExaminationType(Long clinicId, Long examinationTypeId) {
+    public ExaminationTypeDTO deleteExaminationType(Long clinicId, Long examinationTypeId) {
         ExaminationType examinationType = findById(examinationTypeId);
         if (examinationType == null) {
             return null;
@@ -109,7 +109,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         }
         examinationType.setStatus(LogicalStatus.DELETED);
 
-        return examinationTypeRepository.save(examinationType);
+        return new ExaminationTypeDTO(examinationTypeRepository.save(examinationType));
     }
 
     private boolean isEditable(Long examinationTypeId, Long examinationTypeClinicId, Long clinicId) {

@@ -1,9 +1,13 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.request;
 
 public class AwaitingApprovalPatientDTO {
+
     private Long id;
+
     private String firstName;
+
     private String lastName;
+
     private String email;
 
     public Long getId() {

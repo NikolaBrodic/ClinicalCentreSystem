@@ -1,6 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.*;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateRoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -53,7 +57,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
+    public RoomWithIdDTO create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
         }
@@ -62,11 +66,11 @@ public class RoomServiceImpl implements RoomService {
             return null;
         }
         Room room = new Room(roomDTO.getLabel(), examinationKind, clinicAdministrator.getClinic());
-        return roomRepository.save(room);
+        return new RoomWithIdDTO(roomRepository.save(room));
     }
 
     @Override
-    public Room edit(EditRoomDTO roomDTO, Long clinicId) {
+    public RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) {
         Room existingRoom = findById(roomDTO.getId());
         if (existingRoom == null) {
             return null;
@@ -85,7 +89,7 @@ public class RoomServiceImpl implements RoomService {
         }
         existingRoom.setLabel(roomDTO.getLabel());
         existingRoom.setKind(examinationKind);
-        return roomRepository.save(existingRoom);
+        return new RoomWithIdDTO(roomRepository.save(existingRoom));
     }
 
 
@@ -146,7 +150,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room deleteRoom(Long clinicId, Long roomId) {
+    public RoomWithIdDTO deleteRoom(Long clinicId, Long roomId) {
         Room room = roomRepository.getByIdAndStatusNot(roomId, LogicalStatus.DELETED);
 
         if (room == null) {
@@ -157,7 +161,7 @@ public class RoomServiceImpl implements RoomService {
             return null;
         }
         room.setStatus(LogicalStatus.DELETED);
-        return roomRepository.save(room);
+        return new RoomWithIdDTO(roomRepository.save(room));
     }
 
     private boolean isEditable(Long roomId, Long existingRoomClinicId, Long clinicId) {
@@ -244,14 +248,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator) {
+    public RoomWithIdDTO assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator) {
         Examination selectedExamination = examinationService.getExamination(examination.getId());
 
         if (selectedExamination.getClinicAdministrator().getId() != clinicAdministrator.getId()) {
             return null;
         }
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
-        return assignRoom(selectedExamination.getId(), roomDTO);
+        return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
     }
 
 

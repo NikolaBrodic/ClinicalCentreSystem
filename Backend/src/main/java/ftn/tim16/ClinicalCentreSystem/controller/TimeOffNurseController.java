@@ -1,8 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
 import ftn.tim16.ClinicalCentreSystem.service.NurseService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffNurseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,14 @@ public class TimeOffNurseController {
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<List<TimeOffNurse>> getAllTimeOffForNurse() {
+    public ResponseEntity<List<TimeOffDTO>> getAllTimeOffForNurse() {
         Nurse nurse = nurseService.getLoginNurse();
         if (nurse == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         try {
-            List<TimeOffNurse> timeOffNurses = timeOffNurseService.findByNurseIdAndStatus(nurse.getId(), TimeOffStatus.APPROVED);
+            List<TimeOffDTO> timeOffNurses = timeOffNurseService.findByNurseIdAndStatus(nurse.getId(), TimeOffStatus.APPROVED);
             return new ResponseEntity<>(timeOffNurses, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

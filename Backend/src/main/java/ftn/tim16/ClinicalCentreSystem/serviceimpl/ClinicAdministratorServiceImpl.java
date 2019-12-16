@@ -1,8 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
-import ftn.tim16.ClinicalCentreSystem.dto.ClinicAdministratorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.EditClinicAdminDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicAdministratorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditClinicAdminDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
@@ -69,7 +69,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     }
 
     @Override
-    public ClinicAdministrator editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO) {
+    public ClinicAdministratorDTO editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO) {
         ClinicAdministrator clinicAdministrator = getLoginAdmin();
 
         if (clinicAdministrator.getId() != editClinicAdminDTO.getId()) {
@@ -80,7 +80,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         clinicAdministrator.setLastName(editClinicAdminDTO.getLastName());
         clinicAdministrator.setPhoneNumber(editClinicAdminDTO.getPhoneNumber());
 
-        return clinicAdministratorRepository.save(clinicAdministrator);
+        return new ClinicAdministratorDTO(clinicAdministratorRepository.save(clinicAdministrator));
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     }
 
     @Override
-    public ClinicAdministrator create(ClinicAdministratorDTO clinicAdministratorDTO) {
+    public ClinicAdministratorDTO create(ClinicAdministratorDTO clinicAdministratorDTO) {
         UserDetails userDetails = userService.findUserByEmail(clinicAdministratorDTO.getEmail());
         if (userDetails != null) {
             return null;
@@ -133,7 +133,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
 
         composeAndSendEmail(clinicAdministrator.getEmail(), clinic.getName(), generatedPassword);
 
-        return clinicAdministrator;
+        return new ClinicAdministratorDTO(clinicAdministrator);
     }
 
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {

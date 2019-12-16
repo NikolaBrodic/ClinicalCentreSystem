@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.request;
 
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 
@@ -8,6 +8,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class CreateExaminationTypeDTO {
+
     private Long id;
 
     @NotEmpty(message = "Label is empty.")

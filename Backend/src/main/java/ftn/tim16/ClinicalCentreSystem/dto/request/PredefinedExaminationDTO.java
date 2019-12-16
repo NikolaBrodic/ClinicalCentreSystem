@@ -1,5 +1,7 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.request;
 
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
