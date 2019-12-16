@@ -31,7 +31,6 @@ public class Diagnose {
         this.title = title;
         this.description = description;
         this.examinationReports = new HashSet<>();
-        ;
     }
 
     public Long getId() {
