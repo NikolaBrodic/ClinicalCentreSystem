@@ -1,3 +1,4 @@
+import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
 import { PriceListComponent } from './components/price-list/price-list.component';
@@ -170,7 +171,11 @@ const routes: Routes = [
   },
 
   //********************* NURSE ***************************
-
+  {
+    path: 'nurse/edit-personal-information',
+    component: EditPersonalInformationNurseComponent,
+    canActivate: [NurseGuard],
+  },
   //******************* ERROR PAGES ************************
   {
     path: 'error/non-authenticated',
