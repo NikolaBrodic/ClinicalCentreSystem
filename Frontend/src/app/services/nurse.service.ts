@@ -35,4 +35,13 @@ export class NurseService {
   public add(nurse: Nurse) {
     return this.httpClient.post(this.url, nurse);
   }
+
+  public put(nurse: Nurse) {
+    return this.httpClient.put(this.url, nurse);
+  }
+
+  public get(id: number) {
+    return this.httpClient.get(this.url + "/" + id);
+  }
+
 }

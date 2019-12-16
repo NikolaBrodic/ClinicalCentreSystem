@@ -31,7 +31,9 @@ public interface ExaminationService {
 
     Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator);
 
-    List<Examination> getDoctorsUpcomingExaminations(Long doctorId);
+    List<Examination> getDoctorUpcomingExaminations(Long doctorId);
+
+    List<Examination> getNurseUpcomingExaminations(Long doctorId);
 
     List<Examination> getUpcomingExaminationsInRoom(Long roomId);
 

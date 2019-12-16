@@ -161,7 +161,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     private boolean isEditable(Long doctorId) {
-        List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(doctorId);
+        List<Examination> upcomingExaminations = examinationService.getDoctorUpcomingExaminations(doctorId);
 
         if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
             return false;

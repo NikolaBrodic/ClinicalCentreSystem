@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.EditNurseDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
@@ -20,4 +21,8 @@ public interface NurseService {
     Nurse getRandomNurse(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     Nurse getLoginNurse();
+
+    Nurse editPersonalInformation(EditNurseDTO editNurseDTO);
+
+    EditNurseDTO findNurseById(Long id);
 }
