@@ -1,3 +1,4 @@
+import { Clinic } from './clinic';
 import { ExaminationType } from './examinationType';
 import { Time } from '@angular/common';
 
@@ -10,8 +11,9 @@ export class Doctor {
     workHoursFrom: Time;
     workHoursTo: Time;
     specialized: ExaminationType;
+    clinic: Clinic;
     constructor(email: String, firstName: String, lastName: String, phoneNumber: String, workHoursFrom: Time, workHoursTo: Time,
-        specialized: ExaminationType, id?: number) {
+        specialized: ExaminationType, id?: number, clinic?: Clinic) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,5 +22,6 @@ export class Doctor {
         this.workHoursTo = workHoursTo;
         this.specialized = specialized;
         this.id = id;
+        this.clinic = clinic;
     }
 }

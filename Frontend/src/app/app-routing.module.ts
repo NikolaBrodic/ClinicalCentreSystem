@@ -1,3 +1,4 @@
+import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
 import { PriceListComponent } from './components/price-list/price-list.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
@@ -139,7 +140,11 @@ const routes: Routes = [
     component: DoctorsExaminationComponent,
     canActivate: [DoctorGuard],
   },
-
+  {
+    path: 'doctor/edit-personal-information',
+    component: EditPersonalInformationDoctorComponent,
+    canActivate: [DoctorGuard],
+  },
   //****************** MEDICAL STAFF *********
   {
     path: 'patient/profile/:id',
