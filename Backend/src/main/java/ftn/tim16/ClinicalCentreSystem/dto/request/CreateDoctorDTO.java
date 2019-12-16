@@ -1,6 +1,6 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.request;
 
-import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 
 import javax.validation.constraints.*;
 
@@ -28,7 +28,7 @@ public class CreateDoctorDTO {
     private String phoneNumber;
 
     @NotNull
-    private ExaminationType specialized;
+    private ExaminationTypeDTO specialized;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -78,11 +78,11 @@ public class CreateDoctorDTO {
         this.email = email;
     }
 
-    public ExaminationType getSpecialized() {
+    public ExaminationTypeDTO getSpecialized() {
         return specialized;
     }
 
-    public void setSpecialized(ExaminationType specialized) {
+    public void setSpecialized(ExaminationTypeDTO specialized) {
         this.specialized = specialized;
     }
 }

@@ -1,9 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.EditDoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateDoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
@@ -146,7 +146,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor deleteDoctor(Long clinicId, Long id) {
+    public DoctorDTO deleteDoctor(Long clinicId, Long id) {
 
         Doctor doctor = getDoctor(id);
         if (doctor == null) {
@@ -157,7 +157,7 @@ public class DoctorServiceImpl implements DoctorService {
         }
 
         doctor.setStatus(DoctorStatus.DELETED);
-        return doctorRepository.save(doctor);
+        return new DoctorDTO(doctorRepository.save(doctor));
     }
 
     private boolean isEditable(Long doctorId) {
@@ -175,7 +175,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor editPersonalInformation(EditDoctorDTO editDoctorDTO) {
+    public DoctorDTO editPersonalInformation(EditDoctorDTO editDoctorDTO) {
         Doctor doctor = getLoginDoctor();
 
         if (doctor.getId() != editDoctorDTO.getId()) {
@@ -201,7 +201,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setFirstName(editDoctorDTO.getFirstName());
         doctor.setLastName(editDoctorDTO.getLastName());
         doctor.setPhoneNumber(editDoctorDTO.getPhoneNumber());
-        return doctorRepository.save(doctor);
+        return new DoctorDTO(doctorRepository.save(doctor));
     }
 
     @Override
@@ -210,7 +210,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
+    public DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
 
         if (userDetails != null || doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
@@ -239,7 +239,7 @@ public class DoctorServiceImpl implements DoctorService {
 
         composeAndSendEmail(savedDoctor.getEmail(), clinicAdministrator.getClinic().getName(), generatedPassword);
 
-        return savedDoctor;
+        return new DoctorDTO(savedDoctor);
     }
 
     @Override

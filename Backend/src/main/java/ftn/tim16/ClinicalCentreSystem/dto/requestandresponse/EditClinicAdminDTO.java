@@ -1,11 +1,12 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
-import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 
 import javax.validation.constraints.*;
 
-public class ClinicAdministratorDTO {
+public class EditClinicAdminDTO {
+
+    @NotNull(message = "Id is null.")
     private Long id;
 
     @NotEmpty(message = "Email is empty.")
@@ -25,23 +26,21 @@ public class ClinicAdministratorDTO {
     @Pattern(regexp = "0[0-9]+")
     private String phoneNumber;
 
-    @NotNull
-    private Clinic clinic;
+    public EditClinicAdminDTO() {
 
-    public ClinicAdministratorDTO() {
     }
 
-    public ClinicAdministratorDTO(Long id, String email, String firstName, String lastName, String phoneNumber) {
+    public EditClinicAdminDTO(ClinicAdministrator clinicAdministrator) {
+        this(clinicAdministrator.getId(), clinicAdministrator.getEmail(), clinicAdministrator.getFirstName(),
+                clinicAdministrator.getLastName(), clinicAdministrator.getPhoneNumber());
+    }
+
+    public EditClinicAdminDTO(Long id, String email, String firstName, String lastName, String phoneNumber) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-    }
-
-    public ClinicAdministratorDTO(ClinicAdministrator clinicAdministrator) {
-        this(clinicAdministrator.getId(), clinicAdministrator.getEmail(), clinicAdministrator.getFirstName(),
-                clinicAdministrator.getLastName(), clinicAdministrator.getPhoneNumber());
     }
 
     public Long getId() {
@@ -82,13 +81,5 @@ public class ClinicAdministratorDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Clinic getClinic() {
-        return clinic;
-    }
-
-    public void setClinic(Clinic clinic) {
-        this.clinic = clinic;
     }
 }

@@ -1,10 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.EditDoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateDoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,13 @@ public class DoctorController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Doctor> create(@Valid @RequestBody CreateDoctorDTO doctor) {
+    public ResponseEntity<DoctorDTO> create(@Valid @RequestBody CreateDoctorDTO doctor) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            Doctor createdDoctor = doctorService.create(doctor, clinicAdministrator);
+            DoctorDTO createdDoctor = doctorService.create(doctor, clinicAdministrator);
             if (createdDoctor == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -82,12 +81,12 @@ public class DoctorController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Doctor> deleteDoctor(@PathVariable("id") Long id) {
+    public ResponseEntity<DoctorDTO> deleteDoctor(@PathVariable("id") Long id) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Doctor doctor = doctorService.deleteDoctor(clinicAdministrator.getClinic().getId(), id);
+        DoctorDTO doctor = doctorService.deleteDoctor(clinicAdministrator.getClinic().getId(), id);
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -102,8 +101,8 @@ public class DoctorController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Doctor> editPersonalInformation(@Valid @RequestBody EditDoctorDTO doctorDTO) {
-        Doctor doctor = doctorService.editPersonalInformation(doctorDTO);
+    public ResponseEntity<DoctorDTO> editPersonalInformation(@Valid @RequestBody EditDoctorDTO doctorDTO) {
+        DoctorDTO doctor = doctorService.editPersonalInformation(doctorDTO);
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

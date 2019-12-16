@@ -1,6 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.*;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateRoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
@@ -12,11 +16,11 @@ public interface RoomService {
 
     Room findById(Long id);
 
-    Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator);
+    RoomWithIdDTO create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator);
 
-    Room edit(EditRoomDTO roomDTO, Long clinicId);
+    RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId);
 
-    Room assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator);
+    RoomWithIdDTO assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator);
 
     void automaticallyAssignRoom();
 
@@ -26,5 +30,5 @@ public interface RoomService {
 
     List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime);
 
-    Room deleteRoom(Long clinicId, Long roomId);
+    RoomWithIdDTO deleteRoom(Long clinicId, Long roomId);
 }

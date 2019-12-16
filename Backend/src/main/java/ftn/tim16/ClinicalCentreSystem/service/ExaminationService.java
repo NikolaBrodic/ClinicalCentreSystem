@@ -1,7 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import org.springframework.data.domain.Pageable;
 
@@ -27,9 +28,9 @@ public interface ExaminationService {
 
     ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page);
 
-    Examination cancelExamination(Doctor doctor, Long examinationId);
+    ExaminationDTO cancelExamination(Doctor doctor, Long examinationId);
 
-    Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator);
+    ExaminationDTO createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator);
 
     List<Examination> getDoctorUpcomingExaminations(Long doctorId);
 

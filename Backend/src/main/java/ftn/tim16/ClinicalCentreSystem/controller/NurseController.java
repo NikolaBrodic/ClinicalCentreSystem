@@ -1,10 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.EditNurseDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.NursesPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditNurseDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.NurseDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.NursesPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +56,14 @@ public class NurseController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Nurse> addNurse(@Valid @RequestBody NurseDTO nurseDTO) {
+    public ResponseEntity<NurseDTO> addNurse(@Valid @RequestBody NurseDTO nurseDTO) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         try {
-            Nurse nurse = nurseService.create(nurseDTO, clinicAdministrator);
+            NurseDTO nurse = nurseService.create(nurseDTO, clinicAdministrator);
             if (nurse == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
@@ -82,8 +81,8 @@ public class NurseController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<Nurse> editPersonalInformation(@Valid @RequestBody EditNurseDTO doctorDTO) {
-        Nurse nurse = nurseService.editPersonalInformation(doctorDTO);
+    public ResponseEntity<NurseDTO> editPersonalInformation(@Valid @RequestBody EditNurseDTO doctorDTO) {
+        NurseDTO nurse = nurseService.editPersonalInformation(doctorDTO);
         if (nurse == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

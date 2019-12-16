@@ -1,4 +1,4 @@
-package ftn.tim16.ClinicalCentreSystem.dto;
+package ftn.tim16.ClinicalCentreSystem.dto.response;
 
 import ftn.tim16.ClinicalCentreSystem.model.UserTokenState;
 
