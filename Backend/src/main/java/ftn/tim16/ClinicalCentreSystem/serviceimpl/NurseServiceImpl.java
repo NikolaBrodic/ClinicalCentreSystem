@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
+import ftn.tim16.ClinicalCentreSystem.dto.EditNurseDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Authority;
@@ -160,6 +161,48 @@ public class NurseServiceImpl implements NurseService {
 
         }
         return null;
+    }
+
+    @Override
+    public Nurse editPersonalInformation(EditNurseDTO editNurseDTO) {
+        Nurse nurse = getLoginNurse();
+
+        if (nurse.getId() != editNurseDTO.getId()) {
+            return null;
+        }
+
+        LocalTime workHoursFrom = LocalTime.parse(editNurseDTO.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime workHoursTo = LocalTime.parse(editNurseDTO.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
+        if (workHoursFrom.isAfter(workHoursTo)) {
+            return null;
+        }
+
+        if (!workHoursFrom.equals(nurse.getWorkHoursFrom()) || !workHoursTo.equals(nurse.getWorkHoursTo())) {
+            if (!isEditable(editNurseDTO.getId())) {
+                return null;
+            }
+            nurse.setWorkHoursFrom(workHoursFrom);
+            nurse.setWorkHoursTo(workHoursTo);
+        }
+
+        nurse.setFirstName(editNurseDTO.getFirstName());
+        nurse.setLastName(editNurseDTO.getLastName());
+        nurse.setPhoneNumber(editNurseDTO.getPhoneNumber());
+        return nurseRepository.save(nurse);
+    }
+
+    private boolean isEditable(Long nurseId) {
+        List<Examination> upcomingExaminations = examinationService.getNurseUpcomingExaminations(nurseId);
+
+        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public EditNurseDTO findNurseById(Long id) {
+        return new EditNurseDTO(nurseRepository.findByIdAndStatus(id, UserStatus.ACTIVE));
     }
 
     private List<Nurse> getAvailable(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime) {

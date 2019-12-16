@@ -1,6 +1,4 @@
 import { NurseService } from './../../../services/nurse.service';
-import { ExaminationTypeService } from './../../../services/examination-type.service';
-import { DoctorService } from './../../../services/doctor.service';
 import { UserService } from './../../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Nurse } from './../../../models/nurse';
@@ -18,7 +16,7 @@ export class EditPersonalInformationNurseComponent implements OnInit {
 
   constructor(private toastr: ToastrService,
     private formBuilder: FormBuilder, private nurseService: NurseService,
-    private userService: UserService, private examinationTypeService: ExaminationTypeService) { }
+    private userService: UserService) { }
 
   ngOnInit() {
     this.editPersonalInformation = this.formBuilder.group({

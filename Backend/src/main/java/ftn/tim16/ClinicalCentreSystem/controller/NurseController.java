@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.EditNurseDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.NurseDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.NursesPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
@@ -71,5 +72,21 @@ public class NurseController {
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value = "/{id}")
+    public EditNurseDTO getNurse(@PathVariable Long id) {
+
+        return nurseService.findNurseById(id);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('NURSE')")
+    public ResponseEntity<Nurse> editPersonalInformation(@Valid @RequestBody EditNurseDTO doctorDTO) {
+        Nurse nurse = nurseService.editPersonalInformation(doctorDTO);
+        if (nurse == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(nurse, HttpStatus.CREATED);
     }
 }

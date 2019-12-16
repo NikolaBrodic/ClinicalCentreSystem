@@ -186,8 +186,13 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public List<Examination> getDoctorsUpcomingExaminations(Long doctorId) {
+    public List<Examination> getDoctorUpcomingExaminations(Long doctorId) {
         return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctorId, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
+    @Override
+    public List<Examination> getNurseUpcomingExaminations(Long nurseId) {
+        return examinationRepository.findByNurseIdAndStatusNotAndIntervalEndDateTimeAfter(nurseId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
     @Override

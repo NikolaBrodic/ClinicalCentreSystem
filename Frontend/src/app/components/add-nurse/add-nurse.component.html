@@ -38,15 +38,13 @@
                 <td>From:</td>
                 <td>
                     <div class="form-full-width-td">
-                        <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursFrom">
-                        </ngx-timepicker-field>
+                        <input matInput type="time" formControlName="workHoursFrom">
                     </div>
                 </td>
                 <td>To:</td>
                 <td>
                     <div class="form-full-width-td ml-2">
-                        <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="workHoursTo">
-                        </ngx-timepicker-field>
+                        <input matInput type="time" formControlName="workHoursTo">
                     </div>
                 </td>
             </tr>
