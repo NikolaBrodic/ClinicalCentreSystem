@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 
 import java.time.LocalDateTime;
@@ -33,4 +34,8 @@ public interface DoctorService {
     Doctor deleteDoctor(Long clinicId, Long id);
 
     List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId);
+
+    Doctor editPersonalInformation(EditDoctorDTO editDoctorDTO);
+
+    EditDoctorDTO findDoctorById(Long id);
 }

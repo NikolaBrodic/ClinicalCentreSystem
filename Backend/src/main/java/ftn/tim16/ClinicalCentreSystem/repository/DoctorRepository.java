@@ -11,6 +11,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     Doctor findByIdAndStatusNot(Long id, DoctorStatus doctorStatus);
 
+    Doctor findByIdAndStatus(Long id, DoctorStatus doctorStatus);
+
     Doctor findByPhoneNumber(String phoneNumber);
 
     List<Doctor> findByClinicIdAndStatusNot(Long id, DoctorStatus status);

@@ -37,6 +37,7 @@ insert into examination_type (label, price,status,clinic_id) values ('Zubar', '2
 
 insert into examination_type (label, price,status,clinic_id) values ('Opsta praksa', '1000','EXISTING' ,1);
 insert into examination_type (label, price,status,clinic_id) values ('Dermatolog', '1500','EXISTING',1);
+insert into examination_type (label, price,status,clinic_id) values ('Dermatolog 2', '1500','EXISTING',2);
 /*ROOM*/
 /*insert into room (label, kind,status,clinic_id) values ('Room 1', 'OPERATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);

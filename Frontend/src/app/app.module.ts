@@ -62,7 +62,7 @@ import { EditPriceListComponent } from './components/edit/edit-price-list/edit-p
 import { EditExaminationTypeComponent } from './components/edit/edit-examination-type/edit-examination-type.component';
 import { EditRoomComponent } from './components/edit/edit-room/edit-room.component';
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
-
+import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -108,6 +108,7 @@ import { EditPersonalInformationClinicAdminComponent } from './components/edit/e
     EditPriceListComponent,
     EditExaminationTypeComponent,
     EditPersonalInformationClinicAdminComponent,
+    EditPersonalInformationDoctorComponent,
 
   ],
   imports: [

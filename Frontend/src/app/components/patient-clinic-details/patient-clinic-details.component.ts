@@ -53,7 +53,7 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
         this.clinic = data;
         this.clinic.id = clinicId;
 
-        this.examinationTypesService.getExaminationTypesForPatient(this.clinic).subscribe(
+        this.examinationTypesService.getExaminationTypesByClinicId(this.clinic.id).subscribe(
           (data: ExaminationType[]) => {
             for (let i = 0; i < data.length; i++) {
               this.examinationTypes.push(data[i]);
