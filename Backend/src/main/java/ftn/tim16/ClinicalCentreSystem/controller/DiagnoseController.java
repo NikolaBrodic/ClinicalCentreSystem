@@ -30,7 +30,7 @@ public class DiagnoseController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<Diagnose>> getAllDiagnosis() {
         return new ResponseEntity<>(diagnoseService.findAll(), HttpStatus.OK);
     }

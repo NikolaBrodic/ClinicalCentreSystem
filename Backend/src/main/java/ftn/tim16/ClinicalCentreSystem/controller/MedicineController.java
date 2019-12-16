@@ -30,7 +30,7 @@ public class MedicineController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<Medicine>> getAllMedicines() {
         return new ResponseEntity<>(medicineService.findAll(), HttpStatus.OK);
     }

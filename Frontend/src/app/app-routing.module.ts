@@ -35,6 +35,7 @@ import { ListNursesComponent } from './components/list-nurses/list-nurses.compon
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
+import { ExaminationComponent } from './components/examination/examination.component';
 
 
 const routes: Routes = [
@@ -144,6 +145,11 @@ const routes: Routes = [
   {
     path: 'doctor/edit-personal-information',
     component: EditPersonalInformationDoctorComponent,
+    canActivate: [DoctorGuard],
+  },
+  {
+    path: 'doctor/examination',
+    component: ExaminationComponent,
     canActivate: [DoctorGuard],
   },
   //****************** MEDICAL STAFF *********
