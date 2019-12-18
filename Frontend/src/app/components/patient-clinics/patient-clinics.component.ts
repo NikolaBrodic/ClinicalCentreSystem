@@ -75,11 +75,11 @@ export class PatientClinicsComponent implements OnInit {
       null,
       new Clinic(null, this.examinationAddress, null, null, this.examinationMinClinicsRating, this.examinationMaxPrice)
     )
-    console.log(this.examinationFilter.interval.startDateTime);
-    console.log(this.examinationFilter.examinationType.label);
-    console.log(this.examinationFilter.clinic.address);
-    console.log(this.examinationFilter.clinic.clinicRating);
-    console.log(this.examinationFilter.clinic.price);
+    // console.log(this.examinationFilter.interval.startDateTime);
+    // console.log(this.examinationFilter.examinationType.label);
+    // console.log(this.examinationFilter.clinic.address);
+    // console.log(this.examinationFilter.clinic.clinicRating);
+    // console.log(this.examinationFilter.clinic.price);
     this.populateFilteredTable();
   }
 

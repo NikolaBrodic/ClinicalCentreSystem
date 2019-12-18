@@ -23,7 +23,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     Doctor findByEmail(String email);
 
-    List<Doctor> findByFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndDoctorRating(String firstName, String lastName, int doctorRating);
+    List<Doctor> findByFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndDoctorRatingIsGreaterThanEqual(String firstName, String lastName, int doctorRating);
 
     List<Doctor> findByClinicIdAndSpecializedAndStatusNot(Long clinic_id, ExaminationType specialized, DoctorStatus status);
 
