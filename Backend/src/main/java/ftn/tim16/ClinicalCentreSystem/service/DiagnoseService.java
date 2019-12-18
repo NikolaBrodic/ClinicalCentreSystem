@@ -9,6 +9,8 @@ public interface DiagnoseService {
 
     List<DiagnoseDTO> findAll();
 
+    Diagnose findById(Long id);
+
     Diagnose findByTitle(String title);
 
     DiagnoseDTO create(DiagnoseDTO diagnose);

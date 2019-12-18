@@ -9,5 +9,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
     List<Medicine> findAll();
 
+    Medicine findOneById(Long id);
+
     Medicine findByLabelIgnoringCase(String label);
 }

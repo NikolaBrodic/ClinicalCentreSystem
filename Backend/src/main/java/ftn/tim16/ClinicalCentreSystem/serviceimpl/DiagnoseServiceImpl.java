@@ -22,6 +22,11 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
+    public Diagnose findById(Long id) {
+        return diagnoseRepository.findOneById(id);
+    }
+
+    @Override
     public Diagnose findByTitle(String title) {
         return diagnoseRepository.findByTitleIgnoringCase(title);
     }

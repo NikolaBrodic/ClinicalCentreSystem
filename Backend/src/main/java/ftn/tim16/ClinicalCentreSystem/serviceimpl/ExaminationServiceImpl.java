@@ -3,6 +3,7 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -204,6 +206,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<Examination> getUpcomingExaminationsOfExaminationType(Long examinationTypeId) {
         return examinationRepository.findByExaminationTypeIdAndStatusNotAndIntervalEndDateTimeAfter(examinationTypeId, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
+    @Override
+    public Examination getOngoingExamination(Long patientId, Long doctorId, LocalDateTime examinationStartTime) {
+        List<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        statuses.add(ExaminationStatus.APPROVED);
+        return examinationRepository.findByPatientIdAndDoctorsIdAndDoctorsStatusAndIntervalStartDateTimeLessThanEqualAndIntervalEndDateTimeGreaterThanAndStatusIn(
+                patientId, doctorId, DoctorStatus.ACTIVE, examinationStartTime, examinationStartTime, statuses
+        );
     }
 
 

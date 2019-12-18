@@ -22,6 +22,11 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    public Medicine findById(Long id) {
+        return medicineRepository.findOneById(id);
+    }
+
+    @Override
     public Medicine findByLabel(String label) {
         return medicineRepository.findByLabelIgnoringCase(label);
     }

@@ -6,6 +6,7 @@ import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ExaminationService {
@@ -39,4 +40,6 @@ public interface ExaminationService {
     List<Examination> getUpcomingExaminationsInRoom(Long roomId);
 
     List<Examination> getUpcomingExaminationsOfExaminationType(Long examinationTypeId);
+
+    Examination getOngoingExamination(Long patientId, Long doctorId, LocalDateTime examinationStartTime);
 }
