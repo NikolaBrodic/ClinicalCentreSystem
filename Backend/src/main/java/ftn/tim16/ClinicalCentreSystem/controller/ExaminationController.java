@@ -4,14 +4,8 @@ import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationForWorkCalendarDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.NurseService;
+import ftn.tim16.ClinicalCentreSystem.model.*;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +35,31 @@ public class ExaminationController {
 
     @Autowired
     private NurseService nurseService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @GetMapping(value = "/starting/{id}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ExaminationDTO> getPatientStartingExamination(@PathVariable("id") Long patientId) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Patient patient = patientService.getPatient(patientId);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        LocalDateTime examinationStartTime = LocalDateTime.now();
+        Examination ongoingExamination = examinationService.getOngoingExamination(patient.getId(), doctor.getId(), examinationStartTime);
+        if (ongoingExamination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new ExaminationDTO(ongoingExamination), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/get-awaiting")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

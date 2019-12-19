@@ -1,3 +1,4 @@
+import { PatientService } from './../../services/patient.service';
 import { ExaminationReport } from './../../models/examinationReport';
 import { ExaminationReportService } from './../../services/examination-report.service';
 import { MedicineService } from './../../services/medicine.service';
@@ -18,13 +19,15 @@ export class ExaminationComponent implements OnInit {
   createExaminationReportForm: FormGroup;
   diagnosis: Diagnose[] = [];
   medicines: Medicine[] = [];
+  examinedPatientId: number;
 
   constructor(
     private toastr: ToastrService,
     private router: Router,
     private examinationReportService: ExaminationReportService,
     private diagnoseService: DiagnoseService,
-    private medicineService: MedicineService
+    private medicineService: MedicineService,
+    private patientService: PatientService
   ) { }
 
   ngOnInit() {
@@ -34,6 +37,7 @@ export class ExaminationComponent implements OnInit {
       medicinesList: new FormControl(),
     });
 
+    this.examinedPatientId = this.patientService.examinedPatientId;
     this.getDiagnosis();
     this.getMedicines();
   }
@@ -43,6 +47,11 @@ export class ExaminationComponent implements OnInit {
   }
 
   createExaminationReport() {
+    if (!this.examinedPatientId) {
+      this.toastr.error("Cannot create examination report. Patient's information are not present.", "Create examination report");
+      return;
+    }
+
     if (this.createExaminationReportForm.invalid) {
       this.toastr.error("Please enter valid data.", "Create examination report");
       return;

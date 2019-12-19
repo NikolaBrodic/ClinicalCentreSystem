@@ -16,6 +16,7 @@ export class PatientService {
   urlPatient = environment.baseUrl + environment.patient;
   selectedPatient: PatientWithId;
   subjectForSelectedPatient = new BehaviorSubject<PatientWithId>(null);
+  examinedPatientId: number;
 
   constructor(
     private httpClient: HttpClient,
