@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 export class PatientProfileComponent implements OnInit {
   selectedPatient = new PatientWithId(0, "", "", "", "", "", "", "", "");
   patientId: number;
-  startingExaminationExists: boolean;
+  startingExaminationExists = false;
 
   constructor(
     private patientService: PatientService,
@@ -49,8 +49,6 @@ export class PatientProfileComponent implements OnInit {
         if (responseExamination) {
           this.examinationService.startingExamination = responseExamination.id;
           this.startingExaminationExists = true;
-        } else {
-          this.startingExaminationExists = false;
         }
       },
       () => {

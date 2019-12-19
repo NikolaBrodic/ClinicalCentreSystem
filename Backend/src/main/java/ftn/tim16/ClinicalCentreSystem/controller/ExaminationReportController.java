@@ -22,16 +22,16 @@ import java.time.LocalDateTime;
 public class ExaminationReportController {
 
     @Autowired
-    ExaminationReportService examinationReportService;
+    private ExaminationReportService examinationReportService;
 
     @Autowired
-    DoctorService doctorService;
+    private DoctorService doctorService;
 
     @Autowired
-    PatientService patientService;
+    private PatientService patientService;
 
     @Autowired
-    ExaminationService examinationService;
+    private ExaminationService examinationService;
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
@@ -56,6 +56,7 @@ public class ExaminationReportController {
         if (createdExaminationReportDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
     }
 }

@@ -1,4 +1,4 @@
-import { PatientService } from './../../services/patient.service';
+import { ExaminationService } from './../../services/examination.service';
 import { ExaminationReport } from './../../models/examinationReport';
 import { ExaminationReportService } from './../../services/examination-report.service';
 import { MedicineService } from './../../services/medicine.service';
@@ -9,6 +9,7 @@ import { Diagnose } from 'src/app/models/diagnose';
 import { Medicine } from 'src/app/models/medicine';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-examination',
@@ -19,25 +20,31 @@ export class ExaminationComponent implements OnInit {
   createExaminationReportForm: FormGroup;
   diagnosis: Diagnose[] = [];
   medicines: Medicine[] = [];
-  examinedPatientId: number;
+  examinationId: number;
 
   constructor(
     private toastr: ToastrService,
     private router: Router,
+    private location: Location,
     private examinationReportService: ExaminationReportService,
     private diagnoseService: DiagnoseService,
     private medicineService: MedicineService,
-    private patientService: PatientService
+    private examinationService: ExaminationService
   ) { }
 
   ngOnInit() {
+    this.examinationId = this.examinationService.startingExamination;
+    if (!this.examinationId) {
+      this.location.back();
+      return;
+    }
+
     this.createExaminationReportForm = new FormGroup({
       comment: new FormControl(null, [Validators.required]),
       diagnosisList: new FormControl(null, [Validators.required]),
       medicinesList: new FormControl(),
     });
 
-    this.examinedPatientId = this.patientService.examinedPatientId;
     this.getDiagnosis();
     this.getMedicines();
   }
@@ -47,8 +54,8 @@ export class ExaminationComponent implements OnInit {
   }
 
   createExaminationReport() {
-    if (!this.examinedPatientId) {
-      this.toastr.error("Cannot create examination report. Patient's information are not present.", "Create examination report");
+    if (!this.examinationId) {
+      this.location.back();
       return;
     }
 
@@ -63,7 +70,7 @@ export class ExaminationComponent implements OnInit {
       [...this.createExaminationReportForm.value.medicinesList]
     );
 
-    this.examinationReportService.create(examinationReport).subscribe(
+    this.examinationReportService.create(this.examinationId, examinationReport).subscribe(
       responseData => {
         this.toastr.success("Successfully created an examination report.", 'Create examination report');
         this.router.navigate(['/medical-staff/work-calendar']);

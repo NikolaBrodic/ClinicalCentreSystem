@@ -15,7 +15,7 @@ export class ExaminationReportService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public create(examinationReport: ExaminationReport) {
-    return this.httpClient.post(this.url, examinationReport);
+  public create(examinationId: number, examinationReport: ExaminationReport) {
+    return this.httpClient.post(this.url + "/" + examinationId, examinationReport);
   }
 }

@@ -297,7 +297,7 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  /*****************************/
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
- values ('DocaKalendar@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Milan', 'Milanovic', '019256886','07:00','19:00',1,'ACTIVE',1);
+ values ('DocaKalendar@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Milan', 'Milanovic', '019256886','07:00','23:59',1,'ACTIVE',1);
 insert into doctor_authority(user_id, authority_id) values (7,4);
 
 insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
@@ -354,7 +354,7 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('EXAMINATION',22,'AWAITING',1,1,1,13,9);
 insert into examining (examination_id,doctor_id) values (26,7);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 12:00','19.12.2019 13:30');
+insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 20:00','19.12.2019 23:59');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id,discount)
  values ('EXAMINATION',23,'PREDEF_BOOKED',1,1,1,14,9,2,50);
 insert into examining (examination_id,doctor_id) values (27,7);
