@@ -1,0 +1,66 @@
+package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
+
+import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+public class MedicalRecordDTO {
+    @NotNull(message = "Height is null.")
+    private Integer height;
+
+    @NotNull(message = "Weight is null.")
+    private Integer weight;
+
+    @NotEmpty(message = "Blood type is empty.")
+    private String bloodType;
+
+    @NotEmpty(message = "Allergies is empty.")
+    private String allergies;
+
+    public MedicalRecordDTO() {
+    }
+
+    public MedicalRecordDTO(Integer height, Integer weight, String bloodType, String allergies) {
+        this.height = height;
+        this.weight = weight;
+        this.bloodType = bloodType;
+        this.allergies = allergies;
+    }
+
+    public MedicalRecordDTO(MedicalRecord medicalRecord) {
+        this(medicalRecord.getHeight(), medicalRecord.getWeight(), medicalRecord.getBloodType(), medicalRecord.getAllergies());
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
+    }
+}

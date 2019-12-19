@@ -315,19 +315,19 @@ insert into nurse_authority(user_id, authority_id) values (9,5);
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient12@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Bojan', 'Stojkovic', '090589556','Marsala tita','Novi Sad',
  'Srbija','0737985669595','APPROVED');
-insert into medical_record(patient_id) values (12);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Prasina, jaja', 12);
 insert into patient_authority(user_id, authority_id) values (12,3);
 
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient13@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Slavica', 'Katic', '090589557','Marsala tita','Novi Sad',
  'Srbija','0737985669596','APPROVED');
-insert into medical_record(patient_id) values (13);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (166, 59, '0', 'Kikiriki, ambrozija', 13);
 insert into patient_authority(user_id, authority_id) values (13,3);
 
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient14@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Zivko', 'Simonovic', '090589558','Marsala tita','Novi Sad',
  'Srbija','0737985669597','APPROVED');
-insert into medical_record(patient_id) values (14);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (177, 74, 'A+', 'Nema', 14);
 insert into patient_authority(user_id, authority_id) values (14,3);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 14:00','19.12.2019 14:30');
