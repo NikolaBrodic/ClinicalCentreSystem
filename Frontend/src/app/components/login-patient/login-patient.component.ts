@@ -55,7 +55,7 @@ export class LoginPatientComponent implements OnInit {
         this.toastr.success("You have successfuly logged in!", 'Login');
         let role = JSON.parse(localStorage.getItem('LoggedInUser'))['role'];
         if (role === 'PATIENT') {
-          this.router.navigate(['/patient/profile']);
+          this.router.navigate(['/patient/examination-history']);
         }
       },
       error => {
