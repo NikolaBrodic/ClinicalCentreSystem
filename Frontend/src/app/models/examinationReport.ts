@@ -3,12 +3,12 @@ import { Medicine } from './medicine';
 
 export class ExaminationReport {
     comment: string;
-    diagnose: Diagnose;
-    medicines: Medicine[];
+    diagnoseId: number;
+    medicineIds: number[];
 
     constructor(comment: string, diagnose: Diagnose, medicines?: Medicine[]) {
         this.comment = comment;
-        this.diagnose = diagnose;
-        this.medicines = medicines;
+        this.diagnoseId = diagnose.id;
+        this.medicineIds = medicines.map(medicine => medicine.id);
     }
 }
