@@ -64,6 +64,8 @@ import { EditRoomComponent } from './components/edit/edit-room/edit-room.compone
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
+import { ExaminationComponent } from './components/examination/examination.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -111,6 +113,7 @@ import { EditPersonalInformationNurseComponent } from './components/edit/edit-pe
     EditPersonalInformationClinicAdminComponent,
     EditPersonalInformationDoctorComponent,
     EditPersonalInformationNurseComponent,
+    ExaminationComponent,
 
   ],
   imports: [
@@ -156,6 +159,7 @@ import { EditPersonalInformationNurseComponent } from './components/edit/edit-pe
     EditExaminationTypeComponent,
     EditRoomComponent,
     EditPriceListComponent,
+    ExaminationComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
