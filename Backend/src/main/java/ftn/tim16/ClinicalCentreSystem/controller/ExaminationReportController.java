@@ -42,8 +42,8 @@ public class ExaminationReportController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        LocalDateTime examinationStartTime = LocalDateTime.now();
-        Examination ongoingExamination = examinationService.getOngoingExamination(examination.getPatient().getId(), doctor.getId(), examinationStartTime);
+        LocalDateTime examinationTime = LocalDateTime.now();
+        Examination ongoingExamination = examinationService.getOngoingExamination(examination.getPatient().getId(), doctor.getId(), examinationTime);
         if (ongoingExamination == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

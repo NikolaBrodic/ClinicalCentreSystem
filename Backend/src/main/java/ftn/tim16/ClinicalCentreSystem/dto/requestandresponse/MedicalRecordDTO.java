@@ -6,6 +6,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class MedicalRecordDTO {
+    @NotNull(message = "Id is null")
+    private Long id;
+
     @NotNull(message = "Height is null.")
     private Integer height;
 
@@ -21,7 +24,8 @@ public class MedicalRecordDTO {
     public MedicalRecordDTO() {
     }
 
-    public MedicalRecordDTO(Integer height, Integer weight, String bloodType, String allergies) {
+    public MedicalRecordDTO(Long id, Integer height, Integer weight, String bloodType, String allergies) {
+        this.id = id;
         this.height = height;
         this.weight = weight;
         this.bloodType = bloodType;
@@ -29,7 +33,15 @@ public class MedicalRecordDTO {
     }
 
     public MedicalRecordDTO(MedicalRecord medicalRecord) {
-        this(medicalRecord.getHeight(), medicalRecord.getWeight(), medicalRecord.getBloodType(), medicalRecord.getAllergies());
+        this(medicalRecord.getId(), medicalRecord.getHeight(), medicalRecord.getWeight(), medicalRecord.getBloodType(), medicalRecord.getAllergies());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getHeight() {
