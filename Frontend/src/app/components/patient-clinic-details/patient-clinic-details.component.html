@@ -39,6 +39,14 @@
                   <th>Address</th>
                   <td class="text-in-table"> {{clinic.address}} </td>
                 </tr>
+                <tr>
+                  <th>Options</th>
+                  <td class="text-in-table">
+                    <a routerLink="/patient/choose-doctor">
+                      See all doctors for this clinic...
+                    </a>
+                  </td>
+                </tr>
               </table>
             </div>
           </div>
@@ -85,6 +93,8 @@
                   </td>
                 </tr>
               </table>
+              <br>
+              <a routerLink="">Don't want to wait for the booking to be accepted? Book a pre-made examination here.</a>
             </div>
           </div>
           <!-- /.section-title -->

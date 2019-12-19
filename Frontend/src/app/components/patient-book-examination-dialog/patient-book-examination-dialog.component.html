@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Last check before booking an examination</h2>
+<mat-dialog-content class="mat-typography">
+  <p>You have chosen an examination at the {{data.clinicObj.name}} clinic located at {{data.clinicObj.address}}.</p>
+  <p>
+    <!-- Your examination is for {{examination.examinationType.label}}, costs {{examination.examinationType.price}} and it will be booked for {{examination.interval.startDateTime}}.
+    Doctor that will examin you is {{examination.doctors[0].firstName}} {{examination.doctors[0].lastName}}. -->
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Back</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="bookExamination()">Book</button>
+</mat-dialog-actions>

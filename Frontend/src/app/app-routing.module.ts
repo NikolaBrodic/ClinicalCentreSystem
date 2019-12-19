@@ -1,3 +1,5 @@
+import { PatientBookedExaminationComponent } from './components/patient-booked-examination/patient-booked-examination.component';
+import { PatientBookExaminationDialogComponent } from './components/patient-book-examination-dialog/patient-book-examination-dialog.component';
 import { PatientChooseDoctorComponent } from './components/patient-choose-doctor/patient-choose-doctor.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
@@ -156,6 +158,11 @@ const routes: Routes = [
   {
     path: 'patient/choose-doctor',
     component: PatientChooseDoctorComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/examination-booked',
+    component: PatientBookedExaminationComponent,
     canActivate: [PatientGuard]
   },
   {

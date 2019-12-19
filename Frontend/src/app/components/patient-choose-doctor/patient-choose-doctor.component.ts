@@ -1,3 +1,4 @@
+import { PatientBookExaminationDialogComponent } from './../patient-book-examination-dialog/patient-book-examination-dialog.component';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { Doctor } from 'src/app/models/doctor';
 import { Router } from '@angular/router';
@@ -120,7 +121,23 @@ export class PatientChooseDoctorComponent implements OnInit {
   }
 
   lastCheck() {
+    this.openDialog();
+  }
 
+  openDialog() {
+    const dialogRef = this.dialog.open(PatientBookExaminationDialogComponent, {
+      data: {
+        clinicObj: this.clinic
+      }
+    });
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        console.log(`Dialog result: ${result}`);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }

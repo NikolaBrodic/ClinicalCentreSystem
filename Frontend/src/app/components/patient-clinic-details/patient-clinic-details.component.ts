@@ -17,6 +17,7 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
   public clinic: Clinic;
   public clinicExists: boolean = false;
   public examinationTypes: ExaminationType[] = [];
+  public clinicId: number;
 
   constructor(
     private router: Router,
@@ -30,8 +31,8 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.route.params.subscribe(
       (params) => {
-        let clinicId = params['id'];
-        this.fetchClinicDetails(clinicId);
+        this.clinicId = params['id'];
+        this.fetchClinicDetails(this.clinicId);
       }
     );
   }
@@ -70,5 +71,8 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
     );
   }
 
+  navigateToSearchDoctors() {
+    console.log(this.clinicId);
+  }
 
 }

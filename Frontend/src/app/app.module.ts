@@ -58,6 +58,8 @@ import { AddDiagnoseComponent } from './components/add-diagnose/add-diagnose.com
 import { PatientClinicsComponent } from './components/patient-clinics/patient-clinics.component';
 import { PatientHistoryExaminationsOperationsComponent } from './components/patient-history-examinations-operations/patient-history-examinations-operations.component';
 import { PatientChooseDoctorComponent } from './components/patient-choose-doctor/patient-choose-doctor.component';
+import { PatientBookExaminationDialogComponent } from './components/patient-book-examination-dialog/patient-book-examination-dialog.component';
+import { PatientBookedExaminationComponent } from './components/patient-booked-examination/patient-booked-examination.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,8 @@ import { PatientChooseDoctorComponent } from './components/patient-choose-doctor
     PatientClinicsComponent,
     PatientHistoryExaminationsOperationsComponent,
     PatientChooseDoctorComponent,
+    PatientBookExaminationDialogComponent,
+    PatientBookedExaminationComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,6 +142,7 @@ import { PatientChooseDoctorComponent } from './components/patient-choose-doctor
     AddPredefinedExaminationComponent,
     ListDiagnosisComponent,
     AddDiagnoseComponent,
+    PatientBookExaminationDialogComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
