@@ -24,4 +24,6 @@ public interface PatientService {
 
     PatientWithIdDTO getPatientForMedicalStaff(Long id);
 
+    Patient getPatient(Long id);
+
 }

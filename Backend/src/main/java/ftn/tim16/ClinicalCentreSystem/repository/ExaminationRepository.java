@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.repository;
 
+import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 public interface ExaminationRepository extends JpaRepository<Examination, Long> {
@@ -35,6 +37,10 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
     Page<Examination> findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter(Long id, ExaminationStatus status, LocalDateTime localDateTime, Pageable page);
 
     List<Examination> findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
+
+    Examination findByPatientIdAndDoctorsIdAndDoctorsStatusAndIntervalStartDateTimeLessThanEqualAndIntervalEndDateTimeGreaterThanAndStatusIn(
+            Long idP1, Long idD1, DoctorStatus status, LocalDateTime localDateTime, LocalDateTime localDateTimeS, Collection<ExaminationStatus> examinationStatus
+    );
 
     List<Examination> findByNurseIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
 

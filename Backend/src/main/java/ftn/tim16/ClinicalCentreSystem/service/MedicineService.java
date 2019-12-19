@@ -9,6 +9,8 @@ public interface MedicineService {
 
     List<MedicineDTO> findAll();
 
+    Medicine findById(Long id);
+
     Medicine findByLabel(String label);
 
     MedicineDTO create(MedicineDTO medicine);

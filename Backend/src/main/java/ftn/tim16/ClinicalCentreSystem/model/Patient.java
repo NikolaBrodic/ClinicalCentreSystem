@@ -50,8 +50,7 @@ public class Patient implements UserDetails {
     @Enumerated(EnumType.STRING)
     private PatientStatus status;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
     @JsonIgnore

@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import ftn.tim16.ClinicalCentreSystem.repository.MedicalRecordRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.PatientService;
@@ -30,6 +31,9 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private EmailNotificationService emailNotificationService;
 
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+
     @Override
     public Patient changePassword(String newPassword, Patient user) {
         if (user.getStatus().equals(PatientStatus.AWAITING_APPROVAL)) {
@@ -52,14 +56,16 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientWithIdDTO approveRequestToRegister(Long id) {
-        Patient patient = patientRepository.findById(id).orElseGet(null);
+        Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
 
         if (patient == null) {
             return null;
         }
 
         patient.setStatus(PatientStatus.APPROVED);
-        patient.setMedicalRecord(new MedicalRecord());
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setPatient(patient);
+        medicalRecordRepository.save(medicalRecord);
 
         Patient updatedPatient = patientRepository.save(patient);
 
@@ -70,7 +76,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public boolean rejectRequestToRegister(Long id, String reason) {
-        Patient patient = patientRepository.findById(id).orElseGet(null);
+        Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
 
         if (patient == null) {
             return false;
@@ -142,6 +148,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientWithIdDTO getPatientForMedicalStaff(Long id) {
         return new PatientWithIdDTO(patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED));
+    }
+
+    @Override
+    public Patient getPatient(Long id) {
+        return patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED);
     }
 
     private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {

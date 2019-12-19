@@ -23,7 +23,7 @@ public class MedicalRecord {
     @Column(columnDefinition = "VARCHAR")
     private String allergies;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Patient patient;
 
     @OneToMany(mappedBy = "medicalRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
