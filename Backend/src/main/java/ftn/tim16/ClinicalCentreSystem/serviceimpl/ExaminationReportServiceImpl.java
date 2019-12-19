@@ -17,13 +17,13 @@ import java.util.Set;
 public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Autowired
-    ExaminationReportRepository examinationReportRepository;
+    private ExaminationReportRepository examinationReportRepository;
 
     @Autowired
-    DiagnoseService diagnoseService;
+    private DiagnoseService diagnoseService;
 
     @Autowired
-    MedicineService medicineService;
+    private MedicineService medicineService;
 
     @Override
     public ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO) {

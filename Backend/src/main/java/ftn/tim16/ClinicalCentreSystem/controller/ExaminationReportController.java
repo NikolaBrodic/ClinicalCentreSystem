@@ -6,7 +6,6 @@ import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationReportService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,9 +25,6 @@ public class ExaminationReportController {
 
     @Autowired
     private DoctorService doctorService;
-
-    @Autowired
-    private PatientService patientService;
 
     @Autowired
     private ExaminationService examinationService;
