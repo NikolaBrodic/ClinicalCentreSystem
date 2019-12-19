@@ -54,7 +54,7 @@ public class ExaminationReportController {
 
         ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(doctor, ongoingExamination, examinationReportDTO);
         if (createdExaminationReportDTO == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
