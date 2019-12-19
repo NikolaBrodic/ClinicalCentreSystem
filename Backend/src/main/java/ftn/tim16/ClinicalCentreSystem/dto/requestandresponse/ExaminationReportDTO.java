@@ -13,32 +13,32 @@ public class ExaminationReportDTO {
     private String comment;
 
     @NotNull(message = "Diagnose is null.")
-    private DiagnoseDTO diagnose;
+    private Long diagnoseId;
 
-    private List<MedicineDTO> medicines;
+    private List<Long> medicineIds;
 
     public ExaminationReportDTO() {
     }
 
-    public ExaminationReportDTO(String comment, DiagnoseDTO diagnose, List<MedicineDTO> medicines) {
+    public ExaminationReportDTO(String comment, Long diagnoseId, List<Long> medicineIds) {
         this.comment = comment;
-        this.diagnose = diagnose;
-        this.medicines = medicines;
+        this.diagnoseId = diagnoseId;
+        this.medicineIds = medicineIds;
     }
 
     public ExaminationReportDTO(ExaminationReport examinationReport) {
         this.comment = examinationReport.getComment();
 
         if (examinationReport.getDiagnose() != null) {
-            this.diagnose = new DiagnoseDTO(examinationReport.getDiagnose());
+            this.diagnoseId = examinationReport.getDiagnose().getId();
         }
 
         if (examinationReport.getPrescriptions() != null) {
-            List<MedicineDTO> medicineDTOs = new ArrayList<>();
+            List<Long> medicines = new ArrayList<>();
             for (Prescription prescription : examinationReport.getPrescriptions()) {
-                medicineDTOs.add(new MedicineDTO(prescription.getMedicine()));
+                medicines.add(prescription.getMedicine().getId());
             }
-            this.medicines = medicineDTOs;
+            this.medicineIds = medicines;
         }
     }
 
@@ -50,19 +50,19 @@ public class ExaminationReportDTO {
         this.comment = comment;
     }
 
-    public DiagnoseDTO getDiagnose() {
-        return diagnose;
+    public Long getDiagnoseId() {
+        return diagnoseId;
     }
 
-    public void setDiagnose(DiagnoseDTO diagnose) {
-        this.diagnose = diagnose;
+    public void setDiagnoseId(Long diagnoseId) {
+        this.diagnoseId = diagnoseId;
     }
 
-    public List<MedicineDTO> getMedicines() {
-        return medicines;
+    public List<Long> getMedicineIds() {
+        return medicineIds;
     }
 
-    public void setMedicines(List<MedicineDTO> medicines) {
-        this.medicines = medicines;
+    public void setMedicineIds(List<Long> medicineIds) {
+        this.medicineIds = medicineIds;
     }
 }

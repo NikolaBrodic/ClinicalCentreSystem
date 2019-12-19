@@ -312,22 +312,25 @@ insert into nurse (email, password, first_name, last_name, phone_number,work_hou
  values ('SestraKalendar@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Ivana', 'Ivanic', '045256159','06:00','19:00',1,'ACTIVE');
 insert into nurse_authority(user_id, authority_id) values (9,5);
 
- insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
+insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient12@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Bojan', 'Stojkovic', '090589556','Marsala tita','Novi Sad',
  'Srbija','0737985669595','APPROVED');
+insert into medical_record(patient_id) values (12);
 insert into patient_authority(user_id, authority_id) values (12,3);
 
- insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
+insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient13@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Slavica', 'Katic', '090589557','Marsala tita','Novi Sad',
  'Srbija','0737985669596','APPROVED');
+insert into medical_record(patient_id) values (13);
 insert into patient_authority(user_id, authority_id) values (13,3);
 
- insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
+insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient14@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Zivko', 'Simonovic', '090589558','Marsala tita','Novi Sad',
  'Srbija','0737985669597','APPROVED');
+insert into medical_record(patient_id) values (14);
 insert into patient_authority(user_id, authority_id) values (14,3);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('18.12.2019 13:00','18.12.2019 14:30');
+insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 13:00','19.12.2019 14:30');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id)
  values ('OPERATION',19,'APPROVED',1,1,1,14,4);
 insert into examining (examination_id,doctor_id) values (23,7);
@@ -341,7 +344,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('18.12.2019 08:00','18.12.2019 09:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 08:00','19.12.2019 09:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);
@@ -351,7 +354,7 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('EXAMINATION',22,'AWAITING',1,1,1,13,9);
 insert into examining (examination_id,doctor_id) values (26,7);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('18.12.2019 09:00','18.12.2019 11:30');
+insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 09:00','19.12.2019 11:30');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id,discount)
  values ('EXAMINATION',23,'PREDEF_BOOKED',1,1,1,14,9,2,50);
 insert into examining (examination_id,doctor_id) values (27,7);
@@ -363,7 +366,7 @@ insert into examining (examination_id,doctor_id) values (28,7);
 
 /* This shouldn't be displayed in calendar */
 
-insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 09:00','19.12.2019 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('09.12.2019 09:00','09.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id)
  values ('EXAMINATION',25,'CANCELED',1,1,1,14,9);
 insert into examining (examination_id,doctor_id) values (29,7);
@@ -380,7 +383,7 @@ insert into time_off_doctor (status, type, doctor_id, interval_id)
 
  /* Doctor should be able to request holiday/time off if the examination on that time was canceled */
 
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 09:00','19.11.2019 11:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 09:00','11.11.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'TIME_OFF', 7, 28);
 
@@ -402,7 +405,7 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
 
  /* Nurse should be able to request holiday/time off if the examination on that time was canceled */
 
-insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 12:00','19.11.2019 16:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 12:00','11.11.2019 16:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'TIME_OFF', 9, 32);
 

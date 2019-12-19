@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import ftn.tim16.ClinicalCentreSystem.repository.MedicalRecordRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.PatientService;
@@ -29,6 +30,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private EmailNotificationService emailNotificationService;
+
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
 
     @Override
     public Patient changePassword(String newPassword, Patient user) {
@@ -61,7 +65,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setStatus(PatientStatus.APPROVED);
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setPatient(patient);
-        patient.setMedicalRecord(medicalRecord);
+        medicalRecordRepository.save(medicalRecord);
 
         Patient updatedPatient = patientRepository.save(patient);
 

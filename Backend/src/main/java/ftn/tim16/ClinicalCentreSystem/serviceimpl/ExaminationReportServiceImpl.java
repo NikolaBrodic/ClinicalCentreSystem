@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationReportDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.MedicineDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationReportRepository;
 import ftn.tim16.ClinicalCentreSystem.service.DiagnoseService;
@@ -29,7 +28,7 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     @Override
     public ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO) {
 
-        Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnose().getId());
+        Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
         if (diagnose == null) {
             return null;
         }
@@ -39,8 +38,8 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
                 diagnose, doctor, examination);
 
         Set<Prescription> prescriptions = new HashSet<>();
-        for (MedicineDTO medicineDTO : examinationReportDTO.getMedicines()) {
-            Medicine medicine = medicineService.findById(medicineDTO.getId());
+        for (Long medicineId : examinationReportDTO.getMedicineIds()) {
+            Medicine medicine = medicineService.findById(medicineId);
             if (medicine == null) {
                 return null;
             }

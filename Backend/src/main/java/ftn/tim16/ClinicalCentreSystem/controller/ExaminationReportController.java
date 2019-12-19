@@ -50,12 +50,12 @@ public class ExaminationReportController {
         LocalDateTime examinationStartTime = LocalDateTime.now();
         Examination ongoingExamination = examinationService.getOngoingExamination(patient.getId(), doctor.getId(), examinationStartTime);
         if (ongoingExamination == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(doctor, ongoingExamination, examinationReportDTO);
         if (createdExaminationReportDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
     }
