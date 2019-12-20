@@ -74,7 +74,7 @@ export class ExaminationComponent implements OnInit {
           }
         )
       },
-      error => {
+      () => {
         this.location.back();
         return;
       }
@@ -99,11 +99,20 @@ export class ExaminationComponent implements OnInit {
       return;
     }
 
-    const examinationReport = new ExaminationReport(
-      this.createExaminationReportForm.value.comment,
-      this.createExaminationReportForm.value.diagnosisList,
-      [...this.createExaminationReportForm.value.medicinesList]
-    );
+    let selectedMedecines = this.createExaminationReportForm.value.medicinesList;
+    let examinationReport: ExaminationReport;
+    if (selectedMedecines) {
+      examinationReport = new ExaminationReport(
+        this.createExaminationReportForm.value.comment,
+        this.createExaminationReportForm.value.diagnosisList,
+        selectedMedecines
+      );
+    } else {
+      examinationReport = new ExaminationReport(
+        this.createExaminationReportForm.value.comment,
+        this.createExaminationReportForm.value.diagnosisList
+      );
+    }
 
     this.examinationReportService.create(this.examinationId, examinationReport).subscribe(
       responseData => {
@@ -112,7 +121,11 @@ export class ExaminationComponent implements OnInit {
         this.examinationReportService.createSuccessEmitter.next(examinationReport);
       },
       message => {
-        this.toastr.error("Examination report couldn't be made. Please check entered data.", 'Create examination report');
+        if (message.status == 406) {
+          this.toastr.error("Examination report for this examination is already made.", 'Create examination report');
+        } else {
+          this.toastr.error("Examination report couldn't be made. Please check entered data.", 'Create examination report');
+        }
       }
     );
   }

@@ -26,6 +26,11 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     private MedicineService medicineService;
 
     @Override
+    public ExaminationReport findByExaminationId(Long examinationId) {
+        return examinationReportRepository.findByExaminationId(examinationId);
+    }
+
+    @Override
     public ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO) {
 
         Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
@@ -38,13 +43,15 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
                 diagnose, doctor, examination);
 
         Set<Prescription> prescriptions = new HashSet<>();
-        for (Long medicineId : examinationReportDTO.getMedicineIds()) {
-            Medicine medicine = medicineService.findById(medicineId);
-            if (medicine == null) {
-                return null;
+        if (examinationReportDTO.getMedicineIds() != null) {
+            for (Long medicineId : examinationReportDTO.getMedicineIds()) {
+                Medicine medicine = medicineService.findById(medicineId);
+                if (medicine == null) {
+                    return null;
+                }
+                Prescription prescription = new Prescription(medicine, examinationReport, examination.getNurse());
+                prescriptions.add(prescription);
             }
-            Prescription prescription = new Prescription(medicine, examinationReport, examination.getNurse());
-            prescriptions.add(prescription);
         }
         examinationReport.setPrescriptions(prescriptions);
 
