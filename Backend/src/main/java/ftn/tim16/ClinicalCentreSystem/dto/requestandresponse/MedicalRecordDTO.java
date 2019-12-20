@@ -2,23 +2,18 @@ package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class MedicalRecordDTO {
     @NotNull(message = "Id is null")
     private Long id;
 
-    @NotNull(message = "Height is null.")
     private Integer height;
 
-    @NotNull(message = "Weight is null.")
     private Integer weight;
 
-    @NotEmpty(message = "Blood type is empty.")
     private String bloodType;
 
-    @NotEmpty(message = "Allergies is empty.")
     private String allergies;
 
     public MedicalRecordDTO() {

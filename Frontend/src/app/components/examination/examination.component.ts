@@ -150,11 +150,11 @@ export class ExaminationComponent implements OnInit {
 
     this.medicalRecordService.edit(this.examinationId, editedMedicalRecord).subscribe(
       responseData => {
-        this.toastr.success("Successfully edited patient's medical information.", 'Edit medical information');
+        this.toastr.success("Successfully edited patient's medical record information.", 'Edit medical record');
         this.medicalRecordService.editSuccessEmitter.next(editedMedicalRecord);
       },
       message => {
-        this.toastr.error("Medical information couldn't be changed. Please check entered data.", 'Edit medical information');
+        this.toastr.error("Medical information couldn't be changed. Please check entered data.", 'Edit medical record');
       }
     );
   }

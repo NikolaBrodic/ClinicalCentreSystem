@@ -17,16 +17,18 @@
     <div class="container">
         <div class="card-block bg-white mb30">
             <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
                     <!-- section-title -->
                     <div class="section-title mb-0">
                         <form [formGroup]="medicalRecordForm" class="mat-elevation-z8 form">
-                            <h3>{{ patientFullName }}'s medical record</h3>
+                            <h3>{{ patientFullName }}'s<br> medical record</h3>
                             <mat-form-field class="mt-2">
                                 <input matInput placeholder="Height" formControlName="height">
+                                <span matSuffix class="ml-2">cm</span>
                             </mat-form-field>
                             <mat-form-field>
                                 <input matInput placeholder="Weight" formControlName="weight">
+                                <span matSuffix class="ml-2">kg</span>
                             </mat-form-field>
                             <mat-form-field>
                                 <input matInput placeholder="Blood type" formControlName="bloodType">
@@ -47,7 +49,8 @@
                         </form>
                     </div>
                     <!-- /.section-title -->
-                    <br>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
                     <!-- section-title -->
                     <div class="section-title mb-0">
                         <form [formGroup]="createExaminationReportForm" class="mat-elevation-z8 form">
