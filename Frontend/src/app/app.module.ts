@@ -60,6 +60,7 @@ import { PatientHistoryExaminationsOperationsComponent } from './components/pati
 import { PatientChooseDoctorComponent } from './components/patient-choose-doctor/patient-choose-doctor.component';
 import { PatientBookExaminationDialogComponent } from './components/patient-book-examination-dialog/patient-book-examination-dialog.component';
 import { PatientBookedExaminationComponent } from './components/patient-booked-examination/patient-booked-examination.component';
+import { PatientAvailableExaminationsComponent } from './components/patient-available-examinations/patient-available-examinations.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { PatientBookedExaminationComponent } from './components/patient-booked-e
     PatientChooseDoctorComponent,
     PatientBookExaminationDialogComponent,
     PatientBookedExaminationComponent,
+    PatientAvailableExaminationsComponent,
   ],
   imports: [
     BrowserModule,

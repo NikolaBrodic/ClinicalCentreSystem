@@ -34,7 +34,6 @@ export class ExaminationService {
     });
   }
 
-
   public getCreatedPredefinedExaminations(pageIndex: any, pageSize: any, sort: MatSort) {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
