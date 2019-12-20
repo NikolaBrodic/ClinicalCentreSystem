@@ -20,6 +20,36 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <!-- section-title -->
                     <div class="section-title mb-0">
+                        <form [formGroup]="medicalRecordForm" class="mat-elevation-z8 form">
+                            <h3>{{ patientFullName }}'s medical record</h3>
+                            <mat-form-field class="mt-2">
+                                <input matInput placeholder="Height" formControlName="height">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Weight" formControlName="weight">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Blood type" formControlName="bloodType">
+                                <mat-error
+                                    *ngIf="medicalRecordForm.get('bloodType').errors && medicalRecordForm.get('bloodType').errors['maxlength']">
+                                    Maximal number of characters for this field is 3.
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="mt-2">
+                                <textarea matInput placeholder="Allergies" formControlName="allergies"
+                                    rows="5"></textarea>
+                            </mat-form-field>
+                            <br>
+                            <div align="end">
+                                <button mat-raised-button color="primary" (click)="saveChanges()"
+                                    [disabled]="!medicalRecordForm.valid">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.section-title -->
+                    <br>
+                    <!-- section-title -->
+                    <div class="section-title mb-0">
                         <form [formGroup]="createExaminationReportForm" class="mat-elevation-z8 form">
                             <h3>Create examination report</h3>
                             <mat-form-field class="form-full-width mt-2">
