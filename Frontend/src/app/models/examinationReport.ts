@@ -9,6 +9,8 @@ export class ExaminationReport {
     constructor(comment: string, diagnose: Diagnose, medicines?: Medicine[]) {
         this.comment = comment;
         this.diagnoseId = diagnose.id;
-        this.medicineIds = medicines.map(medicine => medicine.id);
+        if (medicines) {
+            this.medicineIds = medicines.map(medicine => medicine.id);
+        }
     }
 }

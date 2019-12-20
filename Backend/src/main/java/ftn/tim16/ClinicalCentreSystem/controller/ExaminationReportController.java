@@ -3,6 +3,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationReportDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
+import ftn.tim16.ClinicalCentreSystem.model.ExaminationReport;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationReportService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
@@ -42,10 +43,15 @@ public class ExaminationReportController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        LocalDateTime examinationStartTime = LocalDateTime.now();
-        Examination ongoingExamination = examinationService.getOngoingExamination(examination.getPatient().getId(), doctor.getId(), examinationStartTime);
+        LocalDateTime examinationTime = LocalDateTime.now();
+        Examination ongoingExamination = examinationService.getOngoingExamination(examination.getPatient().getId(), doctor.getId(), examinationTime);
         if (ongoingExamination == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ExaminationReport existingExaminationReport = examinationReportService.findByExaminationId(ongoingExamination.getId());
+        if (existingExaminationReport != null) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
         ExaminationReportDTO createdExaminationReportDTO = examinationReportService.create(doctor, ongoingExamination, examinationReportDTO);

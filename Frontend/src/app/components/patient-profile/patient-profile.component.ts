@@ -34,6 +34,7 @@ export class PatientProfileComponent implements OnInit {
           (data: PatientWithId) => {
             if (data) {
               this.selectedPatient = data;
+              this.examinationService.choosenPatient = data;
             } else {
               this.toastr.error("The selected patient doesn't exist. Please choose another one.");
               this.router.navigate(['/medicalStaff/patients']);

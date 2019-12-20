@@ -34,7 +34,7 @@ h1.main-title {
 
 .card-block {
   padding: 40px;
-  width: 50%;
+  width: 90%;
   margin: auto;
 }
 
@@ -46,4 +46,16 @@ h1.main-title {
   padding: 30px;
   display: flex;
   flex-direction: column;
+}
+
+/* Hides arrow buttons in input type="number" */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

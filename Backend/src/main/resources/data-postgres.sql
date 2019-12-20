@@ -315,19 +315,20 @@ insert into nurse_authority(user_id, authority_id) values (9,5);
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient12@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Bojan', 'Stojkovic', '090589556','Marsala tita','Novi Sad',
  'Srbija','0737985669595','APPROVED');
-insert into medical_record(patient_id) values (12);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Prasina, jaja', 12);
 insert into patient_authority(user_id, authority_id) values (12,3);
 
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient13@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Slavica', 'Katic', '090589557','Marsala tita','Novi Sad',
  'Srbija','0737985669596','APPROVED');
-insert into medical_record(patient_id) values (13);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (166, 59, '0', 'Kikiriki, ambrozija', 13);
 insert into patient_authority(user_id, authority_id) values (13,3);
 
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status)
  values ('patient14@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Zivko', 'Simonovic', '090589558','Marsala tita','Novi Sad',
  'Srbija','0737985669597','APPROVED');
-insert into medical_record(patient_id) values (14);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (177, 74, 'A+', 'Nema', 14);
+-- insert into medical_record(patient_id) values (14);
 insert into patient_authority(user_id, authority_id) values (14,3);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 14:00','19.12.2019 14:30');
@@ -354,7 +355,7 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('EXAMINATION',22,'AWAITING',1,1,1,13,9);
 insert into examining (examination_id,doctor_id) values (26,7);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 20:00','19.12.2019 23:59');
+insert into date_time_interval (start_date_time, end_date_time) values ('20.12.2019 09:00','20.12.2019 12:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id,discount)
  values ('EXAMINATION',23,'PREDEF_BOOKED',1,1,1,14,9,2,50);
 insert into examining (examination_id,doctor_id) values (27,7);

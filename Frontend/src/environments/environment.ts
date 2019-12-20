@@ -21,6 +21,7 @@ export const environment = {
   diagnose: '/api/diagnose',
   medicine: '/api/medicine',
   examinationReport: '/api/examination-report',
+  medicalRecord: '/api/medical-record',
 };
 
 /*
