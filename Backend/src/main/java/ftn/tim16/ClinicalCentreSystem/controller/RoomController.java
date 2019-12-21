@@ -67,6 +67,7 @@ public class RoomController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
         return new ResponseEntity<>(roomService.findAllRoomsInClinic(clinicAdministrator.getClinic()), HttpStatus.OK);
     }
 
@@ -85,6 +86,9 @@ public class RoomController {
         try {
             RoomPagingDTO roomPagingDTO = roomService.
                     findAllRoomsInClinic(kind, clinicAdministrator.getClinic(), page, searchLabel, searchDate, searchStartTime, searchEndTime);
+            if (roomPagingDTO == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(roomPagingDTO, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

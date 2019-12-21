@@ -10,6 +10,7 @@ import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RoomService {
@@ -31,4 +32,6 @@ public interface RoomService {
     List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime);
 
     RoomWithIdDTO deleteRoom(Long clinicId, Long roomId);
+
+    boolean isAvailable(Room currentRoom, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

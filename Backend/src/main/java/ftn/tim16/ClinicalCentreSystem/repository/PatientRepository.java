@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
@@ -21,11 +22,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Patient findByPhoneNumber(String phoneNumber);
 
-    Page<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
-            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceId, ExaminationStatus exStatus,
-            Long id2, PatientStatus status2, String firstName2, String lastName2, String healthInsuranceId2, ExaminationStatus exStatus2, Pageable page);
+    Page<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
+            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceId, Collection<ExaminationStatus> examinationStatus, Pageable page);
 
-    List<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
-            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceId, ExaminationStatus exStatus,
-            Long id2, PatientStatus status2, String firstName2, String lastName2, String healthInsuranceId2, ExaminationStatus exStatus2);
+    List<Patient> findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
+            Long id, PatientStatus status, String firstName, String lastName, String healthInsuranceId, Collection<ExaminationStatus> examinationStatus);
 }

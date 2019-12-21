@@ -23,6 +23,4 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
     Page<Nurse> findAllByClinicId(Long id, Pageable page);
 
     List<Nurse> findByClinicId(Long id);
-
-    List<Nurse> findByStatus(UserStatus userStatus);
 }

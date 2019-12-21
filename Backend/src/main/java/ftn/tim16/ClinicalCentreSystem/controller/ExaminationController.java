@@ -107,7 +107,7 @@ public class ExaminationController {
 
     @GetMapping(value = "/doctor-examinations")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<List<ExaminationForWorkCalendarDTO>> getDoctorExaminations() {
+    public ResponseEntity<List<ExaminationForWorkCalendarDTO>> getDoctorExaminationsForWorkCalendar() {
         Doctor doctor = doctorService.getLoginDoctor();
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

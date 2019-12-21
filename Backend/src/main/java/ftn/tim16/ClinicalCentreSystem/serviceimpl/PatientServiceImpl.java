@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -120,10 +121,13 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page) {
         try {
-            Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
-                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
-            List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
-                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
+            Collection<ExaminationStatus> statuses = new ArrayList<>();
+            statuses.add(ExaminationStatus.APPROVED);
+            statuses.add(ExaminationStatus.PREDEF_BOOKED);
+            Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, statuses, page);
+            List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, statuses);
             return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
         } catch (Error e) {
             return null;
