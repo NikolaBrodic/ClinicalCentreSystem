@@ -1,4 +1,4 @@
-import { ExaminationTypeService } from './../../services/examination-type.service';
+import { ExaminationTypeService } from '../../services/examination-type.service';
 import { ExaminationType } from './../../models/examinationType';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

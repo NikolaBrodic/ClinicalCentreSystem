@@ -1,7 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.CreateExaminationTypeDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
@@ -29,18 +29,19 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     @Autowired
     private DoctorService doctorService;
 
+
     @Override
-    public ExaminationType create(CreateExaminationTypeDTO examinationTypeDTO, Clinic clinic) {
+    public ExaminationTypeDTO create(CreateExaminationTypeDTO examinationTypeDTO, Clinic clinic) {
         if (examinationTypeRepository.findByLabelIgnoringCase(examinationTypeDTO.getLabel()) != null) {
             return null;
         }
         ExaminationType examinationType = new ExaminationType(examinationTypeDTO.getLabel(), examinationTypeDTO.getPrice(),
                 clinic, LogicalStatus.EXISTING);
-        return examinationTypeRepository.save(examinationType);
+        return new ExaminationTypeDTO(examinationTypeRepository.save(examinationType));
     }
 
     @Override
-    public ExaminationType edit(ExaminationTypeDTO examinationType, Long clinicId) {
+    public ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId) {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
             return null;
@@ -54,11 +55,11 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         }
         existingExaminationType.setLabel(examinationType.getLabel());
         existingExaminationType.setPrice(examinationType.getPrice());
-        return examinationTypeRepository.save(existingExaminationType);
+        return new ExaminationTypeDTO(examinationTypeRepository.save(existingExaminationType));
     }
 
     @Override
-    public ExaminationType editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
+    public ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
             return null;
@@ -70,26 +71,12 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
         }
 
         existingExaminationType.setPrice(examinationType.getPrice());
-        return examinationTypeRepository.save(existingExaminationType);
-    }
-
-    private boolean isEditable(Long examinationTypeId, Long examinationTypeClinicId, Long clinicId) {
-        if (examinationTypeClinicId != clinicId) {
-            return false;
-        }
-        List<Doctor> doctors = doctorService.findDoctorsByClinicIdAndExaminationTypeId(clinicId, examinationTypeId);
-        if (doctors != null && !doctors.isEmpty()) {
-            return false;
-        }
-
-        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
-
-        return !(upcomingExaminations != null && !upcomingExaminations.isEmpty());
+        return new ExaminationTypeDTO(examinationTypeRepository.save(existingExaminationType));
     }
 
     @Override
-    public List<ExaminationTypeDTO> findAllTypesInClinic(Long clinic_id) {
-        return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinic_id, LogicalStatus.EXISTING));
+    public List<ExaminationTypeDTO> findAllTypesInClinic(Long clinicId) {
+        return convertToDTO(examinationTypeRepository.findByClinicIdAndStatus(clinicId, LogicalStatus.EXISTING));
     }
 
     @Override
@@ -105,6 +92,39 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     @Override
     public ExaminationType findById(Long id) {
         return examinationTypeRepository.findByIdAndStatusNot(id, LogicalStatus.DELETED);
+    }
+
+    @Override
+    public ExaminationTypeDTO deleteExaminationType(Long clinicId, Long examinationTypeId) {
+        ExaminationType examinationType = findById(examinationTypeId);
+        if (examinationType == null) {
+            return null;
+        }
+        if (examinationType.getClinic().getId() != clinicId) {
+            return null;
+        }
+
+        if (!isEditable(examinationTypeId, examinationType.getClinic().getId(), clinicId)) {
+            return null;
+        }
+        examinationType.setStatus(LogicalStatus.DELETED);
+
+        return new ExaminationTypeDTO(examinationTypeRepository.save(examinationType));
+    }
+
+    private boolean isEditable(Long examinationTypeId, Long examinationTypeClinicId, Long clinicId) {
+        if (examinationTypeClinicId != clinicId) {
+            return false;
+        }
+        List<Doctor> doctors = doctorService.findDoctorsByClinicIdAndExaminationTypeId(clinicId, examinationTypeId);
+        if (doctors != null && !doctors.isEmpty()) {
+            return false;
+        }
+
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationTypeId);
+
+
+        return !(upcomingExaminations != null && !upcomingExaminations.isEmpty());
     }
 
     private List<ExaminationTypeDTO> convertToDTO(List<ExaminationType> examinationTypes) {

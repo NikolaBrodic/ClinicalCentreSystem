@@ -1,12 +1,13 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AwaitingApprovalPatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.PatientPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import ftn.tim16.ClinicalCentreSystem.repository.MedicalRecordRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.PatientService;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -29,6 +31,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private EmailNotificationService emailNotificationService;
+
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
 
     @Override
     public Patient changePassword(String newPassword, Patient user) {
@@ -51,26 +56,28 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient approveRequestToRegister(Long id) {
-        Patient patient = patientRepository.findById(id).orElseGet(null);
+    public PatientWithIdDTO approveRequestToRegister(Long id) {
+        Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
 
         if (patient == null) {
             return null;
         }
 
         patient.setStatus(PatientStatus.APPROVED);
-        patient.setMedicalRecord(new MedicalRecord());
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord.setPatient(patient);
+        medicalRecordRepository.save(medicalRecord);
 
         Patient updatedPatient = patientRepository.save(patient);
 
         composeAndSendApprovalEmail(updatedPatient.getEmail());
 
-        return updatedPatient;
+        return new PatientWithIdDTO(updatedPatient);
     }
 
     @Override
     public boolean rejectRequestToRegister(Long id, String reason) {
-        Patient patient = patientRepository.findById(id).orElseGet(null);
+        Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
 
         if (patient == null) {
             return false;
@@ -114,10 +121,13 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page) {
         try {
-            Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
-                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED, page);
-            List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusOrExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatus(
-                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.APPROVED, clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, ExaminationStatus.PREDEF_BOOKED);
+            Collection<ExaminationStatus> statuses = new ArrayList<>();
+            statuses.add(ExaminationStatus.APPROVED);
+            statuses.add(ExaminationStatus.PREDEF_BOOKED);
+            Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, statuses, page);
+            List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
+                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, statuses);
             return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
         } catch (Error e) {
             return null;
@@ -142,6 +152,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientWithIdDTO getPatientForMedicalStaff(Long id) {
         return new PatientWithIdDTO(patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED));
+    }
+
+    @Override
+    public Patient getPatient(Long id) {
+        return patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED);
     }
 
     private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {

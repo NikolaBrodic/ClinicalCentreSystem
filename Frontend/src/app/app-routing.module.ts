@@ -1,3 +1,6 @@
+import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
+import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
+import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
 import { PriceListComponent } from './components/price-list/price-list.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { PatientClinicDetailsComponent } from './components/patient-clinic-details/patient-clinic-details.component';
@@ -32,6 +35,7 @@ import { ListNursesComponent } from './components/list-nurses/list-nurses.compon
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
+import { ExaminationComponent } from './components/examination/examination.component';
 
 
 const routes: Routes = [
@@ -99,6 +103,11 @@ const routes: Routes = [
     component: ListOfCreatedPredefinedExaminationComponent,
     canActivate: [ClinicAdminGuard],
   },
+  {
+    path: 'clinic-admin/edit-personal-information',
+    component: EditPersonalInformationClinicAdminComponent,
+    canActivate: [ClinicAdminGuard],
+  },
 
   //********************* CLINICAL CENTRE ADMIN ***************
   {
@@ -133,7 +142,16 @@ const routes: Routes = [
     component: DoctorsExaminationComponent,
     canActivate: [DoctorGuard],
   },
-
+  {
+    path: 'doctor/edit-personal-information',
+    component: EditPersonalInformationDoctorComponent,
+    canActivate: [DoctorGuard],
+  },
+  {
+    path: 'doctor/examination',
+    component: ExaminationComponent,
+    canActivate: [DoctorGuard],
+  },
   //****************** MEDICAL STAFF *********
   {
     path: 'patient/profile/:id',
@@ -159,7 +177,11 @@ const routes: Routes = [
   },
 
   //********************* NURSE ***************************
-
+  {
+    path: 'nurse/edit-personal-information',
+    component: EditPersonalInformationNurseComponent,
+    canActivate: [NurseGuard],
+  },
   //******************* ERROR PAGES ************************
   {
     path: 'error/non-authenticated',

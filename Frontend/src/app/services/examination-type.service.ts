@@ -1,6 +1,6 @@
 import { Clinic } from 'src/app/models/clinic';
-import { environment } from './../../environments/environment';
-import { ExaminationType } from './../models/examinationType';
+import { environment } from '../../environments/environment';
+import { ExaminationType } from '../models/examinationType';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -42,8 +42,8 @@ export class ExaminationTypeService {
     return this.examinationTypesForAdmin.asObservable();
   }
 
-  public getExaminationTypesForPatient(clinic: Clinic): Observable<ExaminationType[]> {
-    this.httpClient.get(this.url + "/patient/all/" + clinic.id).subscribe((data: ExaminationType[]) => {
+  public getExaminationTypesByClinicId(clinicId: number): Observable<ExaminationType[]> {
+    this.httpClient.get(this.url + "/by-clinic-id/" + clinicId).subscribe((data: ExaminationType[]) => {
       this.examinationTypesForPatient.next(data);
     },
       (error: HttpErrorResponse) => {
@@ -61,4 +61,7 @@ export class ExaminationTypeService {
     });
   }
 
+  public deleteType(id: number) {
+    return this.httpClient.delete(this.url + '/' + id);
+  }
 }

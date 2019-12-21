@@ -1,16 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.NurseService;
+import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationForWorkCalendarDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.model.*;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +35,31 @@ public class ExaminationController {
 
     @Autowired
     private NurseService nurseService;
+
+    @Autowired
+    private PatientService patientService;
+
+    @GetMapping(value = "/starting/{id}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ExaminationDTO> getPatientStartingExamination(@PathVariable("id") Long patientId) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Patient patient = patientService.getPatient(patientId);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        LocalDateTime examinationStartTime = LocalDateTime.now();
+        Examination ongoingExamination = examinationService.getOngoingExamination(patient.getId(), doctor.getId(), examinationStartTime);
+        if (ongoingExamination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(new ExaminationDTO(ongoingExamination), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/get-awaiting")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -63,7 +84,7 @@ public class ExaminationController {
         }
 
         try {
-            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getDoctorExaminations(doctor, page), HttpStatus.OK);
+            return new ResponseEntity<>(examinationService.getDoctorExaminations(doctor, page), HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -71,13 +92,13 @@ public class ExaminationController {
 
     @DeleteMapping("/cancel/{id}")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Examination> cancelExamination(@PathVariable("id") Long examinationId) {
+    public ResponseEntity<ExaminationDTO> cancelExamination(@PathVariable("id") Long examinationId) {
         Doctor doctor = doctorService.getLoginDoctor();
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Examination examination = examinationService.cancelExamination(doctor, examinationId);
+        ExaminationDTO examination = examinationService.cancelExamination(doctor, examinationId);
         if (examination == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -86,15 +107,15 @@ public class ExaminationController {
 
     @GetMapping(value = "/doctor-examinations")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<List<ExaminationDTO>> getDoctorExaminations() {
+    public ResponseEntity<List<ExaminationForWorkCalendarDTO>> getDoctorExaminationsForWorkCalendar() {
         Doctor doctor = doctorService.getLoginDoctor();
         if (doctor == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         try {
-            List<ExaminationDTO> examinationDTOs = convertToDTO(examinationService.getDoctorExaminations(doctor.getId()));
-            return new ResponseEntity<>(examinationDTOs, HttpStatus.OK);
+            List<ExaminationForWorkCalendarDTO> examinationForWorkCalendarDTOS = convertToDTO(examinationService.getDoctorExaminations(doctor.getId()));
+            return new ResponseEntity<>(examinationForWorkCalendarDTOS, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -102,15 +123,15 @@ public class ExaminationController {
 
     @GetMapping(value = "/nurse-examinations")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<List<ExaminationDTO>> getNurseExaminations() {
+    public ResponseEntity<List<ExaminationForWorkCalendarDTO>> getNurseExaminations() {
         Nurse nurse = nurseService.getLoginNurse();
         if (nurse == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         try {
-            List<ExaminationDTO> examinationDTOs = convertToDTO(examinationService.getNurseExaminations(nurse.getId()));
-            return new ResponseEntity<>(examinationDTOs, HttpStatus.OK);
+            List<ExaminationForWorkCalendarDTO> examinationForWorkCalendarDTOS = convertToDTO(examinationService.getNurseExaminations(nurse.getId()));
+            return new ResponseEntity<>(examinationForWorkCalendarDTOS, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -130,27 +151,27 @@ public class ExaminationController {
         }
     }
 
-    private List<ExaminationDTO> convertToDTO(List<Examination> examinations) {
-        List<ExaminationDTO> examinationDTOs = new ArrayList<>();
+    private List<ExaminationForWorkCalendarDTO> convertToDTO(List<Examination> examinations) {
+        List<ExaminationForWorkCalendarDTO> examinationForWorkCalendarDTOS = new ArrayList<>();
         for (Examination examination : examinations) {
-            examinationDTOs.add(new ExaminationDTO(examination));
+            examinationForWorkCalendarDTOS.add(new ExaminationForWorkCalendarDTO(examination));
         }
 
-        return examinationDTOs;
+        return examinationForWorkCalendarDTOS;
     }
 
     @PostMapping(path = "/predefined-examination", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Examination> createPredefinedExamination(@Valid @RequestBody PredefinedExaminationDTO predefinedExaminationDTO) {
+    public ResponseEntity<ExaminationDTO> createPredefinedExamination(@Valid @RequestBody PredefinedExaminationDTO predefinedExaminationDTO) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Examination createdExamination = examinationService.createPredefinedExamination(predefinedExaminationDTO, clinicAdministrator);
+        ExaminationDTO createdExamination = examinationService.createPredefinedExamination(predefinedExaminationDTO, clinicAdministrator);
         if (createdExamination == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<Examination>(createdExamination, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdExamination, HttpStatus.CREATED);
     }
 }

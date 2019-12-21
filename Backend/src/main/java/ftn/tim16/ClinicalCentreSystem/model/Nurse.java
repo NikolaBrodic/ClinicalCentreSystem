@@ -46,6 +46,7 @@ public class Nurse implements UserDetails {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 

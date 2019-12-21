@@ -1,9 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.CreateExaminationTypeDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationTypeDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.ExaminationType;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +28,12 @@ public class ExaminationTypeController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<ExaminationType> create(@Valid @RequestBody CreateExaminationTypeDTO examinationType) {
+    public ResponseEntity<ExaminationTypeDTO> create(@Valid @RequestBody CreateExaminationTypeDTO examinationType) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationType createdExaminationType = examinationTypeService.create(examinationType, clinicAdministrator.getClinic());
+        ExaminationTypeDTO createdExaminationType = examinationTypeService.create(examinationType, clinicAdministrator.getClinic());
         if (createdExaminationType == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -43,12 +42,12 @@ public class ExaminationTypeController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<ExaminationType> edit(@Valid @RequestBody ExaminationTypeDTO examinationType) {
+    public ResponseEntity<ExaminationTypeDTO> edit(@Valid @RequestBody ExaminationTypeDTO examinationType) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationType changedExaminationType = examinationTypeService.edit(examinationType, clinicAdministrator.getClinic().getId());
+        ExaminationTypeDTO changedExaminationType = examinationTypeService.edit(examinationType, clinicAdministrator.getClinic().getId());
         if (changedExaminationType == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -57,12 +56,12 @@ public class ExaminationTypeController {
 
     @PutMapping(value = "/edit-price-list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<ExaminationType> editPriceList(@Valid @RequestBody ExaminationTypeDTO examinationType) {
+    public ResponseEntity<ExaminationTypeDTO> editPriceList(@Valid @RequestBody ExaminationTypeDTO examinationType) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationType changedExaminationType = examinationTypeService.editPriceList(examinationType, clinicAdministrator.getClinic().getId());
+        ExaminationTypeDTO changedExaminationType = examinationTypeService.editPriceList(examinationType, clinicAdministrator.getClinic().getId());
         if (changedExaminationType == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
@@ -97,10 +96,24 @@ public class ExaminationTypeController {
     }
 
 
-    @GetMapping(value = "/patient/all/{id}")
-    @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForPatient(@PathVariable("id") Long clinic_id) {
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinic_id), HttpStatus.OK);
+    @GetMapping(value = "/by-clinic-id/{id}")
+    @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
+    public ResponseEntity<List<ExaminationTypeDTO>> findAllExaminationTypesByClinicId(@PathVariable("id") Long clinicId) {
+        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ExaminationTypeDTO> deleteExaminationType(@PathVariable("id") Long id) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        ExaminationTypeDTO examinationType = examinationTypeService.deleteExaminationType(clinicAdministrator.getClinic().getId(), id);
+        if (examinationType == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(examinationType, HttpStatus.ACCEPTED);
     }
 
 }

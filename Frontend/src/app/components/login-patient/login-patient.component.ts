@@ -68,7 +68,7 @@ export class LoginPatientComponent implements OnInit {
     if (this.userService.isPatient()) {
       this.router.navigate(['/patient/profile']);
     } else if (this.userService.isClinicAdmin()) {
-      this.router.navigate(['/clinic-admin/examination-types']);
+      this.router.navigate(['/clinic-admin/examination/get-awaiting']);
     } else if (this.userService.isClinicalCentreAdmin()) {
       this.router.navigate(['/clinical-centre-admin/requests-to-register']);
     } else if (this.userService.isDoctor() || this.userService.isNurse()) {

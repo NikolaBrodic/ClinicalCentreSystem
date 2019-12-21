@@ -1,11 +1,10 @@
 import { ToastrService } from 'ngx-toastr';
-import { ExaminationTypeService } from './../../services/examination-type.service';
+import { ExaminationTypeService } from '../../services/examination-type.service';
 import { ExaminationType } from 'src/app/models/examinationType';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { Clinic } from 'src/app/models/clinic';
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-patient-clinic-details',
@@ -54,7 +53,7 @@ export class PatientClinicDetailsComponent implements OnInit, OnChanges {
         this.clinic = data;
         this.clinic.id = clinicId;
 
-        this.examinationTypesService.getExaminationTypesForPatient(this.clinic).subscribe(
+        this.examinationTypesService.getExaminationTypesByClinicId(this.clinic.id).subscribe(
           (data: ExaminationType[]) => {
             for (let i = 0; i < data.length; i++) {
               this.examinationTypes.push(data[i]);

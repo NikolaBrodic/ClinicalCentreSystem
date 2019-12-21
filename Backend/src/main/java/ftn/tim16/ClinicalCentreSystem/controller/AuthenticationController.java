@@ -1,9 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.LoggedInUserDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.UserDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Patient;
+import ftn.tim16.ClinicalCentreSystem.dto.request.UserDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.serviceimpl.UserServiceImpl;
@@ -28,13 +27,13 @@ public class AuthenticationController {
     private UserServiceImpl userService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Patient> registerPatient(@RequestBody PatientDTO patientDTO) {
-        Patient patient = authenticationService.registerPatient(patientDTO);
+    public ResponseEntity<PatientDTO> registerPatient(@RequestBody PatientDTO patientDTO) {
+        PatientDTO patient = authenticationService.registerPatient(patientDTO);
         if (patient == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<Patient>(patient, HttpStatus.CREATED);
+        return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/login")

@@ -9,14 +9,23 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Medicine medicine;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Nurse nurse;
+
+    public Prescription() {
+    }
+
+    public Prescription(Medicine medicine, ExaminationReport examinationReport, Nurse nurse) {
+        this.medicine = medicine;
+        this.examinationReport = examinationReport;
+        this.nurse = nurse;
+    }
 
     public Long getId() {
         return id;

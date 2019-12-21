@@ -1,17 +1,16 @@
+import { ExaminationType } from './../../models/examinationType';
 import { formatDate } from '@angular/common';
 import { PredefinedExamination } from './../../models/predefinedExamination';
 import { RoomService } from './../../services/room.service';
-import { DateTime } from 'luxon';
-import { ExaminationService } from 'src/app/services/examination.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ExaminationTypeService } from './../../services/examination-type.service';
+import { ExaminationTypeService } from '../../services/examination-type.service';
 import { DoctorService } from './../../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { Room } from './../../models/room';
 import { Doctor } from './../../models/doctor';
-import { ExaminationType } from './../../models/examinationType';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ExaminationService } from 'src/app/services/examination.service';
 
 @Component({
   selector: 'app-add-predefined-examination',

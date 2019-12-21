@@ -1,9 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateRoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -56,7 +57,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
+    public RoomWithIdDTO create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
         }
@@ -65,7 +66,30 @@ public class RoomServiceImpl implements RoomService {
             return null;
         }
         Room room = new Room(roomDTO.getLabel(), examinationKind, clinicAdministrator.getClinic());
-        return roomRepository.save(room);
+        return new RoomWithIdDTO(roomRepository.save(room));
+    }
+
+    @Override
+    public RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) {
+        Room existingRoom = findById(roomDTO.getId());
+        if (existingRoom == null) {
+            return null;
+        }
+        Room roomWithSameLabel = roomRepository.findByLabelIgnoringCase(roomDTO.getLabel());
+        if (roomWithSameLabel != null && roomWithSameLabel.getId() != existingRoom.getId()) {
+            return null;
+        }
+
+        if (!isEditable(existingRoom.getId(), existingRoom.getClinic().getId(), clinicId)) {
+            return null;
+        }
+        ExaminationKind examinationKind = getKind(roomDTO.getKind());
+        if (examinationKind == null) {
+            return null;
+        }
+        existingRoom.setLabel(roomDTO.getLabel());
+        existingRoom.setKind(examinationKind);
+        return new RoomWithIdDTO(roomRepository.save(existingRoom));
     }
 
 
@@ -79,16 +103,14 @@ public class RoomServiceImpl implements RoomService {
                                               String date, String searchStartTime, String searchEndTime) throws DateTimeParseException {
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
-            RoomPagingDTO roomPagingDTO = new RoomPagingDTO(convertToDTO(
-                    roomRepository.findByLabelContainsIgnoringCaseAndClinicIdAndStatus(search, clinic.getId(), LogicalStatus.EXISTING, page).getContent()),
-                    roomRepository.findByLabelContainsIgnoringCaseAndClinicIdAndStatus(search, clinic.getId(), LogicalStatus.EXISTING).size());
-            return roomPagingDTO;
+            return null;
         }
 
         boolean dateSearchActive = true;
         if (date.isEmpty() || searchStartTime.isEmpty() || searchEndTime.isEmpty()) {
             dateSearchActive = false;
         }
+
         if ((search == null || search.isEmpty()) && !dateSearchActive) {
             RoomPagingDTO roomPagingDTO = new RoomPagingDTO(convertToDTO(
                     roomRepository.findByClinicIdAndStatusAndKind(clinic.getId(), LogicalStatus.EXISTING, examinationKind, page).getContent()),
@@ -126,28 +148,31 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room deleteRoom(Long clinic_id, Long room_id) {
-        Room room = roomRepository.getByIdAndStatusNot(room_id, LogicalStatus.DELETED);
+    public RoomWithIdDTO deleteRoom(Long clinicId, Long roomId) {
+        Room room = roomRepository.getByIdAndStatusNot(roomId, LogicalStatus.DELETED);
 
         if (room == null) {
             return null;
         }
 
-        if (room.getClinic().getId() != clinic_id) {
+        if (!isEditable(roomId, room.getClinic().getId(), clinicId)) {
             return null;
         }
-
-        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(room_id);
-
-        if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
-            return null;
-        }
-
         room.setStatus(LogicalStatus.DELETED);
-        return roomRepository.save(room);
+        return new RoomWithIdDTO(roomRepository.save(room));
     }
 
-    private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    private boolean isEditable(Long roomId, Long existingRoomClinicId, Long clinicId) {
+        if (existingRoomClinicId != clinicId) {
+            return false;
+        }
+        List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsInRoom(roomId);
+
+        return !(upcomingExaminations != null && !upcomingExaminations.isEmpty());
+    }
+
+    private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime
+            startDateTime, LocalDateTime endDateTime) {
         List<RoomDTO> availableRoom = new ArrayList<>();
         for (Room currentRoom : roomsInClinicAll) {
             if (isAvailable(currentRoom, startDateTime, endDateTime)) {
@@ -160,7 +185,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
-    private List<RoomDTO> getRoomOnAnotherDate(List<Room> roomsInClinicAll, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    private List<RoomDTO> getRoomOnAnotherDate(List<Room> roomsInClinicAll, LocalDateTime
+            startDateTime, LocalDateTime endDateTime) {
         List<RoomDTO> available = new ArrayList<>();
         long duration = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
         for (Room currentRoom : roomsInClinicAll) {
@@ -220,14 +246,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator) {
+    public RoomWithIdDTO assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator) {
         Examination selectedExamination = examinationService.getExamination(examination.getId());
 
-        if (selectedExamination.getClinicAdministrator().getId() != clinicAdministrator.getId()) {
+        if (selectedExamination == null || selectedExamination.getClinicAdministrator().getId() != clinicAdministrator.getId()) {
             return null;
         }
+
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
-        return assignRoom(selectedExamination.getId(), roomDTO);
+        return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
     }
 
 
@@ -237,10 +264,12 @@ public class RoomServiceImpl implements RoomService {
         if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
+
         long duration = Duration.between(selectedExamination.getInterval().getStartDateTime(), selectedExamination.getInterval().getEndDateTime()).toMillis() / 1000;
         if (!isAvailable(room, roomDTO.getAvailable(), roomDTO.getAvailable().plusSeconds(duration))) {
             return null;
         }
+
         Doctor doctor = null;
         for (Doctor doc : selectedExamination.getDoctors()) {
             doctor = doc;
@@ -253,6 +282,9 @@ public class RoomServiceImpl implements RoomService {
         if (roomDTO.getAvailable().equals(selectedExamination.getInterval().getStartDateTime())) {
             chosenNurse = nurseService.getRandomNurse(selectedExamination.getClinic().getId(), selectedExamination.getInterval().getStartDateTime()
                     , selectedExamination.getInterval().getEndDateTime());
+            if (chosenNurse == null) {
+                return null;
+            }
             examinationService.assignRoom(selectedExamination, room, chosenNurse);
         } else {
             DateTimeInterval dateTimeInterval = dateTimeIntervalService.create(roomDTO.getAvailable(),
@@ -260,7 +292,10 @@ public class RoomServiceImpl implements RoomService {
             if (dateTimeInterval != null) {
                 chosenNurse = nurseService.getRandomNurse(selectedExamination.getClinic().getId(), dateTimeInterval.getStartDateTime(),
                         dateTimeInterval.getEndDateTime());
-                //treba da proverim da li je doktor tad slobodan, ako nije mora da ga izabere! Pazi da doktor mora da bude slobodan i specijalizovan
+                if (chosenNurse == null) {
+                    return null;
+                }
+
                 if (!doctorService.isAvailable(doctor, dateTimeInterval.getStartDateTime(), dateTimeInterval.getEndDateTime())) {
                     doctorService.removeExamination(selectedExamination, doctor.getEmail());
                     selectedExamination.getDoctors().remove(doctor);
@@ -311,8 +346,9 @@ public class RoomServiceImpl implements RoomService {
         emailNotificationService.sendEmail(nurse.getEmail(), subject, textWithDoctor);
     }
 
-    private boolean isAvailable(Room currentRoom, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<Examination> examinations = examinationService.getExaminations(currentRoom.getId());
+    @Override
+    public boolean isAvailable(Room currentRoom, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<Examination> examinations = examinationService.getExaminationsOnDay(currentRoom.getId(), startDateTime);
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {
                 if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {
@@ -332,7 +368,11 @@ public class RoomServiceImpl implements RoomService {
             if (availableRoom.isEmpty()) {
                 availableRoom = getRoomOnAnotherDate(allRooms, examination.getInterval().getStartDateTime(), examination.getInterval().getEndDateTime());
             }
-            assignRoom(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())));
+
+            if (!availableRoom.isEmpty()) {
+                assignRoom(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())));
+            }
+
         }
     }
 }

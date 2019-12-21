@@ -23,6 +23,14 @@ export class DoctorService {
     return this.httpClient.post(this.url, doctor);
   }
 
+  public put(doctor: Doctor) {
+    return this.httpClient.put(this.url, doctor);
+  }
+
+  public get(id: number) {
+    return this.httpClient.get(this.url + "/" + id);
+  }
+
   public getAllDoctorsForAdmin(): Observable<Doctor[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: Doctor[]) => {
       this.doctorsForAdmin.next(data);

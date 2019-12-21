@@ -1,0 +1,139 @@
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-caption">
+                    <h1 class="page-title">Your profile</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+    <div class="container">
+        <div class="card-block bg-white mb30">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <!-- section-title -->
+                    <div class="section-title mb-0">
+                        <form [formGroup]="editPersonalInformation" class="mat-elevation-z8 form">
+                            <table class="form-full-width table-font" cellspacing="0">
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{loggedInNurse.email}}</td>
+                                </tr>
+                                <br>
+
+                                <tr>
+                                    <td>Password</td>
+                                    <td><a mat-list-item routerLink="/user/change-password">Change password</a>
+                                    </td>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td>
+                                        <label>First name</label>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="form-full-width-td">
+                                            <input matInput formControlName="firstName">
+                                            <i matSuffix class="material-icons">edit</i>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('firstName').errors && editPersonalInformation.get('firstName').errors['required']">
+                                                Please enter your first name.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('firstName').errors && editPersonalInformation.get('firstName').errors['maxlength']">
+                                                Maximal number of characters for this field is 30.
+                                            </mat-error>
+
+                                        </mat-form-field>
+                                    </td>
+                                <tr>
+                                    <td>
+                                        <label>Last name</label>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="form-full-width-td">
+                                            <input matInput formControlName="lastName">
+                                            <i matSuffix class="material-icons">edit</i>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('lastName').errors && editPersonalInformation.get('lastName').errors['required']">
+                                                Please enter your last name.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('lastName').errors && editPersonalInformation.get('lastName').errors['maxlength']">
+                                                Maximal number of characters for this field is 30.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <label>Work hours</label>
+                                    </td>
+                                    <td>
+                                        <table class="form-full-width-td" cellspacing="0">
+                                            <tr>
+                                                <td>From:</td>
+                                                <td>
+                                                    <div>
+                                                        <input matInput type="time" formControlName="workHoursFrom">
+                                                    </div>
+                                                </td>
+                                                <td>To:</td>
+                                                <td>
+                                                    <div>
+                                                        <input matInput type="time" formControlName="workHoursTo">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Phone number</label>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="form-full-width-td">
+                                            <input matInput formControlName="phoneNumber">
+                                            <i matSuffix class="material-icons">edit</i>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['required']">
+                                                Please enter your phone number.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['pattern']">
+                                                Phone number must begin with 0 and can contain digits only.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="editPersonalInformation.get('phoneNumber').errors && (editPersonalInformation.get('phoneNumber').errors['minlength'] 
+                                             || editPersonalInformation.get('phoneNumber').errors && editPersonalInformation.get('phoneNumber').errors['maxlength'])">
+                                                Phone number can contain between 9 and 10 digits.
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div class="button-save">
+                                <button mat-raised-button color="primary" (click)="saveChanges()"
+                                    [disabled]="!editPersonalInformation.valid">Save changes</button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- /.section-title -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->

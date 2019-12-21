@@ -15,15 +15,13 @@
                         <td>From:</td>
                         <td>
                             <div class="form-full-width-td">
-                                <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="timeFrom">
-                                </ngx-timepicker-field>
+                                <input matInput type="time" formControlName="timeFrom">
                             </div>
                         </td>
                         <td>To:</td>
                         <td>
                             <div class="form-full-width-td ml-2">
-                                <ngx-timepicker-field [controlOnly]="true" [format]="24" formControlName="timeTo">
-                                </ngx-timepicker-field>
+                                <input matInput type="time" formControlName="timeTo">
                             </div>
                         </td>
                     </tr>

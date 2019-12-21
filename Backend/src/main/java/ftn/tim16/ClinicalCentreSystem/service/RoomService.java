@@ -1,23 +1,27 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AssignExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateRoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.RoomPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateRoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Room;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RoomService {
 
     Room findById(Long id);
 
-    Room create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator);
+    RoomWithIdDTO create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator);
 
-    Room assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator);
+    RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId);
+
+    RoomWithIdDTO assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator);
 
     void automaticallyAssignRoom();
 
@@ -27,5 +31,7 @@ public interface RoomService {
 
     List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime);
 
-    Room deleteRoom(Long clinic_id, Long room_id);
+    RoomWithIdDTO deleteRoom(Long clinicId, Long roomId);
+
+    boolean isAvailable(Room currentRoom, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

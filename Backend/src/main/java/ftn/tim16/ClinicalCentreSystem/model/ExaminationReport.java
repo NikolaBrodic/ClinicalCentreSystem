@@ -33,6 +33,20 @@ public class ExaminationReport {
     @OneToOne()
     private Examination examination;
 
+    public ExaminationReport() {
+    }
+
+    public ExaminationReport(LocalDateTime timeCreated, String comment, MedicalRecord medicalRecord,
+                             Diagnose diagnose, Doctor doctor, Examination examination) {
+        this.timeCreated = timeCreated;
+        this.comment = comment;
+        this.medicalRecord = medicalRecord;
+        this.diagnose = diagnose;
+        this.prescriptions = new HashSet<>();
+        this.doctor = doctor;
+        this.examination = examination;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,7 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
+import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -44,6 +48,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     private RoomService roomService;
 
     @Override
+    public List<Examination> getExaminationsOnDay(Long idRoom, LocalDateTime day) {
+        LocalDate date = getDate(day.toString());
+        LocalDateTime greater = LocalDateTime.of(date, LocalTime.of(0, 0));
+
+        LocalDateTime less = LocalDateTime.of(date, LocalTime.of(23, 59, 59));
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan
+                (idRoom, ExaminationStatus.CANCELED, greater, less);
+    }
+
+    @Override
     public List<Examination> getExaminations(Long idRoom) {
         return examinationRepository.findByRoomIdAndStatusNotOrderByIntervalStartDateTime(idRoom, ExaminationStatus.CANCELED);
     }
@@ -54,8 +68,30 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public List<Examination> getDoctorExaminationsOnDay(Long idDoctor, LocalDateTime day) {
+        LocalDate date = getDate(day.toString());
+        LocalDateTime greater = LocalDateTime.of(date, LocalTime.of(0, 0));
+
+        LocalDateTime less = LocalDateTime.of(date, LocalTime.of(23, 59, 59));
+
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan
+                (idDoctor, ExaminationStatus.CANCELED, greater, less);
+    }
+
+
+    @Override
     public List<Examination> getNurseExaminations(Long idNurse) {
         return examinationRepository.findByNurseIdAndStatusNot(idNurse, ExaminationStatus.CANCELED);
+    }
+
+    @Override
+    public List<Examination> getNurseExaminationsOnDay(Long idNurse, LocalDateTime day) {
+        LocalDate date = getDate(day.toString());
+        LocalDateTime greater = LocalDateTime.of(date, LocalTime.of(0, 0));
+
+        LocalDateTime less = LocalDateTime.of(date, LocalTime.of(23, 59, 59));
+        return examinationRepository.findByNurseIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan
+                (idNurse, ExaminationStatus.CANCELED, greater, less);
     }
 
     @Override
@@ -89,21 +125,27 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public ExaminationPagingDTO getPredefinedExaminations(ClinicAdministrator clinicAdministrator, Pageable page) {
-        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus
-                (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED);
-        Page<Examination> pageExaminations = examinationRepository.findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus
-                (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED, page);
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.PREDEF_AVAILABLE);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+
+        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusIn
+                (clinicAdministrator.getId(), statuses);
+        Page<Examination> pageExaminations = examinationRepository.findByClinicAdministratorIdAndStatusIn
+                (clinicAdministrator.getId(), statuses, page);
         ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(pageExaminations.getContent(), examinations.size());
         return examinationPagingDTO;
     }
 
     @Override
     public Examination assignRoom(Examination selectedExamination, Room room, Nurse chosenNurse) {
+        if (chosenNurse == null) {
+            return null;
+        }
+        selectedExamination.setNurse(chosenNurse);
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
-        if (chosenNurse != null) {
-            selectedExamination.setNurse(chosenNurse);
-        }
+
         return examinationRepository.save(selectedExamination);
     }
 
@@ -119,7 +161,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public Examination cancelExamination(Doctor doctor, Long examinationId) {
+    public ExaminationDTO cancelExamination(Doctor doctor, Long examinationId) {
         Examination examination = getExamination(examinationId);
         if (examination == null) {
             return null;
@@ -149,12 +191,12 @@ public class ExaminationServiceImpl implements ExaminationService {
         examination.setNurse(null);
 
         sendMail(examination, doctor, nurse, examination.getPatient());
-        return examinationRepository.save(examination);
+        return new ExaminationDTO(examinationRepository.save(examination));
     }
 
 
     @Override
-    public Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
+    public ExaminationDTO createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
         LocalDate localDate = getDate(predefinedExaminationDTO.getStartDateTime());
         LocalDateTime startDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getStartDateTime());
         LocalDateTime endDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getEndDateTime());
@@ -167,7 +209,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         Doctor doctor = doctorService.getDoctor(predefinedExaminationDTO.getDoctorDTO().getId());
         Room room = roomService.findById(predefinedExaminationDTO.getRoom());
 
-        if (examinationType == null || doctor == null || room == null) {
+        if (examinationType == null || doctor == null || room == null || examinationType.getId() != doctor.getSpecialized().getId()) {
+            return null;
+        }
+
+        if (!doctorService.isAvailable(doctor, startDateTime, endDateTime) || !roomService.isAvailable(room, startDateTime, endDateTime)) {
             return null;
         }
 
@@ -182,17 +228,22 @@ public class ExaminationServiceImpl implements ExaminationService {
                 room, predefinedExaminationDTO.getDiscount(), nurse, clinicAdministrator.getClinic(), clinicAdministrator);
         examination.getDoctors().add(doctor);
 
-        return examinationRepository.save(examination);
+        return new ExaminationDTO(examinationRepository.save(examination));
     }
 
     @Override
-    public List<Examination> getDoctorsUpcomingExaminations(Long doctor_id) {
-        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctor_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    public List<Examination> getDoctorUpcomingExaminations(Long doctorId) {
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctorId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
     @Override
-    public List<Examination> getUpcomingExaminationsInRoom(Long room_id) {
-        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(room_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    public List<Examination> getNurseUpcomingExaminations(Long nurseId) {
+        return examinationRepository.findByNurseIdAndStatusNotAndIntervalEndDateTimeAfter(nurseId, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
+
+    @Override
+    public List<Examination> getUpcomingExaminationsInRoom(Long roomId) {
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(roomId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
     @Override
@@ -200,13 +251,23 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationRepository.findByExaminationTypeIdAndStatusNotAndIntervalEndDateTimeAfter(examinationTypeId, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
 
+    @Override
+    public Examination getOngoingExamination(Long patientId, Long doctorId, LocalDateTime examinationStartTime) {
+        List<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        statuses.add(ExaminationStatus.APPROVED);
+        return examinationRepository.findByPatientIdAndDoctorsIdAndDoctorsStatusAndIntervalStartDateTimeLessThanEqualAndIntervalEndDateTimeGreaterThanAndStatusIn(
+                patientId, doctorId, DoctorStatus.ACTIVE, examinationStartTime, examinationStartTime, statuses
+        );
+    }
+
+
     private LocalDateTime getLocalDateTime(LocalDate date, String time) throws DateTimeParseException {
         LocalTime localTime = LocalTime.parse(time.substring(11), DateTimeFormatter.ofPattern("HH:mm"));
         return LocalDateTime.of(date, localTime);
     }
 
     private LocalDate getDate(String date) throws DateTimeParseException {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(date.substring(0, 10), formatter);
     }

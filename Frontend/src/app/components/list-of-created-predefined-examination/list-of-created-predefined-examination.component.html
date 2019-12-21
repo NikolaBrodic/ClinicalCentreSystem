@@ -88,14 +88,6 @@
                                     {{(element.examinationType.price * (100 - element.discount) / 100) }} RSD
                                 </td>
                             </ng-container>
-
-                            <ng-container matColumnDef="edit">
-                                <th mat-header-cell *matHeaderCellDef></th>
-                                <td mat-cell *matCellDef="let element">
-                                    <button mat-raised-button class="update-btn" disabled="disabled"
-                                        (click)="editPredefinedExamination(element)">Edit</button>
-                                </td>
-                            </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>

@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+h1 {
+  display: table;
+  margin: 0px auto 0px auto;
+  padding: 10px;
+  color: white;
+  background-color: rgba(13, 198, 231, 0.8);
+  box-shadow: 0 0 5px 5px rgba(13, 198, 231, 0.8);
+}
+
+.page-header {
+  background: url(src\assets\background-images\default_background.jpg)no-repeat;
+  position: relative;
+  background-size: cover;
+}
+
+.page-caption {
+  padding-top: 50px;
+  padding-bottom: 150px;
+}
+
+.page-title {
+  font-size: 60px;
+  line-height: 1;
+  text-align: center;
+  font-family: 'Ubuntu', cursive;
+  font-weight: 600;
+}
+
+.card-section {
+  position: relative;
+  bottom: 60px;
+}
+
+.card-block {
+  padding: 40px;
+  width: 60%;
+  margin: auto;
+}
+
+.table-font {
+  font-size: 115%;
+  margin-bottom: 15px;
+}
+
+.section-title {
+  margin-bottom: 60px;
+}
+
+.form {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-full-width-td {
+  width: 90%;
+}
+
+.table-full-width{
+  width:98%;
+}
+
+.button-save{
+  margin-left: 72%;
+}

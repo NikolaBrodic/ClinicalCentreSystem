@@ -1,6 +1,6 @@
 import { ExaminationType } from './../../../models/examinationType';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ExaminationTypeService } from './../../../services/examination-type.service';
+import { ExaminationTypeService } from '../../../services/examination-type.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -50,8 +50,9 @@ export class EditExaminationTypeComponent implements OnInit {
         this.examinationTypeService.updateSuccessEmitter.next(responseData);
       },
       message => {
-        this.toastr.error("You can not edit this examination type because this examination type is specialization of some doctor or type of some examination.",
-          'Edit examination type or examination type with same label already exist. ');
+        this.toastr.error("You can not edit this examination type because this examination type is specialization of some doctor or type of some examination  or examination type with same label already exist. ",
+          'Edit examination type');
+        this.dialogRef.close();
       }
     );
   }

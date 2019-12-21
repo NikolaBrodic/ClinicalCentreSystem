@@ -1,8 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
-import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateDoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepository;
@@ -64,14 +65,14 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        //TODO: CHECK VACATION
+
         if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
         if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getDoctorExaminations(doctor.getId());
+        List<Examination> examinations = examinationService.getDoctorExaminationsOnDay(doctor.getId(), startDateTime);
 
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {
@@ -84,8 +85,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinic_id) {
-        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinic_id, specialized, DoctorStatus.DELETED);
+    public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {
             if (isAvailable(doctor, startDateTime, endDateTime)) {
                 return doctor;
@@ -145,22 +146,27 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor deleteDoctor(Long clinic_id, Long id) {
+    public DoctorDTO deleteDoctor(Long clinicId, Long id) {
 
         Doctor doctor = getDoctor(id);
         if (doctor == null) {
             return null;
         }
-        if (doctor.getClinic().getId() != clinic_id) {
+        if (doctor.getClinic().getId() != clinicId || !isEditable(id)) {
             return null;
         }
-        List<Examination> upcomingExaminations = examinationService.getDoctorsUpcomingExaminations(id);
+
+        doctor.setStatus(DoctorStatus.DELETED);
+        return new DoctorDTO(doctorRepository.save(doctor));
+    }
+
+    private boolean isEditable(Long doctorId) {
+        List<Examination> upcomingExaminations = examinationService.getDoctorUpcomingExaminations(doctorId);
 
         if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
-            return null;
+            return false;
         }
-        doctor.setStatus(DoctorStatus.DELETED);
-        return doctorRepository.save(doctor);
+        return true;
     }
 
     @Override
@@ -169,7 +175,42 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
+    public DoctorDTO editPersonalInformation(EditDoctorDTO editDoctorDTO) {
+        Doctor doctor = getLoginDoctor();
+
+        if (doctor.getId() != editDoctorDTO.getId()) {
+            return null;
+        }
+
+        LocalTime workHoursFrom = LocalTime.parse(editDoctorDTO.getWorkHoursFrom(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime workHoursTo = LocalTime.parse(editDoctorDTO.getWorkHoursTo(), DateTimeFormatter.ofPattern("HH:mm"));
+        ExaminationType examinationType = examinationTypeService.findById(editDoctorDTO.getSpecialized().getId());
+        if (workHoursFrom.isAfter(workHoursTo) || examinationType == null) {
+            return null;
+        }
+
+        if (!workHoursFrom.equals(doctor.getWorkHoursFrom()) || !workHoursTo.equals(doctor.getWorkHoursTo()) || doctor.getSpecialized().getId() != editDoctorDTO.getSpecialized().getId()) {
+            if (!isEditable(editDoctorDTO.getId())) {
+                return null;
+            }
+            doctor.setWorkHoursFrom(workHoursFrom);
+            doctor.setWorkHoursTo(workHoursTo);
+            doctor.setSpecialized(examinationType);
+        }
+
+        doctor.setFirstName(editDoctorDTO.getFirstName());
+        doctor.setLastName(editDoctorDTO.getLastName());
+        doctor.setPhoneNumber(editDoctorDTO.getPhoneNumber());
+        return new DoctorDTO(doctorRepository.save(doctor));
+    }
+
+    @Override
+    public EditDoctorDTO findDoctorById(Long id) {
+        return new EditDoctorDTO(doctorRepository.findByIdAndStatus(id, DoctorStatus.ACTIVE));
+    }
+
+    @Override
+    public DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
 
         if (userDetails != null || doctorRepository.findByPhoneNumber(doctor.getPhoneNumber()) != null) {
@@ -198,7 +239,7 @@ public class DoctorServiceImpl implements DoctorService {
 
         composeAndSendEmail(savedDoctor.getEmail(), clinicAdministrator.getClinic().getName(), generatedPassword);
 
-        return savedDoctor;
+        return new DoctorDTO(savedDoctor);
     }
 
     @Override

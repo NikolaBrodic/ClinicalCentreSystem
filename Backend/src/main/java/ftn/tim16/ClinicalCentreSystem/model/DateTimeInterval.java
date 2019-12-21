@@ -62,15 +62,18 @@ public class DateTimeInterval {
         if (startExaminationTime.isEqual(startDateTime) || endExaminationTime.isEqual(endDateTime)) {
             return false;
         }
+
         if (startExaminationTime.isAfter(startDateTime) && startExaminationTime.isBefore(endDateTime)) {
             return false;
         }
-        if (startExaminationTime.isBefore(startDateTime) && endExaminationTime.isAfter(endDateTime)) {
+
+        if (endExaminationTime.isAfter(startDateTime) && endExaminationTime.isBefore(endDateTime)) {
             return false;
         }
-        if (startExaminationTime.isBefore(startDateTime) && endExaminationTime.isAfter(startDateTime)) {
+
+      /*  if (startExaminationTime.isBefore(startDateTime) && endExaminationTime.isAfter(startDateTime)) {
             return false;
-        }
-        return !(endExaminationTime.isAfter(startDateTime) && endExaminationTime.isBefore(endDateTime));
+        }*/
+        return !(startExaminationTime.isBefore(startDateTime) && endExaminationTime.isAfter(endDateTime));
     }
 }

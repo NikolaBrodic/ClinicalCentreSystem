@@ -60,6 +60,11 @@ import { AddMedicineComponent } from './components/add-medicine/add-medicine.com
 import { PriceListComponent } from './components/price-list/price-list.component';
 import { EditPriceListComponent } from './components/edit/edit-price-list/edit-price-list.component';
 import { EditExaminationTypeComponent } from './components/edit/edit-examination-type/edit-examination-type.component';
+import { EditRoomComponent } from './components/edit/edit-room/edit-room.component';
+import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
+import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
+import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
+import { ExaminationComponent } from './components/examination/examination.component';
 
 @NgModule({
   declarations: [
@@ -100,9 +105,15 @@ import { EditExaminationTypeComponent } from './components/edit/edit-examination
     AddDiagnoseComponent,
     ListMedicinesComponent,
     AddMedicineComponent,
+    EditExaminationTypeComponent,
+    EditRoomComponent,
     PriceListComponent,
     EditPriceListComponent,
     EditExaminationTypeComponent,
+    EditPersonalInformationClinicAdminComponent,
+    EditPersonalInformationDoctorComponent,
+    EditPersonalInformationNurseComponent,
+    ExaminationComponent,
 
   ],
   imports: [
@@ -146,7 +157,9 @@ import { EditExaminationTypeComponent } from './components/edit/edit-examination
     ListMedicinesComponent,
     AddMedicineComponent,
     EditExaminationTypeComponent,
-    EditPriceListComponent
+    EditRoomComponent,
+    EditPriceListComponent,
+    ExaminationComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

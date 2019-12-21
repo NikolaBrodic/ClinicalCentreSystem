@@ -1,11 +1,11 @@
 import { ClinicAdministrator } from 'src/app/models/clinicAdministrator';
-import { ClinicAdministratorService } from 'src/app/services/clinic-administrator.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Clinic } from 'src/app/models/clinic';
 import { MatDialogRef } from '@angular/material';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { ToastrService } from 'ngx-toastr';
+import { ClinicAdministratorService } from 'src/app/services/clinic-administrator.service';
 
 @Component({
   selector: 'app-add-clinic-administrator',

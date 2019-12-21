@@ -1,4 +1,6 @@
-import { TimeOffDoctorService } from './../../services/time-off-doctor.service';
+import { TimeOffNurseService } from './../../services/time-off-nurse.service';
+import { TimeOffForWorkCalendar } from './../../models/timeOffForWorkCalendar';
+import { TimeOffDoctorService } from '../../services/time-off-doctor.service';
 import { Component, OnInit } from '@angular/core';
 import { AxiomSchedulerParams } from 'src/app/models/axiomSchedulerParams';
 import { ExaminationService } from 'src/app/services/examination.service';
@@ -7,8 +9,6 @@ import { ExaminationForWorkCalendar } from 'src/app/models/examinationForWorkCal
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { AxiomSchedulerEvent } from 'axiom-scheduler';
-import { TimeOffForWorkCalendar } from 'src/app/models/timeOffForWorkCalendar';
-import { TimeOffNurseService } from 'src/app/services/time-off-nurse.service';
 
 @Component({
   selector: 'app-work-calendar',

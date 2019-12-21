@@ -1,14 +1,15 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.CreateDoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateDoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface DoctorService {
-    Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator);
+    DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator);
 
     List<DoctorDTO> findAllDoctorsInClinic(Clinic clinic);
 
@@ -18,7 +19,7 @@ public interface DoctorService {
 
     boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-    Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinic_id);
+    Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId);
 
     void removeExamination(Examination examination, String email);
 
@@ -30,7 +31,11 @@ public interface DoctorService {
 
     Doctor getDoctor(Long id);
 
-    Doctor deleteDoctor(Long clinic_id, Long id);
+    DoctorDTO deleteDoctor(Long clinicId, Long id);
 
     List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId);
+
+    DoctorDTO editPersonalInformation(EditDoctorDTO editDoctorDTO);
+
+    EditDoctorDTO findDoctorById(Long id);
 }

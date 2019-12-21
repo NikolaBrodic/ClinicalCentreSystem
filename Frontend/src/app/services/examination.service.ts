@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 import { Injectable } from '@angular/core';
+import { PatientWithId } from '../models/patientWithId';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class ExaminationService {
   url = environment.baseUrl + environment.examination;
   selectedExamination: Examination;
   successCreatedPredefinedExamination = new Subject<PredefinedExamination>();
+  startingExamination: number;
+  choosenPatient: PatientWithId;
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -71,6 +74,10 @@ export class ExaminationService {
 
   public getNurseExaminationsForWorkCalendar() {
     return this.httpClient.get(this.url + "/nurse-examinations");
+  }
+
+  public getPatientStartingExamination(patientId) {
+    return this.httpClient.get(this.url + "/starting/" + patientId);
   }
 
   public cancelExamination(examination: Examination) {
