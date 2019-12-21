@@ -65,14 +65,14 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        //TODO: CHECK VACATION
+
         if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
         if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getDoctorExaminations(doctor.getId());
+        List<Examination> examinations = examinationService.getDoctorExaminationsOnDay(doctor.getId(), startDateTime);
 
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {

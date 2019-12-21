@@ -13,9 +13,15 @@ public interface ExaminationService {
 
     List<Examination> getExaminations(Long idRoom);
 
+    List<Examination> getExaminationsOnDay(Long idRoom, LocalDateTime day);
+
     List<Examination> getDoctorExaminations(Long idDoctor);
 
+    List<Examination> getDoctorExaminationsOnDay(Long idDoctor, LocalDateTime day);
+
     List<Examination> getNurseExaminations(Long idNurse);
+
+    List<Examination> getNurseExaminationsOnDay(Long idNurse, LocalDateTime day);
 
     Examination getExamination(Long id);
 

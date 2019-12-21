@@ -16,9 +16,18 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
 
     List<Examination> findByRoomIdAndStatusNotOrderByIntervalStartDateTime(Long id, ExaminationStatus status);
 
+    List<Examination> findByRoomIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan
+            (Long id, ExaminationStatus status, LocalDateTime greater, LocalDateTime less);
+
     List<Examination> findByDoctorsIdAndStatusNot(Long id, ExaminationStatus status);
 
+    List<Examination> findByDoctorsIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan
+            (Long id, ExaminationStatus status, LocalDateTime greater, LocalDateTime less);
+
     List<Examination> findByNurseIdAndStatusNot(Long id, ExaminationStatus status);
+
+    List<Examination> findByNurseIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan
+            (Long id, ExaminationStatus status, LocalDateTime greater, LocalDateTime less);
 
     Examination getByIdAndStatusNot(Long id, ExaminationStatus status);
 
@@ -26,9 +35,9 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
 
     Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
 
-    Page<Examination> findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus(Long id, ExaminationStatus status, Long id2, ExaminationStatus status2, Pageable page);
+    Page<Examination> findByClinicAdministratorIdAndStatusIn(Long id, Collection<ExaminationStatus> examinationStatus, Pageable page);
 
-    List<Examination> findByClinicAdministratorIdAndStatusOrClinicAdministratorIdAndStatus(Long id, ExaminationStatus status, Long id2, ExaminationStatus status2);
+    List<Examination> findByClinicAdministratorIdAndStatusIn(Long id, Collection<ExaminationStatus> examinationStatus);
 
     List<Examination> findByStatus(ExaminationStatus status);
 
