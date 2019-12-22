@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
@@ -50,6 +51,28 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     public List<ClinicDTO> findAll() {
         return convertToDTO(clinicRepository.findAll());
+    }
+
+    @Override
+    public EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) {
+
+        Clinic existingClinic = clinicRepository.findOneById(clinicDTO.getId());
+
+        if (existingClinic == null || existingClinic.getId() != clinicIdInWhichAdminWorks) {
+            return null;
+        }
+
+        Clinic clinicWithSameName = findByName(clinicDTO.getName());
+        Clinic clinicWithSameAddress = findByAddress(clinicDTO.getAddress());
+        if ((clinicWithSameName != null && clinicWithSameName.getId() != existingClinic.getId())
+                || (clinicWithSameAddress != null && clinicWithSameAddress.getId() != existingClinic.getId())) {
+
+            return null;
+        }
+        existingClinic.setName(clinicDTO.getName());
+        existingClinic.setAddress(clinicDTO.getAddress());
+        existingClinic.setDescription(clinicDTO.getDescription());
+        return new EditClinicDTO(clinicRepository.save(existingClinic));
     }
 
     private List<ClinicDTO> convertToDTO(List<Clinic> clinics) {

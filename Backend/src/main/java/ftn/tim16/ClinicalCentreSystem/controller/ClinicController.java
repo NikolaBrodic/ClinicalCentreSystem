@@ -1,6 +1,9 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditClinicDTO;
+import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,8 +22,11 @@ public class ClinicController {
     @Autowired
     private ClinicService clinicService;
 
+    @Autowired
+    private ClinicAdministratorService clinicAdministratorService;
+
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN','PATIENT')")
+    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN','PATIENT','CLINIC_ADMIN')")
     public ResponseEntity<ClinicDTO> getClinic(@PathVariable Long id) {
         ClinicDTO clinicDTO = clinicService.findById(id);
         if (clinicDTO == null) {
@@ -46,4 +53,20 @@ public class ClinicController {
         List<ClinicDTO> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<EditClinicDTO> edit(@Valid @RequestBody EditClinicDTO clinicDTO) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        EditClinicDTO changedClinic = clinicService.edit(clinicDTO, clinicAdministrator.getClinic().getId());
+        if (changedClinic == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(changedClinic, HttpStatus.ACCEPTED);
+    }
+
 }
