@@ -21,6 +21,10 @@ export class ClinicService {
     return this.httpClient.post(this.url, clinic);
   }
 
+  public edit(clinic: Clinic) {
+    return this.httpClient.put(this.url, clinic);
+  }
+
   public getAllClinics(): Observable<Clinic[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: Clinic[]) => {
       this.clinics.next(data)
@@ -31,8 +35,11 @@ export class ClinicService {
     return this.clinics.asObservable();
   }
 
-
   public getClinicById(clinicId) {
     return this.httpClient.get(this.url + "/" + clinicId);
+  }
+
+  public getClinicInWhichClinicAdminWorks() {
+    return this.httpClient.get(this.url + "/clinic-in-which-admin-works");
   }
 }

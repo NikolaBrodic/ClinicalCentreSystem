@@ -65,6 +65,8 @@ import { EditPersonalInformationClinicAdminComponent } from './components/edit/e
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { ExaminationComponent } from './components/examination/examination.component';
+import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
+import { AdminsGuard } from './guards/admins.guard';
 
 @NgModule({
   declarations: [
@@ -114,6 +116,7 @@ import { ExaminationComponent } from './components/examination/examination.compo
     EditPersonalInformationDoctorComponent,
     EditPersonalInformationNurseComponent,
     ExaminationComponent,
+    EditClinicProfileComponent,
 
   ],
   imports: [
@@ -169,7 +172,8 @@ import { ExaminationComponent } from './components/examination/examination.compo
     PatientGuard,
     DoctorGuard,
     NurseGuard,
-    MedicalStaffGuard
+    MedicalStaffGuard,
+    AdminsGuard
 
   ],
   bootstrap: [AppComponent]

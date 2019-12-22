@@ -17,6 +17,7 @@
             <a mat-list-item (click)="onLogout()">Log out</a>
         </mat-nav-list>
         <mat-nav-list *ngIf="isClinicAdmin()">
+            <a mat-list-item routerLink="/clinic-admin/clinic-profile">Clinic profile</a>
             <a mat-list-item routerLink="/clinic-admin/doctors">Doctors</a>
             <a mat-list-item routerLink="/clinic-admin/examination-types">Examination types</a>
             <a mat-list-item routerLink="/clinic-admin/price-list">Price list</a>

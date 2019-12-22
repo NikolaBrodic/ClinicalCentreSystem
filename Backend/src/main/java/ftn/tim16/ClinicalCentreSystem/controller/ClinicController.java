@@ -54,6 +54,16 @@ public class ClinicController {
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/clinic-in-which-admin-works")
+    @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN','PATIENT','CLINIC_ADMIN')")
+    public ResponseEntity<ClinicDTO> getClinicInWhichClinicAdminWorks() {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(new ClinicDTO(clinicAdministrator.getClinic()), HttpStatus.OK);
+    }
+
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<EditClinicDTO> edit(@Valid @RequestBody EditClinicDTO clinicDTO) {
