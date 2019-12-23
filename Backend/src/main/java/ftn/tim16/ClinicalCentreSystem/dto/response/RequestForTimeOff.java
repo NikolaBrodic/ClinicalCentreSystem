@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.dto.response;
 
-import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffType;
 import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffDoctor;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
@@ -8,7 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
 public class RequestForTimeOff {
     private Long id;
 
-    private TimeOffType type;
+    private String type;
 
     private DateTimeInterval interval;
 
@@ -20,7 +19,7 @@ public class RequestForTimeOff {
 
     }
 
-    public RequestForTimeOff(Long id, TimeOffType type, DateTimeInterval interval,
+    public RequestForTimeOff(Long id, String type, DateTimeInterval interval,
                              String firstName, String lastName) {
         this.id = id;
         this.type = type;
@@ -30,12 +29,12 @@ public class RequestForTimeOff {
     }
 
     public RequestForTimeOff(TimeOffNurse timeOffNurse) {
-        this(timeOffNurse.getId(), timeOffNurse.getType(), timeOffNurse.getInterval(),
+        this(timeOffNurse.getId(), timeOffNurse.getType().toString(), timeOffNurse.getInterval(),
                 timeOffNurse.getNurse().getFirstName(), timeOffNurse.getNurse().getLastName());
     }
 
     public RequestForTimeOff(TimeOffDoctor timeOffDoctor) {
-        this(timeOffDoctor.getId(), timeOffDoctor.getType(), timeOffDoctor.getInterval(),
+        this(timeOffDoctor.getId(), timeOffDoctor.getType().toString(), timeOffDoctor.getInterval(),
                 timeOffDoctor.getDoctor().getFirstName(), timeOffDoctor.getDoctor().getLastName());
     }
 
@@ -47,11 +46,11 @@ public class RequestForTimeOff {
         this.id = id;
     }
 
-    public TimeOffType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(TimeOffType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
