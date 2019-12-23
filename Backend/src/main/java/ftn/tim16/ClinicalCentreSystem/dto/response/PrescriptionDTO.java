@@ -1,23 +1,22 @@
 package ftn.tim16.ClinicalCentreSystem.dto.response;
 
-import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.MedicineDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientDTO;
+import ftn.tim16.ClinicalCentreSystem.model.Doctor;
+import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.model.Prescription;
 
 public class PrescriptionDTO {
     private Long id;
 
-    private MedicineDTO medicine;
+    private String medicine;
 
-    private DoctorDTO doctor;
+    private String doctor;
 
-    private PatientDTO patient;
+    private String patient;
 
     public PrescriptionDTO() {
     }
 
-    public PrescriptionDTO(Long id, MedicineDTO medicine, DoctorDTO doctor, PatientDTO patient) {
+    public PrescriptionDTO(Long id, String medicine, String doctor, String patient) {
         this.id = id;
         this.medicine = medicine;
         this.doctor = doctor;
@@ -25,8 +24,12 @@ public class PrescriptionDTO {
     }
 
     public PrescriptionDTO(Prescription prescription) {
-        this(prescription.getId(), new MedicineDTO(prescription.getMedicine()), new DoctorDTO(prescription.getExaminationReport().getDoctor()),
-                new PatientDTO(prescription.getExaminationReport().getExamination().getPatient()));
+        Doctor doctor = prescription.getExaminationReport().getDoctor();
+        Patient patient = prescription.getExaminationReport().getExamination().getPatient();
+        this.id = prescription.getId();
+        this.medicine = prescription.getMedicine().getLabel();
+        this.doctor = doctor.getFirstName() + " " + doctor.getLastName();
+        this.patient = patient.getFirstName() + " " + patient.getLastName();
     }
 
     public Long getId() {
@@ -37,27 +40,27 @@ public class PrescriptionDTO {
         this.id = id;
     }
 
-    public MedicineDTO getMedicine() {
+    public String getMedicine() {
         return medicine;
     }
 
-    public void setMedicine(MedicineDTO medicine) {
+    public void setMedicine(String medicine) {
         this.medicine = medicine;
     }
 
-    public DoctorDTO getDoctor() {
+    public String getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(DoctorDTO doctor) {
+    public void setDoctor(String doctor) {
         this.doctor = doctor;
     }
 
-    public PatientDTO getPatient() {
+    public String getPatient() {
         return patient;
     }
 
-    public void setPatient(PatientDTO patient) {
+    public void setPatient(String patient) {
         this.patient = patient;
     }
 }

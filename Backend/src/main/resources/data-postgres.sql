@@ -439,6 +439,21 @@ insert into medicine (label, chemical_composition, "usage") values ('Amoxicillin
  'urinary tract, and skin infections. Its side effects are diarrhea, heartburn, nausea, itching, vomiting, confusion, abdominal pain, rash, ' ||
  'and allergic reactions.');
 
+insert into medicine (label, chemical_composition, "usage") values ('Simvastatin', 'rhoncus, urna, neque, viverra',
+ 'Simvastatin is one of the first "statins" (HMG-CoA reductase inhibitors) approved for treating high cholesterol and reducing the risk ' ||
+ 'of stroke, death from heart disease, and risk of heart attacks. ');
+
+insert into medicine (label, chemical_composition, "usage") values ('Lisinopril', 'pbibendum, enim, facilisis, gravida',
+ 'Lisinopril is an angiotensin converting enzyme (ACE) inhibitor used for treating high blood pressure, congestive heart failure, and for ' ||
+ 'preventing kidney failure caused by high blood pressure and diabetes.');
+
+insert into medicine (label, chemical_composition, "usage") values ('Metformin', 'vitae, velit, dignissim ',
+ 'Metformin is used alone or in combination with other drugs for treating type 2 diabetes in adults and children.');
+
+insert into medicine (label, chemical_composition, "usage") values ('Azithromycin', 'amet, mauris, commodo, quis, imperdiet',
+ 'Azithromycin is an antibiotic used for treating ear, throat, and sinus infections as well as pneumonia, bronchitis, and some sexually ' ||
+ 'transmitted diseases. Its common side effects include loose stools, nausea, stomach pain, and vomiting. ');
+
 /*
 insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('goran.smiljanic@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Goran', 'Smiljanic', '038856886','06:00','18:00',1,'ACTIVE',3);

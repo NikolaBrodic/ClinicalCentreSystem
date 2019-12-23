@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PrescriptionService {
 
-    List<PrescriptionDTO> getPrescriptionsForNurse(Long nurseId);
+    List<PrescriptionDTO> getUnstampedPrescriptions(Long nurseId);
 
     PrescriptionDTO stampPrescription(Long prescriptionId, Long nurseId);
 }

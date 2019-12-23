@@ -18,13 +18,13 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     private PrescriptionRepository prescriptionRepository;
 
     @Override
-    public List<PrescriptionDTO> getPrescriptionsForNurse(Long nurseId) {
-        return convertToDTO(prescriptionRepository.findByNurseIdAndStatus(nurseId, PrescriptionStatus.AWAITING));
+    public List<PrescriptionDTO> getUnstampedPrescriptions(Long nurseId) {
+        return convertToDTO(prescriptionRepository.findByNurseIdAndStatus(nurseId, PrescriptionStatus.UNSTAMPED));
     }
 
     @Override
     public PrescriptionDTO stampPrescription(Long prescriptionId, Long nurseId) {
-        Prescription prescription = prescriptionRepository.findByIdAndNurseIdAndStatus(prescriptionId, nurseId, PrescriptionStatus.AWAITING);
+        Prescription prescription = prescriptionRepository.findByIdAndNurseIdAndStatus(prescriptionId, nurseId, PrescriptionStatus.UNSTAMPED);
         if (prescription == null) {
             return null;
         }

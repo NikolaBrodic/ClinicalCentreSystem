@@ -30,7 +30,7 @@ public class Prescription {
         this.medicine = medicine;
         this.examinationReport = examinationReport;
         this.nurse = nurse;
-        this.status = PrescriptionStatus.AWAITING;
+        this.status = PrescriptionStatus.UNSTAMPED;
     }
 
     public Long getId() {

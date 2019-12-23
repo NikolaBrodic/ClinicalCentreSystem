@@ -68,6 +68,7 @@ import { ExaminationComponent } from './components/examination/examination.compo
 import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-holiday-or-time-off/requests-for-holiday-or-time-off.component';
 import { RejectRequestForHolidayOrTimeOffComponent } from './components/reject-request-for-holiday-or-time-off/reject-request-for-holiday-or-time-off.component';
 import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve-request-for-holiday-or-time-off/approve-request-for-holiday-or-time-off.component';
+import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +121,7 @@ import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve
     RequestsForHolidayOrTimeOffComponent,
     RejectRequestForHolidayOrTimeOffComponent,
     ApproveRequestForHolidayOrTimeOffComponent,
+    ListPrescriptionsComponent,
 
   ],
   imports: [

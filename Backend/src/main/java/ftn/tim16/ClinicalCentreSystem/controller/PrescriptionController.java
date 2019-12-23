@@ -22,28 +22,28 @@ public class PrescriptionController {
     @Autowired
     NurseService nurseService;
 
-    @GetMapping(value = "/all-for-nurse")
+    @GetMapping(value = "/unstamped")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<List<PrescriptionDTO>> getAllPrescriptionsForNurse() {
+    public ResponseEntity<List<PrescriptionDTO>> getUnstampedPrescriptions() {
         Nurse nurse = nurseService.getLoginNurse();
         if (nurse == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        List<PrescriptionDTO> prescriptionsForNurse = prescriptionService.getPrescriptionsForNurse(nurse.getId());
+        List<PrescriptionDTO> prescriptionsForNurse = prescriptionService.getUnstampedPrescriptions(nurse.getId());
 
         return new ResponseEntity<>(prescriptionsForNurse, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<PrescriptionDTO> stampPrescription(@PathVariable("id") Long prescriptionId) {
+    public ResponseEntity<PrescriptionDTO> stampPrescription(@RequestBody PrescriptionDTO prescriptionDTO) {
         Nurse nurse = nurseService.getLoginNurse();
         if (nurse == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        PrescriptionDTO stampedPrescriptionDTO = prescriptionService.stampPrescription(prescriptionId, nurse.getId());
+        PrescriptionDTO stampedPrescriptionDTO = prescriptionService.stampPrescription(prescriptionDTO.getId(), nurse.getId());
         if (stampedPrescriptionDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

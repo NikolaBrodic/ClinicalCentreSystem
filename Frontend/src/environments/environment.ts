@@ -22,6 +22,7 @@ export const environment = {
   medicine: '/api/medicine',
   examinationReport: '/api/examination-report',
   medicalRecord: '/api/medical-record',
+  prescription: '/api/prescription',
 };
 
 /*
