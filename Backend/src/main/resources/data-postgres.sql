@@ -447,6 +447,26 @@ insert into doctor (email, password, first_name, last_name, phone_number,work_ho
 insert into doctor_authority(user_id, authority_id) values (11,4);
 */
 
+insert into date_time_interval (start_date_time, end_date_time) values ('31.12.2019 08:00','31.01.2020 10:00');
+insert into time_off_doctor (status, type, doctor_id, interval_id)
+ values ('AWAITING', 'HOLIDAY', 2, 10);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('29.12.2019 08:00','30.01.2020 10:00');
+insert into time_off_doctor (status, type, doctor_id, interval_id)
+ values ('AWAITING', 'TIME_OFF', 4, 11);
 
 
+  insert into date_time_interval (start_date_time, end_date_time) values ('30.11.2019 08:00','30.01.2020 10:00');
+insert into time_off_doctor (status, type, doctor_id, interval_id)
+ values ('AWAITING', 'TIME_OFF', 1, 12);
+
+
+
+  insert into date_time_interval (start_date_time, end_date_time) values ('30.11.2019 08:00','30.01.2020 10:00');
+insert into time_off_nurse (status, type, nurse_id, interval_id)
+ values ('AWAITING', 'TIME_OFF', 5, 13);
+
+   insert into date_time_interval (start_date_time, end_date_time) values ('30.12.2019 08:00','30.01.2020 10:00');
+insert into time_off_nurse (status, type, nurse_id, interval_id)
+ values ('AWAITING', 'HOLIDAY', 4, 14);
 

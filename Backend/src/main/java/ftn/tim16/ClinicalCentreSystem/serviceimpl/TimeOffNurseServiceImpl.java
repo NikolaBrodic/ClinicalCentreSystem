@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOff;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
@@ -41,12 +42,12 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
     }
 
     @Override
-    public List<TimeOffDTO> getRequestsForHolidayOrTimeOff(Long clinicId) {
-        return convertToDTO(timeOffNurseRepository.findByNurseClinicIdAndStatus(clinicId, TimeOffStatus.AWAITING));
+    public List<RequestForTimeOff> getRequestsForHolidayOrTimeOff(Long clinicId) {
+        return convertRequestToDTO(timeOffNurseRepository.findByNurseClinicIdAndStatus(clinicId, TimeOffStatus.AWAITING));
     }
 
     @Override
-    public TimeOffDTO approveRequestForHolidayOrTimeOff(Long id) {
+    public RequestForTimeOff approveRequestForHolidayOrTimeOff(Long id) {
         TimeOffNurse timeOffNurse = timeOffNurseRepository.findByIdAndStatus(id, TimeOffStatus.AWAITING);
 
         if (timeOffNurse == null) {
@@ -59,7 +60,7 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
 
         composeAndSendApprovalEmail(updatedTimeOff.getNurse().getEmail(), updatedTimeOff.getType().toString());
 
-        return new TimeOffDTO(updatedTimeOff);
+        return new RequestForTimeOff(updatedTimeOff);
     }
 
     private void composeAndSendApprovalEmail(String recipientEmail, String type) {
@@ -74,7 +75,7 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
     }
 
     @Override
-    public TimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason) {
+    public RequestForTimeOff rejectRequestForHolidayOrTimeOff(Long id, String reason) {
         TimeOffNurse timeOffNurse = timeOffNurseRepository.findByIdAndStatus(id, TimeOffStatus.AWAITING);
 
         if (timeOffNurse == null) {
@@ -85,7 +86,7 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
         TimeOffNurse updatedTimeOff = timeOffNurseRepository.save(timeOffNurse);
 
         composeAndSendRejectionEmail(updatedTimeOff.getNurse().getEmail(), updatedTimeOff.getType().toString(), reason);
-        return new TimeOffDTO(updatedTimeOff);
+        return new RequestForTimeOff(updatedTimeOff);
     }
 
     private void composeAndSendRejectionEmail(String recipientEmail, String type, String reason) {
@@ -110,6 +111,17 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
         List<TimeOffDTO> timeOffDTOS = new ArrayList<>();
         for (TimeOffNurse timeOffNurse : timeOffNurses) {
             timeOffDTOS.add(new TimeOffDTO(timeOffNurse));
+        }
+        return timeOffDTOS;
+    }
+
+    private List<RequestForTimeOff> convertRequestToDTO(List<TimeOffNurse> timeOffNurses) {
+        if (timeOffNurses == null || timeOffNurses.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<RequestForTimeOff> timeOffDTOS = new ArrayList<>();
+        for (TimeOffNurse timeOffNurse : timeOffNurses) {
+            timeOffDTOS.add(new RequestForTimeOff(timeOffNurse));
         }
         return timeOffDTOS;
     }

@@ -1,7 +1,5 @@
-import { Room } from './room';
-import { DateTimeInterval } from './dateTimeInterval';
-import { Patient } from './patient';
 
+import { DateTimeInterval } from './dateTimeInterval';
 
 export class TimeOffForWorkCalendar {
     id: number;

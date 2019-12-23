@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOff;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 
@@ -11,9 +12,9 @@ public interface TimeOffNurseService {
 
     List<TimeOffDTO> findByNurseIdAndStatus(Long id, TimeOffStatus status);
 
-    List<TimeOffDTO> getRequestsForHolidayOrTimeOff(Long clinicId);
+    List<RequestForTimeOff> getRequestsForHolidayOrTimeOff(Long clinicId);
 
-    TimeOffDTO approveRequestForHolidayOrTimeOff(Long id);
+    RequestForTimeOff approveRequestForHolidayOrTimeOff(Long id);
 
-    TimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason);
+    RequestForTimeOff rejectRequestForHolidayOrTimeOff(Long id, String reason);
 }
