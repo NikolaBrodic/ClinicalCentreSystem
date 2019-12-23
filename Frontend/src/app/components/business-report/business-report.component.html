@@ -64,6 +64,36 @@
                         </div>
 
                     </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="labelRaiting page-title"> Choose doctor</label>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field class="form-full-width">
+                                <mat-label>Doctor</mat-label>
+                                <mat-select [(ngModel)]="selectedDoctor" (selectionChange)="changeSelection()">
+                                    <mat-option *ngFor="let doctor of doctors" [value]="doctor">{{doctor.firstName}}
+                                        {{doctor.lastName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+
+                            <label class="labelRaiting page-title"> Doctor's ratining</label>
+                        </div>
+                        <div class="col-4">
+                            <star-rating class="rating-style" totalstars=" 5" checkedcolor="red" uncheckedcolor="black"
+                                size="35px" [value]="doctorRaiting">
+                            </star-rating>
+                        </div>
+
+                    </div>
                     <!-- /.section-title -->
                 </div>
             </div>

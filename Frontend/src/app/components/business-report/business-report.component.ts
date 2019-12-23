@@ -1,3 +1,4 @@
+import { isUndefined } from 'util';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { DateTime } from 'luxon';
 import { Component, OnInit } from '@angular/core';
@@ -5,6 +6,7 @@ import { DoctorService } from 'src/app/services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { StarRatingComponent } from 'ng-starrating';
+import { Doctor } from 'src/app/models/doctor';
 
 @Component({
   selector: 'app-business-report',
@@ -17,15 +19,31 @@ export class BusinessReportComponent implements OnInit {
   maxDate = new Date();
   clinicRating: Number = 0.0;
   clinicRevenue: Number;
-  doctorRaiting: Number;
-
-  constructor(private toastr: ToastrService, private doctorService: DoctorService, private clinicService: ClinicService,
-  ) { }
+  doctorRaiting: Number = 0.0;
+  doctors: Doctor[] = [];
+  selectedDoctor: Doctor;
+  constructor(private toastr: ToastrService, private doctorService: DoctorService, private clinicService: ClinicService) { }
 
   ngOnInit() {
+    this.getAllDoctorsForAdmin();
     this.getClinicRating();
   }
 
+  getAllDoctorsForAdmin() {
+    this.doctorService.getAllDoctorsForAdmin().subscribe((data: Doctor[]) => {
+      this.doctors = data;
+      this.selectedDoctor = this.doctors[0];
+      this.changeSelection();
+    })
+  }
+  changeSelection() {
+    if (isUndefined(this.selectedDoctor) || isUndefined(this.selectedDoctor.doctorRating) || this.selectedDoctor.doctorRating < 0 || this.selectedDoctor.doctorRating > 5) {
+      this.doctorRaiting = 0.0;
+    } else {
+      this.doctorRaiting = this.selectedDoctor.doctorRating;
+    }
+    console.log(this.doctorRaiting);
+  }
   search() {
     if (!(this.startDate || this.endDate)) {
       this.toastr.error("Please choose start and end date", 'Business report');
