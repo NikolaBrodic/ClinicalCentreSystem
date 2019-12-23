@@ -64,6 +64,7 @@ public class Examination {
     public Examination() {
         this.doctorRating = 0;
         this.clinicRating = 0;
+        this.discount = 0;
     }
 
     public Examination(ExaminationKind kind, DateTimeInterval interval, ExaminationStatus status, ExaminationType examinationType,

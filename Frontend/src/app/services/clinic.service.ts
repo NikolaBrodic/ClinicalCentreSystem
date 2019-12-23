@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
@@ -34,5 +34,19 @@ export class ClinicService {
 
   public getClinicById(clinicId) {
     return this.httpClient.get(this.url + "/" + clinicId);
+  }
+
+  public getClinicRevenue(startDate, endDate) {
+    let params = new HttpParams();
+    params = params.append('startDate', startDate);
+    params = params.append('endDate', endDate);
+
+    return this.httpClient.get(this.url + "/revenue", {
+      params: params
+    });
+  }
+
+  public getClinicRating() {
+    return this.httpClient.get(this.url + "/clinic-rating");
   }
 }

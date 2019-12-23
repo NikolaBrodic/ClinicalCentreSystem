@@ -1,6 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicDTO;
+import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -17,6 +20,9 @@ public class ClinicController {
 
     @Autowired
     private ClinicService clinicService;
+
+    @Autowired
+    private ClinicAdministratorService clinicAdministratorService;
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('CLINICAL_CENTRE_ADMIN','PATIENT')")
@@ -45,5 +51,36 @@ public class ClinicController {
     public ResponseEntity<List<ClinicDTO>> getAllClinics() {
         List<ClinicDTO> allClinics = clinicService.findAll();
         return new ResponseEntity<>(allClinics, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/revenue")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Integer> getClinicRevenue(@RequestParam(value = "startDate", required = true) String startDateTime,
+                                                    @RequestParam(value = "endDate", required = true) String endDateTime) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            Integer revenue = clinicService.getClinicRevenue(clinicAdministrator.getClinic().getId(), startDateTime, endDateTime);
+
+            return new ResponseEntity<>(revenue, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/clinic-rating")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Double> getClinicRating() {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Double clinicRating = clinicAdministrator.getClinic().getClinicRating();
+        if (clinicRating < 0 || clinicRating > 5) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(clinicRating, HttpStatus.OK);
     }
 }

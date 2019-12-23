@@ -15,4 +15,6 @@ public interface ClinicService {
     ClinicDTO create(ClinicDTO clinicDTO);
 
     List<ClinicDTO> findAll();
+
+    Integer getClinicRevenue(Long id, String startDateTime, String endDateTime);
 }

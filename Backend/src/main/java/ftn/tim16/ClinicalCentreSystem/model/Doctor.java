@@ -85,7 +85,7 @@ public class Doctor implements UserDetails {
     private Set<Authority> authorities;
 
     @Column
-    private Integer doctorRating;
+    private Double doctorRating;
 
     public Doctor() {
 
@@ -106,7 +106,7 @@ public class Doctor implements UserDetails {
         this.timeOffDoctors = new HashSet<>();
         this.examinations = new HashSet<Examination>();
         this.authorities = authorities;
-        this.doctorRating = 0;
+        this.doctorRating = 0.0;
     }
 
     public void setAuthorities(Set<Authority> authorities) {
@@ -257,11 +257,11 @@ public class Doctor implements UserDetails {
         return lastPasswordResetDate;
     }
 
-    public Integer getDoctorRating() {
+    public Double getDoctorRating() {
         return doctorRating;
     }
 
-    public void setDoctorRating(Integer doctorRating) {
+    public void setDoctorRating(Double doctorRating) {
         this.doctorRating = doctorRating;
     }
 

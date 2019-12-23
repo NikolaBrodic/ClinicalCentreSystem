@@ -1,3 +1,4 @@
+import { BusinessReportComponent } from './components/business-report/business-report.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
@@ -106,6 +107,11 @@ const routes: Routes = [
   {
     path: 'clinic-admin/edit-personal-information',
     component: EditPersonalInformationClinicAdminComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/business-report',
+    component: BusinessReportComponent,
     canActivate: [ClinicAdminGuard],
   },
 

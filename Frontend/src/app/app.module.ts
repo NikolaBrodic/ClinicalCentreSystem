@@ -65,7 +65,8 @@ import { EditPersonalInformationClinicAdminComponent } from './components/edit/e
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { ExaminationComponent } from './components/examination/examination.component';
-
+import { BusinessReportComponent } from './components/business-report/business-report.component';
+import { RatingModule } from 'ng-starrating';
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,6 +115,7 @@ import { ExaminationComponent } from './components/examination/examination.compo
     EditPersonalInformationDoctorComponent,
     EditPersonalInformationNurseComponent,
     ExaminationComponent,
+    BusinessReportComponent,
 
   ],
   imports: [
@@ -133,6 +135,7 @@ import { ExaminationComponent } from './components/examination/examination.compo
     DemoMaterialModule,
     MatNativeDateModule,
     AxiomSchedulerModule,
+    RatingModule,
   ],
   entryComponents: [
     ListOfExaminationTypesComponent,

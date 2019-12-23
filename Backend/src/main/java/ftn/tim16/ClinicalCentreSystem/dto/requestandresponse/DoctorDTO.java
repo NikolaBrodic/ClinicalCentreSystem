@@ -23,7 +23,7 @@ public class DoctorDTO {
 
     private String phoneNumber;
 
-    private Integer doctorRating;
+    private Double doctorRating;
 
     public DoctorDTO() {
 
@@ -123,11 +123,11 @@ public class DoctorDTO {
         this.specialized = specialized;
     }
 
-    public Integer getDoctorRating() {
+    public Double getDoctorRating() {
         return doctorRating;
     }
 
-    public void setDoctorRating(Integer doctorRating) {
+    public void setDoctorRating(Double doctorRating) {
         this.doctorRating = doctorRating;
     }
 }
