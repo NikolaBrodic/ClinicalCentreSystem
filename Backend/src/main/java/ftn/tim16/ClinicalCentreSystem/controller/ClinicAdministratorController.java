@@ -3,6 +3,8 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicAdministratorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditClinicAdminDTO;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
+import ftn.tim16.ClinicalCentreSystem.service.TimeOffNurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,12 @@ public class ClinicAdministratorController {
 
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
+
+    @Autowired
+    private TimeOffDoctorService timeOffDoctorService;
+
+    @Autowired
+    private TimeOffNurseService timeOffNurseService;
 
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
@@ -53,4 +61,6 @@ public class ClinicAdministratorController {
         }
         return new ResponseEntity<>(clinicAdministrator, HttpStatus.CREATED);
     }
+
+
 }

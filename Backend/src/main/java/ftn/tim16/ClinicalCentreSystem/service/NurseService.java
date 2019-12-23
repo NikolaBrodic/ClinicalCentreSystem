@@ -25,4 +25,5 @@ public interface NurseService {
     NurseDTO editPersonalInformation(EditNurseDTO editNurseDTO);
 
     EditNurseDTO findNurseById(Long id);
+
 }

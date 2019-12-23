@@ -9,4 +9,10 @@ import java.util.List;
 public interface TimeOffNurseRepository extends JpaRepository<TimeOffNurse, Long> {
 
     List<TimeOffNurse> findByNurseIdAndStatus(Long id, TimeOffStatus status);
+
+    List<TimeOffNurse> findByNurseIdAndStatusNot(Long id, TimeOffStatus status);
+
+    List<TimeOffNurse> findByNurseClinicIdAndStatus(Long id, TimeOffStatus status);
+
+    TimeOffNurse findByIdAndStatus(Long id, TimeOffStatus status);
 }

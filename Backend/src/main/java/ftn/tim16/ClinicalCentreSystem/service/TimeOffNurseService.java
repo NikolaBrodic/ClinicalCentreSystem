@@ -10,4 +10,10 @@ public interface TimeOffNurseService {
     boolean isNurseOnVacation(Long id, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     List<TimeOffDTO> findByNurseIdAndStatus(Long id, TimeOffStatus status);
+
+    List<TimeOffDTO> getRequestsForHolidayOrTimeOff(Long clinicId);
+
+    TimeOffDTO approveRequestForHolidayOrTimeOff(Long id);
+
+    TimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason);
 }
