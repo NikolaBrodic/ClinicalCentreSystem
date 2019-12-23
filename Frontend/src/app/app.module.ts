@@ -65,6 +65,9 @@ import { EditPersonalInformationClinicAdminComponent } from './components/edit/e
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { ExaminationComponent } from './components/examination/examination.component';
+import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-holiday-or-time-off/requests-for-holiday-or-time-off.component';
+import { RejectRequestForHolidayOrTimeOffComponent } from './components/reject-request-for-holiday-or-time-off/reject-request-for-holiday-or-time-off.component';
+import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve-request-for-holiday-or-time-off/approve-request-for-holiday-or-time-off.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +117,9 @@ import { ExaminationComponent } from './components/examination/examination.compo
     EditPersonalInformationDoctorComponent,
     EditPersonalInformationNurseComponent,
     ExaminationComponent,
+    RequestsForHolidayOrTimeOffComponent,
+    RejectRequestForHolidayOrTimeOffComponent,
+    ApproveRequestForHolidayOrTimeOffComponent,
 
   ],
   imports: [
@@ -160,6 +166,9 @@ import { ExaminationComponent } from './components/examination/examination.compo
     EditRoomComponent,
     EditPriceListComponent,
     ExaminationComponent,
+    RequestsForHolidayOrTimeOffComponent,
+    RejectRequestForHolidayOrTimeOffComponent,
+    ApproveRequestForHolidayOrTimeOffComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

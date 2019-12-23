@@ -1,17 +1,19 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
+import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Nurse;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.NurseService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffNurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -26,6 +28,9 @@ public class TimeOffNurseController {
     @Autowired
     private TimeOffNurseService timeOffNurseService;
 
+    @Autowired
+    private ClinicAdministratorService clinicAdministratorService;
+
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('NURSE')")
     public ResponseEntity<List<TimeOffDTO>> getAllTimeOffForNurse() {
@@ -39,6 +44,39 @@ public class TimeOffNurseController {
             return new ResponseEntity<>(timeOffNurses, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping(value = "/requests-for-holiday-or-time-off")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<RequestForTimeOffDTO>> getRequestsForHolidayOrTimeOff() {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<RequestForTimeOffDTO> requests = timeOffNurseService.getRequestsForHolidayOrTimeOff(clinicAdministrator.getClinic().getId());
+        return new ResponseEntity<>(requests, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/approve-request-for-holiday-or-time-off/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<RequestForTimeOffDTO> approveRequestForHolidayOrTimeOff(@PathVariable Long id) {
+        RequestForTimeOffDTO request = timeOffNurseService.approveRequestForHolidayOrTimeOff(id);
+        if (request == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(request, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/reject-request-for-holiday-or-time-off/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<RequestForTimeOffDTO> rejectRequestForHolidayOrTimeOff(@RequestBody String reason, @PathVariable Long id) {
+        RequestForTimeOffDTO request = timeOffNurseService.rejectRequestForHolidayOrTimeOff(id, reason);
+        if (request == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(request, HttpStatus.OK);
         }
     }
 }
