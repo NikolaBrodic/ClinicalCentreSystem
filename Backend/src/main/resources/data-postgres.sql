@@ -9,6 +9,14 @@ insert into clinical_centre_administrator (email, password, first_name, last_nam
 ('1st.admin@maildrop.cc', '$2a$10$0fX3yNqeWX3O/f0HtZRtVOA/6SA1Jq2vqARolGgJjRu47FX4AE/Y.', 'Marko', 'Marković', '064123456', 'ACTIVE');
 insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
 
+insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values
+('2st.admin@maildrop.cc', '$2a$10$0fX3yNqeWX3O/f0HtZRtVOA/6SA1Jq2vqARolGgJjRu47FX4AE/Y.', 'Goran', 'Krunic', '044123456', 'ACTIVE');
+insert into clinical_centre_admin_authority (user_id, authority_id) values (2,1);
+
+insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values
+('3st.admin@maildrop.cc', '$2a$10$0fX3yNqeWX3O/f0HtZRtVOA/6SA1Jq2vqARolGgJjRu47FX4AE/Y.', 'Tihomir', 'Jovelic', '041123456', 'ACTIVE');
+insert into clinical_centre_admin_authority (user_id, authority_id) values (3,1);
+
 /*CLINIC*/
 insert into clinic (address, description, name,clinic_rating) values ('3.Oktobar 73', 'Savremena klinika u Beogradu', 'VMA',0);
 insert into clinic (address, description, name,clinic_rating) values ('Marsala Tita 9c', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
@@ -416,7 +424,7 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
 /*
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECTED', 'TIME_OFF', 7, 33);
-
+*/
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
   'bronchodilators (LABAs) are used in the treatment of asthma.');
@@ -432,7 +440,7 @@ insert into medicine (label, chemical_composition, "usage") values ('Lipitor', '
  'Lipitor is a "statin" (HMG-CoA reductase inhibitors) approved for treating high cholesterol. It also prevents chest pain, ' ||
  'stroke, heart attack in individuals with coronary artery disease. It causes minor side effects such as constipation, ' ||
  'diarrhea, fatigue, gas, heartburn, and headache. Like other statins it can cause muscle pain and muscle break down. ');
-
+/*
 insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('goran.smiljanic@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Goran', 'Smiljanic', '038856886','06:00','18:00',1,'ACTIVE',3);
 insert into doctor_authority(user_id, authority_id) values (10,4);

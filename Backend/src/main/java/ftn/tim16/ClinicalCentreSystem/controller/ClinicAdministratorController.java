@@ -55,5 +55,4 @@ public class ClinicAdministratorController {
         return new ResponseEntity<>(clinicAdministrator, HttpStatus.CREATED);
     }
 
-
 }
