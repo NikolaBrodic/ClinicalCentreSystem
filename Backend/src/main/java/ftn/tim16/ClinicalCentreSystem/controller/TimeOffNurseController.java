@@ -1,6 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOff;
+import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
@@ -50,19 +50,19 @@ public class TimeOffNurseController {
 
     @GetMapping(value = "/requests-for-holiday-or-time-off")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<RequestForTimeOff>> getRequestsForHolidayOrTimeOff() {
+    public ResponseEntity<List<RequestForTimeOffDTO>> getRequestsForHolidayOrTimeOff() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        List<RequestForTimeOff> requests = timeOffNurseService.getRequestsForHolidayOrTimeOff(clinicAdministrator.getClinic().getId());
+        List<RequestForTimeOffDTO> requests = timeOffNurseService.getRequestsForHolidayOrTimeOff(clinicAdministrator.getClinic().getId());
         return new ResponseEntity<>(requests, HttpStatus.OK);
     }
 
     @PutMapping(value = "/approve-request-for-holiday-or-time-off/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<RequestForTimeOff> approveRequestForHolidayOrTimeOff(@PathVariable Long id) {
-        RequestForTimeOff request = timeOffNurseService.approveRequestForHolidayOrTimeOff(id);
+    public ResponseEntity<RequestForTimeOffDTO> approveRequestForHolidayOrTimeOff(@PathVariable Long id) {
+        RequestForTimeOffDTO request = timeOffNurseService.approveRequestForHolidayOrTimeOff(id);
         if (request == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -71,8 +71,8 @@ public class TimeOffNurseController {
 
     @PutMapping(value = "/reject-request-for-holiday-or-time-off/{id}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<RequestForTimeOff> rejectRequestForHolidayOrTimeOff(@RequestBody String reason, @PathVariable Long id) {
-        RequestForTimeOff request = timeOffNurseService.rejectRequestForHolidayOrTimeOff(id, reason);
+    public ResponseEntity<RequestForTimeOffDTO> rejectRequestForHolidayOrTimeOff(@RequestBody String reason, @PathVariable Long id) {
+        RequestForTimeOffDTO request = timeOffNurseService.rejectRequestForHolidayOrTimeOff(id, reason);
         if (request == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {

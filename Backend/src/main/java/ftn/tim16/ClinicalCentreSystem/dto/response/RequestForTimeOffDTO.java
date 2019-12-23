@@ -4,7 +4,7 @@ import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffDoctor;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
 
-public class RequestForTimeOff {
+public class RequestForTimeOffDTO {
     private Long id;
 
     private String type;
@@ -15,12 +15,12 @@ public class RequestForTimeOff {
 
     private String lastName;
 
-    public RequestForTimeOff() {
+    public RequestForTimeOffDTO() {
 
     }
 
-    public RequestForTimeOff(Long id, String type, DateTimeInterval interval,
-                             String firstName, String lastName) {
+    public RequestForTimeOffDTO(Long id, String type, DateTimeInterval interval,
+                                String firstName, String lastName) {
         this.id = id;
         this.type = type;
         this.interval = interval;
@@ -28,12 +28,12 @@ public class RequestForTimeOff {
         this.lastName = lastName;
     }
 
-    public RequestForTimeOff(TimeOffNurse timeOffNurse) {
+    public RequestForTimeOffDTO(TimeOffNurse timeOffNurse) {
         this(timeOffNurse.getId(), timeOffNurse.getType().toString(), timeOffNurse.getInterval(),
                 timeOffNurse.getNurse().getFirstName(), timeOffNurse.getNurse().getLastName());
     }
 
-    public RequestForTimeOff(TimeOffDoctor timeOffDoctor) {
+    public RequestForTimeOffDTO(TimeOffDoctor timeOffDoctor) {
         this(timeOffDoctor.getId(), timeOffDoctor.getType().toString(), timeOffDoctor.getInterval(),
                 timeOffDoctor.getDoctor().getFirstName(), timeOffDoctor.getDoctor().getLastName());
     }
