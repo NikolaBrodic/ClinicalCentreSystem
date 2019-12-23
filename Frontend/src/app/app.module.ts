@@ -67,6 +67,7 @@ import { EditPersonalInformationNurseComponent } from './components/edit/edit-pe
 import { ExaminationComponent } from './components/examination/examination.component';
 import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
 import { AdminsGuard } from './guards/admins.guard';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { AdminsGuard } from './guards/admins.guard';
     EditPersonalInformationNurseComponent,
     ExaminationComponent,
     EditClinicProfileComponent,
+    MapComponent,
 
   ],
   imports: [
@@ -163,6 +165,7 @@ import { AdminsGuard } from './guards/admins.guard';
     EditRoomComponent,
     EditPriceListComponent,
     ExaminationComponent,
+    MapComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
