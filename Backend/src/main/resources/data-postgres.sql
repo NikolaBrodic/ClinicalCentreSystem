@@ -83,12 +83,12 @@ insert into room (label, kind,status,clinic_id) values ('Room 1', 'EXAMINATION',
 insert into room (label, kind,status,clinic_id) values ('Room 2', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 3', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 4', 'OPERATION','EXISTING' ,1);
-/*
+
 insert into room (label, kind,status,clinic_id) values ('Room 5', 'EXAMINATION','EXISTING' ,1);
 insert into room (label, kind,status,clinic_id) values ('Room 6', 'EXAMINATION','EXISTING' ,1);
 
 insert into room (label, kind,status,clinic_id) values ('Room 7', 'EXAMINATION','EXISTING' ,1);
-*/
+
 
 /*
 insert into room (label, kind,status,clinic_id) values ('Room 8', 'EXAMINATION','DELETED' ,1);
@@ -174,7 +174,7 @@ insert into doctor_authority(user_id, authority_id) values (3,4);
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('doca5@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Tamara', 'Lazarevic', '075256886','00:00','20:00',1,'ACTIVE',2);
 insert into doctor_authority(user_id, authority_id) values (4,4);
-/*
+
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('doca6@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Nikolina', 'Simic', '078256886','02:00','10:00',1,'ACTIVE',1);
 insert into doctor_authority(user_id, authority_id) values (5,4);
@@ -182,7 +182,7 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
  values ('doca7@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Marko', 'Popov', '079256886','12:00','20:00',1,'ACTIVE',1,5);
 insert into doctor_authority(user_id, authority_id) values (6,4);
-*/
+
 insert into date_time_interval (start_date_time, end_date_time) values ('31.12.2019 08:00','31.01.2020 10:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 3, 1);
@@ -237,7 +237,7 @@ insert into date_time_interval (start_date_time, end_date_time) values ('31.12.2
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
 values ('EXAMINATION',9,'AWAITING',1,1,1,1);
 insert into examining (examination_id,doctor_id) values (9,1);
-/*
+
 insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 10:30','13.12.2019 11:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id)
 values ('EXAMINATION',10,'APPROVED',2,1,1,1,10);
@@ -261,9 +261,9 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',14,'AWAITING',1,1,1,1);
 
-*/
+
 /* PATIENTS*/
-/*
+
   insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 08:30','13.12.2019 09:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',15,'AWAITING',1,1,1,3);
@@ -292,11 +292,11 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
   insert into date_time_interval (start_date_time, end_date_time) values ('16.12.2019 08:30','16.12.2019 09:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',18,'AWAITING',1,2,4,4);
-*/
+
 
  /* Examinations for calendar */
  /*****************************/
-/*
+
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('DocaKalendar@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Milan', 'Milanovic', '019256886','07:00','23:59',1,'ACTIVE',1);
 insert into doctor_authority(user_id, authority_id) values (7,4);
@@ -346,7 +346,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 08:00','19.12.2019 09:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('23.12.2019 18:30','23.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);
@@ -365,7 +365,7 @@ insert into date_time_interval (start_date_time, end_date_time) values ('18.12.2
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,nurse_id,discount,room_id)
  values ('EXAMINATION',24,'PREDEF_AVAILABLE',1,1,1,9,10,5);
 insert into examining (examination_id,doctor_id) values (28,7);
-*/
+
 
 /* This shouldn't be displayed in calendar */
 /*
@@ -416,6 +416,7 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
 /*
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECTED', 'TIME_OFF', 7, 33);
+*/
 
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
@@ -433,6 +434,12 @@ insert into medicine (label, chemical_composition, "usage") values ('Lipitor', '
  'stroke, heart attack in individuals with coronary artery disease. It causes minor side effects such as constipation, ' ||
  'diarrhea, fatigue, gas, heartburn, and headache. Like other statins it can cause muscle pain and muscle break down. ');
 
+insert into medicine (label, chemical_composition, "usage") values ('Amoxicillin', 'percipit, adipisci, urbanitas',
+ 'Amoxicillin is a penicillin type antibiotic used for treating several types of bacterial infections such as ear, tonsils, throat, larynx, ' ||
+ 'urinary tract, and skin infections. Its side effects are diarrhea, heartburn, nausea, itching, vomiting, confusion, abdominal pain, rash, ' ||
+ 'and allergic reactions.');
+
+/*
 insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
  values ('goran.smiljanic@maildrop.cc', '$2a$10$/.0cmhd2AYDGBQHGJn2RPel.sOUmjTe1f7DCUyGwW31NBh0bollBS', 'Goran', 'Smiljanic', '038856886','06:00','18:00',1,'ACTIVE',3);
 insert into doctor_authority(user_id, authority_id) values (10,4);
