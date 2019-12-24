@@ -354,7 +354,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('23.12.2019 18:30','23.12.2019 23:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('24.12.2019 00:00','24.12.2019 02:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);
@@ -461,6 +461,47 @@ insert into medicine (label, chemical_composition, "usage") values ('Metformin',
 insert into medicine (label, chemical_composition, "usage") values ('Azithromycin', 'amet, mauris, commodo, quis, imperdiet',
  'Azithromycin is an antibiotic used for treating ear, throat, and sinus infections as well as pneumonia, bronchitis, and some sexually ' ||
  'transmitted diseases. Its common side effects include loose stools, nausea, stomach pain, and vomiting. ');
+
+insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima astmu', '17.03.2019. 12:30', 1, 7, 3, 25);
+-- examination_id set to 25 just to get right patient for PrescriptionDTO, that not the real examination_id
+
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 1, 9);
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 2, 9);
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 5, 9);
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 7, 9);
+
+insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent boluje od sizofrenije', '09.06.2019. 09:30', 2, 7, 3, 25);
+-- examination_id set to 25 just to get right patient for PrescriptionDTO, that not the real examination_id
+
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 2, 2, 8);
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 2, 3, 8);
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 2, 6, 8);
+
+insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima mucnine', '19.01.2019. 18:00', 1, 8, 3, 25);
+-- examination_id set to 25 just to get right patient for PrescriptionDTO, that not the real examination_id
+
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 3, 4, 7);
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 3, 5, 7);
+
+insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima vrtoglavice', '16.04.2019. 18:00', 2, 9, 3, 25);
+-- examination_id set to 25 just to get right patient for PrescriptionDTO, that not the real examination_id
+
+insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 4, 6, 9);
+
 
 /*
 insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
