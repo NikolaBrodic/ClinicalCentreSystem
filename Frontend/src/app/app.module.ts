@@ -69,6 +69,7 @@ import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-
 import { RejectRequestForHolidayOrTimeOffComponent } from './components/reject-request-for-holiday-or-time-off/reject-request-for-holiday-or-time-off.component';
 import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve-request-for-holiday-or-time-off/approve-request-for-holiday-or-time-off.component';
 import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
+import { AddClinicalCentreAdminComponent } from './components/add-clinical-centre-admin/add-clinical-centre-admin.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { ListClinicalCentreAdminsComponent } from './components/list-clinical-ce
     RejectRequestForHolidayOrTimeOffComponent,
     ApproveRequestForHolidayOrTimeOffComponent,
     ListClinicalCentreAdminsComponent,
+    AddClinicalCentreAdminComponent,
 
   ],
   imports: [
@@ -171,6 +173,8 @@ import { ListClinicalCentreAdminsComponent } from './components/list-clinical-ce
     RequestsForHolidayOrTimeOffComponent,
     RejectRequestForHolidayOrTimeOffComponent,
     ApproveRequestForHolidayOrTimeOffComponent,
+    ListClinicalCentreAdminsComponent,
+    AddClinicalCentreAdminComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

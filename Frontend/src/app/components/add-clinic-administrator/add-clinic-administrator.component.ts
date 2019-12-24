@@ -66,7 +66,7 @@ export class AddClinicAdministratorComponent implements OnInit {
         this.clinicAdministratorService.addSuccessEmitter.next(clinicAdmin);
       },
       errorMessage => {
-        this.toastr.error("Clinic administrator with same email address or phone number already exists.", 'Add clinic administrator');
+        this.toastr.error("Clinic administrator with the same email address or phone number already exists.", 'Add clinic administrator');
       }
     )
   }
