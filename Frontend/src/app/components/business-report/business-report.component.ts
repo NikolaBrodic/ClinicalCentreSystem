@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
-import { StarRatingComponent } from 'ng-starrating';
 import { Doctor } from 'src/app/models/doctor';
 
 @Component({
@@ -14,6 +13,7 @@ import { Doctor } from 'src/app/models/doctor';
   styleUrls: ['./business-report.component.css']
 })
 export class BusinessReportComponent implements OnInit {
+
   startDate: DateTime;
   endDate: DateTime;
   maxDate = new Date();
@@ -22,12 +22,29 @@ export class BusinessReportComponent implements OnInit {
   doctorRaiting: Number = 0.0;
   doctors: Doctor[] = [];
   selectedDoctor: Doctor;
+  public barChartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+
+  public barChartLabels = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+  public barChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData = [
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+  ];
+
   constructor(private toastr: ToastrService, private doctorService: DoctorService, private clinicService: ClinicService) { }
 
   ngOnInit() {
+
     this.getAllDoctorsForAdmin();
     this.getClinicRating();
+
   }
+
 
   getAllDoctorsForAdmin() {
     this.doctorService.getAllDoctorsForAdmin().subscribe((data: Doctor[]) => {
@@ -36,6 +53,7 @@ export class BusinessReportComponent implements OnInit {
       this.changeSelection();
     })
   }
+
   changeSelection() {
     if (isUndefined(this.selectedDoctor) || isUndefined(this.selectedDoctor.doctorRating) || this.selectedDoctor.doctorRating < 0 || this.selectedDoctor.doctorRating > 5) {
       this.doctorRaiting = 0.0;
@@ -44,6 +62,7 @@ export class BusinessReportComponent implements OnInit {
     }
     console.log(this.doctorRaiting);
   }
+
   search() {
     if (!(this.startDate || this.endDate)) {
       this.toastr.error("Please choose start and end date", 'Business report');
@@ -78,5 +97,7 @@ export class BusinessReportComponent implements OnInit {
       }
     );
   }
+
+
 
 }

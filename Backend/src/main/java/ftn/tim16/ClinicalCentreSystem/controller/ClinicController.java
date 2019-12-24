@@ -83,4 +83,46 @@ public class ClinicController {
         }
         return new ResponseEntity<>(clinicRating, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/daily-statistic")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<int[]> getDailyStatistic() {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        int[] dailyStatistic = clinicService.getDailyStatistic(clinicAdministrator.getClinic().getId());
+        if (dailyStatistic == null || dailyStatistic.length != 7) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(dailyStatistic, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/week-statistic")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<int[]> getWeekStatistic() {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        int[] statistic = clinicService.getWeekStatistic(clinicAdministrator.getClinic().getId());
+        if (statistic == null || statistic.length != 4) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(statistic, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/mount-statistic")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<int[]> getMountStatistic() {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        int[] statistic = clinicService.getMountStatistic(clinicAdministrator.getClinic().getId());
+        if (statistic == null || statistic.length != 12) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(statistic, HttpStatus.OK);
+    }
 }

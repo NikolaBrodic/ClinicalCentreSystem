@@ -131,6 +131,6 @@ public class DoctorDTO {
     public void setDoctorRating(Double doctorRating) {
         this.doctorRating = doctorRating;
     }
-    
+
 
 }

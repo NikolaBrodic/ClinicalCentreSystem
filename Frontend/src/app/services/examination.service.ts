@@ -87,4 +87,6 @@ export class ExaminationService {
   public createPredefinedExamination(predefinedExamination: PredefinedExamination) {
     return this.httpClient.post(this.url + "/predefined-examination", predefinedExamination);
   }
+
+
 }

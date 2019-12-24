@@ -67,6 +67,11 @@ import { EditPersonalInformationNurseComponent } from './components/edit/edit-pe
 import { ExaminationComponent } from './components/examination/examination.component';
 import { BusinessReportComponent } from './components/business-report/business-report.component';
 import { RatingModule } from 'ng-starrating';
+import { ChartsModule } from 'ng2-charts';
+import { DailyStatisticComponent } from './components/charts/daily-statistic/daily-statistic.component';
+import { WeekStatisticComponent } from './components/charts/week-statistic/week-statistic.component';
+import { MountStatisticComponent } from './components/charts/mount-statistic/mount-statistic.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -116,6 +121,9 @@ import { RatingModule } from 'ng-starrating';
     EditPersonalInformationNurseComponent,
     ExaminationComponent,
     BusinessReportComponent,
+    DailyStatisticComponent,
+    WeekStatisticComponent,
+    MountStatisticComponent,
 
   ],
   imports: [
@@ -136,6 +144,7 @@ import { RatingModule } from 'ng-starrating';
     MatNativeDateModule,
     AxiomSchedulerModule,
     RatingModule,
+    ChartsModule
   ],
   entryComponents: [
     ListOfExaminationTypesComponent,

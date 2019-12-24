@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClinicServiceImpl implements ClinicService {
@@ -81,6 +82,97 @@ public class ClinicServiceImpl implements ClinicService {
             }
         }
         return revenue.intValue();
+    }
+
+    @Override
+    public int[] getDailyStatistic(Long clinicId) {
+        List<Examination> examinations = examinationService.getAllHeldExaminations(clinicId);
+
+        List<Examination> onMonday = getDailyStatistic(examinations, 1);
+
+        List<Examination> onTue = getDailyStatistic(examinations, 2);
+
+        List<Examination> onWen = getDailyStatistic(examinations, 3);
+
+        List<Examination> onThu = getDailyStatistic(examinations, 4);
+
+        List<Examination> onFri = getDailyStatistic(examinations, 5);
+
+        List<Examination> onSat = getDailyStatistic(examinations, 6);
+
+        List<Examination> onSun = getDailyStatistic(examinations, 7);
+
+        int[] statistic = {onMonday.size(), onTue.size(), onWen.size(), onThu.size(), onFri.size(), onSat.size(), onSun.size()};
+        return statistic;
+    }
+
+
+    private List<Examination> getDailyStatistic(List<Examination> examinations, int value) {
+        return examinations.stream().filter(p -> p.getInterval().getStartDateTime().getDayOfWeek().getValue() == value).
+                collect(Collectors.toCollection(() -> new ArrayList<Examination>()));
+
+    }
+
+    private List<Examination> getWeekStatistic(List<Examination> examinations, int minVal, int maxVal) {
+        return examinations.stream().filter(p -> {
+            return p.getInterval().getStartDateTime().getDayOfMonth() >= minVal &&
+                    p.getInterval().getStartDateTime().getDayOfMonth() <= maxVal;
+        }).
+                collect(Collectors.toCollection(() -> new ArrayList<Examination>()));
+    }
+
+    @Override
+    public int[] getWeekStatistic(Long clinicId) {
+        List<Examination> examinations = examinationService.getAllHeldExaminations(clinicId);
+
+        List<Examination> first = getWeekStatistic(examinations, 1, 7);
+
+        List<Examination> sec = getWeekStatistic(examinations, 8, 14);
+
+        List<Examination> third = getWeekStatistic(examinations, 15, 21);
+
+        List<Examination> fourth = getWeekStatistic(examinations, 22, 28);
+
+        int[] statistic = {first.size(), sec.size(), third.size(), fourth.size()};
+        return statistic;
+    }
+
+    @Override
+    public int[] getMountStatistic(Long clinicId) {
+        List<Examination> examinations = examinationService.getAllHeldExaminations(clinicId);
+
+        List<Examination> jan = getMountExamination(examinations, 1);
+
+        List<Examination> feb = getMountExamination(examinations, 2);
+
+        List<Examination> march = getMountExamination(examinations, 3);
+
+        List<Examination> april = getMountExamination(examinations, 4);
+
+        List<Examination> may = getMountExamination(examinations, 5);
+        ;
+
+        List<Examination> june = getMountExamination(examinations, 6);
+
+        List<Examination> july = getMountExamination(examinations, 7);
+
+        List<Examination> aug = getMountExamination(examinations, 8);
+
+        List<Examination> sep = getMountExamination(examinations, 9);
+
+        List<Examination> october = getMountExamination(examinations, 10);
+
+        List<Examination> nov = getMountExamination(examinations, 11);
+
+        List<Examination> dec = getMountExamination(examinations, 12);
+
+        int[] statistic = {jan.size(), feb.size(), march.size(), april.size(), may.size(), june.size(), july.size(), aug.size(), sep.size(), october.size(), nov.size(), dec.size()};
+        return statistic;
+    }
+
+    private List<Examination> getMountExamination(List<Examination> examinations, int value) {
+        return examinations.stream().filter(p -> p.getInterval().getStartDateTime().getMonthValue() == value).
+                collect(Collectors.toCollection(() -> new ArrayList<Examination>()));
     }
 
     private LocalDate getDate(String date) throws DateTimeParseException {

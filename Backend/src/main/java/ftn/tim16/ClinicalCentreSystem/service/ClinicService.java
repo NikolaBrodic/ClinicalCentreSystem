@@ -17,4 +17,10 @@ public interface ClinicService {
     List<ClinicDTO> findAll();
 
     Integer getClinicRevenue(Long id, String startDateTime, String endDateTime);
+
+    int[] getDailyStatistic(Long clinicId);
+
+    int[] getWeekStatistic(Long clinicId);
+
+    int[] getMountStatistic(Long clinicId);
 }

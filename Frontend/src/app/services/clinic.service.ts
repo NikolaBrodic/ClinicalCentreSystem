@@ -49,4 +49,16 @@ export class ClinicService {
   public getClinicRating() {
     return this.httpClient.get(this.url + "/clinic-rating");
   }
+
+  public getDailyStatistic() {
+    return this.httpClient.get(this.url + "/daily-statistic");
+  }
+
+  public getMountStatistic() {
+    return this.httpClient.get(this.url + "/mount-statistic");
+  }
+
+  public getWeekStatistic() {
+    return this.httpClient.get(this.url + "/week-statistic");
+  }
 }
