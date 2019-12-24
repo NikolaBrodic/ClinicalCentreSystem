@@ -17,10 +17,10 @@ import java.util.List;
 public class PrescriptionController {
 
     @Autowired
-    PrescriptionService prescriptionService;
+    private PrescriptionService prescriptionService;
 
     @Autowired
-    NurseService nurseService;
+    private NurseService nurseService;
 
     @GetMapping(value = "/unstamped")
     @PreAuthorize("hasRole('NURSE')")
