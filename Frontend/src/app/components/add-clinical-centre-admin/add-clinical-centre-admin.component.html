@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Add clinic administrator</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="addClinicalCentreAdminForm" class="form-full-width">
+        <table class="form-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="form-full-width-td">
+                        <input matInput placeholder="First name" formControlName="firstName">
+                        <mat-error
+                            *ngIf="addClinicalCentreAdminForm.get('firstName').errors && addClinicalCentreAdminForm.get('firstName').errors['required']">
+                            Please enter administrator's first name.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="addClinicalCentreAdminForm.get('firstName').errors && addClinicalCentreAdminForm.get('firstName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
+                        </mat-error>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="form-full-width-td ml-2">
+                        <input matInput placeholder="Last name" formControlName="lastName">
+                        <mat-error
+                            *ngIf="addClinicalCentreAdminForm.get('lastName').errors && addClinicalCentreAdminForm.get('lastName').errors['required']">
+                            Please enter administrator's last name.
+                        </mat-error>
+                        <mat-error
+                            *ngIf="addClinicalCentreAdminForm.get('lastName').errors && addClinicalCentreAdminForm.get('lastName').errors['maxlength']">
+                            Maximal number of characters for this field is 30.
+                        </mat-error>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+
+        <mat-form-field class="form-full-width mt-2">
+            <input matInput placeholder="Phone number" formControlName="phoneNumber">
+            <mat-error
+                *ngIf="addClinicalCentreAdminForm.get('phoneNumber').errors && addClinicalCentreAdminForm.get('phoneNumber').errors['required']">
+                Please enter clinic administrator's phone number.
+            </mat-error>
+            <mat-error
+                *ngIf="addClinicalCentreAdminForm.get('phoneNumber').errors && addClinicalCentreAdminForm.get('phoneNumber').errors['pattern']">
+                Phone number must begin with 0 and can contain digits only.
+            </mat-error>
+            <mat-error
+                *ngIf="addClinicalCentreAdminForm.get('phoneNumber').errors && (addClinicalCentreAdminForm.get('phoneNumber').errors['minlength'] 
+                 || addClinicalCentreAdminForm.get('phoneNumber').errors && addClinicalCentreAdminForm.get('phoneNumber').errors['maxlength'])">
+                Phone number can contain between 9 and 10 digits.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-full-width mt-3">
+            <input matInput placeholder="Email address" formControlName="email">
+            <mat-error
+                *ngIf="addClinicalCentreAdminForm.get('email').errors && addClinicalCentreAdminForm.get('email').errors['required']">
+                Please enter clinic administrator's email address.
+            </mat-error>
+            <mat-error
+                *ngIf="addClinicalCentreAdminForm.get('email').errors && addClinicalCentreAdminForm.get('email').errors['email']">
+                Please enter a valid email address.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="mt-2 mb-1">
+    <button mat-raised-button color="primary" (click)="add()"
+        [disabled]="!addClinicalCentreAdminForm.valid">Add</button>
+</mat-dialog-actions>

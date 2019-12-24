@@ -1,16 +1,43 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.common.RandomPasswordGenerator;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicalCentreAdminDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
+import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicalCentreAdministrator;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicalCentreAdministratorRepository;
+import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicalCentreAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdministratorService {
+
     @Autowired
-    private ClinicalCentreAdministratorRepository clinicalCentreAdministratorRepository;
+    private ClinicalCentreAdministratorRepository clinicalCentreAdminRepository;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
+    private EmailNotificationService emailNotificationService;
 
     @Override
     public ClinicalCentreAdministrator changePassword(String newPassword, ClinicalCentreAdministrator user) {
@@ -18,6 +45,83 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {
             user.setStatus(UserStatus.ACTIVE);
         }
-        return clinicalCentreAdministratorRepository.save(user);
+        return clinicalCentreAdminRepository.save(user);
+    }
+
+    @Override
+    public ClinicalCentreAdministrator getLoginAdmin() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdminRepository.findByEmail(currentUser.getName());
+            if (clinicalCentreAdministrator != null) {
+                return clinicalCentreAdministrator;
+            }
+        } catch (UsernameNotFoundException ex) {
+
+        }
+        return null;
+    }
+
+    @Override
+    public List<ClinicalCentreAdminDTO> getAllClinicalCentreAdministrators(Long clinicalCentreAdminId) {
+        return convertToDTO(clinicalCentreAdminRepository.findByIdNot(clinicalCentreAdminId));
+    }
+
+    @Override
+    public ClinicalCentreAdminDTO create(ClinicalCentreAdminDTO clinicalCentreAdminDTO) {
+        UserDetails userDetails = userService.findUserByEmail(clinicalCentreAdminDTO.getEmail());
+        if (userDetails != null) {
+            return null;
+        }
+
+        if (clinicalCentreAdminRepository.findByPhoneNumber(clinicalCentreAdminDTO.getPhoneNumber()) != null) {
+            return null;
+        }
+
+        RandomPasswordGenerator randomPasswordGenerator = new RandomPasswordGenerator();
+        String generatedPassword = randomPasswordGenerator.generatePassword();
+        String hashedPassword = passwordEncoder.encode(generatedPassword);
+
+        Set<Authority> authorities = authenticationService.findByName("ROLE_CLINICAL_CENTRE_ADMIN");
+
+        ClinicalCentreAdministrator newClinicalCentreAdmin = new ClinicalCentreAdministrator(clinicalCentreAdminDTO.getEmail(), hashedPassword,
+                clinicalCentreAdminDTO.getFirstName(), clinicalCentreAdminDTO.getLastName(),
+                clinicalCentreAdminDTO.getPhoneNumber(), authorities);
+
+        ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdminRepository.save(newClinicalCentreAdmin);
+
+        composeAndSendEmail(clinicalCentreAdministrator.getEmail(), generatedPassword);
+
+        return new ClinicalCentreAdminDTO(clinicalCentreAdminRepository.save(clinicalCentreAdministrator));
+    }
+
+    private void composeAndSendEmail(String recipientEmail, String generatedPassword) {
+        String subject = "New position: Clinical Centre Administrator";
+        StringBuilder sb = new StringBuilder();
+        sb.append("You have been registered as a clinical centre administrator of the Clinical Centre System. ");
+        sb.append("From now on, you are in charge of reviewing patients' requests to register, adding new clinics and clinic administrators ");
+        sb.append("and creating codebooks of diagnosis and medicines.");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("     ");
+        sb.append(generatedPassword);
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("Because of the security protocol, you will have to change this given password the first time you log in.");
+        String text = sb.toString();
+
+        emailNotificationService.sendEmail(recipientEmail, subject, text);
+    }
+
+    private List<ClinicalCentreAdminDTO> convertToDTO(List<ClinicalCentreAdministrator> administrators) {
+        List<ClinicalCentreAdminDTO> administratorsDTO = new ArrayList<>();
+        for (ClinicalCentreAdministrator admin : administrators) {
+            administratorsDTO.add(new ClinicalCentreAdminDTO(admin));
+        }
+
+        return administratorsDTO;
     }
 }
