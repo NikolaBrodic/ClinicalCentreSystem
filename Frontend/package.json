@@ -21,7 +21,6 @@
     "@angular/platform-browser": "~8.2.11",
     "@angular/platform-browser-dynamic": "~8.2.11",
     "@angular/router": "~8.2.11",
-    "angular-star-rating": "^4.0.0-beta.3",
     "angular2-draggable": "^2.3.2",
     "axiom-scheduler": "^2.1.5",
     "bootstrap": "^4.3.1",
