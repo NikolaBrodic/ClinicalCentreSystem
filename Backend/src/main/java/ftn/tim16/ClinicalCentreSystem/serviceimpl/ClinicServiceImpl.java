@@ -150,7 +150,6 @@ public class ClinicServiceImpl implements ClinicService {
         List<Examination> april = getMountExamination(examinations, 4);
 
         List<Examination> may = getMountExamination(examinations, 5);
-        ;
 
         List<Examination> june = getMountExamination(examinations, 6);
 
