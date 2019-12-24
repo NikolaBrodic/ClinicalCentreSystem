@@ -38,6 +38,7 @@ import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnos
 import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
 import { ExaminationComponent } from './components/examination/examination.component';
 import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
+import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
 
 
 const routes: Routes = [
@@ -194,6 +195,12 @@ const routes: Routes = [
     component: EditPersonalInformationNurseComponent,
     canActivate: [NurseGuard],
   },
+  {
+    path: 'nurse/prescriptions',
+    component: ListPrescriptionsComponent,
+    canActivate: [NurseGuard],
+  },
+
   //******************* ERROR PAGES ************************
   {
     path: 'error/non-authenticated',

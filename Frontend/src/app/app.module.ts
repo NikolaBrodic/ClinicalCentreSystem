@@ -70,6 +70,7 @@ import { RejectRequestForHolidayOrTimeOffComponent } from './components/reject-r
 import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve-request-for-holiday-or-time-off/approve-request-for-holiday-or-time-off.component';
 import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
 import { AddClinicalCentreAdminComponent } from './components/add-clinical-centre-admin/add-clinical-centre-admin.component';
+import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { AddClinicalCentreAdminComponent } from './components/add-clinical-centr
     ApproveRequestForHolidayOrTimeOffComponent,
     ListClinicalCentreAdminsComponent,
     AddClinicalCentreAdminComponent,
+    ListPrescriptionsComponent,
 
   ],
   imports: [
