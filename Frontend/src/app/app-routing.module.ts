@@ -40,6 +40,7 @@ import { ExaminationComponent } from './components/examination/examination.compo
 import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
 import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
 import { BusinessReportComponent } from './components/business-report/business-report.component';
+import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
 
 
 const routes: Routes = [
@@ -67,6 +68,12 @@ const routes: Routes = [
   },
 
   //***************** CLINIC ADMIN *****************
+
+  {
+    path: 'clinic-admin/clinic-profile',
+    component: EditClinicProfileComponent,
+    canActivate: [ClinicAdminGuard],
+  },
   {
     path: 'clinic-admin/doctors',
     component: ListOfDoctorsComponent,
@@ -153,6 +160,8 @@ const routes: Routes = [
     component: ListMedicinesComponent,
     canActivate: [ClinicalCentreAdminGuard]
   },
+
+
 
   //*************************** DOCTOR **********************
   {

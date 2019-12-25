@@ -3,9 +3,12 @@ package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ClinicDTO {
+public class EditClinicDTO {
+
+    @NotNull(message = "Id is null.")
     private Long id;
 
     @NotEmpty(message = "Name is empty.")
@@ -20,17 +23,17 @@ public class ClinicDTO {
 
     private Double clinicRating;
 
-    public ClinicDTO() {
+    public EditClinicDTO() {
     }
 
-    public ClinicDTO(Long id, String name, String description, String address) {
+    public EditClinicDTO(Long id, String name, String description, String address) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
     }
 
-    public ClinicDTO(Long id, String name, String description, String address, Double clinicRating) {
+    public EditClinicDTO(Long id, String name, String description, String address, Double clinicRating) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,8 +41,8 @@ public class ClinicDTO {
         this.clinicRating = clinicRating;
     }
 
-    public ClinicDTO(Clinic clinic) {
-        this(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getClinicRating());
+    public EditClinicDTO(Clinic clinic) {
+        this(clinic.getId(), clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getClinicRating());
     }
 
     public Long getId() {

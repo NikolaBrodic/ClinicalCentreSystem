@@ -16,6 +16,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> findByClinicIdAndStatus(Long id, LogicalStatus status);
 
+    Page<Room> findByClinicIdAndStatus(Long id, LogicalStatus status, Pageable page);
+
     Page<Room> findByClinicIdAndStatusAndKind(Long id, LogicalStatus status, ExaminationKind kind, Pageable page);
 
     List<Room> findByClinicIdAndStatusAndKind(Long id, LogicalStatus status, ExaminationKind kind);

@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ClinicDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditClinicDTO;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface ClinicService {
     int[] getWeekStatistic(Long clinicId);
 
     int[] getMountStatistic(Long clinicId);
+
+    EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks);
 }

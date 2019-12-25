@@ -18,8 +18,10 @@ insert into clinical_centre_administrator (email, password, first_name, last_nam
 insert into clinical_centre_admin_authority (user_id, authority_id) values (3,1);
 
 /*CLINIC*/
-insert into clinic (address, description, name,clinic_rating) values ('3.Oktobar 73', 'Savremena klinika u Beogradu', 'VMA',2.25);
-insert into clinic (address, description, name,clinic_rating) values ('Marsala Tita 9c', 'Savremena klinika u Novom Sadu', 'Klinika mira',4.5);
+
+insert into clinic (address, description, name,clinic_rating) values ('Novi sad Tolstojeva','dddd','VMA1',0);
+insert into clinic (address, description, name,clinic_rating) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
+
 
 /*CLINIC ADMIN*/
 /* Password: adminC.0 */
