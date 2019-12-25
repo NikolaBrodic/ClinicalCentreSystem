@@ -11,4 +11,6 @@ public interface ExaminationReportRepository extends JpaRepository<ExaminationRe
 
     List<ExaminationReport> findByMedicalRecordPatientIdOrderByTimeCreatedDesc(Long patientId);
 
+    ExaminationReport findByIdAndDoctorId(Long id, Long doctorId);
+
 }

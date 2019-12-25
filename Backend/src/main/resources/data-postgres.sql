@@ -354,7 +354,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('24.12.2019 00:00','24.12.2019 02:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2019 00:00','25.12.2019 02:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);

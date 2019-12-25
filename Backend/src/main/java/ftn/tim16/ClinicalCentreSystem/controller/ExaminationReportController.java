@@ -69,6 +69,33 @@ public class ExaminationReportController {
         return new ResponseEntity<>(createdExaminationReportDTO, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ExaminationReportDTO> edit(@PathVariable("id") Long examinationId, @Valid @RequestBody ExaminationReportDTO examinationReportDTO) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Examination examination = examinationService.getExamination(examinationId);
+        if (examination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        LocalDateTime examinationTime = LocalDateTime.now();
+        Examination ongoingExamination = examinationService.getOngoingExamination(examination.getPatient().getId(), doctor.getId(), examinationTime);
+        if (ongoingExamination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        ExaminationReportDTO editedExaminationReportDTO = examinationReportService.edit(doctor, examinationReportDTO);
+        if (editedExaminationReportDTO == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(editedExaminationReportDTO, HttpStatus.CREATED);
+    }
+
     @GetMapping(value = "/patients-all/{id}")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<ExaminationReportForTableDTO>> getPatientExaminationReports(@PathVariable("id") Long patientId) {

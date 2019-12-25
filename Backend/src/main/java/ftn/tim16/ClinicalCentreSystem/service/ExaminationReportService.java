@@ -14,6 +14,8 @@ public interface ExaminationReportService {
 
     ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO);
 
+    ExaminationReportDTO edit(Doctor doctor, ExaminationReportDTO examinationReportDTO);
+
     List<ExaminationReportForTableDTO> getPatientExaminationReports(Long patientId);
 
 }

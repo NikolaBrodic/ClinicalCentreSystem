@@ -35,7 +35,6 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Override
     public ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO) {
-
         Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
         if (diagnose == null) {
             return null;
@@ -61,6 +60,25 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
         ExaminationReport createdExaminationReport = examinationReportRepository.save(examinationReport);
 
         return new ExaminationReportDTO(createdExaminationReport);
+    }
+
+    @Override
+    public ExaminationReportDTO edit(Doctor doctor, ExaminationReportDTO examinationReportDTO) {
+        Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
+        if (diagnose == null) {
+            return null;
+        }
+
+        ExaminationReport examinationReport = examinationReportRepository.findByIdAndDoctorId(examinationReportDTO.getId(), doctor.getId());
+        if (examinationReport == null) {
+            return null;
+        }
+
+        examinationReport.setComment(examinationReportDTO.getComment());
+        examinationReport.setDiagnose(diagnose);
+        ExaminationReport editedExaminationReport = examinationReportRepository.save(examinationReport);
+
+        return new ExaminationReportDTO(editedExaminationReport);
     }
 
     @Override
