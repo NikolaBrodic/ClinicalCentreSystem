@@ -48,4 +48,10 @@ public interface ExaminationService {
     List<Examination> getUpcomingExaminationsOfExaminationType(Long examinationTypeId);
 
     Examination getOngoingExamination(Long patientId, Long doctorId, LocalDateTime examinationStartTime);
+
+    List<Examination> getClinicExaminations(Long clinicId, LocalDateTime startDate, LocalDateTime endDateTime);
+
+    List<Examination> getAllHeldExaminations(Long clinicId);
+
+
 }

@@ -22,8 +22,8 @@ public class Clinic {
     @Column(nullable = false)
     private String address;
 
-    @Column
-    private Integer clinicRating;
+    @Column()
+    private Double clinicRating;
 
     //You can't change this fetch type
     @JsonIgnore
@@ -63,7 +63,7 @@ public class Clinic {
         this.rooms = new HashSet<>();
         this.examinationTypes = new HashSet<>();
         this.clinicAdministrators = new HashSet<>();
-        this.clinicRating = 0;
+        this.clinicRating = 0.0;
     }
 
     public Long getId() {
@@ -142,11 +142,11 @@ public class Clinic {
         this.id = id;
     }
 
-    public Integer getClinicRating() {
+    public Double getClinicRating() {
         return clinicRating;
     }
 
-    public void setClinicRating(Integer clinicRating) {
+    public void setClinicRating(Double clinicRating) {
         this.clinicRating = clinicRating;
     }
 

@@ -18,7 +18,7 @@ public class ClinicDTO {
     @NotEmpty(message = "Address is empty.")
     private String address;
 
-    private Integer clinicRating;
+    private Double clinicRating;
 
     public ClinicDTO() {
     }
@@ -30,7 +30,7 @@ public class ClinicDTO {
         this.address = address;
     }
 
-    public ClinicDTO(Long id, String name, String description, String address, Integer clinicRating) {
+    public ClinicDTO(Long id, String name, String description, String address, Double clinicRating) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -74,11 +74,11 @@ public class ClinicDTO {
         this.address = address;
     }
 
-    public Integer getClinicRating() {
+    public Double getClinicRating() {
         return clinicRating;
     }
 
-    public void setClinicRating(Integer clinicRating) {
+    public void setClinicRating(Double clinicRating) {
         this.clinicRating = clinicRating;
     }
 }

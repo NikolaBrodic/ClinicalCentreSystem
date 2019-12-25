@@ -306,5 +306,21 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
     }
 
+    @Override
+    public List<Examination> getClinicExaminations(Long clinicId, LocalDateTime startDate, LocalDateTime endDateTime) {
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.APPROVED);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        return examinationRepository.findByClinicIdAndStatusInAndIntervalStartDateTimeGreaterThanEqualAndIntervalEndDateTimeLessThan(clinicId, statuses, startDate, endDateTime);
+    }
+
+    @Override
+    public List<Examination> getAllHeldExaminations(Long clinicId) {
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.APPROVED);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        return examinationRepository.findByClinicIdAndStatusInAndIntervalEndDateTimeLessThan(clinicId, statuses, LocalDateTime.now());
+    }
+
 
 }

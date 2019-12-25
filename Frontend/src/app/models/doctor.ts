@@ -12,8 +12,9 @@ export class Doctor {
     workHoursTo: Time;
     specialized: ExaminationType;
     clinicDTO: Clinic;
+    doctorRating: Number;
     constructor(email: String, firstName: String, lastName: String, phoneNumber: String, workHoursFrom: Time, workHoursTo: Time,
-        specialized: ExaminationType, id?: number, clinicDTO?: Clinic) {
+        specialized: ExaminationType, id?: number, clinicDTO?: Clinic, doctorRating?: Number) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,5 +24,6 @@ export class Doctor {
         this.specialized = specialized;
         this.id = id;
         this.clinicDTO = clinicDTO;
+        this.doctorRating = doctorRating;
     }
 }

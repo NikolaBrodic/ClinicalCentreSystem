@@ -71,6 +71,12 @@ import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve
 import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
 import { AddClinicalCentreAdminComponent } from './components/add-clinical-centre-admin/add-clinical-centre-admin.component';
 import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
+import { BusinessReportComponent } from './components/business-report/business-report.component';
+import { RatingModule } from 'ng-starrating';
+import { ChartsModule } from 'ng2-charts';
+import { DailyStatisticComponent } from './components/charts/daily-statistic/daily-statistic.component';
+import { WeekStatisticComponent } from './components/charts/week-statistic/week-statistic.component';
+import { MountStatisticComponent } from './components/charts/mount-statistic/mount-statistic.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +132,10 @@ import { ListPrescriptionsComponent } from './components/list-prescriptions/list
     ListClinicalCentreAdminsComponent,
     AddClinicalCentreAdminComponent,
     ListPrescriptionsComponent,
+    BusinessReportComponent,
+    DailyStatisticComponent,
+    WeekStatisticComponent,
+    MountStatisticComponent,
 
   ],
   imports: [
@@ -145,6 +155,8 @@ import { ListPrescriptionsComponent } from './components/list-prescriptions/list
     DemoMaterialModule,
     MatNativeDateModule,
     AxiomSchedulerModule,
+    RatingModule,
+    ChartsModule
   ],
   entryComponents: [
     ListOfExaminationTypesComponent,

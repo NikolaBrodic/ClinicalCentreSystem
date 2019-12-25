@@ -39,6 +39,7 @@ import { ListMedicinesComponent } from './components/list-medicines/list-medicin
 import { ExaminationComponent } from './components/examination/examination.component';
 import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
 import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
+import { BusinessReportComponent } from './components/business-report/business-report.component';
 
 
 const routes: Routes = [
@@ -114,6 +115,10 @@ const routes: Routes = [
   {
     path: 'clinic-admin/requests-for-holiday-or-time-off',
     component: RequestsForHolidayOrTimeOffComponent,
+  },
+  {
+    path: 'clinic-admin/business-report',
+    component: BusinessReportComponent,
     canActivate: [ClinicAdminGuard],
   },
 
