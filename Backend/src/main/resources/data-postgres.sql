@@ -202,7 +202,7 @@ insert into time_off_doctor (status, type, doctor_id, interval_id)
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 3, 1);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('04.11.2019 09:00','04.11.2019 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2019 06:00','25.12.2019 11:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
  values ('EXAMINATION',2,'APPROVED',1,1,1,1,1,1);
 insert into examining (examination_id,doctor_id) values (1,1);
