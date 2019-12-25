@@ -77,6 +77,8 @@ import { ChartsModule } from 'ng2-charts';
 import { DailyStatisticComponent } from './components/charts/daily-statistic/daily-statistic.component';
 import { WeekStatisticComponent } from './components/charts/week-statistic/week-statistic.component';
 import { MountStatisticComponent } from './components/charts/mount-statistic/mount-statistic.component';
+import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
+import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +138,8 @@ import { MountStatisticComponent } from './components/charts/mount-statistic/mou
     DailyStatisticComponent,
     WeekStatisticComponent,
     MountStatisticComponent,
+    ListExaminationReportsComponent,
+    EditExaminationReportComponent,
 
   ],
   imports: [
@@ -189,6 +193,8 @@ import { MountStatisticComponent } from './components/charts/mount-statistic/mou
     ApproveRequestForHolidayOrTimeOffComponent,
     ListClinicalCentreAdminsComponent,
     AddClinicalCentreAdminComponent,
+    ListExaminationReportsComponent,
+    EditExaminationReportComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
