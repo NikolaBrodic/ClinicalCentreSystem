@@ -1,12 +1,17 @@
-import { Location } from '@angular/common';
+import { isUndefined } from 'util';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { ClinicService } from 'src/app/services/clinic.service';
 import { Clinic } from 'src/app/models/clinic';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import { Subscription } from 'rxjs';
 var map;
 var mark: L.Marker;
-
+var deletedFirst = true;
+var selectedClinic: Clinic;
+var service: ClinicService;
+declare var require: any
+var convert = require('cyrillic-to-latin')
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -14,32 +19,57 @@ var mark: L.Marker;
 })
 export class MapComponent implements AfterViewInit, OnInit {
 
-
-  selectedClinic: Clinic;
   provider = new OpenStreetMapProvider();
   searchControl = new GeoSearchControl({
     provider: this.provider,
   });
   query_promise: any;
-  lat: number;
-  lon: number;
-  constructor(private clinicService: ClinicService) {
+  editClinic: Subscription;
 
+  constructor(private clinicService: ClinicService) {
+    service = clinicService;
   }
 
   ngOnInit() {
 
     this.clinicService.getClinicInWhichClinicAdminWorks().subscribe((data: Clinic) => {
-      this.selectedClinic = data;
-      this.clinicService.get("Novi sad Tolstojeva").subscribe((data) => {
-        map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
-        var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
-        mark = new L.Marker(latlng, { draggable: false });
-        map.addLayer(mark);
+      selectedClinic = data;
+      this.clinicService.get(selectedClinic.address).subscribe((data) => {
+        if (!isUndefined(data) && data && !isUndefined(data[0])) {
+          console.log(data)
+          map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
+          var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
+          mark = new L.Marker(latlng, { draggable: false });
+          map.addLayer(mark);
+          deletedFirst = false;
+        }
+
       });
     });
+
+    this.editClinic = this.clinicService.editClinicEmitter.subscribe(
+      (clinic: Clinic) => {
+        this.markAddress(clinic.address);
+      }
+    );
   }
 
+  markAddress(address: string) {
+    this.clinicService.get(address).subscribe((data) => {
+      var i = 0;
+      map.eachLayer(function (layer) {
+        if (i == 2) {
+          map.removeLayer(layer);
+        }
+        i++;
+      });
+      deletedFirst = false;
+      map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
+      var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
+      mark = new L.Marker(latlng, { draggable: false });
+      map.addLayer(mark);
+    });
+  }
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -75,14 +105,19 @@ export class MapComponent implements AfterViewInit, OnInit {
     }).addTo(map);
 
     map.on('geosearch/showlocation', function (e: any) {
-      console.log(map)
-      var i = 0;
-      map.eachLayer(function (layer) {
-        if (i === 2) {
-          map.removeLayer(layer)
-        }
-        i++;
-      });
+
+      if (!deletedFirst) {
+        var i = 0;
+        map.eachLayer(function (layer) {
+          if (i == 2) {
+            map.removeLayer(layer);
+          }
+          i++;
+        });
+        deletedFirst = true;
+      }
+      selectedClinic.address = convert(e.location.label);
+      service.searchAddressClinicEmitter.next(selectedClinic);
     });
 
   }

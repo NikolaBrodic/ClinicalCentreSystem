@@ -10,8 +10,8 @@ insert into clinical_centre_administrator (email, password, first_name, last_nam
 insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
 
 /*CLINIC*/
-insert into clinic (address, description, name,clinic_rating) values ('Malpica de Bergantiños, Comarca de Bergantiños, A Coruña, Galicia, 15113, Spain1','dddd','VMA1',0);
-insert into clinic (address, description, name,clinic_rating) values ('Malpica de Bergantiños, Comarca de Bergantiños1, A Coruña, Galicia, 15113, Spain', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
+insert into clinic (address, description, name,clinic_rating) values ('Novi sad Tolstojeva','dddd','VMA1',0);
+insert into clinic (address, description, name,clinic_rating) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
 
 /*CLINIC ADMIN*/
 /* Password: adminC.0 */

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
+import { BehaviorSubject, Subject, Observable, Subscription } from 'rxjs';
 import { Clinic } from '../models/clinic';
 import { Router } from '@angular/router';
 
@@ -14,7 +14,8 @@ export class ClinicService {
   clinic: BehaviorSubject<Clinic> = new BehaviorSubject<Clinic>(null);
   clinics: BehaviorSubject<Clinic[]> = new BehaviorSubject<Clinic[]>([]);
   addSuccessEmitter = new Subject<Clinic>();
-  selectedClinic: Clinic;
+  editClinicEmitter = new Subject<Clinic>();
+  searchAddressClinicEmitter = new Subject<Clinic>();
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 

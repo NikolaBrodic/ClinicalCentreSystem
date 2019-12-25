@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Clinic } from 'src/app/models/clinic';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-clinic-profile',
@@ -12,6 +13,7 @@ import { Clinic } from 'src/app/models/clinic';
 export class EditClinicProfileComponent implements OnInit {
   editClinicForm: FormGroup;
   selectedClinic: Clinic;
+  searchAdress: Subscription;
 
   constructor(private toastr: ToastrService, private clinicService: ClinicService) {
   }
@@ -31,11 +33,27 @@ export class EditClinicProfileComponent implements OnInit {
           'description': this.selectedClinic.description
         }
       );
-      this.clinicService.selectedClinic = this.selectedClinic;
     })
 
+    this.searchAdress = this.clinicService.searchAddressClinicEmitter.subscribe(
+      (clinic: Clinic) => {
+        console.log("Search")
+        this.selectedClinic.address = clinic.address;
+        this.editClinicForm.patchValue(
+          {
+            'address': this.selectedClinic.address
+          }
+        );
+      }
+    );
   }
 
+  addressFocusOut() {
+    const clinic = new Clinic(this.editClinicForm.value.name, this.editClinicForm.value.address,
+      this.editClinicForm.value.description, this.selectedClinic.id);
+
+    this.clinicService.editClinicEmitter.next(clinic);
+  }
   edit() {
     if (this.editClinicForm.invalid) {
       this.toastr.error("Please enter a valid data.", "Edit clinic's profile ");
@@ -51,7 +69,6 @@ export class EditClinicProfileComponent implements OnInit {
     this.clinicService.edit(clinic).subscribe(
       (responseData: Clinic) => {
         this.toastr.success("Successfully changed clinic's profile.", "Edit clinic's profile ");
-        this.clinicService.selectedClinic = clinic;
       },
       message => {
         this.toastr.error("You can not edit this profile because clinic with the same name or address already exists ",

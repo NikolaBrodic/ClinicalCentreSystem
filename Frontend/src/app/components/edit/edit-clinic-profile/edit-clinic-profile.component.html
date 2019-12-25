@@ -34,7 +34,8 @@
                             </mat-form-field>
 
                             <mat-form-field class="form-full-width mt-2">
-                                <input matInput placeholder="Address" formControlName="address">
+                                <input matInput placeholder="Address" formControlName="address"
+                                    (focusout)="addressFocusOut()">
                                 <mat-error *ngIf="editClinicForm.get('address').invalid">
                                     Please enter clinic's address.
                                 </mat-error>
