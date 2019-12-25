@@ -18,4 +18,9 @@ export class ExaminationReportService {
   public create(examinationId: number, examinationReport: ExaminationReport) {
     return this.httpClient.post(this.url + "/" + examinationId, examinationReport);
   }
+
+  public getPatientsExaminationReports(patientId: number) {
+    return this.httpClient.get(this.url + "/patients-all/" + patientId);
+  }
+
 }

@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DiagnoseDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ExaminationReport;
 import ftn.tim16.ClinicalCentreSystem.model.Prescription;
 
@@ -21,15 +22,19 @@ public class ExaminationReportForTableDTO {
 
     private List<PrescriptionDTO> prescriptions;
 
+    private DoctorDTO doctor;
+
     public ExaminationReportForTableDTO() {
     }
 
-    public ExaminationReportForTableDTO(Long id, LocalDateTime timeCreated, String comment, DiagnoseDTO diagnose, List<PrescriptionDTO> prescriptions) {
+    public ExaminationReportForTableDTO(Long id, LocalDateTime timeCreated, String comment, DiagnoseDTO diagnose,
+                                        List<PrescriptionDTO> prescriptions, DoctorDTO doctor) {
         this.id = id;
         this.timeCreated = timeCreated;
         this.comment = comment;
         this.diagnose = diagnose;
         this.prescriptions = prescriptions;
+        this.doctor = doctor;
     }
 
     public ExaminationReportForTableDTO(ExaminationReport examinationReport) {
@@ -37,6 +42,7 @@ public class ExaminationReportForTableDTO {
         this.timeCreated = examinationReport.getTimeCreated();
         this.comment = examinationReport.getComment();
         this.diagnose = new DiagnoseDTO(examinationReport.getDiagnose());
+        this.doctor = new DoctorDTO(examinationReport.getDoctor());
 
         List<PrescriptionDTO> prescriptionDTOS = new ArrayList<>();
         for (Prescription prescription : examinationReport.getPrescriptions()) {
@@ -83,5 +89,13 @@ public class ExaminationReportForTableDTO {
 
     public void setPrescriptions(List<PrescriptionDTO> prescriptions) {
         this.prescriptions = prescriptions;
+    }
+
+    public DoctorDTO getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(DoctorDTO doctor) {
+        this.doctor = doctor;
     }
 }

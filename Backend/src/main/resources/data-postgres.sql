@@ -354,7 +354,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2019 00:00','25.12.2019 02:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2019 10:30','25.12.2019 18:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);
@@ -474,6 +474,12 @@ insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('STAMPED', 1, 5, 9);
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('STAMPED', 1, 7, 9);
+ insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 3, 9);
+ insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 4, 9);
+ insert into prescription(status, examination_report_id, medicine_id, nurse_id)
+ values ('STAMPED', 1, 6, 9);
 
 insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
  values ('Pacijent boluje od sizofrenije', '09.06.2019. 09:30', 2, 7, 3, 25);
