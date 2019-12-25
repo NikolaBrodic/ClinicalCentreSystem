@@ -110,11 +110,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         if (kind == null) {
             return null;
         }
-        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusAndKind
-                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind);
+        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusAndKindAndIntervalStartDateTimeAfter
+                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, LocalDateTime.now());
 
-        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByClinicAdministratorIdAndStatusAndKind
-                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, page).getContent(), examinations.size());
+        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByClinicAdministratorIdAndStatusAndKindAndIntervalStartDateTimeAfter
+                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, LocalDateTime.now(), page).getContent(), examinations.size());
         return examinationPagingDTO;
     }
 

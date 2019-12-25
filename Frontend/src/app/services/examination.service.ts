@@ -21,9 +21,9 @@ export class ExaminationService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public getAwaitingExaminations(pageIndex, pageSize, sort: MatSort) {
+  public getAwaitingExaminations(kind: string, pageIndex, pageSize, sort: MatSort) {
     let params = new HttpParams();
-    params = params.append('kind', "EXAMINATION")
+    params = params.append('kind', kind)
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
     if (sort) {
