@@ -77,14 +77,12 @@ import { ChartsModule } from 'ng2-charts';
 import { DailyStatisticComponent } from './components/charts/daily-statistic/daily-statistic.component';
 import { WeekStatisticComponent } from './components/charts/week-statistic/week-statistic.component';
 import { MountStatisticComponent } from './components/charts/mount-statistic/mount-statistic.component';
-<<<<<<< HEAD
 import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
 import { AdminsGuard } from './guards/admins.guard';
 import { MapComponent } from './components/map/map.component';
-=======
 import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
 import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
->>>>>>> 84976aea1bad220ce2dad35a40acc4bcf518a232
+import { DoctorAddExaminationOrOperationComponent } from './components/doctor-add-examination-or-operation/doctor-add-examination-or-operation.component';
 
 @NgModule({
   declarations: [
@@ -144,13 +142,11 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
     DailyStatisticComponent,
     WeekStatisticComponent,
     MountStatisticComponent,
-<<<<<<< HEAD
     EditClinicProfileComponent,
     MapComponent,
-=======
     ListExaminationReportsComponent,
     EditExaminationReportComponent,
->>>>>>> 84976aea1bad220ce2dad35a40acc4bcf518a232
+    DoctorAddExaminationOrOperationComponent,
 
   ],
   imports: [
@@ -204,12 +200,9 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
     ApproveRequestForHolidayOrTimeOffComponent,
     ListClinicalCentreAdminsComponent,
     AddClinicalCentreAdminComponent,
-<<<<<<< HEAD
     MapComponent,
-=======
     ListExaminationReportsComponent,
     EditExaminationReportComponent,
->>>>>>> 84976aea1bad220ce2dad35a40acc4bcf518a232
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

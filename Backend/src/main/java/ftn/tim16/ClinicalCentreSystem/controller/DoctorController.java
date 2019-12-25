@@ -4,6 +4,7 @@ import ftn.tim16.ClinicalCentreSystem.dto.request.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,13 +69,17 @@ public class DoctorController {
     }
 
     @GetMapping(value = "/available")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN','DOCTOR')")
     public ResponseEntity<List<DoctorDTO>> getAllAvailableDoctors(@RequestParam(value = "specialized", required = true) Long specializedId,
                                                                   @RequestParam(value = "startDateTime", required = true) String startDateTime,
                                                                   @RequestParam(value = "endDateTime", required = true) String endDateTime) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            Doctor doctor = doctorService.getLoginDoctor();
+            if (doctor == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(doctorService.getAllAvailableDoctors(specializedId, doctor.getClinic().getId(), startDateTime, endDateTime), HttpStatus.OK);
         }
         return new ResponseEntity<>(doctorService.getAllAvailableDoctors(specializedId, clinicAdministrator.getClinic().getId(), startDateTime, endDateTime), HttpStatus.OK);
     }
