@@ -77,6 +77,9 @@ import { ChartsModule } from 'ng2-charts';
 import { DailyStatisticComponent } from './components/charts/daily-statistic/daily-statistic.component';
 import { WeekStatisticComponent } from './components/charts/week-statistic/week-statistic.component';
 import { MountStatisticComponent } from './components/charts/mount-statistic/mount-statistic.component';
+import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
+import { AdminsGuard } from './guards/admins.guard';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +139,8 @@ import { MountStatisticComponent } from './components/charts/mount-statistic/mou
     DailyStatisticComponent,
     WeekStatisticComponent,
     MountStatisticComponent,
+    EditClinicProfileComponent,
+    MapComponent,
 
   ],
   imports: [
@@ -189,6 +194,7 @@ import { MountStatisticComponent } from './components/charts/mount-statistic/mou
     ApproveRequestForHolidayOrTimeOffComponent,
     ListClinicalCentreAdminsComponent,
     AddClinicalCentreAdminComponent,
+    MapComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
@@ -198,7 +204,8 @@ import { MountStatisticComponent } from './components/charts/mount-statistic/mou
     PatientGuard,
     DoctorGuard,
     NurseGuard,
-    MedicalStaffGuard
+    MedicalStaffGuard,
+    AdminsGuard
 
   ],
   bootstrap: [AppComponent]
