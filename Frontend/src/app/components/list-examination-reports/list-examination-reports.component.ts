@@ -1,14 +1,13 @@
+import { ExaminationReportResponse } from './../../models/examinationReportResponse';
+import { ExaminationReportForTable } from './../../models/examinationReportForTable';
+import { EditExaminationReportComponent } from './../edit/edit-examination-report/edit-examination-report.component';
 import { ExaminationService } from './../../services/examination.service';
 import { ExaminationReportService } from './../../services/examination-report.service';
-import { environment } from './../../../environments/environment';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
-import { ExaminationReportForTable } from 'src/app/models/examinationReportForTable';
-import { ExaminationReportResponse } from 'src/app/models/examinationReportResponse';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -29,6 +28,7 @@ export class ListExaminationReportsComponent implements OnInit {
   expandedElement: ExaminationReportForTable | null;
   patientId: number;
   loggedInDoctorId: number;
+  editExaminationReportSuccess: Subscription
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -36,6 +36,7 @@ export class ListExaminationReportsComponent implements OnInit {
     private examinationReportService: ExaminationReportService,
     private examinationService: ExaminationService,
     private userService: UserService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -43,6 +44,12 @@ export class ListExaminationReportsComponent implements OnInit {
     this.loggedInDoctorId = this.userService.getLoggedInUser().id;
 
     this.fetchData();
+
+    this.editExaminationReportSuccess = this.examinationReportService.editSuccessEmitter.subscribe(
+      () => {
+        this.fetchData();
+      }
+    )
   }
 
   fetchData() {
@@ -57,8 +64,9 @@ export class ListExaminationReportsComponent implements OnInit {
       });
   }
 
-  editExaminationReportDialog(examinationReportId: number) {
-
+  editExaminationReportDialog(examinationReport: ExaminationReportForTable, event) {
+    event.stopPropagation();
+    this.dialog.open(EditExaminationReportComponent, { data: examinationReport });
   }
 
 }

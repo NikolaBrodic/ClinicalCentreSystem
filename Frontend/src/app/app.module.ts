@@ -72,6 +72,7 @@ import { ListClinicalCentreAdminsComponent } from './components/list-clinical-ce
 import { AddClinicalCentreAdminComponent } from './components/add-clinical-centre-admin/add-clinical-centre-admin.component';
 import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
 import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
+import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { ListExaminationReportsComponent } from './components/list-examination-r
     AddClinicalCentreAdminComponent,
     ListPrescriptionsComponent,
     ListExaminationReportsComponent,
+    EditExaminationReportComponent,
 
   ],
   imports: [
@@ -180,6 +182,7 @@ import { ListExaminationReportsComponent } from './components/list-examination-r
     ListClinicalCentreAdminsComponent,
     AddClinicalCentreAdminComponent,
     ListExaminationReportsComponent,
+    EditExaminationReportComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

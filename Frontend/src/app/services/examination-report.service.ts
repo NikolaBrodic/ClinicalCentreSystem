@@ -12,11 +12,16 @@ export class ExaminationReportService {
   url = environment.baseUrl + environment.examinationReport;
 
   createSuccessEmitter = new Subject<ExaminationReport>();
+  editSuccessEmitter = new Subject<ExaminationReport>();
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public create(examinationId: number, examinationReport: ExaminationReport) {
     return this.httpClient.post(this.url + "/" + examinationId, examinationReport);
+  }
+
+  public edit(examinationId: number, examinationReport: ExaminationReport) {
+    return this.httpClient.put(this.url + "/" + examinationId, examinationReport);
   }
 
   public getPatientsExaminationReports(patientId: number) {
