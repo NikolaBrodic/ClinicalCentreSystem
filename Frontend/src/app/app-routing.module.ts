@@ -1,3 +1,4 @@
+import { MapComponent } from './components/map/map.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
@@ -116,7 +117,6 @@ const routes: Routes = [
     component: EditPersonalInformationClinicAdminComponent,
     canActivate: [ClinicAdminGuard],
   },
-
   //********************* CLINICAL CENTRE ADMIN ***************
   {
     path: 'clinical-centre-admin/requests-to-register',

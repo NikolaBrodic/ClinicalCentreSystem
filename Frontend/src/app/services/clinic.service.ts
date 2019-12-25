@@ -14,6 +14,7 @@ export class ClinicService {
   clinic: BehaviorSubject<Clinic> = new BehaviorSubject<Clinic>(null);
   clinics: BehaviorSubject<Clinic[]> = new BehaviorSubject<Clinic[]>([]);
   addSuccessEmitter = new Subject<Clinic>();
+  selectedClinic: Clinic;
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -41,5 +42,9 @@ export class ClinicService {
 
   public getClinicInWhichClinicAdminWorks() {
     return this.httpClient.get(this.url + "/clinic-in-which-admin-works");
+  }
+
+  public get(quaery: string) {
+    return this.httpClient.get("https://nominatim.openstreetmap.org/search?q=" + quaery + "&format=json");
   }
 }

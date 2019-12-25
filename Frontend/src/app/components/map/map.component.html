@@ -1,18 +1,1 @@
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-
-<div class="map-container">
-    <div class="map-frame">
-        <div id="map"></div>
-    </div>
-</div>
-<script>
-    map = L.map('map', {
-        center: [39.8282, -98.5795],
-        zoom: 3
-    });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(this.map);
-</script>
+<div id="map"></div>

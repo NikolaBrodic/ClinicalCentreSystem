@@ -39,7 +39,7 @@ public class ClinicDTO {
     }
 
     public ClinicDTO(Clinic clinic) {
-        this(clinic.getId(), clinic.getName(), clinic.getAddress(), clinic.getDescription(), clinic.getClinicRating());
+        this(clinic.getId(), clinic.getName(), clinic.getDescription(), clinic.getAddress(), clinic.getClinicRating());
     }
 
     public Long getId() {
