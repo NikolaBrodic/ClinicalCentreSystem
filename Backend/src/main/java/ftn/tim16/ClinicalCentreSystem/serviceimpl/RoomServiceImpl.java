@@ -103,7 +103,9 @@ public class RoomServiceImpl implements RoomService {
                                               String date, String searchStartTime, String searchEndTime) throws DateTimeParseException {
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
-            return null;
+            return new RoomPagingDTO(convertToDTO(
+                    roomRepository.findByClinicIdAndStatus(clinic.getId(), LogicalStatus.EXISTING, page).getContent()),
+                    findAllRoomsInClinic(clinic).size());
         }
 
         boolean dateSearchActive = true;

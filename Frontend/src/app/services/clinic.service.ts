@@ -16,7 +16,8 @@ export class ClinicService {
   addSuccessEmitter = new Subject<Clinic>();
   editClinicEmitter = new Subject<Clinic>();
   searchAddressClinicEmitter = new Subject<Clinic>();
-
+  addClinicAdressEmiter = new Subject<Clinic>();
+  addSearchAddressClinicEmitter = new Subject<Clinic>();
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public add(clinic: Clinic) {

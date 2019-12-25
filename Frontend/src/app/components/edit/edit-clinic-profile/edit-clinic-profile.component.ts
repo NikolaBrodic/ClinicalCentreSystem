@@ -37,7 +37,6 @@ export class EditClinicProfileComponent implements OnInit {
 
     this.searchAdress = this.clinicService.searchAddressClinicEmitter.subscribe(
       (clinic: Clinic) => {
-        console.log("Search")
         this.selectedClinic.address = clinic.address;
         this.editClinicForm.patchValue(
           {
