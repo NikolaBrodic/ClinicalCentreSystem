@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExaminationReportDTO {
+    private Long id;
+
     @NotEmpty(message = "Comment is empty.")
     private String comment;
 
@@ -20,13 +22,15 @@ public class ExaminationReportDTO {
     public ExaminationReportDTO() {
     }
 
-    public ExaminationReportDTO(String comment, Long diagnoseId, List<Long> medicineIds) {
+    public ExaminationReportDTO(Long id, String comment, Long diagnoseId, List<Long> medicineIds) {
+        this.id = id;
         this.comment = comment;
         this.diagnoseId = diagnoseId;
         this.medicineIds = medicineIds;
     }
 
     public ExaminationReportDTO(ExaminationReport examinationReport) {
+        this.id = examinationReport.getId();
         this.comment = examinationReport.getComment();
 
         if (examinationReport.getDiagnose() != null) {
@@ -40,6 +44,14 @@ public class ExaminationReportDTO {
             }
             this.medicineIds = medicines;
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getComment() {
