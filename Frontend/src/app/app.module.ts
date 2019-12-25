@@ -82,6 +82,7 @@ import { AdminsGuard } from './guards/admins.guard';
 import { MapComponent } from './components/map/map.component';
 import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
 import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
+import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +146,7 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
     MapComponent,
     ListExaminationReportsComponent,
     EditExaminationReportComponent,
+    ListOperationRequestsComponent,
 
   ],
   imports: [

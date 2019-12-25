@@ -267,6 +267,10 @@ public class RoomServiceImpl implements RoomService {
             return null;
         }
 
+        if (selectedExamination.getInterval().getStartDateTime().isBefore(LocalDateTime.now())) {
+            return null;
+        }
+
         long duration = Duration.between(selectedExamination.getInterval().getStartDateTime(), selectedExamination.getInterval().getEndDateTime()).toMillis() / 1000;
         if (!isAvailable(room, roomDTO.getAvailable(), roomDTO.getAvailable().plusSeconds(duration))) {
             return null;

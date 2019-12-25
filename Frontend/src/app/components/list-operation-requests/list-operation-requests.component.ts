@@ -10,28 +10,31 @@ import { Examination } from './../../models/examination';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-list-examinations-request',
-  templateUrl: './list-examinations-request.component.html',
-  styleUrls: ['./list-examinations-request.component.css']
+  selector: 'app-list-operation-requests',
+  templateUrl: './list-operation-requests.component.html',
+  styleUrls: ['./list-operation-requests.component.css']
 })
-export class ListExaminationsRequestComponent implements OnInit {
+export class ListOperationRequestsComponent implements OnInit {
   examinationsDataSource: MatTableDataSource<Examination>;
   displayedColumns: string[] = ['patient', 'examinationType', 'doctors', 'interval', 'assign'];
   numberOfItem: number;
   itemsPerPage = environment.itemsPerPage;
 
-  constructor(public dialog: MatDialog, private examinationService: ExaminationService, private router: Router) { }
+  constructor(
+    public dialog: MatDialog,
+    private examinationService: ExaminationService,
+    private router: Router
+  ) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
 
   ngOnInit() {
     this.getAwaitingExaminations();
   }
 
   getAwaitingExaminations() {
-    this.examinationService.getAwaitingExaminations("EXAMINATION", this.paginator.pageIndex, 5, this.sort).subscribe((data: ExaminationPagingDTO) => {
+    this.examinationService.getAwaitingExaminations("OPERATION", this.paginator.pageIndex, 5, this.sort).subscribe((data: ExaminationPagingDTO) => {
       this.numberOfItem = data.numberOfItems;
       this.examinationsDataSource = new MatTableDataSource(data.examinationList);
       this.examinationsDataSource.sort = this.sort;
@@ -40,9 +43,7 @@ export class ListExaminationsRequestComponent implements OnInit {
 
   assignRoom(element: Examination) {
     this.examinationService.selectedExamination = element;
-    this.router.navigate(['/clinic-admin/search-rooms'], { queryParams: { kind: 'examination' } });
-
+    this.router.navigate(['/clinic-admin/search-rooms'], { queryParams: { kind: 'operation' } });
   }
-
 
 }

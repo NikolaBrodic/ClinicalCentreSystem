@@ -394,6 +394,7 @@ insert into examining (examination_id,doctor_id) values (23,7);
 insert into examining (examination_id,doctor_id) values (23,8);
 insert into examining (examination_id,doctor_id) values (23,9);
 
+/* This should not be displayed in the Requests for operation */
 insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2019 13:00','15.12.2019 14:30');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',20,'AWAITING',1,1,1,12);
@@ -421,6 +422,27 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('EXAMINATION',24,'PREDEF_AVAILABLE',1,1,1,9,10,5);
 insert into examining (examination_id,doctor_id) values (28,7);
 
+/* This should not be displayed in the Requests for operation */
+insert into date_time_interval (start_date_time, end_date_time) values ('13.04.2019 13:00','13.04.2019 14:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
+ values ('OPERATION',25,'AWAITING',1,1,1,12);
+insert into examining (examination_id,doctor_id) values (29,7);
+insert into examining (examination_id,doctor_id) values (29,8);
+insert into examining (examination_id,doctor_id) values (29,9);
+
+insert into date_time_interval (start_date_time, end_date_time) values ('13.01.2020 13:00','13.01.2020 14:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
+ values ('OPERATION',26,'AWAITING',1,1,1,13);
+insert into examining (examination_id,doctor_id) values (30,7);
+insert into examining (examination_id,doctor_id) values (30,8);
+insert into examining (examination_id,doctor_id) values (30,9);
+
+insert into date_time_interval (start_date_time, end_date_time) values ('20.01.2020 10:00','20.01.2020 11:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
+ values ('OPERATION',27,'AWAITING',1,1,1,14);
+insert into examining (examination_id,doctor_id) values (31,7);
+insert into examining (examination_id,doctor_id) values (31,8);
+insert into examining (examination_id,doctor_id) values (31,9);
 
 /* This shouldn't be displayed in calendar */
 /*

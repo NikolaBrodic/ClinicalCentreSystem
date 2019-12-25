@@ -41,6 +41,7 @@ import { ListClinicalCentreAdminsComponent } from './components/list-clinical-ce
 import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
 import { BusinessReportComponent } from './components/business-report/business-report.component';
 import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
+import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
 
 
 const routes: Routes = [
@@ -107,6 +108,11 @@ const routes: Routes = [
   {
     path: 'clinic-admin/examination/get-awaiting',
     component: ListExaminationsRequestComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/examination/awaiting-operations',
+    component: ListOperationRequestsComponent,
     canActivate: [ClinicAdminGuard],
   },
   {
