@@ -1,3 +1,4 @@
+import { DoctorAddExaminationOrOperationComponent } from './components/doctor-add-examination-or-operation/doctor-add-examination-or-operation.component';
 import { AddPredefinedExaminationComponent } from './components/add-predefined-examination/add-predefined-examination.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
@@ -82,7 +83,6 @@ import { AdminsGuard } from './guards/admins.guard';
 import { MapComponent } from './components/map/map.component';
 import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
 import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
-import { DoctorAddExaminationOrOperationComponent } from './components/doctor-add-examination-or-operation/doctor-add-examination-or-operation.component';
 
 @NgModule({
   declarations: [

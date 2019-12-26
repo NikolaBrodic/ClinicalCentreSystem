@@ -1,16 +1,15 @@
+import { CreateExamination } from './../../models/createExamination';
+import { ExaminationService } from './../../services/examination.service';
+import { DoctorService } from './../../services/doctor.service';
+import { ExaminationTypeService } from './../../services/examination-type.service';
+import { ToastrService } from 'ngx-toastr';
 import { Examination } from './../../models/examination';
 import { formatDate, Location } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ExaminationType } from 'src/app/models/examinationType';
-import { Doctor } from 'src/app/models/doctor';
-import { ToastrService } from 'ngx-toastr';
-import { DoctorService } from 'src/app/services/doctor.service';
-import { ExaminationTypeService } from 'src/app/services/examination-type.service';
-import { ExaminationService } from 'src/app/services/examination.service';
-import { PredefinedExamination } from 'src/app/models/predefinedExamination';
-import { CreateExamination } from 'src/app/models/createExamination';
 import { MatDialogRef } from '@angular/material';
+import { ExaminationType } from '../../models/examinationType';
+import { Doctor } from '../../models/doctor';
 
 @Component({
   selector: 'app-doctor-add-examination-or-operation',

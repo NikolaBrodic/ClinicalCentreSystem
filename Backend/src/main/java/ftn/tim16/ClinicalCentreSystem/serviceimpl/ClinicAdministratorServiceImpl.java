@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 @Service
@@ -134,6 +135,15 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         composeAndSendEmail(clinicAdministrator.getEmail(), clinic.getName(), generatedPassword);
 
         return new ClinicAdministratorDTO(clinicAdministrator);
+    }
+
+    @Override
+    public ClinicAdministrator findRandomAdminInClinic(Long clinicId) {
+        List<ClinicAdministrator> clinicAdministrators = clinicAdministratorRepository.findByClinicIdAndStatusNot(clinicId, UserStatus.ACTIVE);
+        if (clinicAdministrators.isEmpty()) {
+            return null;
+        }
+        return clinicAdministrators.get(new Random().nextInt(clinicAdministrators.size()));
     }
 
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {

@@ -1,4 +1,5 @@
-import { CreateExamination } from 'src/app/models/createExamination';
+import { CreateExamination } from './../models/createExamination';
+
 import { PredefinedExamination } from './../models/predefinedExamination';
 import { Subject } from 'rxjs';
 import { Examination } from './../models/examination';
