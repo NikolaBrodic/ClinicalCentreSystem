@@ -84,6 +84,27 @@ public class Examination {
         this.clinicRating = 0;
 
         doctors = new HashSet<Doctor>();
+
+    }
+
+    public Examination(ExaminationKind kind, DateTimeInterval interval, ExaminationStatus status, ExaminationType examinationType,
+                       Room room, Integer discount, Nurse nurse,
+                       Clinic clinic, ClinicAdministrator clinicAdministrator, Patient patient) {
+        this.kind = kind;
+        this.interval = interval;
+        this.status = status;
+        this.examinationType = examinationType;
+        this.doctors = doctors;
+        this.room = room;
+        this.discount = discount;
+        this.nurse = nurse;
+        this.clinic = clinic;
+        this.clinicAdministrator = clinicAdministrator;
+        this.doctorRating = 0;
+        this.clinicRating = 0;
+        this.patient = patient;
+        doctors = new HashSet<Doctor>();
+
     }
 
     public Long getId() {

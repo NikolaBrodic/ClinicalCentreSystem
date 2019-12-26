@@ -61,4 +61,6 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
                                                                                                                       LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     List<Examination> findByClinicIdAndStatusInAndIntervalEndDateTimeLessThan(Long id, Collection<ExaminationStatus> examinationStatus, LocalDateTime endDateTime);
+
+    List<Examination> findByRoomIdAndStatusNotAndIntervalEndDateTimeGreaterThanEqualOrderByIntervalStartDateTime(Long id, ExaminationStatus status, LocalDateTime endDateTime);
 }

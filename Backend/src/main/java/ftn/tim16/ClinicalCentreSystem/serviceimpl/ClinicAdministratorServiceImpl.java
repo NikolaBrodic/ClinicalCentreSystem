@@ -139,7 +139,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
 
     @Override
     public ClinicAdministrator findRandomAdminInClinic(Long clinicId) {
-        List<ClinicAdministrator> clinicAdministrators = clinicAdministratorRepository.findByClinicIdAndStatusNot(clinicId, UserStatus.ACTIVE);
+        List<ClinicAdministrator> clinicAdministrators = clinicAdministratorRepository.findByClinicIdAndStatusNot(clinicId, UserStatus.NEVER_LOGGED_IN);
         if (clinicAdministrators.isEmpty()) {
             return null;
         }

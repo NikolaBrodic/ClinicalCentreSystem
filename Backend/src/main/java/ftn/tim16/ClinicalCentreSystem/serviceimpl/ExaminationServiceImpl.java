@@ -51,6 +51,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
+    @Autowired
+    private PatientService patientService;
+
     @Override
     public List<Examination> getExaminationsOnDay(Long idRoom, LocalDateTime day) {
         LocalDate date = getDate(day.toString());
@@ -333,6 +336,10 @@ public class ExaminationServiceImpl implements ExaminationService {
         if (kind == null) {
             return null;
         }
+        Patient patient = patientService.getPatient(createExaminationOrOperationDTO.getPatient().getId());
+        if (patient == null) {
+            return null;
+        }
         LocalDate localDate = getDate(createExaminationOrOperationDTO.getStartDateTime());
         LocalDateTime startDateTime = getLocalDateTime(localDate, createExaminationOrOperationDTO.getStartDateTime());
         LocalDateTime endDateTime = getLocalDateTime(localDate, createExaminationOrOperationDTO.getEndDateTime());
@@ -355,7 +362,7 @@ public class ExaminationServiceImpl implements ExaminationService {
                 return null;
             }
             Examination examination = new Examination(kind, dateTimeInterval, ExaminationStatus.AWAITING, examinationType,
-                    null, 0, null, loggedDoctor.getClinic(), clinicAdministrator);
+                    null, 0, null, loggedDoctor.getClinic(), clinicAdministrator, patient);
             examination.getDoctors().add(doctor);
             sendMailToClinicAdministrator(examination, loggedDoctor, clinicAdministrator);
             return new ExaminationDTO(examinationRepository.save(examination));
@@ -369,10 +376,17 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
         DateTimeInterval dateTimeInterval = new DateTimeInterval(startDateTime, endDateTime);
         Examination examination = new Examination(kind, dateTimeInterval, ExaminationStatus.AWAITING, examinationType,
-                null, 0, null, loggedDoctor.getClinic(), clinicAdministrator);
+                null, 0, null, loggedDoctor.getClinic(), clinicAdministrator, patient);
 
         sendMailToClinicAdministrator(examination, loggedDoctor, clinicAdministrator);
         return new ExaminationDTO(examinationRepository.save(examination));
+    }
+
+    @Override
+    public List<Examination> getExaminationsAfter(Long idRoom, LocalDateTime endDateTime) {
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeGreaterThanEqualOrderByIntervalStartDateTime(
+                idRoom, ExaminationStatus.CANCELED, endDateTime
+        );
     }
 
     private void sendMailToClinicAdministrator(Examination examination, Doctor doctor, ClinicAdministrator clinicAdministrator) {

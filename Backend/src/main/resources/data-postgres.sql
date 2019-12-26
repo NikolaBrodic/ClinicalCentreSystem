@@ -186,11 +186,11 @@ insert into doctor_authority(user_id, authority_id) values (3,4);
 insert into doctor_authority(user_id, authority_id) values (4,4);
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)
- values ('doca6@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Nikolina', 'Simic', '078256886','02:00','10:00',1,'ACTIVE',1);
+ values ('doca6@maildrop.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Nikolina', 'Simic', '078256886','02:00','10:00',1,'ACTIVE',1);
 insert into doctor_authority(user_id, authority_id) values (5,4);
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
- values ('doca7@gmail.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Marko', 'Popov', '079256886','12:00','20:00',1,'ACTIVE',1,5);
+ values ('doca7@maildrop.com', '$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW', 'Marko', 'Popov', '079256886','12:00','20:00',1,'ACTIVE',1,5);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
 
@@ -401,7 +401,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('26.12.2019 10:00','26.12.2019 23:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('26.12.2019 10:00','26.12.2019 23:59');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);
