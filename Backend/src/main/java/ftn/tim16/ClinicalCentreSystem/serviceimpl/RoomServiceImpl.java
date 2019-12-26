@@ -256,7 +256,11 @@ public class RoomServiceImpl implements RoomService {
         }
 
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
-        return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
+        Room assignedRoom = assignRoom(selectedExamination.getId(), roomDTO);
+        if (assignedRoom == null) {
+            return null;
+        }
+        return new RoomWithIdDTO(assignedRoom);
     }
 
 

@@ -39,7 +39,10 @@ export class ListExaminationsRequestComponent implements OnInit {
   }
 
   assignRoom(element: Examination) {
-    this.examinationService.selectedExamination = element;
+    if (JSON.parse(localStorage.getItem('selectedExamination'))) {
+      localStorage.removeItem('selectedExamination');
+    }
+    localStorage.setItem('selectedExamination', JSON.stringify(element));
     this.router.navigate(['/clinic-admin/search-rooms'], { queryParams: { kind: 'examination' } });
 
   }

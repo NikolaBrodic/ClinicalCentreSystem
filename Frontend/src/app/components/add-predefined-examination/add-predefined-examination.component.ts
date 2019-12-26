@@ -32,6 +32,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
     public dialogRef: MatDialogRef<AddPredefinedExaminationComponent>) { }
 
   ngOnInit() {
+    this.minDate.setDate(this.minDate.getDate() + 1);
     this.dateTimeTypeForm = new FormGroup({
       date: new FormControl(null, [Validators.required]),
       timeFrom: new FormControl(null, [Validators.required]),
@@ -85,10 +86,12 @@ export class AddPredefinedExaminationComponent implements OnInit {
   next() {
     if (!(this.dateTimeTypeForm.value.timeFrom || this.dateTimeTypeForm.value.timeTo)) {
       this.timeError = true;
+      return;
     }
 
     if (this.dateTimeTypeForm.value.timeFrom >= this.dateTimeTypeForm.value.timeTo) {
       this.timeError = true;
+      return;
     }
 
     this.getDoctors();
@@ -96,7 +99,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
   }
 
   create() {
-    if (this.addPredefinedExaminationForm.invalid) {
+    if (this.addPredefinedExaminationForm.invalid || this.dateTimeTypeForm.invalid) {
       this.toastr.error("Please enter a valid data.", 'Create predefined examination');
       return;
     }

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { ExaminationReportResponse } from './../../models/examinationReportResponse';
 import { ExaminationReportForTable } from './../../models/examinationReportForTable';
 import { EditExaminationReportComponent } from './../edit/edit-examination-report/edit-examination-report.component';
@@ -37,10 +38,16 @@ export class ListExaminationReportsComponent implements OnInit {
     private examinationService: ExaminationService,
     private userService: UserService,
     public dialog: MatDialog,
+    private location: Location
   ) { }
 
   ngOnInit() {
-    this.patientId = this.examinationService.choosenPatient.id;
+    var currentExamination = JSON.parse(localStorage.getItem('startingExamination'));;
+    if (!currentExamination) {
+      this.location.back();
+      return;
+    }
+    this.patientId = currentExamination.patient.id;
     this.loggedInDoctorId = this.userService.getLoggedInUser().id;
 
     this.fetchData();

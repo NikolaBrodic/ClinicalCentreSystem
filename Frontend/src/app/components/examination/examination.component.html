@@ -4,7 +4,11 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="page-caption">
-                    <h1 class="page-title main-title">Examination</h1>
+                    <h1 class="page-title">Examination</h1>
+                    <div class="text-center mt-4">
+                        <button mat-raised-button color="primary" (click)="createExamination()">Add new
+                            examination/operation</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,10 +86,6 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <br>
-                            <app-doctor-add-examination-or-operation></app-doctor-add-examination-or-operation>
-                            <br>
-
                             <div align="end">
                                 <button mat-raised-button color="primary" (click)="finishExamination()"
                                     [disabled]="!createExaminationReportForm.valid">Finish examination</button>

@@ -203,6 +203,8 @@ import { DoctorAddExaminationOrOperationComponent } from './components/doctor-ad
     MapComponent,
     ListExaminationReportsComponent,
     EditExaminationReportComponent,
+    ExaminationComponent,
+    DoctorAddExaminationOrOperationComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

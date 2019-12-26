@@ -30,7 +30,12 @@ export class EditExaminationReportComponent implements OnInit {
 
 
   ngOnInit() {
-    this.examinationId = this.examinationService.startingExamination;
+    var examination = JSON.parse(localStorage.getItem('startingExamination'));
+    if (!examination) {
+      this.dialogRef.close();
+      return;
+    }
+    this.examinationId = examination.id;
     if (!this.examinationId) {
       this.dialogRef.close();
       return;

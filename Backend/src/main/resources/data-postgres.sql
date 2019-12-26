@@ -401,7 +401,7 @@ insert into examining (examination_id,doctor_id) values (24,7);
 insert into examining (examination_id,doctor_id) values (24,8);
 insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2019 17:00','25.12.2019 23:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('26.12.2019 10:00','26.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
  values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
 insert into examining (examination_id,doctor_id) values (25,7);
@@ -472,7 +472,7 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECTED', 'TIME_OFF', 7, 33);
 */
-
+/*
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
   'bronchodilators (LABAs) are used in the treatment of asthma.');
@@ -554,7 +554,7 @@ insert into examination_report(comment, time_created, diagnose_id, doctor_id, me
 
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('STAMPED', 4, 6, 9);
-
+*/
 
 /*
 insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id)

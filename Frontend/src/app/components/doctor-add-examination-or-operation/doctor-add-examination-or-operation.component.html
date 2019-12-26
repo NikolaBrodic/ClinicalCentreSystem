@@ -1,17 +1,16 @@
-<mat-slide-toggle class="example-margin" [checked]="checked" (click)="change()">
-    Book an examination/operation!
-</mat-slide-toggle>
-<div *ngIf="checked">
+<h1 mat-dialog-title>Book an examination/operation</h1>
+<mat-dialog-content class="dialog-class">
     <mat-vertical-stepper [linear]="true" #stepper>
         <mat-step [stepControl]="dateTimeTypeForm">
             <form [formGroup]="dateTimeTypeForm" class="form-full-width">
-
                 <table class="form-full-width mt-3" cellspacing="0">
                     <tr>
                         <td><label id="kind-radio-group">Book:</label></td>
                         <td>
-                            <mat-radio-group formControlName="kind" aria-labelledby="kind-radio-group">
-                                <mat-radio-button class="ml-4" value="EXAMINATION">Examination </mat-radio-button>
+                            <mat-radio-group formControlName="kind" aria-labelledby="kind-radio-group"
+                                (change)="changeKing()">
+                                <mat-radio-button class="ml-4" value="EXAMINATION" selected="selected">Examination
+                                </mat-radio-button>
                                 <mat-radio-button class="ml-4" value="OPERATION">Operation </mat-radio-button>
                             </mat-radio-group>
                         </td>
@@ -56,29 +55,30 @@
                 </mat-form-field>
             </form>
             <mat-dialog-actions class="mt-2">
-                <button mat-raised-button color="primary" (click)="next()" matStepperNext>Next</button>
+                <button mat-raised-button color="primary" (click)="next()" matStepperNext
+                    *ngIf="isDoctorRequired">Next</button>
+                <button mat-raised-button color="primary" (click)="create()" [disabled]="!dateTimeTypeForm.valid"
+                    *ngIf="!isDoctorRequired">Add</button>
             </mat-dialog-actions>
         </mat-step>
 
 
-        <mat-step [stepControl]="doctorForm">
+        <mat-step [stepControl]="doctorForm" *ngIf="isDoctorRequired">
             <form [formGroup]="doctorForm" class="form-full-width">
-                <ng-template matStepLabel>Specify doctor, room and discount</ng-template>
+                <ng-template matStepLabel>Specify doctor for examination</ng-template>
                 <mat-form-field class="form-full-width">
                     <mat-label>Doctor</mat-label>
-                    <mat-select formControlName="doctor" *ngIf="!isMultiple">
-                        <mat-option>None</mat-option>
-                        <mat-option *ngFor="let doctor of doctors" [value]="doctor">{{doctor.firstName}}
-                            {{doctor.lastName}}</mat-option>
-                    </mat-select>
-                    <mat-select formControlName="doctors" multiple *ngIf="isMultiple">
+                    <mat-select formControlName="doctor">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let doctor of doctors" [value]="doctor">{{doctor.firstName}}
                             {{doctor.lastName}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-
             </form>
+            <mat-dialog-actions class="mt-2 mb-1">
+                <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" [disabled]="!doctorForm.valid" (click)="create()">Add</button>
+            </mat-dialog-actions>
         </mat-step>
     </mat-vertical-stepper>
-</div>
+</mat-dialog-content>

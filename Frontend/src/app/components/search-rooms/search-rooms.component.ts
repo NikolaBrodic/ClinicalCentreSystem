@@ -45,11 +45,11 @@ export class SearchRoomsComponent implements OnInit {
       var param = params['kind'];
       if ("operation" === param) {
         this.kind = "OPERATION";
-        this.examination = this.examinationService.selectedExamination;
+        this.examination = JSON.parse(localStorage.getItem('selectedExamination'));
         this.setDateTime();
       } else if ("examination" === param) {
         this.kind = "EXAMINATION";
-        this.examination = this.examinationService.selectedExamination;
+        this.examination = JSON.parse(localStorage.getItem('selectedExamination'));
         this.setDateTime();
       } else {
         this.router.navigate(['/error']);
