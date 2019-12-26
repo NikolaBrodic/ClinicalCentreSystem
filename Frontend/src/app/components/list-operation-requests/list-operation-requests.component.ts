@@ -16,7 +16,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class ListOperationRequestsComponent implements OnInit {
   examinationsDataSource: MatTableDataSource<Examination>;
-  displayedColumns: string[] = ['patient', 'examinationType', 'doctors', 'interval', 'assign'];
+  displayedColumns: string[] = ['patient', 'examinationType', 'interval', 'assign'];
   numberOfItem: number;
   itemsPerPage = environment.itemsPerPage;
 

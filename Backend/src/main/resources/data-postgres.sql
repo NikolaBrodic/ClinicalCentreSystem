@@ -194,7 +194,7 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
 
-insert into date_time_interval (start_date_time, end_date_time) values ('31.12.2019 08:00','31.01.2020 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('31.12.2019 08:00','10.01.2020 10:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 3, 1);
 

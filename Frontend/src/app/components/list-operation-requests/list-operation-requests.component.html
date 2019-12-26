@@ -40,19 +40,6 @@
                                 </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="doctors">
-                                <th mat-header-cell *matHeaderCellDef>Doctors</th>
-                                <td mat-cell *matCellDef="let element">
-                                    <div *ngIf="element.doctors">
-                                        {{element.doctors[0].firstName}} {{element.doctors[0].lastName}},
-                                        {{element.doctors[1].firstName}} {{element.doctors[1].lastName}},<br>
-                                        {{element.doctors[2].firstName}} {{element.doctors[2].lastName}}
-                                    </div>
-                                    <div *ngIf="!(element.doctors)">&nbsp;/&nbsp;
-                                    </div>
-                                </td>
-                            </ng-container>
-
                             <ng-container matColumnDef="interval">
                                 <th mat-header-cell *matHeaderCellDef>
                                     Date and time
@@ -66,7 +53,7 @@
                             <ng-container matColumnDef="assign">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-raised-button class="choose-btn" (click)="assignRoom(element)">Assign
+                                    <button mat-raised-button class="choose-btn" (click)="assignRoom(element)">Choose
                                         room</button>
                                 </td>
                             </ng-container>
