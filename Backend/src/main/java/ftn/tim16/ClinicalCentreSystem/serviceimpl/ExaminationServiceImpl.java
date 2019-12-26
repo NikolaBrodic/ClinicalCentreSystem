@@ -1,9 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.dto.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationRepository;
 import ftn.tim16.ClinicalCentreSystem.service.*;
@@ -99,6 +101,20 @@ public class ExaminationServiceImpl implements ExaminationService {
                 (clinicAdministrator.getId(), ExaminationStatus.PREDEF_AVAILABLE, clinicAdministrator.getId(), ExaminationStatus.PREDEF_BOOKED, page);
         ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(pageExaminations.getContent(), examinations.size());
         return examinationPagingDTO;
+    }
+
+    @Override
+    public ExaminationPagingDTO getPredefinedExaminationsForPatient(Patient patient, Pageable page) {
+        List<Examination> examinations = examinationRepository.findByPatientIdAndStatus(
+                patient.getId(),
+                PatientStatus.APPROVED
+        );
+        Page<Examination> pageExaminations = examinationRepository.findByPatientIdAndStatus(
+                patient.getId(),
+                PatientStatus.APPROVED,
+                page
+        );
+        return new ExaminationPagingDTO(pageExaminations.getContent(), examinations.size());
     }
 
     @Override

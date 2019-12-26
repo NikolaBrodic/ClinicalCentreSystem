@@ -1,3 +1,4 @@
+import { ExaminationService } from 'src/app/services/examination.service';
 import { Examination } from 'src/app/models/examination';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
@@ -33,7 +34,7 @@ export class PatientAvailableExaminationsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public patientService: PatientService,
+    public examinationService: ExaminationService,
     public router: Router,
     ) { }
 
@@ -42,7 +43,7 @@ export class PatientAvailableExaminationsComponent implements OnInit {
   }
   
   getAllClinicsForPatient() {
-    this.patientService.getAllDoctorsInClinic(this.clinic).subscribe(
+    this.examinationService.getCreatedPredefinedExaminations(1, 10, this.sort).subscribe(
       (data: Examination[]) => {
         this.patientAvailExaminationsDataSource = new MatTableDataSource(data);
         this.patientAvailExaminationsDataSource.sort = this.sort;
