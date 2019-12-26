@@ -37,21 +37,21 @@ export class PatientAvailableExaminationsComponent implements OnInit {
     public examinationService: ExaminationService,
     public router: Router,
     ) { }
-
+  
   ngOnInit() {
     this.getAllClinicsForPatient();
   }
   
   getAllClinicsForPatient() {
-    this.examinationService.getCreatedPredefinedExaminations(1, 10, this.sort).subscribe(
-      (data: Examination[]) => {
-        this.patientAvailExaminationsDataSource = new MatTableDataSource(data);
-        this.patientAvailExaminationsDataSource.sort = this.sort;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    // this.examinationService.getCreatedPredefinedExaminations(1, 10, this.sort).subscribe(
+    //   (data: Examination[]) => {
+    //     this.patientAvailExaminationsDataSource = new MatTableDataSource(data);
+    //     this.patientAvailExaminationsDataSource.sort = this.sort;
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
   }
   
 }

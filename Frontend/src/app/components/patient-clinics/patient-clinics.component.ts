@@ -114,7 +114,7 @@ export class PatientClinicsComponent implements OnInit {
     );
   }
 
-  chooseDoctor(item) {
+  chooseDoctor() {
     this.router.navigate(['/patient/choose-doctor']);
   }
 
