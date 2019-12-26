@@ -22,13 +22,14 @@ import { ExaminationTypeService } from 'src/app/services/examination-type.servic
 export class PatientClinicsComponent implements OnInit {
   
   public patientClinicsDataSource: MatTableDataSource<Clinic>;
-  public displayedColumns: string[] = ['name', 'clinicRating', 'address', 'id'];
+  public displayedColumns: string[] = ['options', 'name', 'clinicRating', 'address', 'id'];
   
   public examinationDate: DateTime;
   public examinationType: string;
   public examinationAddress: string;
   public examinationMinClinicsRating: number;
   public examinationMaxPrice: number;
+  public selectedRow: string;
 
   private examinationFilter: Examination;
 
@@ -113,7 +114,7 @@ export class PatientClinicsComponent implements OnInit {
     );
   }
 
-  chooseDoctor() {
+  chooseDoctor(item) {
     this.router.navigate(['/patient/choose-doctor']);
   }
 

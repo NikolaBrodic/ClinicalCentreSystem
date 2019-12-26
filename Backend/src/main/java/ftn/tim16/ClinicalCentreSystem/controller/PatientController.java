@@ -166,4 +166,18 @@ public class PatientController {
         return new ResponseEntity<>(allDoctors, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/predefined-examinations")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<ExaminationPagingDTO> getPredefinedExaminations(@RequestBody Patient patient, Pageable page) {
+        ExaminationPagingDTO patientExists  = examinationService.getPredefinedExaminationsForPatient(patient, page);
+        if (patientExists == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getPredefinedExaminationsForPatient(patient, page), HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
