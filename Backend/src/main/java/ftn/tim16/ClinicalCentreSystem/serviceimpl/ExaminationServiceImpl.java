@@ -20,10 +20,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -145,6 +142,15 @@ public class ExaminationServiceImpl implements ExaminationService {
         selectedExamination.setNurse(chosenNurse);
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
+
+        return examinationRepository.save(selectedExamination);
+    }
+
+    @Override
+    public Examination assignRoomForOperation(Examination selectedExamination, Room room, Set<Doctor> doctors) {
+        selectedExamination.setRoom(room);
+        selectedExamination.setStatus(ExaminationStatus.APPROVED);
+        selectedExamination.setDoctors(doctors);
 
         return examinationRepository.save(selectedExamination);
     }

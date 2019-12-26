@@ -1,8 +1,11 @@
 package ftn.tim16.ClinicalCentreSystem.dto.request;
 
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class AssignExaminationDTO {
 
@@ -21,6 +24,8 @@ public class AssignExaminationDTO {
 
     @NotEmpty
     private String available;
+
+    private List<DoctorDTO> doctors;
 
     public Long getId() {
         return id;
@@ -60,5 +65,13 @@ public class AssignExaminationDTO {
 
     public void setRoomId(Long roomId) {
         this.roomId = roomId;
+    }
+
+    public List<DoctorDTO> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<DoctorDTO> doctors) {
+        this.doctors = doctors;
     }
 }

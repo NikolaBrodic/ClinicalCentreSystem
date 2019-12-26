@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.request.CreateRoomDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
@@ -23,10 +24,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Transactional
 @Service
@@ -196,6 +194,7 @@ public class RoomServiceImpl implements RoomService {
             for (Examination examination : examinations) {
                 LocalDateTime newEndExamination = examination.getInterval().getEndDateTime().plusSeconds(duration);
                 if (isAvailable(currentRoom, examination.getInterval().getEndDateTime(), newEndExamination)) {
+                    //TODO: Check if exists at least one available doctor.
                     RoomDTO roomDTO = new RoomDTO(currentRoom);
                     roomDTO.setAvailable(examination.getInterval().getEndDateTime());
                     available.add(roomDTO);
@@ -256,7 +255,19 @@ public class RoomServiceImpl implements RoomService {
         }
 
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
-        return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
+        if (selectedExamination.getKind() == ExaminationKind.EXAMINATION) {
+            return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
+        } else {
+            Set<Doctor> doctors = new HashSet<>();
+            for (DoctorDTO doctorDTO : examination.getDoctors()) {
+                doctors.add(doctorService.getDoctor(doctorDTO.getId()));
+            }
+            if (doctors.size() != 3) {
+                return null;
+            }
+
+            return new RoomWithIdDTO(assignRoomForOperation(selectedExamination.getId(), roomDTO, doctors));
+        }
     }
 
 
@@ -320,6 +331,48 @@ public class RoomServiceImpl implements RoomService {
         }
 
         sendMail(selectedExamination, doctor, selectedExamination.getPatient(), chosenNurse);
+        return findById(roomDTO.getId());
+    }
+
+    private Room assignRoomForOperation(Long examinationId, RoomDTO roomDTO, Set<Doctor> doctors) {
+        Examination selectedExamination = examinationService.getExamination(examinationId);
+        Room room = findById(roomDTO.getId());
+        if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
+            return null;
+        }
+
+        if (selectedExamination.getInterval().getStartDateTime().isBefore(LocalDateTime.now())) {
+            return null;
+        }
+
+        long duration = Duration.between(selectedExamination.getInterval().getStartDateTime(), selectedExamination.getInterval().getEndDateTime()).toMillis() / 1000;
+        if (!isAvailable(room, roomDTO.getAvailable(), roomDTO.getAvailable().plusSeconds(duration))) {
+            return null;
+        }
+
+        if (roomDTO.getAvailable().equals(selectedExamination.getInterval().getStartDateTime())) {
+            for (Doctor doctor : doctors) {
+                if (!doctorService.isAvailable(doctor, selectedExamination.getInterval().getStartDateTime(), selectedExamination.getInterval().getEndDateTime())) {
+                    return null;
+                }
+            }
+            examinationService.assignRoomForOperation(selectedExamination, room, doctors);
+        } else {
+            DateTimeInterval dateTimeInterval = dateTimeIntervalService.create(roomDTO.getAvailable(),
+                    roomDTO.getAvailable().plusSeconds(duration));
+            if (dateTimeInterval != null) {
+                for (Doctor doctor : doctors) {
+                    if (!doctorService.isAvailable(doctor, selectedExamination.getInterval().getStartDateTime(), selectedExamination.getInterval().getEndDateTime())) {
+                        return null;
+                    }
+                }
+                selectedExamination.setInterval(dateTimeInterval);
+                examinationService.assignRoomForOperation(selectedExamination, room, doctors);
+            }
+
+        }
+
+        //sendMailToAllDoctors(selectedExamination, doctors, selectedExamination.getPatient());
         return findById(roomDTO.getId());
     }
 
