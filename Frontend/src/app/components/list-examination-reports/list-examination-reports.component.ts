@@ -42,7 +42,8 @@ export class ListExaminationReportsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    var currentExamination = JSON.parse(localStorage.getItem('startingExamination'));;
+
+    const currentExamination = JSON.parse(localStorage.getItem('startingExamination'));
     if (!currentExamination) {
       this.location.back();
       return;
@@ -60,6 +61,7 @@ export class ListExaminationReportsComponent implements OnInit {
   }
 
   fetchData() {
+
     this.examinationReportService.getPatientsExaminationReports(this.patientId).subscribe(
       (data: ExaminationReportResponse[]) => {
         let examinationReportsForTable: ExaminationReportForTable[] = [];

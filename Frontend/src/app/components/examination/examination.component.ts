@@ -39,9 +39,8 @@ export class ExaminationComponent implements OnInit {
     private examinationReportService: ExaminationReportService,
     private diagnoseService: DiagnoseService,
     private medicineService: MedicineService,
-    private examinationService: ExaminationService,
     private medicalRecordService: MedicalRecordService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -51,7 +50,7 @@ export class ExaminationComponent implements OnInit {
       return;
     }
 
-    this.patientFullName = this.selectedExamination.patient.firstName + " " + this.selectedExamination.patient.lastName;
+    this.patientFullName = this.selectedExamination.patient.firstName + ' ' + this.selectedExamination.patient.lastName;
 
     this.createExaminationReportForm = new FormGroup({
       comment: new FormControl(null, [Validators.required]),

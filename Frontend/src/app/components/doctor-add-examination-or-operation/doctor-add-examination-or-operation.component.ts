@@ -17,21 +17,23 @@ import { Doctor } from '../../models/doctor';
   styleUrls: ['./doctor-add-examination-or-operation.component.css']
 })
 export class DoctorAddExaminationOrOperationComponent implements OnInit {
-
   doctorForm: FormGroup;
   dateTimeTypeForm: FormGroup;
   examinationTypes: ExaminationType[] = [];
   doctors: Doctor[] = [];
   minDate = new Date();
-  timeError: boolean = false;
+  timeError = false;
   isDoctorRequired = true;
   currentExamination: Examination;
 
   constructor(private toastr: ToastrService, private doctorService: DoctorService, private examinationTypeService: ExaminationTypeService,
-    private location: Location, private examinationService: ExaminationService, public dialogRef: MatDialogRef<DoctorAddExaminationOrOperationComponent>) { }
+    private location: Location, private examinationService: ExaminationService, public dialogRef: MatDialogRef<DoctorAddExaminationOrOperationComponent>) {
+
+  }
 
   ngOnInit() {
-    this.currentExamination = JSON.parse(localStorage.getItem('startingExamination'));;
+
+    this.currentExamination = JSON.parse(localStorage.getItem('startingExamination'));
     if (!this.currentExamination) {
       this.location.back();
       return;
@@ -47,7 +49,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
     });
     this.dateTimeTypeForm.patchValue(
       {
-        'kind': "EXAMINATION",
+        'kind': 'EXAMINATION'
       }
     );
     this.doctorForm = new FormGroup({
@@ -57,23 +59,24 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
     this.getExaminationTypes();
   }
 
-  changeKing() {
-    if (this.dateTimeTypeForm.value.kind == "OPERATION") {
+  changeKing(): any {
+
+    if (this.dateTimeTypeForm.value.kind === 'OPERATION') {
       this.isDoctorRequired = false;
     } else {
       this.isDoctorRequired = true;
     }
   }
 
-  getExaminationTypes() {
-    this.examinationTypeService.getExaminationTypesForAdmin().subscribe(data => {
+  getExaminationTypes(): any {
+    this.examinationTypeService.getExaminationTypesForAdmin().subscribe((data) => {
       this.examinationTypes = data;
     })
   }
 
-  getDoctors() {
+  getDoctors(): any {
 
-    var examinationType = this.dateTimeTypeForm.value.examinationType;
+    const examinationType = this.dateTimeTypeForm.value.examinationType;
     if (this.dateTimeTypeForm.value.date && this.dateTimeTypeForm.value.timeFrom && this.dateTimeTypeForm.value.timeTo) {
       var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
       var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
@@ -84,9 +87,10 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
     } else {
       this.doctors = [];
     }
-
   }
-  next() {
+
+  next(): void {
+
     if (!(this.dateTimeTypeForm.value.timeFrom || this.dateTimeTypeForm.value.timeTo)) {
       this.timeError = true;
       return;
@@ -117,7 +121,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
       return;
     }
 
-    var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
+    var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US');
     var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
     var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
 
