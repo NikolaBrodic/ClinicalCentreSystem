@@ -29,6 +29,7 @@ import java.util.*;
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
+    public static final int NUM_OF_DOCTORS = 3;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -256,17 +257,25 @@ public class RoomServiceImpl implements RoomService {
 
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
         if (selectedExamination.getKind() == ExaminationKind.EXAMINATION) {
-            return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
+            Room assignedRoom = assignRoom(selectedExamination.getId(), roomDTO);
+            if (assignedRoom == null) {
+                return null;
+            }
+            return new RoomWithIdDTO(assignedRoom);
         } else {
             Set<Doctor> doctors = new HashSet<>();
             for (DoctorDTO doctorDTO : examination.getDoctors()) {
                 doctors.add(doctorService.getDoctor(doctorDTO.getId()));
             }
-            if (doctors.size() != 3) {
+            if (doctors.size() != NUM_OF_DOCTORS) {
                 return null;
             }
 
-            return new RoomWithIdDTO(assignRoomForOperation(selectedExamination.getId(), roomDTO, doctors));
+            Room assignedRoom = assignRoomForOperation(selectedExamination.getId(), roomDTO, doctors);
+            if (assignedRoom == null) {
+                return null;
+            }
+            return new RoomWithIdDTO(assignedRoom);
         }
     }
 
@@ -372,7 +381,7 @@ public class RoomServiceImpl implements RoomService {
 
         }
 
-        //sendMailToAllDoctors(selectedExamination, doctors, selectedExamination.getPatient());
+        sendMailToAll(selectedExamination, doctors, selectedExamination.getPatient());
         return findById(roomDTO.getId());
     }
 
@@ -381,7 +390,7 @@ public class RoomServiceImpl implements RoomService {
         if (doctor == null || patient == null || nurse == null) {
             return;
         }
-        String subject = "Notice: Examination room for the examination has been assigned";
+        String subject = "Notice: Room for the examination has been assigned";
         StringBuilder sb = new StringBuilder();
         sb.append("Examination room for the examination has been assigned.");
         sb.append(System.lineSeparator());
@@ -403,6 +412,47 @@ public class RoomServiceImpl implements RoomService {
         String textWithDoctor = sb.toString();
         emailNotificationService.sendEmail(patient.getEmail(), subject, textWithDoctor);
         emailNotificationService.sendEmail(nurse.getEmail(), subject, textWithDoctor);
+    }
+
+    private void sendMailToAll(Examination examination, Set<Doctor> doctors, Patient patient) {
+
+        if (doctors == null || doctors.size() != NUM_OF_DOCTORS || patient == null) {
+            return;
+        }
+        String subject = "Notice: Room for the operation has been assigned";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Operating room for the operation has been assigned.");
+        sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
+        sb.append("Operation will be held on ");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+        sb.append(examination.getInterval().getStartDateTime().format(dateFormatter));
+        sb.append(" between ");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+        sb.append(examination.getInterval().getStartDateTime().format(timeFormatter));
+        sb.append(" and ");
+        sb.append(examination.getInterval().getEndDateTime().format(timeFormatter));
+        String text = sb.toString();
+
+        StringBuilder sb2 = new StringBuilder();
+        int counter = 0;
+        for (Doctor doctor : doctors) {
+            emailNotificationService.sendEmail(doctor.getEmail(), subject, text);
+            if (counter != 0) {
+                sb2.append(", ");
+            }
+            sb2.append(doctor.getFirstName());
+            sb2.append(" ");
+            sb2.append(doctor.getLastName());
+            counter++;
+        }
+
+        sb.append(". The operation will perform doctors ");
+        sb.append(sb2.toString());
+        sb.append(".");
+
+        String textWithDoctors = sb.toString();
+        emailNotificationService.sendEmail(patient.getEmail(), subject, textWithDoctors);
     }
 
     @Override
@@ -429,7 +479,16 @@ public class RoomServiceImpl implements RoomService {
             }
 
             if (!availableRoom.isEmpty()) {
-                assignRoom(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())));
+                if (examination.getKind() == ExaminationKind.EXAMINATION) {
+                    assignRoom(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())));
+                } else {
+                    Set<Doctor> availableDoctors = doctorService.getAvailableDoctors(examination.getExaminationType(), examination.getInterval().getStartDateTime(),
+                            examination.getInterval().getEndDateTime(), examination.getClinic().getId());
+
+                    if (availableDoctors.size() == NUM_OF_DOCTORS) {
+                        assignRoomForOperation(examination.getId(), availableRoom.get(new Random().nextInt(availableRoom.size())), availableDoctors);
+                    }
+                }
             }
 
         }

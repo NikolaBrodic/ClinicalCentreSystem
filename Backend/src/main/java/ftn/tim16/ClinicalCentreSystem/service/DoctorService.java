@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.model.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface DoctorService {
     DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator);
@@ -20,6 +21,8 @@ public interface DoctorService {
     boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId);
+
+    Set<Doctor> getAvailableDoctors(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId);
 
     void removeExamination(Examination examination, String email);
 
