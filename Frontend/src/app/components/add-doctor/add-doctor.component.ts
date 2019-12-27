@@ -37,7 +37,7 @@ export class AddDoctorComponent implements OnInit {
   }
 
   getSpecializations() {
-    this.examinationTypeService.getExaminationTypesForAdmin().subscribe(data => {
+    this.examinationTypeService.getExaminationTypesForAdmin().subscribe((data) => {
       this.specializations = data;
     })
   }

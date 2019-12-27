@@ -55,5 +55,4 @@ export class ListClinicsComponent implements OnInit {
   openEditingDialog(clinic: Clinic) {
     this.dialog.open(EditClinicProfileComponent, { data: clinic });
   }
-
 }

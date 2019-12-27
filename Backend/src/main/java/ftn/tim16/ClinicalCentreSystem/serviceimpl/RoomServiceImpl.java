@@ -101,7 +101,7 @@ public class RoomServiceImpl implements RoomService {
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
             return new RoomPagingDTO(convertToDTO(
-                    roomRepository.findByClinicIdAndStatus(clinic.getId(), LogicalStatus.EXISTING, page).getContent()),
+                    roomRepository.findByClinicIdAndStatusAndLabelContainsIgnoringCase(clinic.getId(), LogicalStatus.EXISTING, search, page).getContent()),
                     findAllRoomsInClinic(clinic).size());
         }
 

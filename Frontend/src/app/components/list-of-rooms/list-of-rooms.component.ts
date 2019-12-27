@@ -40,9 +40,9 @@ export class ListOfRoomsComponent implements OnInit {
     this.searchRooms(0);
 
     this.successCreatedRoom = this.roomService.createSuccessEmitter.subscribe(
-      data => {
-        this.searchExaminationType = "All";
-        this.searchLabel = "";
+      () => {
+        this.searchExaminationType = 'All';
+        this.searchLabel = '';
         this.searchRooms(0);
       }
     );
@@ -50,7 +50,7 @@ export class ListOfRoomsComponent implements OnInit {
 
   searchRooms(pageIndex: number) {
     if (isUndefined(this.searchExaminationType)) {
-      this.searchExaminationType = "";
+      this.searchExaminationType = '';
     }
     this.paginator.pageIndex = pageIndex;
     this.roomService.getRoomsForAdminPaging
@@ -84,12 +84,12 @@ export class ListOfRoomsComponent implements OnInit {
 
   deleteRoom(room: Room) {
     this.roomService.deleteRoom(room.id).subscribe(
-      responseData => {
+      () => {
         this.searchRooms(0);
-        this.toastr.success("Successfully deleted room.", 'Delete room');
+        this.toastr.success('Successfully deleted room.', 'Delete room');
       },
-      message => {
-        this.toastr.error("You can not delete this room because this room is reserved.", 'Delete room');
+      () => {
+        this.toastr.error('You can not delete this room because this room is reserved.', 'Delete room');
       }
     );
   }
