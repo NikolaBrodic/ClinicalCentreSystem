@@ -41,7 +41,7 @@ export class SearchRoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      var param = params.kind;
+      const param = params.kind;
       if (param === 'operation') {
         this.kind = 'OPERATION';
         this.examination = JSON.parse(localStorage.getItem('selectedExamination'));
