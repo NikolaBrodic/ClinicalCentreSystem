@@ -425,6 +425,7 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examining (examination_id,doctor_id) values (28,7);
 
 /* This should not be displayed in the Requests for operation */
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('13.04.2019 13:00','13.04.2019 14:30');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',25,'AWAITING',1,1,1,12);
@@ -445,9 +446,9 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examining (examination_id,doctor_id) values (31,7);
 insert into examining (examination_id,doctor_id) values (31,8);
 insert into examining (examination_id,doctor_id) values (31,9);
-
+*/
 /* This shouldn't be displayed in calendar */
-/*
+
 insert into date_time_interval (start_date_time, end_date_time) values ('09.12.2019 09:00','09.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id)
  values ('EXAMINATION',25,'CANCELED',1,1,1,14,9);
@@ -456,25 +457,25 @@ insert into examining (examination_id,doctor_id) values (29,7);
 insert into date_time_interval (start_date_time, end_date_time) values ('25.11.2019 09:00','27.11.2019 10:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 7, 26);
-*/
+
 /* This shouldn't be displayed in calendar */
-/*
+
 insert into date_time_interval (start_date_time, end_date_time) values ('30.11.2019 09:00','05.12.2019 17:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('REJECTED', 'HOLIDAY', 7, 27);
-*/
+
  /* Doctor should be able to request holiday/time off if the examination on that time was canceled */
-/*
-insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 09:00','11.11.2019 11:00');
+
+insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 09:00','15.11.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'TIME_OFF', 7, 28);
-*/
+
 /* This shouldn't be displayed in calendar */
-/*
-insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.1.2019 11:00');
+
+insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('REJECTED', 'TIME_OFF', 7, 29);
-
+/*
  insert into date_time_interval (start_date_time, end_date_time) values ('24.11.2019 09:30','26.11.2019 13:30');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 9, 30);

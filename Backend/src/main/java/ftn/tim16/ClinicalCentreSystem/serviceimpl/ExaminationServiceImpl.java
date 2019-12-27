@@ -395,6 +395,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         );
     }
 
+    @Override
+    public List<Examination> getDoctorExaminationsBetween(Long doctorId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan(doctorId, ExaminationStatus.CANCELED, startDateTime, endDateTime);
+    }
+
     private void sendMailToClinicAdministrator(Examination examination, Doctor doctor, ClinicAdministrator clinicAdministrator) {
         if (clinicAdministrator == null || doctor == null || examination == null) {
             return;

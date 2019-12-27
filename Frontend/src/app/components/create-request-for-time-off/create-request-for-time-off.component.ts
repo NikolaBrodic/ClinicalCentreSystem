@@ -57,16 +57,16 @@ export class CreateRequestForTimeOffComponent implements OnInit {
           this.toastr.success("Successfully created request for " + requestType.toLowerCase() + ".", 'Create request for holiday/time off');
         },
         () => {
-          this.toastr.success("You have scheduled examinations/operations during specified period of time.", 'Create request for holiday/time off');
+          this.toastr.error("You have scheduled examinations/operations during specified period of time.", 'Create request for holiday/time off');
         }
       );
     } else if (this.userService.isNurse()) {
-      this.timeOffDoctorService.create(requestForTimeOff).subscribe(
+      this.timeOffNurseService.create(requestForTimeOff).subscribe(
         () => {
           this.toastr.success("Successfully created request for " + requestType.toLowerCase() + ".", 'Create request for holiday/time off');
         },
         () => {
-          this.toastr.success("You have scheduled examinations during specified period of time.", 'Create request for holiday/time off');
+          this.toastr.error("You have scheduled examinations during specified period of time.", 'Create request for holiday/time off');
         }
       );
     }

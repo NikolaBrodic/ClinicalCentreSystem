@@ -1,16 +1,23 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateTimeOffRequestDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
+import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffType;
+import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
+import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffDoctor;
 import ftn.tim16.ClinicalCentreSystem.repository.TimeOffDoctorRepository;
+import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +28,34 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
     private TimeOffDoctorRepository timeOffDoctorRepository;
 
     @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
     private EmailNotificationService emailNotificationService;
+
+    @Override
+    public TimeOffDTO create(Doctor doctor, CreateTimeOffRequestDTO timeOffRequestDTO) throws DateTimeParseException {
+        LocalDateTime startDateTime = getLocalDateTime(timeOffRequestDTO.getStartDateTime());
+        LocalDateTime endDateTime = getLocalDateTime(timeOffRequestDTO.getEndDateTime());
+
+        if (startDateTime.isBefore(LocalDateTime.now()) || startDateTime.isAfter(endDateTime)) {
+            return null;
+        }
+        if (!doctorService.canGetTimeOff(doctor, startDateTime, endDateTime)) {
+            return null;
+        }
+
+        TimeOffType timeOffType = getTimeOffType(timeOffRequestDTO.getType());
+        if (timeOffType == null) {
+            return null;
+        }
+        DateTimeInterval dateTimeInterval = new DateTimeInterval(startDateTime, endDateTime);
+
+        TimeOffDoctor timeOffDoctor = new TimeOffDoctor(timeOffType, dateTimeInterval, TimeOffStatus.AWAITING, doctor);
+        timeOffDoctorRepository.save(timeOffDoctor);
+
+        return new TimeOffDTO(timeOffDoctorRepository.save(timeOffDoctor));
+    }
 
     @Override
     public boolean isDoctorOnVacation(Long id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
@@ -124,5 +158,20 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
             timeOffDTOS.add(new RequestForTimeOffDTO(timeOffDoctor));
         }
         return timeOffDTOS;
+    }
+
+    private LocalDateTime getLocalDateTime(String date) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(date, formatter);
+    }
+
+    private TimeOffType getTimeOffType(String type) {
+        if (type.equalsIgnoreCase("HOLIDAY")) {
+            return TimeOffType.HOLIDAY;
+        } else if (type.equalsIgnoreCase("TIME OFF")) {
+            return TimeOffType.TIME_OFF;
+        }
+
+        return null;
     }
 }

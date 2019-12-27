@@ -26,6 +26,16 @@ public class TimeOffDoctor {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Doctor doctor;
 
+    public TimeOffDoctor() {
+    }
+
+    public TimeOffDoctor(TimeOffType type, DateTimeInterval interval, TimeOffStatus status, Doctor doctor) {
+        this.type = type;
+        this.interval = interval;
+        this.status = status;
+        this.doctor = doctor;
+    }
+
     public Long getId() {
         return id;
     }
