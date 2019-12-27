@@ -20,58 +20,55 @@ export class ClinicService {
   addSearchAddressClinicEmitter = new Subject<Clinic>();
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public add(clinic: Clinic) {
+  public add(clinic: Clinic): any {
     return this.httpClient.post(this.url, clinic);
   }
 
-  public edit(clinic: Clinic) {
+  public edit(clinic: Clinic): any {
     return this.httpClient.put(this.url, clinic);
   }
 
   public getAllClinics(): Observable<Clinic[]> {
-    this.httpClient.get(this.url + "/all").subscribe((data: Clinic[]) => {
+    this.httpClient.get(this.url + '/all').subscribe((data: Clinic[]) => {
       this.clinics.next(data)
-    },
-      (error: HttpErrorResponse) => {
-
-      });
+    });
     return this.clinics.asObservable();
   }
 
-  public getClinicById(clinicId) {
-    return this.httpClient.get(this.url + "/" + clinicId);
+  public getClinicById(clinicId: any): any {
+    return this.httpClient.get(this.url + '/' + clinicId);
   }
 
-  public getClinicRevenue(startDate, endDate) {
+  public getClinicRevenue(startDate: any, endDate: any): any {
     let params = new HttpParams();
     params = params.append('startDate', startDate);
     params = params.append('endDate', endDate);
 
-    return this.httpClient.get(this.url + "/revenue", {
+    return this.httpClient.get(this.url + '/revenue', {
       params: params
     });
   }
 
-  public getClinicRating() {
-    return this.httpClient.get(this.url + "/clinic-rating");
+  public getClinicRating(): any {
+    return this.httpClient.get(this.url + '/clinic-rating');
   }
 
-  public getDailyStatistic() {
-    return this.httpClient.get(this.url + "/daily-statistic");
+  public getDailyStatistic(): any {
+    return this.httpClient.get(this.url + '/daily-statistic');
   }
 
-  public getMountStatistic() {
-    return this.httpClient.get(this.url + "/mount-statistic");
+  public getMountStatistic(): any {
+    return this.httpClient.get(this.url + '/mount-statistic');
   }
 
-  public getWeekStatistic() {
-    return this.httpClient.get(this.url + "/week-statistic");
+  public getWeekStatistic(): any {
+    return this.httpClient.get(this.url + '/week-statistic');
   }
-  public getClinicInWhichClinicAdminWorks() {
-    return this.httpClient.get(this.url + "/clinic-in-which-admin-works");
+  public getClinicInWhichClinicAdminWorks(): any {
+    return this.httpClient.get(this.url + '/clinic-in-which-admin-works');
   }
 
-  public get(quaery: string) {
-    return this.httpClient.get("https://nominatim.openstreetmap.org/search?q=" + quaery + "&format=json");
+  public get(quaery: string): any {
+    return this.httpClient.get('https://nominatim.openstreetmap.org/search?q=' + quaery + '&format=json');
   }
 }

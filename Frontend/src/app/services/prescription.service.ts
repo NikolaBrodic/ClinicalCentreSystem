@@ -19,15 +19,11 @@ export class PrescriptionService {
   public getUnstampedPrescriptions(): Observable<Prescription[]> {
     this.httpClient.get(this.url + "/unstamped").subscribe((data: Prescription[]) => {
       this.prescriptions.next(data)
-    },
-      (error: HttpErrorResponse) => {
-
-      });
+    });
     return this.prescriptions.asObservable();
   }
 
-  public stamp(prescription: Prescription) {
+  public stamp(prescription: Prescription): any {
     return this.httpClient.put(this.url, prescription);
   }
-
 }

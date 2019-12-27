@@ -2,8 +2,6 @@ import { LoggedInUser } from './../models/loggedInUser';
 import { UserService } from './../services/user.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
-
 @Injectable({ providedIn: 'root' })
 export class AdminsGuard implements CanActivate {
 
