@@ -59,9 +59,13 @@
                 </td>
             </tr>
         </table>
-        <mat-error *ngIf="addDoctorForm.get('workHoursFrom').errors || addDoctorForm.get('workHoursTo').errors"
-            class="work-hours">
+        <mat-error *ngIf="(addDoctorForm.get('workHoursFrom').errors && addDoctorForm.get('workHoursFrom').errors['required']) || 
+            (addDoctorForm.get('workHoursTo').errors && addDoctorForm.get('workHoursTo').errors['required']) ">
             Work hours are required to fill in.
+        </mat-error>
+        <mat-error
+            *ngIf="addDoctorForm.get('workHoursTo').errors && addDoctorForm.get('workHoursTo').errors['timeError']">
+            Starting work hours must be before ending work hours.
         </mat-error>
         <mat-form-field class="form-full-width mt-3">
             <input matInput placeholder="Phone number" formControlName="phoneNumber">
