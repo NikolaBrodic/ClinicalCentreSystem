@@ -8,6 +8,7 @@ import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { Room } from './../models/room';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
+import { Doctor } from '../models/doctor';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class RoomService {
 
   public assignRoom(room: Room, examination: Examination) {
     return this.httpClient.put(this.url + "/assign", new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
+  }
+
+  public assignRoomWithDoctors(room: Room, examination: Examination, doctors: Doctor[]) {
+    return this.httpClient.put(this.url + "/assign", new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString(), doctors));
   }
 
   public getAllRoomsForAdmin(): Observable<Room[]> {

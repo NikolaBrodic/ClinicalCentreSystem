@@ -21,6 +21,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -93,6 +94,19 @@ public class DoctorServiceImpl implements DoctorService {
             }
         }
         return null;
+    }
+
+    @Override
+    public Set<Doctor> getAvailableDoctors(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
+        Set<Doctor> availableDoctors = new HashSet<>();
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
+        for (Doctor doctor : doctors) {
+            if (availableDoctors.size() != 3 && isAvailable(doctor, startDateTime, endDateTime)) {
+                availableDoctors.add(doctor);
+            }
+        }
+
+        return availableDoctors;
     }
 
     @Override

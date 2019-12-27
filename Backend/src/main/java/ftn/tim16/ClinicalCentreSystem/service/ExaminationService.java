@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface ExaminationService {
 
@@ -33,6 +34,8 @@ public interface ExaminationService {
     ExaminationPagingDTO getPredefinedExaminations(ClinicAdministrator clinicAdministrator, Pageable page);
 
     Examination assignRoom(Examination examination, Room room, Nurse chosenNurse);
+
+    Examination assignRoomForOperation(Examination selectedExamination, Room room, Set<Doctor> doctors);
 
     ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page);
 

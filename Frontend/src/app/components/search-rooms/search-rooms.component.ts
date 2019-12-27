@@ -1,3 +1,5 @@
+import { AssignDoctorsComponent } from './../assign-doctors/assign-doctors.component';
+import { element } from 'protractor';
 import { MatPaginator } from '@angular/material/paginator';
 import { Examination } from './../../models/examination';
 import { ExaminationService } from './../../services/examination.service';
@@ -31,6 +33,7 @@ export class SearchRoomsComponent implements OnInit {
   searchTimeEnd: String;
   minDate = new Date();
   examination: Examination;
+  kinds: String[] = ["EXAMINATION", "OPERATION"];
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
@@ -80,7 +83,7 @@ export class SearchRoomsComponent implements OnInit {
   assignRoom(element: Room) {
 
     if (!this.examination) {
-      this.toastr.error("First you need to chose examination", 'Assign room');
+      this.toastr.error("You need to choose examination first", 'Assign room');
       this.router.navigate(['/clinical-centre-admin/examination/get-awaiting']);
     }
 
@@ -93,6 +96,20 @@ export class SearchRoomsComponent implements OnInit {
         this.toastr.error("You can not assign this room. Please choose another one.", 'Assign room');
       }
     );
+  }
+
+  chooseDoctors(element: Room) {
+    if (!this.examination) {
+      this.toastr.error("You need to choose examination first", 'Assign room');
+      this.router.navigate(['/clinical-centre-admin/examination/awaiting-operations']);
+    }
+
+    this.dialog.open(AssignDoctorsComponent, {
+      data: {
+        choosenRoom: element,
+        choosenExamination: this.examination
+      }
+    });
   }
 
   searchRooms() {

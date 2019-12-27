@@ -83,6 +83,8 @@ import { AdminsGuard } from './guards/admins.guard';
 import { MapComponent } from './components/map/map.component';
 import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
 import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
+import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
+import { AssignDoctorsComponent } from './components/assign-doctors/assign-doctors.component';
 
 @NgModule({
   declarations: [
@@ -147,6 +149,8 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
     ListExaminationReportsComponent,
     EditExaminationReportComponent,
     DoctorAddExaminationOrOperationComponent,
+    ListOperationRequestsComponent,
+    AssignDoctorsComponent,
 
   ],
   imports: [
@@ -204,7 +208,9 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
     ListExaminationReportsComponent,
     EditExaminationReportComponent,
     ExaminationComponent,
-    DoctorAddExaminationOrOperationComponent
+    DoctorAddExaminationOrOperationComponent,
+    ListOperationRequestsComponent,
+    AssignDoctorsComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
