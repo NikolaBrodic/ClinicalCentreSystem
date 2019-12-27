@@ -26,10 +26,6 @@ public class CreateExaminationOrOperationDTO {
     @NotNull(message = "Patient  is null")
     private PatientWithIdDTO patient;
 
-    public CreateExaminationOrOperationDTO() {
-
-    }
-
     public String getKind() {
         return kind;
     }

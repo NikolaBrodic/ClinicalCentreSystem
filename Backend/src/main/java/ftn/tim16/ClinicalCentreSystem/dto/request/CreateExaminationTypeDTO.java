@@ -30,6 +30,10 @@ public class CreateExaminationTypeDTO {
         this(examinationType.getId(), examinationType.getLabel(), examinationType.getPrice());
     }
 
+    public CreateExaminationTypeDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }
