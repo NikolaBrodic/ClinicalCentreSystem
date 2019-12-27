@@ -1,7 +1,7 @@
 
 import { environment } from './../../../environments/environment';
 import { MatPaginator } from '@angular/material/paginator';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RequestToRegister } from 'src/app/models/request-to-register';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,6 @@ import { RequestToRegisterService } from 'src/app/services/request-to.register.s
   styleUrls: ['./list-requests-to-register.component.css']
 })
 export class ListRequestsToRegisterComponent implements OnInit {
-
   requestToRegisterDataSource: MatTableDataSource<RequestToRegister>
   displayedColumns = ['firstName', 'lastName', 'email', 'approve', 'reject'];
   rejectingRequestSuccess: Subscription;
