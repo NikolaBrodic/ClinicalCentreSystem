@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { TimeOffDoctorService } from './../../services/time-off-doctor.service';
 import { TimeOffNurseService } from './../../services/time-off-nurse.service';
 import { UserService } from './../../services/user.service';
@@ -19,6 +20,7 @@ export class CreateRequestForTimeOffComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
+    private router: Router,
     private userService: UserService,
     private timeOffDoctorService: TimeOffDoctorService,
     private timeOffNurseService: TimeOffNurseService,
@@ -55,6 +57,7 @@ export class CreateRequestForTimeOffComponent implements OnInit {
       this.timeOffDoctorService.create(requestForTimeOff).subscribe(
         () => {
           this.toastr.success("Successfully created request for " + requestType.toLowerCase() + ".", 'Create request for holiday/time off');
+          this.router.navigate(['/medical-staff/work-calendar']);
         },
         () => {
           this.toastr.error("You have scheduled examinations/operations during specified period of time.", 'Create request for holiday/time off');
@@ -64,6 +67,7 @@ export class CreateRequestForTimeOffComponent implements OnInit {
       this.timeOffNurseService.create(requestForTimeOff).subscribe(
         () => {
           this.toastr.success("Successfully created request for " + requestType.toLowerCase() + ".", 'Create request for holiday/time off');
+          this.router.navigate(['/medical-staff/work-calendar']);
         },
         () => {
           this.toastr.error("You have scheduled examinations during specified period of time.", 'Create request for holiday/time off');
