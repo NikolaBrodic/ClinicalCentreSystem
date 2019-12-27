@@ -25,7 +25,7 @@ export class AddDoctorComponent implements OnInit {
       email: new FormControl(null, [Validators.required, Validators.email]),
       firstName: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
       lastName: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
-      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern("0[0-9]+")]),
+      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern('0[0-9]+')]),
       workHoursFrom: new FormControl(null, [Validators.required]),
       workHoursTo: new FormControl(null, [Validators.required]),
       specialized: new FormControl(null, [Validators.required]),
@@ -45,7 +45,7 @@ export class AddDoctorComponent implements OnInit {
   create() {
 
     if (this.addDoctorForm.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Add doctor');
+      this.toastr.error('Please enter a valid data.', 'Add doctor');
       return;
     }
 
@@ -55,13 +55,13 @@ export class AddDoctorComponent implements OnInit {
 
     this.doctorService.create(doctor).subscribe(
       () => {
-        this.toastr.success("Successfully created a new doctor.", 'Add doctor');
+        this.toastr.success('Successfully created a new doctor.', 'Add doctor');
         this.addDoctorForm.reset();
         this.dialogRef.close();
         this.doctorService.createSuccessEmitter.next(doctor);
       },
       () => {
-        this.toastr.error("Doctor with same email address or phone number already exists.", 'Add doctor');
+        this.toastr.error('Doctor with same email address or phone number already exists.', 'Add doctor');
       }
     );
   }

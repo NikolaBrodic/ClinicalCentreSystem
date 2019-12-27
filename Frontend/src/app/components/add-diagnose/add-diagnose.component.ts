@@ -28,7 +28,7 @@ export class AddDiagnoseComponent implements OnInit {
 
   add() {
     if (this.addDiagnoseForm.invalid) {
-      this.toastr.error("Please enter a valid data.", "Add diagnose");
+      this.toastr.error('Please enter a valid data.', 'Add diagnose');
       return;
     }
 
@@ -38,11 +38,11 @@ export class AddDiagnoseComponent implements OnInit {
       () => {
         this.addDiagnoseForm.reset();
         this.dialogRef.close();
-        this.toastr.success("Successfully added a new diagnose.", "Add diagnose");
+        this.toastr.success('Successfully added a new diagnose.', 'Add diagnose');
         this.diagnoseService.addSuccessEmitter.next(diagnose);
       },
       () => {
-        this.toastr.error("Diagnose with the ame title already exists.", "Add diagnose");
+        this.toastr.error('Diagnose with the ame title already exists.', 'Add diagnose');
       }
     );
   }
