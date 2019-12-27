@@ -100,10 +100,10 @@ insert into room (label, kind,status,clinic_id) values ('Room 6', 'EXAMINATION',
 insert into room (label, kind,status,clinic_id) values ('Room 7', 'EXAMINATION','EXISTING' ,1);
 
 
-/*
-insert into room (label, kind,status,clinic_id) values ('Room 8', 'EXAMINATION','DELETED' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 9', 'EXAMINATION','EXISTING' ,1);
-insert into room (label, kind,status,clinic_id) values ('Room 10', 'EXAMINATION','EXISTING' ,1);*/
+
+insert into room (label, kind,status,clinic_id) values ('Room 8', 'OPERATION','DELETED' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 9', 'OPERATION','EXISTING' ,1);
+insert into room (label, kind,status,clinic_id) values ('Room 10', 'OPERATION','EXISTING' ,1);
 
 /*NURSE*/
 
@@ -402,22 +402,17 @@ insert into examining (examination_id,doctor_id) values (23,9);
 
 /* This should not be displayed in the Requests for operation */
 
-insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2019 13:00','15.12.2019 14:30');
+insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2020 13:00','15.12.2020 14:30');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',20,'AWAITING',1,1,1,12);
-insert into examining (examination_id,doctor_id) values (24,7);
-insert into examining (examination_id,doctor_id) values (24,8);
-insert into examining (examination_id,doctor_id) values (24,9);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2019 10:30','25.12.2019 19:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id)
- values ('EXAMINATION',21,'APPROVED',1,1,1,14,9,5);
-insert into examining (examination_id,doctor_id) values (25,7);
+insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2020 10:30','25.12.2020 19:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
+ values ('OPERATION',21,'AWAITING',1,1,1,14);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 17:00','13.12.2019 18:30');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id)
- values ('EXAMINATION',22,'AWAITING',1,1,1,13,9);
-insert into examining (examination_id,doctor_id) values (26,7);
+insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2020 17:00','13.12.2020 18:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
+ values ('OPERATION',22,'AWAITING',1,1,1,13);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('20.12.2019 09:00','20.12.2019 12:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id,room_id,discount)
