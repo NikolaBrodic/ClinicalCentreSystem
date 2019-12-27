@@ -35,13 +35,13 @@ export class ListRequestsToRegisterComponent implements OnInit {
     this.fetchData();
 
     this.rejectingRequestSuccess = this.requestToRegisterService.rejectSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )
 
     this.approvingRequestSuccess = this.requestToRegisterService.approveSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )

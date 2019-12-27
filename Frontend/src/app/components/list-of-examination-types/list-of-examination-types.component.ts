@@ -37,12 +37,12 @@ export class ListOfExaminationTypesComponent implements OnInit {
   ngOnInit() {
     this.getExaminationTypesWithSearch("", "");
     this.successCreatedType = this.examinationTypeService.createSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.search();
       }
     );
     this.successEditedType = this.examinationTypeService.updateSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.search();
       }
     );
@@ -59,11 +59,11 @@ export class ListOfExaminationTypesComponent implements OnInit {
 
   deleteType(type: ExaminationType) {
     this.examinationTypeService.deleteType(type.id).subscribe(
-      responseData => {
+      () => {
         this.search();
         this.toastr.success("Successfully deleted examination type.", 'Delete examination type');
       },
-      message => {
+      () => {
         this.toastr.error("You can not delete this examination type because this examination type is specialization of some doctor or type of some examination.",
           'Delete examination type');
       }
