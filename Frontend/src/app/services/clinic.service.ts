@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Observable, Subscription } from 'rxjs';
@@ -20,11 +20,11 @@ export class ClinicService {
   addSearchAddressClinicEmitter = new Subject<Clinic>();
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public add(clinic: Clinic): any {
+  public add(clinic: Clinic) {
     return this.httpClient.post(this.url, clinic);
   }
 
-  public edit(clinic: Clinic): any {
+  public edit(clinic: Clinic) {
     return this.httpClient.put(this.url, clinic);
   }
 
@@ -35,11 +35,11 @@ export class ClinicService {
     return this.clinics.asObservable();
   }
 
-  public getClinicById(clinicId: any): any {
+  public getClinicById(clinicId: any) {
     return this.httpClient.get(this.url + '/' + clinicId);
   }
 
-  public getClinicRevenue(startDate: any, endDate: any): any {
+  public getClinicRevenue(startDate: any, endDate: any) {
     let params = new HttpParams();
     params = params.append('startDate', startDate);
     params = params.append('endDate', endDate);
@@ -49,26 +49,26 @@ export class ClinicService {
     });
   }
 
-  public getClinicRating(): any {
+  public getClinicRating() {
     return this.httpClient.get(this.url + '/clinic-rating');
   }
 
-  public getDailyStatistic(): any {
+  public getDailyStatistic() {
     return this.httpClient.get(this.url + '/daily-statistic');
   }
 
-  public getMountStatistic(): any {
+  public getMountStatistic() {
     return this.httpClient.get(this.url + '/mount-statistic');
   }
 
-  public getWeekStatistic(): any {
+  public getWeekStatistic() {
     return this.httpClient.get(this.url + '/week-statistic');
   }
-  public getClinicInWhichClinicAdminWorks(): any {
+  public getClinicInWhichClinicAdminWorks() {
     return this.httpClient.get(this.url + '/clinic-in-which-admin-works');
   }
 
-  public get(quaery: string): any {
+  public get(quaery: string) {
     return this.httpClient.get('https://nominatim.openstreetmap.org/search?q=' + quaery + '&format=json');
   }
 }

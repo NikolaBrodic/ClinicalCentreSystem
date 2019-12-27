@@ -1,11 +1,7 @@
 import { DoctorService } from 'src/app/services/doctor.service';
-import { Doctor } from 'src/app/models/doctor';
 import { AssignDoctorsComponent } from './../assign-doctors/assign-doctors.component';
-import { element } from 'protractor';
 import { MatPaginator } from '@angular/material/paginator';
 import { Examination } from './../../models/examination';
-import { ExaminationService } from './../../services/examination.service';
-import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
@@ -26,10 +22,10 @@ import { ChooseDoctorComponent } from '../choose-doctor/choose-doctor.component'
 export class SearchRoomsComponent implements OnInit {
 
   roomsDataSource: MatTableDataSource<Room>;
-  displayedColumns: string[] = ['label', 'available', 'assign'];
+  displayedColumns = ['label', 'available', 'assign'];
   searchString: string;
   numberOfItem: number;
-  searchLabel: string = '';
+  searchLabel = '';
   searchDate: Date;
   kind: string;
   searchTimeStart: String;
@@ -48,11 +44,11 @@ export class SearchRoomsComponent implements OnInit {
 
     this.route.queryParams.subscribe((params) => {
       var param = params['kind'];
-      if ('operation' === param) {
+      if (param === 'operation') {
         this.kind = 'OPERATION';
         this.examination = JSON.parse(localStorage.getItem('selectedExamination'));
         this.setDateTime();
-      } else if ('examination' === param) {
+      } else if (param === 'examination') {
         this.kind = 'EXAMINATION';
         this.examination = JSON.parse(localStorage.getItem('selectedExamination'));
         this.setDateTime();
