@@ -23,21 +23,17 @@
                         <form [formGroup]="editPersonalInformation" class="mat-elevation-z8 form">
                             <table class="form-full-width table-font" cellspacing="0">
                                 <tr>
-                                    <td>Email</td>
+                                    <td class="first">Email</td>
                                     <td>{{loggedInNurse.email}}</td>
                                 </tr>
                                 <br>
-
                                 <tr>
                                     <td>Password</td>
                                     <td><a mat-list-item routerLink="/user/change-password">Change password</a>
                                     </td>
                                 </tr>
-                                <br>
                                 <tr>
-                                    <td>
-                                        <label>First name</label>
-                                    </td>
+                                    <td><label>First name</label></td>
                                     <td>
                                         <mat-form-field class="form-full-width-td">
                                             <input matInput formControlName="firstName">
@@ -50,13 +46,10 @@
                                                 *ngIf="editPersonalInformation.get('firstName').errors && editPersonalInformation.get('firstName').errors['maxlength']">
                                                 Maximal number of characters for this field is 30.
                                             </mat-error>
-
                                         </mat-form-field>
                                     </td>
                                 <tr>
-                                    <td>
-                                        <label>Last name</label>
-                                    </td>
+                                    <td><label>Last name</label></td>
                                     <td>
                                         <mat-form-field class="form-full-width-td">
                                             <input matInput formControlName="lastName">
@@ -72,21 +65,18 @@
                                         </mat-form-field>
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td>
-                                        <label>Work hours</label>
-                                    </td>
+                                    <td>Work hours</td>
                                     <td>
                                         <table class="form-full-width-td" cellspacing="0">
                                             <tr>
-                                                <td>From:</td>
+                                                <td>From:&nbsp;</td>
                                                 <td>
                                                     <div>
                                                         <input matInput type="time" formControlName="workHoursFrom">
                                                     </div>
                                                 </td>
-                                                <td>To:</td>
+                                                <td>To:&nbsp;</td>
                                                 <td>
                                                     <div>
                                                         <input matInput type="time" formControlName="workHoursTo">
@@ -97,9 +87,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <label>Phone number</label>
-                                    </td>
+                                    <td><label>Phone number</label></td>
                                     <td>
                                         <mat-form-field class="form-full-width-td">
                                             <input matInput formControlName="phoneNumber">
@@ -123,7 +111,7 @@
                                 </tr>
 
                             </table>
-                            <div class="button-save">
+                            <div align="end">
                                 <button mat-raised-button color="primary" (click)="saveChanges()"
                                     [disabled]="!editPersonalInformation.valid">Save changes</button>
                             </div>
