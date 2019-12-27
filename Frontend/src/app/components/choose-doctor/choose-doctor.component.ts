@@ -37,7 +37,7 @@ export class ChooseDoctorComponent implements OnInit {
     this.choosenRoom = this.receivedData.choosenRoom;
     this.choosenExamination = this.receivedData.choosenExamination;
     if (!this.choosenRoom || !this.choosenExamination) {
-      this.toastr.error("First you need to select room and examination.", 'Assign room');
+      this.toastr.error('First you need to select room and examination.', 'Assign room');
       this.router.navigate['/clinic-admin/examination/get-awaiting'];
       return;
     }
@@ -46,19 +46,19 @@ export class ChooseDoctorComponent implements OnInit {
 
   assign(): void {
     if (this.chooseDoctorsForm.invalid) {
-      this.toastr.error("Please choose one doctor.", 'Assign room');
+      this.toastr.error('Please choose one doctor.', 'Assign room');
       return;
     }
     const choosenDoctors = [this.chooseDoctorsForm.value.doctorsList];
 
     this.roomService.assignRoom(this.choosenRoom, this.choosenExamination, choosenDoctors).subscribe(
-      responseData => {
-        this.toastr.success("Successfully assigned examination room ", 'Assign room');
+      () => {
+        this.toastr.success('Successfully assigned examination room ', 'Assign room');
         this.dialogRef.close();
         this.router.navigate(['/clinic-admin/examination/get-awaiting']);
       },
-      message => {
-        this.toastr.error("You can not assign this room. Please choose another one.", 'Assign room');
+      () => {
+        this.toastr.error('You can not assign this room. Please choose another one.', 'Assign room');
       }
     );
   }
@@ -74,5 +74,4 @@ export class ChooseDoctorComponent implements OnInit {
         this.doctors = data;
       })
   }
-
 }
