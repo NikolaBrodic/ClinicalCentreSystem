@@ -26,22 +26,21 @@ export class ListExaminationsRequestComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAwaitingExaminations();
   }
 
-  getAwaitingExaminations() {
-    this.examinationService.getAwaitingExaminations("EXAMINATION", this.paginator.pageIndex, 5, this.sort).subscribe((data: ExaminationPagingDTO) => {
+  getAwaitingExaminations(): void {
+    this.examinationService.getAwaitingExaminations('EXAMINATION', this.paginator.pageIndex, 5, this.sort).subscribe((data: ExaminationPagingDTO) => {
       this.numberOfItem = data.numberOfItems;
       this.examinationsDataSource = new MatTableDataSource(data.examinationList);
       this.examinationsDataSource.sort = this.sort;
     })
   }
 
-  assignRoom(element: Examination) {
+  assignRoom(element: Examination): void {
     this.examinationService.selectedExamination = element;
     this.router.navigate(['/clinic-admin/search-rooms'], { queryParams: { kind: 'examination' } });
-
   }
 
 

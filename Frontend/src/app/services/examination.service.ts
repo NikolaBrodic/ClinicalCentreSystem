@@ -21,7 +21,7 @@ export class ExaminationService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public getAwaitingExaminations(kind: string, pageIndex, pageSize, sort: MatSort) {
+  public getAwaitingExaminations(kind: string, pageIndex, pageSize, sort: MatSort): any {
     let params = new HttpParams();
     params = params.append('kind', kind)
     params = params.append('page', pageIndex);
@@ -38,7 +38,7 @@ export class ExaminationService {
   }
 
 
-  public getCreatedPredefinedExaminations(pageIndex: any, pageSize: any, sort: MatSort) {
+  public getCreatedPredefinedExaminations(pageIndex: any, pageSize: any, sort: MatSort): any {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
@@ -53,7 +53,7 @@ export class ExaminationService {
     });
   }
 
-  public getDoctorsExaminations(pageIndex, pageSize, sort: MatSort) {
+  public getDoctorsExaminations(pageIndex, pageSize, sort: MatSort): any {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
@@ -68,23 +68,23 @@ export class ExaminationService {
     });
   }
 
-  public getDoctorExaminationsForWorkCalendar() {
+  public getDoctorExaminationsForWorkCalendar(): any {
     return this.httpClient.get(this.url + "/doctor-examinations");
   }
 
-  public getNurseExaminationsForWorkCalendar() {
+  public getNurseExaminationsForWorkCalendar(): any {
     return this.httpClient.get(this.url + "/nurse-examinations");
   }
 
-  public getPatientStartingExamination(patientId) {
+  public getPatientStartingExamination(patientId): any {
     return this.httpClient.get(this.url + "/starting/" + patientId);
   }
 
-  public cancelExamination(examination: Examination) {
+  public cancelExamination(examination: Examination): any {
     return this.httpClient.delete(this.url + "/cancel/" + examination.id);
   }
 
-  public createPredefinedExamination(predefinedExamination: PredefinedExamination) {
+  public createPredefinedExamination(predefinedExamination: PredefinedExamination): any {
     return this.httpClient.post(this.url + "/predefined-examination", predefinedExamination);
   }
 

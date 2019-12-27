@@ -29,7 +29,7 @@ export class AssignDoctorsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public receivedData
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.chooseDoctorsForm = new FormGroup({
       doctorsList: new FormControl(null, [Validators.required])
     });
@@ -40,24 +40,24 @@ export class AssignDoctorsComponent implements OnInit {
     this.getAvailableDoctors();
   }
 
-  assign() {
-    let choosenDoctors = this.chooseDoctorsForm.value.doctorsList;
+  assign(): void {
+    const choosenDoctors = this.chooseDoctorsForm.value.doctorsList;
     this.roomService.assignRoomWithDoctors(this.choosenRoom, this.choosenExamination, choosenDoctors).subscribe(
-      responseData => {
-        this.toastr.success("Successfully assigned examination room", 'Assign room');
+      () => {
+        this.toastr.success('Successfully assigned examination room', 'Assign room');
         this.router.navigate(['/clinic-admin/examination/awaiting-operations']);
       },
       () => {
-        this.toastr.error("You can not assign this room. Please choose another one or change choosen doctors.", 'Assign room');
+        this.toastr.error('You can not assign this room. Please choose another one or change choosen doctors.', 'Assign room');
       }
     );
   }
 
-  getAvailableDoctors() {
-    let duration = moment.duration(moment(this.choosenExamination.interval.endDateTime, 'YYYY-MM-DD HH:mm')
+  getAvailableDoctors(): void {
+    const duration = moment.duration(moment(this.choosenExamination.interval.endDateTime, 'YYYY-MM-DD HH:mm')
       .diff(moment(this.choosenExamination.interval.startDateTime, 'YYYY-MM-DD HH:mm'))
     )
-    let endDateTime = moment(this.choosenRoom.available, 'YYYY-MM-DD HH:mm').add(duration).format('YYYY-MM-DD HH:mm');
+    const endDateTime = moment(this.choosenRoom.available, 'YYYY-MM-DD HH:mm').add(duration).format('YYYY-MM-DD HH:mm');
 
     this.doctorService.getAllAvailableDoctors(this.choosenExamination.examinationType.id, this.choosenRoom.available.toString(), endDateTime)
       .subscribe((data: Doctor[]) => {
