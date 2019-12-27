@@ -35,13 +35,13 @@ export class AddDiagnoseComponent implements OnInit {
     const diagnose = new Diagnose(this.addDiagnoseForm.value.title, this.addDiagnoseForm.value.description);
 
     this.diagnoseService.add(diagnose).subscribe(
-      responseData => {
+      () => {
         this.addDiagnoseForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully added a new diagnose.", "Add diagnose");
         this.diagnoseService.addSuccessEmitter.next(diagnose);
       },
-      errorMessage => {
+      () => {
         this.toastr.error("Diagnose with the ame title already exists.", "Add diagnose");
       }
     );

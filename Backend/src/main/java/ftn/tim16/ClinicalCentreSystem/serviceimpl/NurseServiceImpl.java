@@ -109,7 +109,7 @@ public class NurseServiceImpl implements NurseService {
         }
 
         List<Examination> examinations = examinationService.getNurseExaminationsBetween(nurse.getId(), startDateTime, endDateTime);
-        
+
         return (examinations == null || examinations.isEmpty());
     }
 
