@@ -56,9 +56,9 @@ export class AddPredefinedExaminationComponent implements OnInit {
   getDoctors(): void {
     const examinationType = this.dateTimeTypeForm.value.examinationType;
     if (this.dateTimeTypeForm.value.date && this.dateTimeTypeForm.value.timeFrom && this.dateTimeTypeForm.value.timeTo) {
-      const date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
-      const startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
-      const endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
+      const date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US')
+      const startDateTime = date + ' ' + this.dateTimeTypeForm.value.timeFrom;
+      const endDateTime = date + ' ' + this.dateTimeTypeForm.value.timeTo;
       this.doctorService.getAllAvailableDoctors(examinationType.id, startDateTime, endDateTime).subscribe((data: Doctor[]) => {
         this.doctors = data;
       })
@@ -70,9 +70,9 @@ export class AddPredefinedExaminationComponent implements OnInit {
 
   getRooms(): void {
     if (this.dateTimeTypeForm.value.date && this.dateTimeTypeForm.value.timeFrom && this.dateTimeTypeForm.value.timeTo) {
-      var date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US');
-      var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
-      var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
+      const date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US');
+      const startDateTime = date + ' ' + this.dateTimeTypeForm.value.timeFrom;
+      const endDateTime = date + ' ' + this.dateTimeTypeForm.value.timeTo;
       this.roomService.getAvailableExaminationRooms(startDateTime, endDateTime).subscribe((data: Room[]) => {
         this.rooms = data;
       })
@@ -108,8 +108,8 @@ export class AddPredefinedExaminationComponent implements OnInit {
     }
 
     const date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US')
-    const startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
-    const endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
+    const startDateTime = date + ' ' + this.dateTimeTypeForm.value.timeFrom;
+    const endDateTime = date + ' ' + this.dateTimeTypeForm.value.timeTo;
 
     const predefinedExamination = new PredefinedExamination(startDateTime, endDateTime, this.dateTimeTypeForm.value.examinationType,
       this.addPredefinedExaminationForm.value.doctor, this.addPredefinedExaminationForm.value.room.id, this.addPredefinedExaminationForm.value.discount);
