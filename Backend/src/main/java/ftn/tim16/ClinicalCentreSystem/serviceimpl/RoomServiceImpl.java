@@ -192,16 +192,28 @@ public class RoomServiceImpl implements RoomService {
         List<RoomDTO> available = new ArrayList<>();
         long duration = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
         for (Room currentRoom : roomsInClinicAll) {
-            List<Examination> examinations = examinationService.getExaminations(currentRoom.getId());
-            for (Examination examination : examinations) {
-                LocalDateTime newEndExamination = examination.getInterval().getEndDateTime().plusSeconds(duration);
-                if (isAvailable(currentRoom, examination.getInterval().getEndDateTime(), newEndExamination)) {
+            List<Examination> examinations = examinationService.getExaminationsAfter(currentRoom.getId(), endDateTime);
+            if (examinations.isEmpty()) {
+                LocalDateTime newEndExamination = endDateTime.plusSeconds(duration);
+                if (isAvailable(currentRoom, endDateTime, newEndExamination)) {
                     RoomDTO roomDTO = new RoomDTO(currentRoom);
-                    roomDTO.setAvailable(examination.getInterval().getEndDateTime());
+                    roomDTO.setAvailable(endDateTime);
                     available.add(roomDTO);
                     break;
                 }
+            } else {
+                for (Examination examination : examinations) {
+                    LocalDateTime newEndExamination = examination.getInterval().getEndDateTime().plusSeconds(duration);
+                    if (isAvailable(currentRoom, examination.getInterval().getEndDateTime(), newEndExamination)) {
+                        RoomDTO roomDTO = new RoomDTO(currentRoom);
+                        roomDTO.setAvailable(examination.getInterval().getEndDateTime());
+                        available.add(roomDTO);
+                        break;
+                    }
+                }
             }
+
+
         }
         available.sort(new Comparator<RoomDTO>() {
             @Override
@@ -256,7 +268,11 @@ public class RoomServiceImpl implements RoomService {
         }
 
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(), getLocalDateTime(examination.getAvailable()));
-        return new RoomWithIdDTO(assignRoom(selectedExamination.getId(), roomDTO));
+        Room assignedRoom = assignRoom(selectedExamination.getId(), roomDTO);
+        if (assignedRoom == null) {
+            return null;
+        }
+        return new RoomWithIdDTO(assignedRoom);
     }
 
 

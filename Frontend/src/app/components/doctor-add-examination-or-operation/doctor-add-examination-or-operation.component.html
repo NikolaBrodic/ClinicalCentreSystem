@@ -1,0 +1,84 @@
+<h1 mat-dialog-title>Book an examination/operation</h1>
+<mat-dialog-content class="dialog-class">
+    <mat-vertical-stepper [linear]="true" #stepper>
+        <mat-step [stepControl]="dateTimeTypeForm">
+            <form [formGroup]="dateTimeTypeForm" class="form-full-width">
+                <table class="form-full-width mt-3" cellspacing="0">
+                    <tr>
+                        <td><label id="kind-radio-group">Book:</label></td>
+                        <td>
+                            <mat-radio-group formControlName="kind" aria-labelledby="kind-radio-group"
+                                (change)="changeKing()">
+                                <mat-radio-button class="ml-4" value="EXAMINATION" selected="selected">Examination
+                                </mat-radio-button>
+                                <mat-radio-button class="ml-4" value="OPERATION">Operation </mat-radio-button>
+                            </mat-radio-group>
+                        </td>
+                    </tr>
+                </table>
+                <ng-template matStepLabel>Specify date, time and examination type</ng-template>
+                <mat-form-field class="form-full-width">
+                    <input matInput [matDatepicker]=" picker" placeholder="Date" formControlName="date" readonly
+                        [min]="minDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                </mat-form-field>
+                <table class="form-full-width mt-2" cellspacing="0">
+                    <tr>
+                        <td>From:</td>
+                        <td>
+                            <div class="form-full-width-td">
+                                <input matInput type="time" formControlName="timeFrom">
+                            </div>
+                        </td>
+                        <td>To:</td>
+                        <td>
+                            <div class="form-full-width-td ml-2">
+                                <input matInput type="time" formControlName="timeTo">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <mat-error *ngIf="timeError" class="time-err">
+                    Please choose start and end time of examination.<br>
+                    Start time must be before end time.
+                </mat-error>
+                <mat-form-field class="form-full-width mt-3">
+                    <mat-label>Examination type</mat-label>
+                    <mat-select formControlName="examinationType">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let examinationType of examinationTypes" [value]="examinationType">
+                            {{examinationType.label}} ({{examinationType.price}}
+                            RSD)
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <mat-dialog-actions class="mt-2">
+                <button mat-raised-button color="primary" (click)="next()" matStepperNext
+                    *ngIf="isDoctorRequired">Next</button>
+                <button mat-raised-button color="primary" (click)="create()" [disabled]="!dateTimeTypeForm.valid"
+                    *ngIf="!isDoctorRequired">Add</button>
+            </mat-dialog-actions>
+        </mat-step>
+
+
+        <mat-step [stepControl]="doctorForm" *ngIf="isDoctorRequired">
+            <form [formGroup]="doctorForm" class="form-full-width">
+                <ng-template matStepLabel>Specify doctor for examination</ng-template>
+                <mat-form-field class="form-full-width">
+                    <mat-label>Doctor</mat-label>
+                    <mat-select formControlName="doctor">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let doctor of doctors" [value]="doctor">{{doctor.firstName}}
+                            {{doctor.lastName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+            <mat-dialog-actions class="mt-2 mb-1">
+                <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" [disabled]="!doctorForm.valid" (click)="create()">Add</button>
+            </mat-dialog-actions>
+        </mat-step>
+    </mat-vertical-stepper>
+</mat-dialog-content>

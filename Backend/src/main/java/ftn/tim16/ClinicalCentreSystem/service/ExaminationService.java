@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationOrOperationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
@@ -53,5 +54,7 @@ public interface ExaminationService {
 
     List<Examination> getAllHeldExaminations(Long clinicId);
 
+    ExaminationDTO createExaminationOrOperation(CreateExaminationOrOperationDTO createExaminationOrOperationDTO, Doctor loggedDoctor);
 
+    List<Examination> getExaminationsAfter(Long idRoom, LocalDateTime endDateTime);
 }

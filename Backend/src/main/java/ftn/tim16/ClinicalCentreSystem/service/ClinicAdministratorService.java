@@ -19,4 +19,6 @@ public interface ClinicAdministratorService {
     List<ClinicAdministratorDTO> getAllClinicAdministratorsInClinic(Long id);
 
     ClinicAdministratorDTO create(ClinicAdministratorDTO clinicAdministratorDTO);
+
+    ClinicAdministrator findRandomAdminInClinic(Long clinicId);
 }

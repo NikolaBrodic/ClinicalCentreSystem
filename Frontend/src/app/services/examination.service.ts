@@ -1,23 +1,19 @@
+import { CreateExamination } from './../models/createExamination';
 import { PredefinedExamination } from './../models/predefinedExamination';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Examination } from './../models/examination';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
-
 import { Injectable } from '@angular/core';
-import { PatientWithId } from '../models/patientWithId';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExaminationService {
   url = environment.baseUrl + environment.examination;
-  selectedExamination: Examination;
   successCreatedPredefinedExamination = new Subject<PredefinedExamination>();
-  startingExamination: number;
-  choosenPatient: PatientWithId;
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
@@ -88,5 +84,8 @@ export class ExaminationService {
     return this.httpClient.post(this.url + "/predefined-examination", predefinedExamination);
   }
 
+  public createExamination(examination: CreateExamination) {
+    return this.httpClient.post(this.url + "/create-examination-operation", examination);
+  }
 
 }

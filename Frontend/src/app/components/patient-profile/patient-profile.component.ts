@@ -4,7 +4,6 @@ import { Examination } from './../../models/examination';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PatientWithId } from './../../models/patientWithId';
-import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -34,7 +33,6 @@ export class PatientProfileComponent implements OnInit {
           (data: PatientWithId) => {
             if (data) {
               this.selectedPatient = data;
-              this.examinationService.choosenPatient = data;
             } else {
               this.toastr.error("The selected patient doesn't exist. Please choose another one.");
               this.router.navigate(['/medicalStaff/patients']);
@@ -48,11 +46,17 @@ export class PatientProfileComponent implements OnInit {
     this.examinationService.getPatientStartingExamination(this.patientId).subscribe(
       (responseExamination: Examination) => {
         if (responseExamination) {
-          this.examinationService.startingExamination = responseExamination.id;
+          if (JSON.parse(localStorage.getItem('startingExamination'))) {
+            localStorage.removeItem('startingExamination');
+          }
+          localStorage.setItem('startingExamination', JSON.stringify(responseExamination));
           this.startingExaminationExists = true;
         }
       },
       () => {
+        if (JSON.parse(localStorage.getItem('startingExamination'))) {
+          localStorage.removeItem('startingExamination');
+        }
         this.startingExaminationExists = false;
       }
     );
