@@ -41,9 +41,8 @@ export class SearchRoomsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-
     this.route.queryParams.subscribe((params) => {
-      var param = params['kind'];
+      var param = params.kind;
       if (param === 'operation') {
         this.kind = 'OPERATION';
         this.examination = JSON.parse(localStorage.getItem('selectedExamination'));
@@ -59,7 +58,7 @@ export class SearchRoomsComponent implements OnInit {
 
   }
 
-  setDateTime() {
+  setDateTime(): void {
     if (!this.examination) {
       this.router.navigate(['/error']);
       return;
@@ -74,11 +73,11 @@ export class SearchRoomsComponent implements OnInit {
     this.getRoomsForAdminPaging(0);
   }
 
-  sortEvent() {
+  sortEvent(): void {
     this.getRoomsForAdminPaging(0);
   }
 
-  assignRoom(element: Room) {
+  assignRoom(element: Room): void {
 
     if (!this.examination) {
       this.toastr.error('You need to choose examination first', 'Assign room');
@@ -117,7 +116,7 @@ export class SearchRoomsComponent implements OnInit {
 
   }
 
-  assignRoomRequest(room: Room) {
+  assignRoomRequest(room: Room): void {
     this.roomService.assignRoom(room, this.examination, this.examination.doctors).subscribe(
       () => {
         this.toastr.success('Successfully assigned examination room ', 'Assign room');
@@ -129,7 +128,7 @@ export class SearchRoomsComponent implements OnInit {
     );
   }
 
-  chooseDoctors(element: Room) {
+  chooseDoctors(element: Room): void {
     if (!this.examination) {
       this.toastr.error('You need to choose examination first', 'Assign room');
       this.router.navigate(['/clinical-centre-admin/examination/awaiting-operations']);
@@ -143,11 +142,11 @@ export class SearchRoomsComponent implements OnInit {
     });
   }
 
-  searchRooms() {
+  searchRooms(): void {
     this.getRoomsForAdminPaging(0);
   }
 
-  getRoomsForAdminPaging(pageIndex: number) {
+  getRoomsForAdminPaging(pageIndex: number): void {
 
     const format = 'yyyy-MM-dd';
     const locale = 'en-US';
@@ -160,7 +159,7 @@ export class SearchRoomsComponent implements OnInit {
 
   }
 
-  requestForGettingRooms(date: any, pageIndex: number) {
+  requestForGettingRooms(date: any, pageIndex: number): void {
     this.paginator.pageIndex = pageIndex;
     this.roomService.getRoomsForAdminPaging
       (pageIndex, 5, this.sort, this.kind, this.searchLabel, date, this.searchTimeStart, this.searchTimeEnd).
@@ -171,7 +170,7 @@ export class SearchRoomsComponent implements OnInit {
       })
   }
 
-  changePage() {
+  changePage(): void {
     this.getRoomsForAdminPaging(this.paginator.pageIndex);
   }
 
