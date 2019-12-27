@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
     );
 
   ngOnInit() {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.isLoggedIn()) {
           this.user = this.userService.getLoggedInUser();

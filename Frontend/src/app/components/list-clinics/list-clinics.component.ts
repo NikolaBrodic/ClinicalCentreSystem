@@ -45,7 +45,7 @@ export class ListClinicsComponent implements OnInit {
   }
 
   fetchData() {
-    this.clinicsService.getAllClinics().subscribe(data => {
+    this.clinicsService.getAllClinics().subscribe((data) => {
       this.clinicsDataSource = new MatTableDataSource(data);
       this.clinicsDataSource.paginator = this.paginator;
       this.clinicsDataSource.sort = this.sort;
