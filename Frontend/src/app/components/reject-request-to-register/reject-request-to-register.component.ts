@@ -11,23 +11,22 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
   styleUrls: ['./reject-request-to-register.component.css']
 })
 export class RejectRequestToRegisterComponent implements OnInit {
-
   rejectRequestToRegisterForm: FormGroup
 
   constructor(
     private toastr: ToastrService,
     private requestToRegisterService: RequestToRegisterService,
     public dialogRef: MatDialogRef<RejectRequestToRegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.rejectRequestToRegisterForm = new FormGroup({
-      reason: new FormControl(null, Validators.required),
+      reason: new FormControl(null, Validators.required)
     });
   }
 
-  reject() {
+  reject(): void {
     if (this.rejectRequestToRegisterForm.invalid) {
       this.toastr.error('Please enter an explanation for rejection. ', 'Reject request to register ');
       return;
@@ -51,5 +50,4 @@ export class RejectRequestToRegisterComponent implements OnInit {
       }
     )
   }
-
 }

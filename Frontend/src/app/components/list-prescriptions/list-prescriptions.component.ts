@@ -24,7 +24,7 @@ export class ListPrescriptionsComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private prescriptionService: PrescriptionService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchData();
 
     this.stampPrescriptionSuccess = this.prescriptionService.stampPrescriptionSuccesEmitter.subscribe(
@@ -34,7 +34,7 @@ export class ListPrescriptionsComponent implements OnInit {
     )
   }
 
-  fetchData() {
+  fetchData(): void {
     this.prescriptionService.getUnstampedPrescriptions().subscribe((data) => {
       this.prescriptionsDataSource = new MatTableDataSource(data);
       this.prescriptionsDataSource.paginator = this.paginator;
@@ -42,7 +42,7 @@ export class ListPrescriptionsComponent implements OnInit {
     })
   }
 
-  stampPrescription(prescription: Prescription) {
+  stampPrescription(prescription: Prescription): void {
     this.prescriptionService.stamp(prescription).subscribe(
       () => {
         this.toastr.success(
