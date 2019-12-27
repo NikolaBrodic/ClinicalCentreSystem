@@ -73,4 +73,15 @@ export class DoctorService {
   public deleteDoctor(id: number) {
     return this.httpClient.delete(this.url + '/' + id);
   }
+
+  public isAvailable(doctorId: any, startTime: string, endTime: string) {
+    let params = new HttpParams();
+    params = params.append('doctorId', doctorId);
+    params = params.append('startTime', startTime);
+    params = params.append('endTime', endTime);
+
+    return this.httpClient.get(this.url + "/is-available", {
+      params: params
+    });
+  }
 }
