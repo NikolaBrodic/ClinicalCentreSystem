@@ -117,8 +117,11 @@ public class DoctorServiceImpl implements DoctorService {
         Set<Doctor> availableDoctors = new HashSet<>();
         List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {
-            if (availableDoctors.size() != 3 && isAvailable(doctor, startDateTime, endDateTime)) {
+            if (isAvailable(doctor, startDateTime, endDateTime)) {
                 availableDoctors.add(doctor);
+            }
+            if (availableDoctors.size() == 2) {
+                break;
             }
         }
 
