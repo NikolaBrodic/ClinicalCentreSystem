@@ -122,7 +122,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
         this.toastr.success('Successfully created a new predefined examination.', 'Create predefined examination');
         this.examinationService.successCreatedPredefinedExamination.next(predefinedExamination);
       },
-      (message) => {
+      () => {
         this.toastr.error('Error during creation of predefined examination.', 'Create predefined examination');
       }
     );
