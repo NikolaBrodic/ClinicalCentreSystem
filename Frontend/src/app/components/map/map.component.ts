@@ -74,7 +74,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         i++;
       });
       deletedFirst = false;
-      map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
+      map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 17);
       var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
       mark = new L.Marker(latlng, { draggable: false });
       map.addLayer(mark);

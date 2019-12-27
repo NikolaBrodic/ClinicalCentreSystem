@@ -497,7 +497,7 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECTED', 'TIME_OFF', 7, 33);
 
-/*
+
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
   'bronchodilators (LABAs) are used in the treatment of asthma.');
@@ -534,6 +534,8 @@ insert into medicine (label, chemical_composition, "usage") values ('Azithromyci
  'Azithromycin is an antibiotic used for treating ear, throat, and sinus infections as well as pneumonia, bronchitis, and some sexually ' ||
  'transmitted diseases. Its common side effects include loose stools, nausea, stomach pain, and vomiting. ');
 
+
+/*
 insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
  values ('Pacijent ima astmu', '17.03.2019. 12:30', 1, 7, 3, 25);
 -- examination_id set to 25 just to get right patient for PrescriptionDTO, that not the real examination_id
