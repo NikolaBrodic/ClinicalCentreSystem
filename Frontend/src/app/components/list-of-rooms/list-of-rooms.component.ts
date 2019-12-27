@@ -28,7 +28,7 @@ export class ListOfRoomsComponent implements OnInit {
   numberOfItem: number;
   itemsPerPage = environment.itemsPerPage;
   searchExaminationType: string;
-  searchLabel: string = "";
+  searchLabel: string = '';
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private toastr: ToastrService) { }
@@ -54,7 +54,7 @@ export class ListOfRoomsComponent implements OnInit {
     }
     this.paginator.pageIndex = pageIndex;
     this.roomService.getRoomsForAdminPaging
-      (pageIndex, 5, this.sort, this.searchExaminationType.toLowerCase(), this.searchLabel, "", "", "").
+      (pageIndex, 5, this.sort, this.searchExaminationType.toLowerCase(), this.searchLabel, '', '', '').
       subscribe((data: RoomsWithNumberOffItmes) => {
         this.numberOfItem = data.numberOfItems;
         this.roomsDataSource = new MatTableDataSource(data.roomDTOList);

@@ -6,6 +6,7 @@ import { ClinicService } from 'src/app/services/clinic.service';
 import { Clinic } from 'src/app/models/clinic';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { Subscription } from 'rxjs';
+
 var map;
 var mark: L.Marker;
 var deletedFirst = true;
@@ -39,7 +40,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         this.clinicService.get(selectedClinic.address).subscribe((data) => {
           if (!isUndefined(data) && data && !isUndefined(data[0])) {
             map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
-            var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
+            const latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
             mark = new L.Marker(latlng, { draggable: false });
             map.addLayer(mark);
             deletedFirst = false;
@@ -48,7 +49,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         });
       });
     } else {
-      selectedClinic = new Clinic("", "", "");
+      selectedClinic = new Clinic('', '', '');
     }
 
     this.editClinic = this.clinicService.editClinicEmitter.subscribe(
@@ -75,7 +76,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       });
       deletedFirst = false;
       map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
-      var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
+      const latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
       mark = new L.Marker(latlng, { draggable: false });
       map.addLayer(mark);
     });
@@ -92,7 +93,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     });
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
     });
 
     tiles.addTo(map);
@@ -118,7 +119,7 @@ export class MapComponent implements AfterViewInit, OnInit {
 
       if (!deletedFirst) {
         var i = 0;
-        map.eachLayer(function (layer) {
+        map.eachLayer(function (layer: any) {
           if (i == 2) {
             map.removeLayer(layer);
           }
@@ -130,9 +131,5 @@ export class MapComponent implements AfterViewInit, OnInit {
       service.searchAddressClinicEmitter.next(selectedClinic);
       service.addSearchAddressClinicEmitter.next(selectedClinic);
     });
-
   }
-
-
-
 }
