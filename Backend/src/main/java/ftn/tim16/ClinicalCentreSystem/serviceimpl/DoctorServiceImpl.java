@@ -94,11 +94,8 @@ public class DoctorServiceImpl implements DoctorService {
         }
 
         List<Examination> examinations = examinationService.getDoctorExaminationsBetween(doctor.getId(), startDateTime, endDateTime);
-        if (examinations == null || examinations.isEmpty()) {
-            return true;
-        }
 
-        return false;
+        return (examinations == null || examinations.isEmpty());
     }
 
     @Override

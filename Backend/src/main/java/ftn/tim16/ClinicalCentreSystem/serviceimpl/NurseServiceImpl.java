@@ -109,11 +109,8 @@ public class NurseServiceImpl implements NurseService {
         }
 
         List<Examination> examinations = examinationService.getNurseExaminationsBetween(nurse.getId(), startDateTime, endDateTime);
-        if (examinations == null || examinations.isEmpty()) {
-            return true;
-        }
-
-        return false;
+        
+        return (examinations == null || examinations.isEmpty());
     }
 
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
