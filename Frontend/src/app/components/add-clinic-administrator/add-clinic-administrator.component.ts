@@ -38,7 +38,7 @@ export class AddClinicAdministratorComponent implements OnInit {
 
   getClinics() {
     this.clinicService.getAllClinics().subscribe(
-      data => {
+      (data) => {
         this.clinics = data;
       }
     )
@@ -59,13 +59,13 @@ export class AddClinicAdministratorComponent implements OnInit {
     );
 
     this.clinicAdministratorService.add(clinicAdmin).subscribe(
-      responseData => {
+      () => {
         this.addClinicAdminForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully created a new clinic administrator.", "Add clinic administrator");
         this.clinicAdministratorService.addSuccessEmitter.next(clinicAdmin);
       },
-      errorMessage => {
+      () => {
         this.toastr.error("Clinic administrator with the same email address or phone number already exists.", 'Add clinic administrator');
       }
     )

@@ -15,7 +15,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditPersonalInformationDoctorComponent implements OnInit {
   editPersonalInformation: FormGroup;
-  loggedInDoctor: Doctor = new Doctor("", "", "", "", null, null, new ExaminationType("", -1, -1), -1);
+  loggedInDoctor: Doctor = new Doctor(' ', ' ', ' ', ' ', null, null, new ExaminationType(' ', -1, -1), -1);
   specializations: ExaminationType[] = [];
 
   constructor(private toastr: ToastrService,
@@ -29,7 +29,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
       specialized: new FormControl(null, [Validators.required]),
       workHoursFrom: new FormControl(null, [Validators.required]),
       workHoursTo: new FormControl(null, [Validators.required]),
-      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern("0[0-9]+")]),
+      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern('0[0-9]+ ')]),
     });
 
     this.doctorService.get(this.userService.getLoggedInUser().id).subscribe(
@@ -56,7 +56,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
   }
 
   getSpecializations() {
-    this.examinationTypeService.getExaminationTypesByClinicId(this.loggedInDoctor.clinicDTO.id).subscribe(data => {
+    this.examinationTypeService.getExaminationTypesByClinicId(this.loggedInDoctor.clinicDTO.id).subscribe((data) => {
       this.specializations = data;
       this.selectSpecialization();
     })
@@ -71,11 +71,11 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
   }
   saveChanges() {
     if (this.editPersonalInformation.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Edit personal information');
+      this.toastr.error('Please enter a valid data. ', 'Edit personal information');
       return;
     }
     if (this.editPersonalInformation.value.workHoursFrom >= this.editPersonalInformation.value.workHoursTo) {
-      this.toastr.error("Starting work hours must be before ending work hours.", 'Edit personal information');
+      this.toastr.error('Starting work hours must be before ending work hours. ', 'Edit personal information');
       return;
     }
     const doctor = new Doctor(this.loggedInDoctor.email, this.editPersonalInformation.value.firstName, this.editPersonalInformation.value.lastName,
@@ -84,10 +84,10 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
 
     this.doctorService.put(doctor).subscribe(
       () => {
-        this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
+        this.toastr.success('Successfully changed your personal information. ', 'Edit personal information');
       },
       () => {
-        this.toastr.error("You can not change work hours and specialization because you have scheduled examinations.", 'Edit personal information');
+        this.toastr.error('You can not change work hours and specialization because you have scheduled examinations. ', 'Edit personal information');
       }
     );
   }
