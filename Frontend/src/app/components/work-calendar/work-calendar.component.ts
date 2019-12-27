@@ -1,3 +1,4 @@
+import { ExaminationInfoComponent } from './../examination-info/examination-info.component';
 import { TimeOffNurseService } from './../../services/time-off-nurse.service';
 import { TimeOffForWorkCalendar } from './../../models/timeOffForWorkCalendar';
 import { TimeOffDoctorService } from '../../services/time-off-doctor.service';
@@ -9,6 +10,7 @@ import { ExaminationForWorkCalendar } from 'src/app/models/examinationForWorkCal
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { AxiomSchedulerEvent } from 'axiom-scheduler';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-work-calendar',
@@ -32,7 +34,7 @@ export class WorkCalendarComponent implements OnInit {
     private examinationService: ExaminationService,
     private timeOffDoctorService: TimeOffDoctorService,
     private timeOffNurseService: TimeOffNurseService,
-    private userService: UserService, private router: Router
+    private userService: UserService, private router: Router, public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -63,10 +65,7 @@ export class WorkCalendarComponent implements OnInit {
     examinations.forEach(item => {
       event = {
         "data": {
-          "kind": item.kind,
-          "room": item.room ? item.room.label : null,
-          "patientFirstName": item.patient ? item.patient.firstName : null,
-          "patientLastName": item.patient ? item.patient.lastName : null,
+          "examination": item
         },
         "from": moment(item.interval.startDateTime, "YYYY-MM-DD HH:mm").toISOString(),
         "to": moment(item.interval.endDateTime, "YYYY-MM-DD HH:mm").toISOString(),
@@ -79,14 +78,11 @@ export class WorkCalendarComponent implements OnInit {
 
     this.events.map(item =>
       new AxiomSchedulerEvent(
-        item["data"]["kind"],
+        item["data"]["examination"]["kind"],
         new Date(item["from"]),
         new Date(item["to"]),
         {
-          kind: item["data"]["kind"],
-          room: item["data"]["room"],
-          patientFirstName: item["data"]["patientFirstName"],
-          patientLastName: item["data"]["patientLastName"],
+          examination: item
         },
         item["color"],
         true
@@ -183,5 +179,10 @@ export class WorkCalendarComponent implements OnInit {
     this.scheduler.refreshScheduler();
   }
   */
+  openViewExamination($event: AxiomSchedulerEvent) {
+    if ($event.data.examination) {
+      this.dialog.open(ExaminationInfoComponent, { data: $event.data.examination });
+    }
+  }
 
 }

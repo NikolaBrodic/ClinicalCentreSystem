@@ -87,6 +87,7 @@ import { ListOperationRequestsComponent } from './components/list-operation-requ
 import { AssignDoctorsComponent } from './components/assign-doctors/assign-doctors.component';
 import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.component';
 import { CreateRequestForTimeOffComponent } from './components/create-request-for-time-off/create-request-for-time-off.component';
+import { ExaminationInfoComponent } from './components/examination-info/examination-info.component';
 
 @NgModule({
   declarations: [
@@ -155,6 +156,7 @@ import { CreateRequestForTimeOffComponent } from './components/create-request-fo
     AssignDoctorsComponent,
     ChooseDoctorComponent,
     CreateRequestForTimeOffComponent,
+    ExaminationInfoComponent,
 
   ],
   imports: [
@@ -216,7 +218,8 @@ import { CreateRequestForTimeOffComponent } from './components/create-request-fo
     ListOperationRequestsComponent,
     AssignDoctorsComponent,
     SearchRoomsComponent,
-    ChooseDoctorComponent
+    ChooseDoctorComponent,
+    ExaminationInfoComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

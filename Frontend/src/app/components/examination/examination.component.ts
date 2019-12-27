@@ -43,6 +43,7 @@ export class ExaminationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dialog.closeAll();
     this.selectedExamination = JSON.parse(localStorage.getItem('startingExamination'));
     if (!this.selectedExamination) {
       this.location.back();

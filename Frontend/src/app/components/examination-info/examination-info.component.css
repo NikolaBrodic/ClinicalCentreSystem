@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+.dialog-class {
+    width: 500px;
+}
+  
+.form-full-width {
+  width: 100%;
+}
+
+.form-full-width-td {
+  width: 98%;
+}
+
+.mat-dialog-actions {
+    justify-content: flex-end;
+}
+
+
+.link-font {
+  font-family: 'Ubuntu', cursive;
+  font-weight: 600;
+  font-size: 120%;
+}
+
+.section-title { 
+  margin-bottom: 60px; 
+}
