@@ -48,7 +48,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
   }
 
   getExaminationTypes(): void {
-    this.examinationTypeService.getExaminationTypesForAdmin().subscribe(data => {
+    this.examinationTypeService.getExaminationTypesForAdmin().subscribe((data) => {
       this.examinationTypes = data;
     })
   }
@@ -115,14 +115,14 @@ export class AddPredefinedExaminationComponent implements OnInit {
       this.addPredefinedExaminationForm.value.doctor, this.addPredefinedExaminationForm.value.room.id, this.addPredefinedExaminationForm.value.discount);
 
     this.examinationService.createPredefinedExamination(predefinedExamination).subscribe(
-      responseData => {
+      (responseData) => {
         this.addPredefinedExaminationForm.reset();
         this.dateTimeTypeForm.reset();
         this.dialogRef.close();
         this.toastr.success('Successfully created a new predefined examination.', 'Create predefined examination');
         this.examinationService.successCreatedPredefinedExamination.next(predefinedExamination);
       },
-      message => {
+      (message) => {
         this.toastr.error('Error during creation of predefined examination.', 'Create predefined examination');
       }
     );
