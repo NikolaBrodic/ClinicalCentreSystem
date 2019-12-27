@@ -77,7 +77,6 @@ export class SearchRoomsComponent implements OnInit {
   }
 
   assignRoom(element: Room): void {
-
     if (!this.examination) {
       this.toastr.error('You need to choose examination first', 'Assign room');
       this.router.navigate(['/clinical-centre-admin/examination/get-awaiting']);
@@ -93,7 +92,7 @@ export class SearchRoomsComponent implements OnInit {
       const endDateTime = moment(element.available, 'YYYY-MM-DD HH:mm').add(duration).format('YYYY-MM-DD HH:mm');
 
       this.doctorService.isAvailable(this.examination.doctors[0].id, formatDate(element.available.toString(), format, locale),
-        endDateTime).subscribe((responseData: Boolean) => {
+        endDateTime).subscribe((responseData: boolean) => {
           if (!responseData) {
             this.dialog.open(ChooseDoctorComponent, {
               data: {
@@ -146,7 +145,6 @@ export class SearchRoomsComponent implements OnInit {
   }
 
   getRoomsForAdminPaging(pageIndex: number): void {
-
     const format = 'yyyy-MM-dd';
     const locale = 'en-US';
     if (this.searchDate) {
@@ -172,5 +170,4 @@ export class SearchRoomsComponent implements OnInit {
   changePage(): void {
     this.getRoomsForAdminPaging(this.paginator.pageIndex);
   }
-
 }

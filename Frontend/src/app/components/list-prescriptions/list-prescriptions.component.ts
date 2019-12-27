@@ -35,7 +35,7 @@ export class ListPrescriptionsComponent implements OnInit {
   }
 
   fetchData() {
-    this.prescriptionService.getUnstampedPrescriptions().subscribe(data => {
+    this.prescriptionService.getUnstampedPrescriptions().subscribe((data) => {
       this.prescriptionsDataSource = new MatTableDataSource(data);
       this.prescriptionsDataSource.paginator = this.paginator;
       this.prescriptionsDataSource.sort = this.sort;
@@ -46,13 +46,13 @@ export class ListPrescriptionsComponent implements OnInit {
     this.prescriptionService.stamp(prescription).subscribe(
       () => {
         this.toastr.success(
-          "Prescription successfully stamped.",
+          'Prescription successfully stamped. ',
           'Stamp prescription'
         );
         this.prescriptionService.stampPrescriptionSuccesEmitter.next();
       },
       () => {
-        this.toastr.error("Prescription has been already stamped.", 'Stamp prescription');
+        this.toastr.error('Prescription has been already stamped. ', 'Stamp prescription');
       }
     )
   }
