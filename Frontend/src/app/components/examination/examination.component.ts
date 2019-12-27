@@ -1,7 +1,6 @@
 import { DoctorAddExaminationOrOperationComponent } from './../doctor-add-examination-or-operation/doctor-add-examination-or-operation.component';
 import { MedicalRecord } from './../../models/medicalRecord';
 import { MedicalRecordService } from './../../services/medical-record.service';
-import { ExaminationService } from './../../services/examination.service';
 import { ExaminationReport } from './../../models/examinationReport';
 import { ExaminationReportService } from './../../services/examination-report.service';
 import { MedicineService } from './../../services/medicine.service';

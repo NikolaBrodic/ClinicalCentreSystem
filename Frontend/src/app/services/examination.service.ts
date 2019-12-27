@@ -1,5 +1,4 @@
 import { CreateExamination } from './../models/createExamination';
-
 import { PredefinedExamination } from './../models/predefinedExamination';
 import { Subject } from 'rxjs';
 import { Examination } from './../models/examination';
@@ -7,7 +6,6 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
-
 import { Injectable } from '@angular/core';
 
 @Injectable({

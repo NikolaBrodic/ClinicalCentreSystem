@@ -69,6 +69,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
   }
 
   getExaminationTypes(): any {
+
     this.examinationTypeService.getExaminationTypesForAdmin().subscribe((data) => {
       this.examinationTypes = data;
     })
@@ -104,7 +105,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
     this.getDoctors();
   }
 
-  create() {
+  create(): void {
 
     if (this.dateTimeTypeForm.invalid) {
       this.toastr.error("Please enter a valid data.", 'Create examination/operation');
