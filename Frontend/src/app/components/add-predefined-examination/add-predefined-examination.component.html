@@ -26,8 +26,12 @@
                         </td>
                     </tr>
                 </table>
-                <mat-error *ngIf="timeError" class="time-err">
-                    Please choose start and end time of examination.<br>
+                <mat-error *ngIf="(dateTimeTypeForm.get('timeFrom').errors && dateTimeTypeForm.get('timeFrom').errors['required']) || 
+                (dateTimeTypeForm.get('timeTo').errors && dateTimeTypeForm.get('timeTo').errors['required']) ">
+                    Please choose start and end time of examination.
+                </mat-error>
+                <mat-error
+                    *ngIf="dateTimeTypeForm.get('timeTo').errors && dateTimeTypeForm.get('timeTo').errors['timeError']">
                     Start time must be before end time.
                 </mat-error>
                 <mat-form-field class="form-full-width mt-3">
@@ -42,7 +46,8 @@
                 </mat-form-field>
             </form>
             <mat-dialog-actions class="mt-2">
-                <button mat-raised-button color="primary" (click)="next()" matStepperNext>Next</button>
+                <button mat-raised-button color="primary" (click)="next()" [disabled]="!dateTimeTypeForm.valid"
+                    matStepperNext>Next</button>
             </mat-dialog-actions>
         </mat-step>
 

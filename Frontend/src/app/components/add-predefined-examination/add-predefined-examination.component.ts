@@ -8,9 +8,10 @@ import { DoctorService } from './../../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { Room } from './../../models/room';
 import { Doctor } from './../../models/doctor';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ExaminationService } from 'src/app/services/examination.service';
+import { TimeValidator } from 'src/app/validators/time.validator';
 
 @Component({
   selector: 'app-add-predefined-examination',
@@ -27,16 +28,19 @@ export class AddPredefinedExaminationComponent implements OnInit {
   timeError = false;
 
   constructor(private toastr: ToastrService, private doctorService: DoctorService, private examinationTypeService: ExaminationTypeService,
-    private examinationService: ExaminationService, private roomService: RoomService,
+    private examinationService: ExaminationService, private roomService: RoomService, private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AddPredefinedExaminationComponent>) { }
 
   ngOnInit(): void {
     this.minDate.setDate(this.minDate.getDate() + 1);
-    this.dateTimeTypeForm = new FormGroup({
+
+    this.dateTimeTypeForm = this.formBuilder.group({
       date: new FormControl(null, [Validators.required]),
       timeFrom: new FormControl(null, [Validators.required]),
       timeTo: new FormControl(null, [Validators.required]),
       examinationType: new FormControl(null, [Validators.required])
+    }, {
+      validator: TimeValidator('timeFrom', 'timeTo')
     });
 
     this.addPredefinedExaminationForm = new FormGroup({
@@ -44,6 +48,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
       room: new FormControl(null, [Validators.required]),
       discount: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(99)])
     });
+
     this.getExaminationTypes();
   }
 
@@ -100,11 +105,6 @@ export class AddPredefinedExaminationComponent implements OnInit {
       this.toastr.error('Please enter a valid data.', 'Create predefined examination');
       return;
     }
-    if (this.dateTimeTypeForm.value.timeFrom >= this.dateTimeTypeForm.value.timeTo) {
-      this.toastr.error('Starting time must be before ending time.', 'Create predefined examination');
-      return;
-    }
-
     const date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US')
     const startDateTime = date + ' ' + this.dateTimeTypeForm.value.timeFrom;
     const endDateTime = date + ' ' + this.dateTimeTypeForm.value.timeTo;

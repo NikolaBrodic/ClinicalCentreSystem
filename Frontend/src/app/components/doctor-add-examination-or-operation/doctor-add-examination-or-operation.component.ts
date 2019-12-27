@@ -5,11 +5,12 @@ import { ExaminationTypeService } from './../../services/examination-type.servic
 import { ToastrService } from 'ngx-toastr';
 import { Examination } from './../../models/examination';
 import { formatDate, Location } from '@angular/common';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ExaminationType } from '../../models/examinationType';
 import { Doctor } from '../../models/doctor';
+import { TimeValidator } from 'src/app/validators/time.validator';
 
 @Component({
   selector: 'app-doctor-add-examination-or-operation',
@@ -26,7 +27,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
   isDoctorRequired = true;
   currentExamination: Examination;
 
-  constructor(private toastr: ToastrService, private doctorService: DoctorService, private examinationTypeService: ExaminationTypeService,
+  constructor(private toastr: ToastrService, private doctorService: DoctorService, private examinationTypeService: ExaminationTypeService, private formBuilder: FormBuilder,
     private location: Location, private examinationService: ExaminationService, public dialogRef: MatDialogRef<DoctorAddExaminationOrOperationComponent>) {
 
   }
@@ -40,12 +41,15 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
     }
 
     this.minDate.setDate(this.minDate.getDate() + 1);
-    this.dateTimeTypeForm = new FormGroup({
+
+    this.dateTimeTypeForm = this.formBuilder.group({
       kind: new FormControl(null, Validators.required),
       date: new FormControl(null, [Validators.required]),
       timeFrom: new FormControl(null, [Validators.required]),
       timeTo: new FormControl(null, [Validators.required]),
       examinationType: new FormControl(null, [Validators.required])
+    }, {
+      validator: TimeValidator('timeFrom', 'timeTo')
     });
     this.dateTimeTypeForm.patchValue(
       {
@@ -114,11 +118,6 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
 
     if (this.isDoctorRequired && this.doctorForm.invalid) {
       this.toastr.error("Please choose a doctor.", 'Create examination/operation');
-      return;
-    }
-
-    if (this.dateTimeTypeForm.value.timeFrom >= this.dateTimeTypeForm.value.timeTo) {
-      this.toastr.error("Starting time must be before ending time.", 'Create examination');
       return;
     }
 
