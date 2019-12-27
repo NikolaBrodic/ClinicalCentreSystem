@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit {
     );
 
   ngOnInit() {
-    //check this
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.isLoggedIn()) {
@@ -62,7 +61,4 @@ export class HeaderComponent implements OnInit {
     this.userService.logout();
     this.router.navigate(['/user/login']);
   }
-
-
-
 }

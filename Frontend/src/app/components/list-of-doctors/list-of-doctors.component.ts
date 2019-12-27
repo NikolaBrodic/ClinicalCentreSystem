@@ -35,7 +35,7 @@ export class ListOfDoctorsComponent implements OnInit {
     this.getDoctorsForAdmin();
 
     this.successCreatedDoctor = this.doctorService.createSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.getDoctorsForAdmin();
       }
     );
@@ -64,18 +64,14 @@ export class ListOfDoctorsComponent implements OnInit {
     this.doctorsDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openEditingDialog() {
-
-  }
-
   deleteDoctor(doctor: Doctor) {
 
     this.doctorService.deleteDoctor(doctor.id).subscribe(
-      responseData => {
+      () => {
         this.getDoctorsForAdmin();
         this.toastr.success("Successfully deleted doctor.", 'Delete doctor');
       },
-      message => {
+      () => {
         this.toastr.error("You can not delete this doctor because he has upcoming appointments.", 'Delete doctor');
       }
     );
