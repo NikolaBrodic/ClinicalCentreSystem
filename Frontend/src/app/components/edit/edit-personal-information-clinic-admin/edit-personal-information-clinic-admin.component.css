@@ -15,8 +15,8 @@ h1 {
 }
 
 .page-caption {
-  padding-top: 50px;
-  padding-bottom: 150px;
+  padding-top: 80px;
+  padding-bottom: 120px;
 }
 
 .page-title {
@@ -34,13 +34,17 @@ h1 {
 
 .card-block {
   padding: 40px;
-  width: 60%;
+  width: 55%;
   margin: auto;
 }
 
 .table-font {
   font-size: 115%;
   margin-bottom: 15px;
+}
+
+.first {
+  width: 35%
 }
 
 .section-title {
@@ -54,13 +58,9 @@ h1 {
 }
 
 .form-full-width-td {
-  width: 90%;
+  width: 100%;
 }
 
 .table-full-width{
   width:98%;
-}
-
-.button-save{
-  margin-left: 72%;
 }
