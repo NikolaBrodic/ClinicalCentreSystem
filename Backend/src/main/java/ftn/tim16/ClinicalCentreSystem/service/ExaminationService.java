@@ -60,4 +60,9 @@ public interface ExaminationService {
     ExaminationDTO createExaminationOrOperation(CreateExaminationOrOperationDTO createExaminationOrOperationDTO, Doctor loggedDoctor);
 
     List<Examination> getExaminationsAfter(Long idRoom, LocalDateTime endDateTime);
+
+    List<Examination> getDoctorExaminationsBetween(Long doctorId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    List<Examination> getNurseExaminationsBetween(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }

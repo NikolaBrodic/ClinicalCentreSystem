@@ -86,6 +86,7 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
 import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
 import { AssignDoctorsComponent } from './components/assign-doctors/assign-doctors.component';
 import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.component';
+import { CreateRequestForTimeOffComponent } from './components/create-request-for-time-off/create-request-for-time-off.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +154,7 @@ import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.
     ListOperationRequestsComponent,
     AssignDoctorsComponent,
     ChooseDoctorComponent,
+    CreateRequestForTimeOffComponent,
 
   ],
   imports: [

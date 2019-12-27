@@ -20,6 +20,8 @@ public interface DoctorService {
 
     boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
+    boolean canGetTimeOff(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
     Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId);
 
     Set<Doctor> getAvailableDoctors(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId);

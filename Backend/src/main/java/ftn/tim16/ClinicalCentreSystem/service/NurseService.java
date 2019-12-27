@@ -18,6 +18,8 @@ public interface NurseService {
 
     NurseDTO create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator);
 
+    boolean canGetTimeOff(Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
     Nurse getRandomNurse(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     Nurse getLoginNurse();

@@ -1,0 +1,97 @@
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-caption">
+                    <h1 class="page-title">Request for holiday/time off</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+    <div class="container">
+        <div class="card-block bg-white mb30">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <!-- section-title -->
+                    <div class="section-title mb-0">
+                        <form [formGroup]="createRequestForTimeOffForm" class="mat-elevation-z8 form">
+                            <table class="mt-2" cellspacing="0">
+                                <tr>
+                                    <td><label id="radio-group" class="radio-group-label">Create request for:</label>
+                                    </td>
+                                    <td>
+                                        <mat-radio-group formControlName="requestType" aria-labelledby="radio-group">
+                                            <mat-radio-button class="ml-4" value="HOLIDAY">Holiday
+                                            </mat-radio-button>
+                                            <mat-radio-button class="ml-4" value="TIME OFF">Time off</mat-radio-button>
+                                        </mat-radio-group>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="mt-2" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="fromDatePicker" placeholder="From date"
+                                                formControlName="dateFrom" readonly [min]="minDate">
+                                            <mat-datepicker-toggle matSuffix [for]="fromDatePicker">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #fromDatePicker disabled="false"></mat-datepicker>
+                                            <mat-error
+                                                *ngIf="createRequestForTimeOffForm.get('dateFrom').errors && createRequestForTimeOffForm.get('dateFrom').errors['required']">
+                                                Please choose a start date.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="time-label">From time:</td>
+                                    <td>
+                                        <div>
+                                            <input matInput type="time" formControlName="timeFrom">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="untilDatePicker" placeholder="Until date"
+                                                formControlName="dateUntil" readonly [min]="minDate">
+                                            <mat-datepicker-toggle matSuffix [for]="untilDatePicker">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #untilDatePicker disabled="false"></mat-datepicker>
+                                            <mat-error
+                                                *ngIf="createRequestForTimeOffForm.get('dateUntil').errors && createRequestForTimeOffForm.get('dateUntil').errors['required']">
+                                                Please choose an end date.
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </td>
+                                    <td class="time-label">Until time:</td>
+                                    <td>
+                                        <div>
+                                            <input matInput type="time" formControlName="timeUntil">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <mat-error *ngIf="dateTimeError" class="date-time-err">
+                                Start date and time must be before end date and time.
+                            </mat-error>
+                            <br>
+                            <div align="end">
+                                <button mat-raised-button color="primary" (click)="sendRequest()"
+                                    [disabled]="!createRequestForTimeOffForm.valid">Send request</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.section-title -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->

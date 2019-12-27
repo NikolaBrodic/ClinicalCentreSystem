@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateTimeOffRequestDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -47,6 +49,24 @@ public class TimeOffNurseController {
         }
     }
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('NURSE')")
+    public ResponseEntity<TimeOffDTO> createRequestForTimeOff(@Valid @RequestBody CreateTimeOffRequestDTO timeOffRequestDTO) {
+        Nurse nurse = nurseService.getLoginNurse();
+        if (nurse == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            TimeOffDTO createdTimeOff = timeOffNurseService.create(nurse, timeOffRequestDTO);
+            if (createdTimeOff == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(createdTimeOff, HttpStatus.CREATED);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping(value = "/requests-for-holiday-or-time-off")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

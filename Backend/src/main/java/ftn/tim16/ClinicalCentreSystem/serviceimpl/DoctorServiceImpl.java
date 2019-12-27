@@ -88,6 +88,20 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public boolean canGetTimeOff(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
+            return false;
+        }
+
+        List<Examination> examinations = examinationService.getDoctorExaminationsBetween(doctor.getId(), startDateTime, endDateTime);
+        if (examinations == null || examinations.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
         List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {

@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateTimeOffRequestDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -42,6 +44,25 @@ public class TimeOffDoctorController {
         try {
             List<TimeOffDTO> timeOffDoctors = timeOffDoctorService.findByDoctorIdAndStatus(doctor.getId(), TimeOffStatus.APPROVED);
             return new ResponseEntity<>(timeOffDoctors, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<TimeOffDTO> createRequestForTimeOff(@Valid @RequestBody CreateTimeOffRequestDTO timeOffRequestDTO) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            TimeOffDTO createdTimeOff = timeOffDoctorService.create(doctor, timeOffRequestDTO);
+            if (createdTimeOff == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(createdTimeOff, HttpStatus.CREATED);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
