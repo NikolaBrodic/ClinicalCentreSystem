@@ -31,7 +31,6 @@ export class MountStatisticComponent implements OnInit {
     { data: [], label: 'Number of examinations' }
   ];
 
-
   public chartColors: any[] =
     [
       {

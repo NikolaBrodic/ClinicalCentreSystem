@@ -47,13 +47,13 @@ export class AddNurseComponent implements OnInit {
       this.addNurseForm.value.workHoursTo);
 
     this.nurseService.add(nurse).subscribe(
-      responseData => {
+      () => {
         this.addNurseForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully added a new nurse.", 'Add nurse');
         this.nurseService.addSuccessEmitter.next(nurse);
       },
-      message => {
+      () => {
         this.toastr.error("Nurse with the same email address or phone number already exists.", 'Add nurse');
       }
     );
