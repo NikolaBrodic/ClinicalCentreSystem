@@ -20,7 +20,6 @@ import { ChooseDoctorComponent } from '../choose-doctor/choose-doctor.component'
   styleUrls: ['./search-rooms.component.css']
 })
 export class SearchRoomsComponent implements OnInit {
-
   roomsDataSource: MatTableDataSource<Room>;
   displayedColumns = ['label', 'available', 'assign'];
   searchString: string;
@@ -28,11 +27,11 @@ export class SearchRoomsComponent implements OnInit {
   searchLabel = '';
   searchDate: Date;
   kind: string;
-  searchTimeStart: String;
-  searchTimeEnd: String;
+  searchTimeStart: string;
+  searchTimeEnd: string;
   minDate = new Date();
   examination: Examination;
-  kinds: String[] = ['EXAMINATION', 'OPERATION'];
+  kinds = ['EXAMINATION', 'OPERATION'];
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService, private doctorService: DoctorService) { }
@@ -40,7 +39,7 @@ export class SearchRoomsComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       var param = params.kind;
       if (param === 'operation') {

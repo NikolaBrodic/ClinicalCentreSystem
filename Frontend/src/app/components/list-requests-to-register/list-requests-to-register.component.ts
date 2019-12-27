@@ -28,7 +28,7 @@ export class ListRequestsToRegisterComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchData();
 
     this.rejectingRequestSuccess = this.requestToRegisterService.rejectSuccessEmitter.subscribe(
@@ -44,19 +44,18 @@ export class ListRequestsToRegisterComponent implements OnInit {
     )
   }
 
-  fetchData() {
+  fetchData(): void {
     this.requestToRegisterService.getRequestsToRegister().subscribe((data) => {
       this.requestToRegisterDataSource = new MatTableDataSource(data);
       this.requestToRegisterDataSource.paginator = this.paginator;
     });
   }
 
-  openApproveDialog(request) {
+  openApproveDialog(request): void {
     this.dialog.open(ApproveRequestToRegisterComponent, { data: { requestToRegister: request } });
   }
 
-  openRejectDialog(requestId) {
+  openRejectDialog(requestId): void {
     this.dialog.open(RejectRequestToRegisterComponent, { data: { id: requestId } });
   }
-
 }
