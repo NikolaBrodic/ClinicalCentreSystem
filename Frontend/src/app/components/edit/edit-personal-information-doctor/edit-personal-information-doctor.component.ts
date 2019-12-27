@@ -48,7 +48,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
         );
         this.getSpecializations();
       },
-      message => {
+      () => {
         this.userService.logout();
       }
     );
@@ -64,7 +64,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
 
   selectSpecialization() {
     this.specializations.forEach((element: ExaminationType) => {
-      if (element.id == this.loggedInDoctor.specialized.id) {
+      if (element.id === this.loggedInDoctor.specialized.id) {
         this.editPersonalInformation.controls['specialized'].setValue(element);
       }
     });
@@ -83,10 +83,10 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
       this.editPersonalInformation.value.specialized, this.loggedInDoctor.id);
 
     this.doctorService.put(doctor).subscribe(
-      responseData => {
+      () => {
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
-      message => {
+      () => {
         this.toastr.error("You can not change work hours and specialization because you have scheduled examinations.", 'Edit personal information');
       }
     );

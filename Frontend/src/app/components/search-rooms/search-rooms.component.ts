@@ -100,7 +100,6 @@ export class SearchRoomsComponent implements OnInit {
 
       this.doctorService.isAvailable(this.examination.doctors[0].id, formatDate(element.available.toString(), format, locale),
         endDateTime).subscribe((responseData: Boolean) => {
-          console.log(responseData);
           if (!responseData) {
             this.dialog.open(ChooseDoctorComponent, {
               data: {
@@ -112,7 +111,7 @@ export class SearchRoomsComponent implements OnInit {
             this.assignRoomRequest(element);
           }
         },
-          message => {
+          () => {
             this.toastr.error("Please choose valid start and end time.", 'Assign room');
           });
 
@@ -124,11 +123,11 @@ export class SearchRoomsComponent implements OnInit {
 
   assignRoomRequest(room: Room) {
     this.roomService.assignRoom(room, this.examination, this.examination.doctors).subscribe(
-      responseData => {
+      () => {
         this.toastr.success("Successfully assigned examination room ", 'Assign room');
         this.router.navigate(['/clinic-admin/examination/get-awaiting']);
       },
-      message => {
+      () => {
         this.toastr.error("You can not assign this room. Please choose another one.", 'Assign room');
       }
     );
