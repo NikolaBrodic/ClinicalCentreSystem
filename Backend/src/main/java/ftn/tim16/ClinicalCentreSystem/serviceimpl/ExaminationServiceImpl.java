@@ -400,6 +400,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan(doctorId, ExaminationStatus.CANCELED, startDateTime, endDateTime);
     }
 
+    @Override
+    public List<Examination> getNurseExaminationsBetween(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return examinationRepository.findByNurseIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan(nurseId, ExaminationStatus.CANCELED, startDateTime, endDateTime);
+    }
+
     private void sendMailToClinicAdministrator(Examination examination, Doctor doctor, ClinicAdministrator clinicAdministrator) {
         if (clinicAdministrator == null || doctor == null || examination == null) {
             return;

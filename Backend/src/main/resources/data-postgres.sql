@@ -475,28 +475,28 @@ insert into time_off_doctor (status, type, doctor_id, interval_id)
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('REJECTED', 'TIME_OFF', 7, 29);
-/*
+
  insert into date_time_interval (start_date_time, end_date_time) values ('24.11.2019 09:30','26.11.2019 13:30');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 9, 30);
-*/
+
 /* This shouldn't be displayed in calendar */
-/*
+
 insert into date_time_interval (start_date_time, end_date_time) values ('30.11.2019 09:00','05.12.2019 17:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('REJECTED', 'HOLIDAY', 9, 31);
-*/
+
  /* Nurse should be able to request holiday/time off if the examination on that time was canceled */
-/*
+
 insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 12:00','11.11.2019 16:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'TIME_OFF', 9, 32);
-*/
+
 /* This shouldn't be displayed in calendar */
-/*
+
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECTED', 'TIME_OFF', 7, 33);
-*/
+
 /*
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||

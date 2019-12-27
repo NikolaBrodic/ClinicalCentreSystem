@@ -52,7 +52,6 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
         DateTimeInterval dateTimeInterval = new DateTimeInterval(startDateTime, endDateTime);
 
         TimeOffDoctor timeOffDoctor = new TimeOffDoctor(timeOffType, dateTimeInterval, TimeOffStatus.AWAITING, doctor);
-        timeOffDoctorRepository.save(timeOffDoctor);
 
         return new TimeOffDTO(timeOffDoctorRepository.save(timeOffDoctor));
     }

@@ -102,6 +102,20 @@ public class NurseServiceImpl implements NurseService {
         return new NurseDTO(nurseRepository.save(nurse));
     }
 
+    @Override
+    public boolean canGetTimeOff(Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (timeOffNurseService.isNurseOnVacation(nurse.getId(), startDateTime, endDateTime)) {
+            return false;
+        }
+
+        List<Examination> examinations = examinationService.getNurseExaminationsBetween(nurse.getId(), startDateTime, endDateTime);
+        if (examinations == null || examinations.isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
         String subject = "New position: Nurse";
         StringBuilder sb = new StringBuilder();
