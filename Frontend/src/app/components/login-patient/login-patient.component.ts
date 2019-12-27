@@ -31,6 +31,8 @@ export class LoginPatientComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.redirectToHomePage();
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

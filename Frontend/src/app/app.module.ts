@@ -86,6 +86,7 @@ import { EditExaminationReportComponent } from './components/edit/edit-examinati
 import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
 import { AssignDoctorsComponent } from './components/assign-doctors/assign-doctors.component';
 import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.component';
+import { ExaminationInfoComponent } from './components/examination-info/examination-info.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +154,7 @@ import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.
     ListOperationRequestsComponent,
     AssignDoctorsComponent,
     ChooseDoctorComponent,
+    ExaminationInfoComponent,
 
   ],
   imports: [
@@ -214,7 +216,8 @@ import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.
     ListOperationRequestsComponent,
     AssignDoctorsComponent,
     SearchRoomsComponent,
-    ChooseDoctorComponent
+    ChooseDoctorComponent,
+    ExaminationInfoComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
