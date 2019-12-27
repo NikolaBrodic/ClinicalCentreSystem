@@ -34,7 +34,7 @@ export class UserChangePasswordComponent implements OnInit {
       this.toastr.error("Please enter a valid data.", 'Change password');
       return;
     }
-    if (this.changePasswordForm.value.newPassword != this.changePasswordForm.value.repeatedPassword) {
+    if (this.changePasswordForm.value.newPassword !== this.changePasswordForm.value.repeatedPassword) {
       this.toastr.error("Repeated password must be the same as a new password", 'Change password');
       return;
     }

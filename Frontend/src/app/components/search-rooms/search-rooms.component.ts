@@ -84,7 +84,7 @@ export class SearchRoomsComponent implements OnInit {
       this.router.navigate(['/clinical-centre-admin/examination/get-awaiting']);
     }
 
-    if (element.available != this.examination.interval.startDateTime && this.examination.kind === 'EXAMINATION') {
+    if (element.available !== this.examination.interval.startDateTime && this.examination.kind === 'EXAMINATION') {
       const format = 'yyyy-MM-dd HH:mm';
       const locale = 'en-US';
 

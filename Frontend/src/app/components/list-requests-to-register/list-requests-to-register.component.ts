@@ -9,7 +9,6 @@ import { RejectRequestToRegisterComponent } from '../reject-request-to-register/
 import { Subscription } from 'rxjs';
 import { ApproveRequestToRegisterComponent } from '../approve-request-to-register/approve-request-to-register.component';
 import { RequestToRegisterService } from 'src/app/services/request-to.register.service';
-
 @Component({
   selector: 'app-list-requests-to-register',
   templateUrl: './list-requests-to-register.component.html',
@@ -18,8 +17,7 @@ import { RequestToRegisterService } from 'src/app/services/request-to.register.s
 export class ListRequestsToRegisterComponent implements OnInit {
 
   requestToRegisterDataSource: MatTableDataSource<RequestToRegister>
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'approve', 'reject'];
-
+  displayedColumns = ['firstName', 'lastName', 'email', 'approve', 'reject'];
   rejectingRequestSuccess: Subscription;
   approvingRequestSuccess: Subscription;
   itemsPerPage = environment.itemsPerPage;
@@ -48,7 +46,7 @@ export class ListRequestsToRegisterComponent implements OnInit {
   }
 
   fetchData() {
-    this.requestToRegisterService.getRequestsToRegister().subscribe(data => {
+    this.requestToRegisterService.getRequestsToRegister().subscribe((data) => {
       this.requestToRegisterDataSource = new MatTableDataSource(data);
       this.requestToRegisterDataSource.paginator = this.paginator;
     });
