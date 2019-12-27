@@ -59,7 +59,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
     this.getExaminationTypes();
   }
 
-  changeKing(): any {
+  changeKind(): any {
 
     if (this.dateTimeTypeForm.value.kind === 'OPERATION') {
       this.isDoctorRequired = false;

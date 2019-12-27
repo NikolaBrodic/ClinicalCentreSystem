@@ -1,3 +1,4 @@
+import { CreateTimeOffRequest } from './../models/createTimeOffRequest';
 import { RequestsForHolidayOrTimeOff } from './../models/requestForHolidayOrTimeOff';
 import { Subject } from 'rxjs';
 import { TimeOffForWorkCalendar } from './../models/timeOffForWorkCalendar';
@@ -21,7 +22,6 @@ export class TimeOffNurseService {
   }
 
   public getRequests() {
-
     return this.httpClient.get(this.url + "/requests-for-holiday-or-time-off");
   }
 
@@ -31,5 +31,9 @@ export class TimeOffNurseService {
 
   public approve(timeOff: TimeOffForWorkCalendar) {
     return this.httpClient.put(this.url + "/approve-request-for-holiday-or-time-off/" + timeOff.id, timeOff);
+  }
+
+  public create(requestForTimeOff: CreateTimeOffRequest) {
+    return this.httpClient.post(this.url, requestForTimeOff);
   }
 }

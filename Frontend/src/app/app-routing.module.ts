@@ -42,6 +42,7 @@ import { ListPrescriptionsComponent } from './components/list-prescriptions/list
 import { BusinessReportComponent } from './components/business-report/business-report.component';
 import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
 import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
+import { CreateRequestForTimeOffComponent } from './components/create-request-for-time-off/create-request-for-time-off.component';
 
 
 const routes: Routes = [
@@ -199,6 +200,11 @@ const routes: Routes = [
   {
     path: 'medical-staff/work-calendar',
     component: WorkCalendarComponent,
+    canActivate: [MedicalStaffGuard],
+  },
+  {
+    path: 'medical-staff/create-request-for-time-off',
+    component: CreateRequestForTimeOffComponent,
     canActivate: [MedicalStaffGuard],
   },
 
