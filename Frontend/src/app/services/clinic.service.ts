@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { Clinic } from '../models/clinic';
 import { Router } from '@angular/router';
 

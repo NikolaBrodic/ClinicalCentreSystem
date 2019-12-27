@@ -1,6 +1,6 @@
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { Prescription } from '../models/prescription';
@@ -23,7 +23,7 @@ export class PrescriptionService {
     return this.prescriptions.asObservable();
   }
 
-  public stamp(prescription: Prescription): any {
+  public stamp(prescription: Prescription) {
     return this.httpClient.put(this.url, prescription);
   }
 }
