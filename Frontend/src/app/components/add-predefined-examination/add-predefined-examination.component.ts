@@ -18,20 +18,19 @@ import { ExaminationService } from 'src/app/services/examination.service';
   styleUrls: ['./add-predefined-examination.component.css']
 })
 export class AddPredefinedExaminationComponent implements OnInit {
-
   addPredefinedExaminationForm: FormGroup;
   dateTimeTypeForm: FormGroup;
   examinationTypes: ExaminationType[] = [];
   doctors: Doctor[] = [];
   rooms: Room[] = [];
   minDate = new Date();
-  timeError: boolean = false;
+  timeError = false;
 
   constructor(private toastr: ToastrService, private doctorService: DoctorService, private examinationTypeService: ExaminationTypeService,
     private examinationService: ExaminationService, private roomService: RoomService,
     public dialogRef: MatDialogRef<AddPredefinedExaminationComponent>) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.minDate.setDate(this.minDate.getDate() + 1);
     this.dateTimeTypeForm = new FormGroup({
       date: new FormControl(null, [Validators.required]),
@@ -48,19 +47,18 @@ export class AddPredefinedExaminationComponent implements OnInit {
     this.getExaminationTypes();
   }
 
-  getExaminationTypes() {
+  getExaminationTypes(): void {
     this.examinationTypeService.getExaminationTypesForAdmin().subscribe(data => {
       this.examinationTypes = data;
     })
   }
 
-  getDoctors() {
-
-    var examinationType = this.dateTimeTypeForm.value.examinationType;
+  getDoctors(): void {
+    const examinationType = this.dateTimeTypeForm.value.examinationType;
     if (this.dateTimeTypeForm.value.date && this.dateTimeTypeForm.value.timeFrom && this.dateTimeTypeForm.value.timeTo) {
-      var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
-      var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
-      var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
+      const date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
+      const startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
+      const endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
       this.doctorService.getAllAvailableDoctors(examinationType.id, startDateTime, endDateTime).subscribe((data: Doctor[]) => {
         this.doctors = data;
       })
@@ -70,9 +68,9 @@ export class AddPredefinedExaminationComponent implements OnInit {
 
   }
 
-  getRooms() {
+  getRooms(): void {
     if (this.dateTimeTypeForm.value.date && this.dateTimeTypeForm.value.timeFrom && this.dateTimeTypeForm.value.timeTo) {
-      var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US');
+      var date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US');
       var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
       var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
       this.roomService.getAvailableExaminationRooms(startDateTime, endDateTime).subscribe((data: Room[]) => {
@@ -83,7 +81,8 @@ export class AddPredefinedExaminationComponent implements OnInit {
     }
 
   }
-  next() {
+
+  next(): void {
     if (!(this.dateTimeTypeForm.value.timeFrom || this.dateTimeTypeForm.value.timeTo)) {
       this.timeError = true;
       return;
@@ -98,19 +97,19 @@ export class AddPredefinedExaminationComponent implements OnInit {
     this.getRooms();
   }
 
-  create() {
+  create(): void {
     if (this.addPredefinedExaminationForm.invalid || this.dateTimeTypeForm.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Create predefined examination');
+      this.toastr.error('Please enter a valid data.', 'Create predefined examination');
       return;
     }
     if (this.dateTimeTypeForm.value.timeFrom >= this.dateTimeTypeForm.value.timeTo) {
-      this.toastr.error("Starting time must be before ending time.", 'Create predefined examination');
+      this.toastr.error('Starting time must be before ending time.', 'Create predefined examination');
       return;
     }
 
-    var date = formatDate(this.dateTimeTypeForm.value.date, "yyyy-MM-dd", 'en-US')
-    var startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
-    var endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
+    const date = formatDate(this.dateTimeTypeForm.value.date, 'yyyy-MM-dd', 'en-US')
+    const startDateTime = date + " " + this.dateTimeTypeForm.value.timeFrom;
+    const endDateTime = date + " " + this.dateTimeTypeForm.value.timeTo;
 
     const predefinedExamination = new PredefinedExamination(startDateTime, endDateTime, this.dateTimeTypeForm.value.examinationType,
       this.addPredefinedExaminationForm.value.doctor, this.addPredefinedExaminationForm.value.room.id, this.addPredefinedExaminationForm.value.discount);
@@ -120,11 +119,11 @@ export class AddPredefinedExaminationComponent implements OnInit {
         this.addPredefinedExaminationForm.reset();
         this.dateTimeTypeForm.reset();
         this.dialogRef.close();
-        this.toastr.success("Successfully created a new predefined examination.", 'Create predefined examination');
+        this.toastr.success('Successfully created a new predefined examination.', 'Create predefined examination');
         this.examinationService.successCreatedPredefinedExamination.next(predefinedExamination);
       },
       message => {
-        this.toastr.error("Error during creation of predefined examination.", 'Create predefined examination');
+        this.toastr.error('Error during creation of predefined examination.', 'Create predefined examination');
       }
     );
   }
