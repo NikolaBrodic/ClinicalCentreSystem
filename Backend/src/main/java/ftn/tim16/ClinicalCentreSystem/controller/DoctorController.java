@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -112,5 +114,27 @@ public class DoctorController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(doctor, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/is-available")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> isAvailable(@RequestParam(value = "doctorId", required = true) String id,
+                                               @RequestParam(value = "startTime") String searchStartTime,
+                                               @RequestParam(value = "endTime") String searchEndTime) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            Long doctorId = Long.parseLong(id);
+            boolean isAvailable = doctorService.isAvailable(doctorService.getDoctor(doctorId), LocalDateTime.parse(searchStartTime, formatter),
+                    LocalDateTime.parse(searchEndTime, formatter));
+            return new ResponseEntity<>(isAvailable, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (NumberFormatException num) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

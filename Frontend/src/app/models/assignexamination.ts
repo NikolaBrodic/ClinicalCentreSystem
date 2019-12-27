@@ -1,5 +1,4 @@
-import { Room } from './room';
-import { DateTimeInterval } from './dateTimeInterval';
+
 import { Doctor } from './doctor';
 
 export class AssignExaminationDTO {

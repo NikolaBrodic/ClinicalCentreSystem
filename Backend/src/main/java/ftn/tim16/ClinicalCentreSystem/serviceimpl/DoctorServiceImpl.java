@@ -66,7 +66,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-
+        if (doctor == null) {
+            return false;
+        }
         if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }

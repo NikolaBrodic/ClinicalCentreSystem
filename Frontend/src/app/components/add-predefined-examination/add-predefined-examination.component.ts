@@ -85,12 +85,10 @@ export class AddPredefinedExaminationComponent implements OnInit {
   next(): void {
     if (!(this.dateTimeTypeForm.value.timeFrom || this.dateTimeTypeForm.value.timeTo)) {
       this.timeError = true;
-      return;
     }
 
     if (this.dateTimeTypeForm.value.timeFrom >= this.dateTimeTypeForm.value.timeTo) {
       this.timeError = true;
-      return;
     }
 
     this.getDoctors();

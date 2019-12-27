@@ -22,19 +22,19 @@ export class RoomService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public create(room: Room) {
+  public create(room: Room): any {
     return this.httpClient.post(this.url, room);
   }
 
-  public edit(room: EditRoom) {
+  public edit(room: EditRoom): any {
     return this.httpClient.put(this.url, room);
   }
 
-  public assignRoom(room: Room, examination: Examination) {
-    return this.httpClient.put(this.url + "/assign", new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString()));
+  public assignRoom(room: Room, examination: Examination, doctors: Doctor[]): any {
+    return this.httpClient.put(this.url + "/assign", new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString(), doctors));
   }
 
-  public assignRoomWithDoctors(room: Room, examination: Examination, doctors: Doctor[]) {
+  public assignRoomWithDoctors(room: Room, examination: Examination, doctors: Doctor[]): any {
     return this.httpClient.put(this.url + "/assign", new AssignExaminationDTO(examination.id, room.label, room.kind, room.id, room.available.toString(), doctors));
   }
 
@@ -48,7 +48,7 @@ export class RoomService {
     return this.roomsForAdmin.asObservable();
   }
 
-  public getAvailableExaminationRooms(startDateTime: string, endDateTime: string) {
+  public getAvailableExaminationRooms(startDateTime: string, endDateTime: string): any {
     let params = new HttpParams();
     params = params.append('startDateTime', startDateTime);
     params = params.append('endDateTime', endDateTime);
@@ -58,7 +58,7 @@ export class RoomService {
     });
   }
 
-  public getRoomsForAdminPaging(pageIndex, pageSize, sort: MatSort, kind, search, searchDate, searchStartTime, searchEndTime) {
+  public getRoomsForAdminPaging(pageIndex, pageSize, sort: MatSort, kind, search, searchDate, searchStartTime, searchEndTime): any {
     let params = new HttpParams();
     params = params.append('page', pageIndex);
     params = params.append('size', pageSize);
@@ -79,7 +79,7 @@ export class RoomService {
   }
 
 
-  public deleteRoom(id: number) {
+  public deleteRoom(id: number): any {
     return this.httpClient.delete(this.url + '/' + id);
   }
 

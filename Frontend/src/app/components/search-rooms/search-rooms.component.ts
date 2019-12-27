@@ -1,3 +1,5 @@
+import { DoctorService } from 'src/app/services/doctor.service';
+import { Doctor } from 'src/app/models/doctor';
 import { AssignDoctorsComponent } from './../assign-doctors/assign-doctors.component';
 import { element } from 'protractor';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,6 +17,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomsWithNumberOffItmes } from 'src/app/models/roomsWithNumberOffItmes';
 import * as moment from 'moment';
+import { ChooseDoctorComponent } from '../choose-doctor/choose-doctor.component';
 @Component({
   selector: 'app-search-rooms',
   templateUrl: './search-rooms.component.html',
@@ -24,7 +27,7 @@ export class SearchRoomsComponent implements OnInit {
 
   roomsDataSource: MatTableDataSource<Room>;
   displayedColumns: string[] = ['label', 'available', 'assign'];
-  public searchString: string;
+  searchString: string;
   numberOfItem: number;
   searchLabel: string = "";
   searchDate: Date;
@@ -36,8 +39,7 @@ export class SearchRoomsComponent implements OnInit {
   kinds: String[] = ["EXAMINATION", "OPERATION"];
 
   constructor(public dialog: MatDialog,
-    private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService,
-    private examinationService: ExaminationService) { }
+    private roomService: RoomService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService, private doctorService: DoctorService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -87,7 +89,41 @@ export class SearchRoomsComponent implements OnInit {
       this.router.navigate(['/clinical-centre-admin/examination/get-awaiting']);
     }
 
-    this.roomService.assignRoom(element, this.examination).subscribe(
+    if (element.available != this.examination.interval.startDateTime && this.examination.kind === 'EXAMINATION') {
+      const format = 'yyyy-MM-dd HH:mm';
+      const locale = 'en-US';
+
+      const duration = moment.duration(moment(this.examination.interval.endDateTime, 'YYYY-MM-DD HH:mm')
+        .diff(moment(this.examination.interval.startDateTime, 'YYYY-MM-DD HH:mm'))
+      )
+      const endDateTime = moment(element.available, 'YYYY-MM-DD HH:mm').add(duration).format('YYYY-MM-DD HH:mm');
+
+      this.doctorService.isAvailable(this.examination.doctors[0].id, formatDate(element.available.toString(), format, locale),
+        endDateTime).subscribe((responseData: Boolean) => {
+          console.log(responseData);
+          if (!responseData) {
+            this.dialog.open(ChooseDoctorComponent, {
+              data: {
+                choosenRoom: element,
+                choosenExamination: this.examination
+              }
+            });
+          } else {
+            this.assignRoomRequest(element);
+          }
+        },
+          message => {
+            this.toastr.error("Please choose valid start and end time.", 'Assign room');
+          });
+
+    } else {
+      this.assignRoomRequest(element);
+    }
+
+  }
+
+  assignRoomRequest(room: Room) {
+    this.roomService.assignRoom(room, this.examination, this.examination.doctors).subscribe(
       responseData => {
         this.toastr.success("Successfully assigned examination room ", 'Assign room');
         this.router.navigate(['/clinic-admin/examination/get-awaiting']);
@@ -113,15 +149,6 @@ export class SearchRoomsComponent implements OnInit {
   }
 
   searchRooms() {
-    /*if (this.searchDate && (!this.searchTimeStart || !this.searchTimeEnd)) {
-       this.toastr.error("You have to set start and end time", 'Search room');
-       return;
-     }
-       if (this.searchTimeStart >= this.searchTimeEnd) {
-         this.toastr.error("Starting time must be before ending time.", 'Search room');
-         return;
-       }*/
-
     this.getRoomsForAdminPaging(0);
   }
 
