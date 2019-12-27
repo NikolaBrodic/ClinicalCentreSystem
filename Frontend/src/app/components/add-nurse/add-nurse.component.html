@@ -46,13 +46,20 @@
                     <div class="form-full-width-td ml-2">
                         <input matInput type="time" formControlName="workHoursTo">
                     </div>
+
                 </td>
             </tr>
         </table>
-        <mat-error *ngIf="addNurseForm.get('workHoursFrom').errors || addNurseForm.get('workHoursTo').errors"
-            class="work-hours">
+        <mat-error *ngIf="(addNurseForm.get('workHoursFrom').errors && addNurseForm.get('workHoursFrom').errors['required']) || 
+            (addNurseForm.get('workHoursTo').errors && addNurseForm.get('workHoursTo').errors['required']) ">
             Work hours are required to fill in.
         </mat-error>
+
+        <mat-error
+            *ngIf="addNurseForm.get('workHoursTo').errors && addNurseForm.get('workHoursTo').errors['timeError']">
+            Starting work hours must be before ending work hours.
+        </mat-error>
+
         <mat-form-field class="form-full-width mt-3">
             <input matInput placeholder="Phone number" formControlName="phoneNumber">
             <mat-error
