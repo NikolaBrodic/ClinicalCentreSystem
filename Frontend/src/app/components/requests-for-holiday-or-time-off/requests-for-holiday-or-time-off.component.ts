@@ -36,25 +36,25 @@ export class RequestsForHolidayOrTimeOffComponent implements OnInit {
     this.fetchData();
 
     this.rejectingRequestSuccessDoctor = this.timeOffDoctorService.rejectSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )
 
     this.approvingRequestSuccessDoctor = this.timeOffDoctorService.approveSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )
 
     this.rejectingRequestSuccessNurse = this.timeOffNurseService.rejectSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )
 
     this.approvingRequestSuccessNurse = this.timeOffNurseService.approveSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.fetchData();
       }
     )

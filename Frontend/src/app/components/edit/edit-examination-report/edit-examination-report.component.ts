@@ -23,7 +23,6 @@ export class EditExaminationReportComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private examinationReportService: ExaminationReportService,
-    private examinationService: ExaminationService,
     private diagnoseService: DiagnoseService, public dialogRef: MatDialogRef<EditExaminationReportComponent>,
     @Inject(MAT_DIALOG_DATA) public choosenExaminationReport: ExaminationReportForTable
   ) { }
@@ -70,8 +69,8 @@ export class EditExaminationReportComponent implements OnInit {
         this.dialogRef.close();
         this.examinationReportService.editSuccessEmitter.next(examinationReport);
       },
-      message => {
-        if (message.status == 400) {
+      (message) => {
+        if (message.status === 400) {
           this.toastr.error("Examination report was made by another doctor, so you are not allowed to change it.", 'Edit examination report');
         } else {
           this.toastr.error("Examination report couldn't be edited. Please check entered data.", 'Edit examination report');
@@ -90,7 +89,7 @@ export class EditExaminationReportComponent implements OnInit {
 
   selectDiagnose() {
     this.diagnosis.forEach((element: Diagnose) => {
-      if (element.id == this.choosenExaminationReport.diagnose.id) {
+      if (element.id === this.choosenExaminationReport.diagnose.id) {
         this.editExaminationReportForm.controls['diagnosisList'].setValue(element);
       }
     });

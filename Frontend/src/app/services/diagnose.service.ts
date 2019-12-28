@@ -19,10 +19,7 @@ export class DiagnoseService {
   public getAllDiagnosis(): Observable<Diagnose[]> {
     this.httpClient.get(this.url + "/all").subscribe((data: Diagnose[]) => {
       this.diagnosis.next(data)
-    },
-      (error: HttpErrorResponse) => {
-
-      });
+    });
     return this.diagnosis.asObservable();
   }
 

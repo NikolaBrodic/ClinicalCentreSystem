@@ -55,13 +55,13 @@ export class AddClinicComponent implements OnInit {
     const clinic = new Clinic(this.addClinicForm.value.name, this.addClinicForm.value.address, this.addClinicForm.value.description, this.addClinicForm.value.id);
 
     this.clinicService.add(clinic).subscribe(
-      responseData => {
+      () => {
         this.addClinicForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully added a new clinic.", "Add clinic");
         this.clinicService.addSuccessEmitter.next(clinic);
       },
-      errorMessage => {
+      () => {
         this.toastr.error("Clinic with the same name or address already exists.", "Add clinic");
       }
     );

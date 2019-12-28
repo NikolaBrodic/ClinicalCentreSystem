@@ -32,11 +32,11 @@ export class EditExaminationTypeComponent implements OnInit {
 
   edit() {
     if (this.ediExaminationTypeForm.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Edit examination type');
+      this.toastr.error('Please enter a valid data. ', 'Edit examination type');
       return;
     }
     if (!this.selectedExaminationType) {
-      this.toastr.error("Please choose a examination type.", 'Edit examination type');
+      this.toastr.error('Please choose a examination type. ', 'Edit examination type');
       this.dialogRef.close();
       return;
     }
@@ -46,11 +46,11 @@ export class EditExaminationTypeComponent implements OnInit {
       (responseData: ExaminationType) => {
         this.ediExaminationTypeForm.reset();
         this.dialogRef.close();
-        this.toastr.success("Successfully changed examination type.", 'Edit examination type');
+        this.toastr.success('Successfully changed examination type. ', 'Edit examination type');
         this.examinationTypeService.updateSuccessEmitter.next(responseData);
       },
-      message => {
-        this.toastr.error("You can not edit this examination type because this examination type is specialization of some doctor or type of some examination  or examination type with same label already exist. ",
+      () => {
+        this.toastr.error('You can not edit this examination type because this examination type is specialization of some doctor or type of some examination  or examination type with same label already exist.  ',
           'Edit examination type');
         this.dialogRef.close();
       }

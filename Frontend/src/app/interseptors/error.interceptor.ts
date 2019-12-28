@@ -10,7 +10,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     constructor(private userService: UserService, private router: Router, private dialogRef: MatDialog) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
+        return next.handle(request).pipe(catchError((err) => {
             if (err.status === 401) {
                 this.dialogRef.closeAll();
                 localStorage.removeItem('LoggedInUser');

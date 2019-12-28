@@ -34,7 +34,7 @@ export class PriceListComponent implements OnInit {
   ngOnInit() {
 
     this.successEditedType = this.examinationTypeService.updatePriceSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.search();
       }
     );

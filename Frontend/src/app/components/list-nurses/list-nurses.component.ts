@@ -1,5 +1,4 @@
 import { environment } from './../../../environments/environment';
-
 import { NurseService } from './../../services/nurse.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
@@ -19,8 +18,7 @@ export class ListNursesComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'email', 'phoneNumber', 'workhours'];
   numberOfItems: number;
   itemsPerPage = environment.itemsPerPage;
-
-  private addNurseSuccess: Subscription;
+  addNurseSuccess: Subscription;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -31,7 +29,7 @@ export class ListNursesComponent implements OnInit {
     this.getNursesInClinic(0, this.itemsPerPage, null);
 
     this.addNurseSuccess = this.nurseService.addSuccessEmitter.subscribe(
-      data => {
+      (data) => {
         this.getNursesInClinic(this.paginator.pageIndex, this.paginator.pageSize, this.sort);
       }
     )

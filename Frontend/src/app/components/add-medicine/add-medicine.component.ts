@@ -36,13 +36,13 @@ export class AddMedicineComponent implements OnInit {
     const medicine = new Medicine(this.addMedicineForm.value.label, this.addMedicineForm.value.chemicalComposition, this.addMedicineForm.value.usage);
 
     this.medicineService.add(medicine).subscribe(
-      responseData => {
+      () => {
         this.addMedicineForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully added a new medicine.", "Add medicine");
         this.medicineService.addSuccessEmitter.next(medicine);
       },
-      errorMessage => {
+      () => {
         this.toastr.error("Medicine with the same label already exists.", "Add medicine");
       }
     );

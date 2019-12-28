@@ -17,7 +17,7 @@ export class ExaminationReportForTable {
         this.comment = examinationReport.comment;
         this.diagnose = examinationReport.diagnose;
         if (examinationReport.prescriptions) {
-            this.medicines = examinationReport.prescriptions.map(prescription => prescription.medicine);
+            this.medicines = examinationReport.prescriptions.map((prescription) => prescription.medicine);
         }
         this.doctor = examinationReport.doctor;
     }

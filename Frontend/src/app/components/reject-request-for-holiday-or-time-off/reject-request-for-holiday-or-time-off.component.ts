@@ -39,7 +39,7 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
 
     if (this.data.for === 'Doctor') {
       this.timeOffDoctorService.reject(id, reason).subscribe(
-        responseData => {
+        () => {
           this.rejectRequestForm.reset();
           this.dialogRef.close();
           this.toastr.success(
@@ -48,13 +48,13 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
           );
           this.timeOffDoctorService.rejectSuccessEmitter.next(reason);
         },
-        errorMessage => {
+        () => {
           this.toastr.error("Request for holiday/time off can't be rejected.", "Reject request for holiday/time off");
         }
       )
     } else {
       this.timeOffNurseService.reject(id, reason).subscribe(
-        responseData => {
+        () => {
           this.rejectRequestForm.reset();
           this.dialogRef.close();
           this.toastr.success(
@@ -63,7 +63,7 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
           );
           this.timeOffNurseService.rejectSuccessEmitter.next(reason);
         },
-        errorMessage => {
+        () => {
           this.toastr.error("Request for holiday/time off can't be rejected.", "Reject request for holiday/time off");
         }
       )

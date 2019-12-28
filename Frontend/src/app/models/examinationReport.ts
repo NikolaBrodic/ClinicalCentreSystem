@@ -12,7 +12,7 @@ export class ExaminationReport {
         this.comment = comment;
         this.diagnoseId = diagnose.id;
         if (medicines) {
-            this.medicineIds = medicines.map(medicine => medicine.id);
+            this.medicineIds = medicines.map((medicine) => medicine.id);
         }
     }
 }

@@ -41,8 +41,8 @@ export class EditPersonalInformationNurseComponent implements OnInit {
           }
         );
       },
-      message => {
-        //this.userService.logout();
+      () => {
+        this.userService.logout();
       }
     );
 
@@ -62,10 +62,10 @@ export class EditPersonalInformationNurseComponent implements OnInit {
       this.loggedInNurse.id);
 
     this.nurseService.put(nurse).subscribe(
-      responseData => {
+      () => {
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
-      message => {
+      () => {
         this.toastr.error("You can not change work hours because you have scheduled examinations.", 'Edit personal information');
       }
     );

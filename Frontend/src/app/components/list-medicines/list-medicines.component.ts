@@ -47,7 +47,7 @@ export class ListMedicinesComponent implements OnInit {
   }
 
   fetchData() {
-    this.medicineService.getAllMedicines().subscribe(data => {
+    this.medicineService.getAllMedicines().subscribe((data) => {
       this.medicinesDataSource = new MatTableDataSource(data);
       this.medicinesDataSource.sort = this.sort;
     })

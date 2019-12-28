@@ -448,7 +448,7 @@ insert into examining (examination_id,doctor_id) values (31,8);
 insert into examining (examination_id,doctor_id) values (31,9);
 */
 /* This shouldn't be displayed in calendar */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('09.12.2019 09:00','09.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,nurse_id)
  values ('EXAMINATION',25,'CANCELED',1,1,1,14,9);
@@ -457,21 +457,21 @@ insert into examining (examination_id,doctor_id) values (29,7);
 insert into date_time_interval (start_date_time, end_date_time) values ('25.11.2019 09:00','27.11.2019 10:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 7, 26);
-
+*/
 /* This shouldn't be displayed in calendar */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('30.11.2019 09:00','05.12.2019 17:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('REJECTED', 'HOLIDAY', 7, 27);
-
+*/
  /* Doctor should be able to request holiday/time off if the examination on that time was canceled */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 09:00','15.11.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('APPROVED', 'TIME_OFF', 7, 28);
-
+*/
 /* This shouldn't be displayed in calendar */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_doctor (status, type, doctor_id, interval_id)
  values ('REJECTED', 'TIME_OFF', 7, 29);
@@ -479,25 +479,26 @@ insert into time_off_doctor (status, type, doctor_id, interval_id)
  insert into date_time_interval (start_date_time, end_date_time) values ('24.11.2019 09:30','26.11.2019 13:30');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'HOLIDAY', 9, 30);
-
+*/
 /* This shouldn't be displayed in calendar */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('30.11.2019 09:00','05.12.2019 17:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('REJECTED', 'HOLIDAY', 9, 31);
-
+*/
  /* Nurse should be able to request holiday/time off if the examination on that time was canceled */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('11.11.2019 12:00','11.11.2019 16:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('APPROVED', 'TIME_OFF', 9, 32);
-
+*/
 /* This shouldn't be displayed in calendar */
-
+/*
 insert into date_time_interval (start_date_time, end_date_time) values ('20.11.2019 09:00','20.11.2019 11:00');
 insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECTED', 'TIME_OFF', 7, 33);
 
-
+*/
+/*
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
   'bronchodilators (LABAs) are used in the treatment of asthma.');
@@ -533,7 +534,7 @@ insert into medicine (label, chemical_composition, "usage") values ('Metformin',
 insert into medicine (label, chemical_composition, "usage") values ('Azithromycin', 'amet, mauris, commodo, quis, imperdiet',
  'Azithromycin is an antibiotic used for treating ear, throat, and sinus infections as well as pneumonia, bronchitis, and some sexually ' ||
  'transmitted diseases. Its common side effects include loose stools, nausea, stomach pain, and vomiting. ');
-
+*/
 
 /*
 insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)

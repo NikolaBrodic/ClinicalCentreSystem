@@ -22,7 +22,6 @@ export class AddExaminationTypeComponent implements OnInit {
       label: new FormControl(null, [Validators.required, Validators.maxLength(30)]),
       price: new FormControl(null, [Validators.required, Validators.min(1)])
     });
-
   }
 
   create() {
@@ -33,13 +32,13 @@ export class AddExaminationTypeComponent implements OnInit {
     const examinationType = new ExaminationType(this.addExaminationTypeForm.value.label, this.addExaminationTypeForm.value.price);
 
     this.examinationTypeService.create(examinationType).subscribe(
-      responseData => {
+      () => {
         this.addExaminationTypeForm.reset();
         this.dialogRef.close();
         this.toastr.success("Successfully created a new examination type.", 'Add examination type');
         this.examinationTypeService.createSuccessEmitter.next(examinationType);
       },
-      message => {
+      () => {
         this.toastr.error("Examination type with same label aready exist.", 'Add examination type');
       }
     );

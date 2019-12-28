@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
-
 @Component({
   selector: 'app-list-clinical-centre-admins',
   templateUrl: './list-clinical-centre-admins.component.html',
@@ -16,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class ListClinicalCentreAdminsComponent implements OnInit {
   clinicalCentreAdminsDataSource: MatTableDataSource<ClinicalCentreAdmin>;
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'phoneNumber'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'phoneNumber'];
   itemsPerPage = environment.itemsPerPage;
   addClinicalCentreAdminSuccess: Subscription;
 
@@ -39,7 +38,7 @@ export class ListClinicalCentreAdminsComponent implements OnInit {
   }
 
   fetchData() {
-    this.clinicalCentreAdminService.getAllClinicalCentreAdmins().subscribe(data => {
+    this.clinicalCentreAdminService.getAllClinicalCentreAdmins().subscribe((data) => {
       this.clinicalCentreAdminsDataSource = new MatTableDataSource(data);
       this.clinicalCentreAdminsDataSource.paginator = this.paginator;
       this.clinicalCentreAdminsDataSource.sort = this.sort;

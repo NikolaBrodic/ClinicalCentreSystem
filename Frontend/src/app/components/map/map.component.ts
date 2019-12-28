@@ -6,25 +6,24 @@ import { ClinicService } from 'src/app/services/clinic.service';
 import { Clinic } from 'src/app/models/clinic';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { Subscription } from 'rxjs';
-var map;
-var mark: L.Marker;
-var deletedFirst = true;
-var selectedClinic: Clinic;
-var service: ClinicService;
-declare var require: any
-var convert = require('cyrillic-to-latin')
+
+let map;
+let mark: L.Marker;
+let deletedFirst = true;
+let selectedClinic: Clinic;
+let service: ClinicService;
+declare let require;
+const convert = require('cyrillic-to-latin');
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit, OnInit {
-
   provider = new OpenStreetMapProvider();
   searchControl = new GeoSearchControl({
     provider: this.provider,
   });
-  query_promise: any;
   editClinic: Subscription;
   addClinic: Subscription;
 
@@ -32,14 +31,14 @@ export class MapComponent implements AfterViewInit, OnInit {
     service = clinicService;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.userService.isClinicAdmin()) {
       this.clinicService.getClinicInWhichClinicAdminWorks().subscribe((data: Clinic) => {
         selectedClinic = data;
         this.clinicService.get(selectedClinic.address).subscribe((data) => {
           if (!isUndefined(data) && data && !isUndefined(data[0])) {
             map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 20);
-            var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
+            const latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
             mark = new L.Marker(latlng, { draggable: false });
             map.addLayer(mark);
             deletedFirst = false;
@@ -48,7 +47,7 @@ export class MapComponent implements AfterViewInit, OnInit {
         });
       });
     } else {
-      selectedClinic = new Clinic("", "", "");
+      selectedClinic = new Clinic('', '', '');
     }
 
     this.editClinic = this.clinicService.editClinicEmitter.subscribe(
@@ -64,18 +63,18 @@ export class MapComponent implements AfterViewInit, OnInit {
     );
   }
 
-  markAddress(address: string) {
+  markAddress(address: string): void {
     this.clinicService.get(address).subscribe((data) => {
-      var i = 0;
+      let i = 0;
       map.eachLayer(function (layer) {
-        if (i == 2) {
+        if (i === 2) {
           map.removeLayer(layer);
         }
         i++;
       });
       deletedFirst = false;
       map.setView(new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon)), 17);
-      var latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
+      const latlng = new L.LatLng(Number.parseFloat(data[0].lat), Number.parseFloat(data[0].lon));
       mark = new L.Marker(latlng, { draggable: false });
       map.addLayer(mark);
     });
@@ -92,7 +91,7 @@ export class MapComponent implements AfterViewInit, OnInit {
     });
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
     });
 
     tiles.addTo(map);
@@ -103,7 +102,7 @@ export class MapComponent implements AfterViewInit, OnInit {
       showPopup: false,
       marker: {
         icon: new L.Icon.Default(),
-        draggable: false,
+        draggable: false
       },
       popupFormat: ({ query, result }) => result.label,
       maxMarkers: 1,
@@ -114,12 +113,11 @@ export class MapComponent implements AfterViewInit, OnInit {
       keepResult: true
     }).addTo(map);
 
-    map.on('geosearch/showlocation', function (e: any) {
-
+    map.on('geosearch/showlocation', function (e) {
       if (!deletedFirst) {
-        var i = 0;
+        let i = 0;
         map.eachLayer(function (layer) {
-          if (i == 2) {
+          if (i === 2) {
             map.removeLayer(layer);
           }
           i++;
@@ -130,9 +128,5 @@ export class MapComponent implements AfterViewInit, OnInit {
       service.searchAddressClinicEmitter.next(selectedClinic);
       service.addSearchAddressClinicEmitter.next(selectedClinic);
     });
-
   }
-
-
-
 }

@@ -29,7 +29,6 @@ export class BusinessReportComponent implements OnInit {
 
     this.getAllDoctorsForAdmin();
     this.getClinicRating();
-
   }
 
 
@@ -47,26 +46,26 @@ export class BusinessReportComponent implements OnInit {
     } else {
       this.doctorRaiting = this.selectedDoctor.doctorRating;
     }
-    console.log(this.doctorRaiting);
   }
 
   search() {
     if (!(this.startDate || this.endDate)) {
-      this.toastr.error("Please choose start and end date", 'Business report');
+      this.toastr.error('Please choose start and end date', 'Business report');
       return;
     }
 
     if (this.startDate >= this.endDate) {
-      this.toastr.error("Start date must be before end date.", 'Business report');
+      this.toastr.error('Start date must be before end date.', 'Business report');
       return;
     }
-    this.clinicService.getClinicRevenue(formatDate(this.startDate.toString(), "yyyy-MM-dd", 'en-US'), formatDate(this.endDate.toString(), "yyyy-MM-dd", 'en-US')).subscribe((data: Number) => {
-      this.clinicRevenue = data;
-    },
-      message => {
-        this.toastr.error("Clinic revenue is not defined.", 'Business report');
-      }
-    );
+    this.clinicService.getClinicRevenue(formatDate(this.startDate.toString(), 'yyyy-MM-dd', 'en-US'), formatDate(this.endDate.toString(), 'yyyy-MM-dd', 'en-US'))
+      .subscribe((data: Number) => {
+        this.clinicRevenue = data;
+      },
+        () => {
+          this.toastr.error('Clinic revenue is not defined.', 'Business report');
+        }
+      );
   }
 
   getClinicRating() {
@@ -76,15 +75,11 @@ export class BusinessReportComponent implements OnInit {
       } else {
         this.clinicRating = data;
       }
-      console.log(this.clinicRating);
 
     },
-      message => {
-        this.toastr.error("Clinic raiting is not defined.", 'Business report');
+      () => {
+        this.toastr.error('Clinic raiting is not defined.', 'Business report');
       }
     );
   }
-
-
-
 }

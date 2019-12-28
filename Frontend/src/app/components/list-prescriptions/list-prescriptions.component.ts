@@ -24,7 +24,7 @@ export class ListPrescriptionsComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private prescriptionService: PrescriptionService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchData();
 
     this.stampPrescriptionSuccess = this.prescriptionService.stampPrescriptionSuccesEmitter.subscribe(
@@ -34,25 +34,25 @@ export class ListPrescriptionsComponent implements OnInit {
     )
   }
 
-  fetchData() {
-    this.prescriptionService.getUnstampedPrescriptions().subscribe(data => {
+  fetchData(): void {
+    this.prescriptionService.getUnstampedPrescriptions().subscribe((data) => {
       this.prescriptionsDataSource = new MatTableDataSource(data);
       this.prescriptionsDataSource.paginator = this.paginator;
       this.prescriptionsDataSource.sort = this.sort;
     })
   }
 
-  stampPrescription(prescription: Prescription) {
+  stampPrescription(prescription: Prescription): void {
     this.prescriptionService.stamp(prescription).subscribe(
       () => {
         this.toastr.success(
-          "Prescription successfully stamped.",
+          'Prescription successfully stamped. ',
           'Stamp prescription'
         );
         this.prescriptionService.stampPrescriptionSuccesEmitter.next();
       },
       () => {
-        this.toastr.error("Prescription has been already stamped.", 'Stamp prescription');
+        this.toastr.error('Prescription has been already stamped. ', 'Stamp prescription');
       }
     )
   }

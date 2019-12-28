@@ -85,7 +85,7 @@ public class RoomController {
         }
         try {
             RoomPagingDTO roomPagingDTO = roomService.
-                    findAllRoomsInClinic(kind, clinicAdministrator.getClinic(), page, searchLabel, searchDate, searchStartTime, searchEndTime);
+                    searchRoomsInClinic(kind, clinicAdministrator.getClinic(), page, searchLabel, searchDate, searchStartTime, searchEndTime);
             if (roomPagingDTO == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

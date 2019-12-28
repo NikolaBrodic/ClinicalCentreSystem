@@ -2,11 +2,8 @@ import { LoggedInUser } from './../models/loggedInUser';
 import { UserService } from './../services/user.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
-
 @Injectable({ providedIn: 'root' })
 export class AdminsGuard implements CanActivate {
-
     loggedInUser: LoggedInUser;
 
     constructor(
@@ -19,9 +16,9 @@ export class AdminsGuard implements CanActivate {
         this.loggedInUser = this.userService.getLoggedInUser();
 
         if (this.loggedInUser) {
-            if (this.loggedInUser.role === "CLINIC_ADMIN") {
+            if (this.loggedInUser.role === 'CLINIC_ADMIN ') {
                 return true;
-            } else if (this.loggedInUser.role === "CLINICAL_CENTRE_ADMIN") {
+            } else if (this.loggedInUser.role === 'CLINICAL_CENTRE_ADMIN ') {
                 return true;
             }
             else {

@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class EditRoomComponent implements OnInit {
   editRoomForm: FormGroup;
-  kinds: string[] = ['EXAMINATION', 'OPERATION'];
+  kinds = ['EXAMINATION', 'OPERATION'];
 
   constructor(private toastr: ToastrService, private roomService: RoomService,
     public dialogRef: MatDialogRef<EditRoomComponent>,
@@ -35,7 +35,7 @@ export class EditRoomComponent implements OnInit {
 
   edit() {
     if (this.editRoomForm.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Edit room');
+      this.toastr.error('Please enter a valid data. ', 'Edit room');
       return;
     }
 
@@ -45,11 +45,11 @@ export class EditRoomComponent implements OnInit {
       (responseData: Room) => {
         this.editRoomForm.reset();
         this.dialogRef.close();
-        this.toastr.success("Successfully changed a room.", 'Edit room');
+        this.toastr.success('Successfully changed a room. ', 'Edit room');
         this.roomService.createSuccessEmitter.next(responseData);
       },
-      message => {
-        this.toastr.error("You can not edit this room because this room is reserved for some examination or room with same label already exist.",
+      () => {
+        this.toastr.error('You can not edit this room because this room is reserved for some examination or room with same label already exist. ',
           'Edit room ');
         this.dialogRef.close();
       }

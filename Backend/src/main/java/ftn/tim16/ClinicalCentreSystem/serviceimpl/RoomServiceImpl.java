@@ -94,12 +94,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomPagingDTO findAllRoomsInClinic(String kind, Clinic clinic, Pageable page, String search, String date,
-                                              String searchStartTime, String searchEndTime) throws DateTimeParseException {
+    public RoomPagingDTO searchRoomsInClinic(String kind, Clinic clinic, Pageable page, String search, String date,
+                                             String searchStartTime, String searchEndTime) throws DateTimeParseException {
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
             return new RoomPagingDTO(convertToDTO(
-                    roomRepository.findByClinicIdAndStatus(clinic.getId(), LogicalStatus.EXISTING, page).getContent()),
+                    roomRepository.findByClinicIdAndStatusAndLabelContainsIgnoringCase(clinic.getId(), LogicalStatus.EXISTING, search, page).getContent()),
                     findAllRoomsInClinic(clinic).size());
         }
 
@@ -188,7 +188,6 @@ public class RoomServiceImpl implements RoomService {
         List<RoomDTO> available = new ArrayList<>();
         long duration = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
         for (Room currentRoom : roomsInClinicAll) {
-            // TODO: Check if exists at least one doctor
             List<Examination> examinations = examinationService.getExaminationsAfter(currentRoom.getId(), endDateTime);
             if (examinations.isEmpty()) {
                 LocalDateTime newEndExamination = endDateTime.plusSeconds(duration);

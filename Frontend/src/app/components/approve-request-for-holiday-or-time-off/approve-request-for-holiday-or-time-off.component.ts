@@ -9,7 +9,7 @@ import { TimeOffNurseService } from 'src/app/services/time-off-nurse.service';
   templateUrl: './approve-request-for-holiday-or-time-off.component.html',
   styleUrls: ['./approve-request-for-holiday-or-time-off.component.css']
 })
-export class ApproveRequestForHolidayOrTimeOffComponent implements OnInit {
+export class ApproveRequestForHolidayOrTimeOffComponent {
 
   constructor(
     private toastr: ToastrService,
@@ -18,38 +18,36 @@ export class ApproveRequestForHolidayOrTimeOffComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  ngOnInit() {
-  }
 
   approve() {
     const request = this.data.requestForHolidayOrTimeOff;
 
     if (this.data.for === 'Doctor') {
       this.timeOffDoctorService.approve(request).subscribe(
-        responseData => {
+        () => {
           this.dialogRef.close();
           this.toastr.success(
-            "Request for holiday/time off is approved. Doctor will be notified.",
-            "Approve request"
+            'Request for holiday/time off is approved. Doctor will be notified.',
+            'Approve request'
           );
           this.timeOffDoctorService.approveSuccessEmitter.next();
         },
-        errorMessage => {
-          this.toastr.error("Request for holiday/time off can't be aproved.", "Approve request");
+        () => {
+          this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
         }
       )
     } else {
       this.timeOffNurseService.approve(request).subscribe(
-        responseData => {
+        () => {
           this.dialogRef.close();
           this.toastr.success(
-            "Request for holiday/time off is approved. Nurse will be notified.",
-            "Approve request"
+            'Request for holiday/time off is approved. Nurse will be notified.',
+            'Approve request'
           );
           this.timeOffNurseService.approveSuccessEmitter.next();
         },
-        errorMessage => {
-          this.toastr.error("Request for holiday/time off can't be aproved.", "Approve request");
+        () => {
+          this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
         }
       )
     }

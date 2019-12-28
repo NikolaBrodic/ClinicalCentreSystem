@@ -118,13 +118,13 @@ export class ExaminationComponent implements OnInit {
     }
 
     this.examinationReportService.create(this.selectedExamination.id, examinationReport).subscribe(
-      responseData => {
+      () => {
         this.toastr.success("Successfully created an examination report.", 'Create examination report');
         this.router.navigate(['/medical-staff/work-calendar']);
         this.examinationReportService.createSuccessEmitter.next(examinationReport);
       },
-      message => {
-        if (message.status == 406) {
+      (message) => {
+        if (message.status === 406) {
           this.toastr.error("Examination report for this examination is already made.", 'Create examination report');
         } else {
           this.toastr.error("Examination report couldn't be made. Please check entered data.", 'Create examination report');
@@ -168,11 +168,11 @@ export class ExaminationComponent implements OnInit {
     );
 
     this.medicalRecordService.edit(this.selectedExamination.id, editedMedicalRecord).subscribe(
-      responseData => {
+      () => {
         this.toastr.success("Successfully edited patient's medical record information.", 'Edit medical record');
         this.medicalRecordService.editSuccessEmitter.next(editedMedicalRecord);
       },
-      message => {
+      () => {
         this.toastr.error("Medical information couldn't be changed. Please check entered data.", 'Edit medical record');
       }
     );

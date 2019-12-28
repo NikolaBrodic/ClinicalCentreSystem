@@ -87,7 +87,7 @@ export class CreateRequestForTimeOffComponent implements OnInit {
       return;
     }
 
-    if (this.createRequestForTimeOffForm.value.dateFrom.valueOf() == this.createRequestForTimeOffForm.value.dateUntil.valueOf()) {
+    if (this.createRequestForTimeOffForm.value.dateFrom.valueOf() === this.createRequestForTimeOffForm.value.dateUntil.valueOf()) {
       if (this.createRequestForTimeOffForm.value.timeFrom >= this.createRequestForTimeOffForm.value.timeUntil) {
         this.dateTimeError = true;
         return;
