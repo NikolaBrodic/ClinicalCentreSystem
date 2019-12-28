@@ -29,8 +29,6 @@ import java.util.*;
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
-    public static final int NUM_OF_DOCTORS = 3;
-
     @Autowired
     private RoomRepository roomRepository;
 
@@ -267,6 +265,7 @@ public class RoomServiceImpl implements RoomService {
 
         RoomDTO roomDTO = new RoomDTO(examination.getRoomId(), examination.getLabel(), examination.getKind(),
                 getLocalDateTime(examination.getAvailable()));
+
         if (selectedExamination.getKind() == ExaminationKind.EXAMINATION) {
             DoctorDTO doctorDTO = null;
             if (examination.getDoctors() != null && !examination.getDoctors().isEmpty()) {
@@ -278,11 +277,15 @@ public class RoomServiceImpl implements RoomService {
             }
             return new RoomWithIdDTO(assignedRoom);
         } else {
+            if (examination.getDoctors().isEmpty()) {
+                return null;
+            }
+
             Set<Doctor> doctors = new HashSet<>();
             for (DoctorDTO doctorDTO : examination.getDoctors()) {
                 doctors.add(doctorService.getDoctor(doctorDTO.getId()));
             }
-            if (doctors.size() != NUM_OF_DOCTORS) {
+            if (doctors.isEmpty()) {
                 return null;
             }
 
@@ -447,7 +450,7 @@ public class RoomServiceImpl implements RoomService {
 
     private void sendMailToAll(Examination examination, Set<Doctor> doctors, Patient patient) {
 
-        if (doctors == null || doctors.size() != NUM_OF_DOCTORS || patient == null) {
+        if (doctors == null || doctors.isEmpty() || patient == null) {
             return;
         }
         String subject = "Notice: Room for the operation has been assigned";
@@ -520,7 +523,7 @@ public class RoomServiceImpl implements RoomService {
                             examination.getInterval().getStartDateTime(), examination.getInterval().getEndDateTime(),
                             examination.getClinic().getId());
 
-                    if (availableDoctors.size() == NUM_OF_DOCTORS) {
+                    if (!availableDoctors.isEmpty()) {
                         assignRoomForOperation(examination.getId(),
                                 availableRoom.get(new Random().nextInt(availableRoom.size())), availableDoctors);
                     }
