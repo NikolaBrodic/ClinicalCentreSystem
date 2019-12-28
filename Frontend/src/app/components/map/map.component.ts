@@ -114,7 +114,6 @@ export class MapComponent implements AfterViewInit, OnInit {
     }).addTo(map);
 
     map.on('geosearch/showlocation', function (e) {
-
       if (!deletedFirst) {
         let i = 0;
         map.eachLayer(function (layer) {
