@@ -499,7 +499,6 @@ insert into time_off_nurse (status, type, nurse_id, interval_id) values ('REJECT
 
 */
 /*
-
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
  'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
   'bronchodilators (LABAs) are used in the treatment of asthma.');
@@ -535,7 +534,7 @@ insert into medicine (label, chemical_composition, "usage") values ('Metformin',
 insert into medicine (label, chemical_composition, "usage") values ('Azithromycin', 'amet, mauris, commodo, quis, imperdiet',
  'Azithromycin is an antibiotic used for treating ear, throat, and sinus infections as well as pneumonia, bronchitis, and some sexually ' ||
  'transmitted diseases. Its common side effects include loose stools, nausea, stomach pain, and vomiting. ');
-
+*/
 
 /*
 insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
