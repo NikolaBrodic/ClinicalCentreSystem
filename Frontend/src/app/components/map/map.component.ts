@@ -13,7 +13,7 @@ let deletedFirst = true;
 let selectedClinic: Clinic;
 let service: ClinicService;
 declare let require;
-let convert = require('cyrillic-to-latin');
+const convert = require('cyrillic-to-latin');
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -65,9 +65,9 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   markAddress(address: string): void {
     this.clinicService.get(address).subscribe((data) => {
-      var i = 0;
+      let i = 0;
       map.eachLayer(function (layer) {
-        if (i == 2) {
+        if (i === 2) {
           map.removeLayer(layer);
         }
         i++;
@@ -113,12 +113,12 @@ export class MapComponent implements AfterViewInit, OnInit {
       keepResult: true
     }).addTo(map);
 
-    map.on('geosearch/showlocation', function (e: any) {
+    map.on('geosearch/showlocation', function (e) {
 
       if (!deletedFirst) {
-        var i = 0;
-        map.eachLayer(function (layer: any) {
-          if (i == 2) {
+        let i = 0;
+        map.eachLayer(function (layer) {
+          if (i === 2) {
             map.removeLayer(layer);
           }
           i++;
