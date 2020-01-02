@@ -1,3 +1,4 @@
+import { PatientFilterClinics } from './../models/patientFilterClinics';
 import { Examination } from './../models/examination';
 import { Router } from '@angular/router';
 import { PatientWithId } from './../models/patientWithId';
@@ -84,9 +85,9 @@ export class PatientService {
     return this.httpClient.get(this.urlPatient + "/forMedicalStaff/" + id);
   }
 
-  public getFilteredClinicsByExamination(examination: Examination): Observable<Clinic[]> {
-    this.httpClient.post(this.urlPatient + "/clinics-filter", examination).subscribe((data: Clinic[]) => {
-      this.filteredClinics.next(data)
+  public getFilteredClinicsByExamination(patientFilterClinics: PatientFilterClinics): Observable<Clinic[]> {
+    this.httpClient.post(this.urlPatient + "/clinics-filter", patientFilterClinics).subscribe((data: Clinic[]) => {
+      this.filteredClinics.next(data);
     },
     (error: HttpErrorResponse) => {
 

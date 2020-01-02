@@ -1,3 +1,4 @@
+import { PatientFilterClinics } from './../../models/patientFilterClinics';
 import { Router } from '@angular/router';
 import { PatientService } from 'src/app/services/patient.service';
 import { DateTimeInterval } from './../../models/dateTimeInterval';
@@ -13,6 +14,8 @@ import { DoctorService } from 'src/app/services/doctor.service';
 import { AddDoctorComponent } from '../add-doctor/add-doctor.component';
 import { ExaminationType } from 'src/app/models/examinationType';
 import { ExaminationTypeService } from 'src/app/services/examination-type.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-patient-clinics',
@@ -23,15 +26,12 @@ export class PatientClinicsComponent implements OnInit {
   
   public patientClinicsDataSource: MatTableDataSource<Clinic>;
   public displayedColumns: string[] = ['options', 'name', 'clinicRating', 'address', 'id'];
-  
-  public examinationDate: DateTime;
-  public examinationType: string;
-  public examinationAddress: string;
-  public examinationMinClinicsRating: number;
-  public examinationMaxPrice: number;
   public selectedRow: string;
+  public firstFormGroup: FormGroup;
+  public secondFormGroup: FormGroup;
 
   private examinationFilter: Examination;
+  private patientFilterClinics: PatientFilterClinics;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -40,10 +40,26 @@ export class PatientClinicsComponent implements OnInit {
     public clinicService: ClinicService,
     public patientService: PatientService,
     public router: Router,
+    private _formBuilder: FormBuilder,
+    private toastr: ToastrService,
     ) { }
 
   ngOnInit() {
     this.getAllClinicsForPatient();
+
+    // Filter clinics
+    this.firstFormGroup = this._formBuilder.group({
+      examinationDateCtrl: ['', Validators.required],
+      examinationTypeCtrl: ['', Validators.required],
+      clinicAddressCtrl: [''],
+      clinicMinRatingCtrl: [''],
+      examinationMaxPriceCtrl: [''],
+    });
+
+    // Filter doctors
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
   
   getAllClinicsForPatient() {
@@ -63,24 +79,30 @@ export class PatientClinicsComponent implements OnInit {
   }
 
   searchPatientClinics() {
-    this.examinationFilter = new Examination(
-      1,
-      null,
-      new DateTimeInterval(null, this.examinationDate, this.examinationDate),
-      null,
-      new ExaminationType(this.examinationType, null),
-      null,
-      null,
-      null,
-      null,
-      null,
-      new Clinic(null, this.examinationAddress, null, null, this.examinationMinClinicsRating, this.examinationMaxPrice)
-    )
-    // console.log(this.examinationFilter.interval.startDateTime);
-    // console.log(this.examinationFilter.examinationType.label);
-    // console.log(this.examinationFilter.clinic.address);
-    // console.log(this.examinationFilter.clinic.clinicRating);
-    // console.log(this.examinationFilter.clinic.price);
+
+    this.patientFilterClinics = new PatientFilterClinics(
+      this.firstFormGroup.get("examinationDateCtrl").value,
+      this.firstFormGroup.get("examinationTypeCtrl").value,
+      this.firstFormGroup.get("clinicAddressCtrl").value,
+      +this.firstFormGroup.get("clinicMinRatingCtrl").value,
+      +this.firstFormGroup.get("examinationMaxPriceCtrl").value,
+    );
+
+    console.log("clinicAddressCtrl " + this.patientFilterClinics.clinicAddress);
+    console.log("clinicMinRatingCtrl " + this.patientFilterClinics.clinicMinRating);
+
+    // If the patient wants to use the search function to filter the clinics, he
+    // must enter the examination date he wants and the examination type. Other
+    // fields are optional.
+    if (!this.patientFilterClinics.examinationDate) {
+      this.toastr.error("You must enter the examination date.", "Error");
+      return;
+    }
+    if (!this.patientFilterClinics.examinationType || this.patientFilterClinics.examinationType == "") {
+      this.toastr.error("You must enter the examination type.", "Error");
+      return;
+    }
+
     this.populateFilteredTable();
   }
 
@@ -103,7 +125,7 @@ export class PatientClinicsComponent implements OnInit {
       }
     }
     */
-    this.patientService.getFilteredClinicsByExamination(this.examinationFilter).subscribe(
+    this.patientService.getFilteredClinicsByExamination(this.patientFilterClinics).subscribe(
       (data) => {
         this.patientClinicsDataSource = new MatTableDataSource(data);
         this.patientClinicsDataSource.sort = this.sort;
@@ -114,7 +136,7 @@ export class PatientClinicsComponent implements OnInit {
     );
   }
 
-  chooseDoctor(item) {
+  chooseDoctor() {
     this.router.navigate(['/patient/choose-doctor']);
   }
 

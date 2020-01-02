@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.*;
-import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
@@ -14,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -139,8 +138,26 @@ public class PatientController {
 
     @PostMapping(value = "/clinics-filter")
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody Examination examination) {
-        List<Clinic> filteredClinics = clinicService.findClinicsByExaminations(examination);
+    public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody PatientFilterClinics patientFilterClinics) {
+
+        // Set the examination date that the patient wants
+//        Examination examination = new Examination();
+////        examination.setInterval(new DateTimeInterval(LocalDateTime.parse(examinationDate), LocalDateTime.parse(examinationDate)));
+//
+//        // Set the examination type for that date
+//        ExaminationType eType = new ExaminationType();
+//        eType.setLabel(examinationType);
+//
+//        // Set the maximum examination price the patient can pay
+//        eType.setPrice(examinationMaxPrice);
+//        examination.setExaminationType(eType);
+
+        List<Clinic> filteredClinics = clinicService.findByAddressContainsIgnoringCaseOrClinicRatingIsGreaterThanEqual(
+                patientFilterClinics.getClinicAddress(), patientFilterClinics.getClinicMinRating());
+        System.out.println("FILTERED CLINICS === " + filteredClinics);
+        if (filteredClinics == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(filteredClinics, HttpStatus.OK);
     }
 
