@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
@@ -26,7 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class RoomServiceImpl implements RoomService {
     @Autowired
@@ -53,6 +54,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public RoomWithIdDTO create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator) {
         if (roomRepository.findByLabelIgnoringCase(roomDTO.getLabel()) != null) {
             return null;
@@ -66,6 +68,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) {
         Room existingRoom = findById(roomDTO.getId());
         if (existingRoom == null) {
@@ -147,6 +150,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public RoomWithIdDTO deleteRoom(Long clinicId, Long roomId) {
         Room room = roomRepository.getByIdAndStatusNot(roomId, LogicalStatus.DELETED);
 
@@ -255,6 +259,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public RoomWithIdDTO assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator) {
         Examination selectedExamination = examinationService.getExamination(examination.getId());
 
@@ -503,6 +508,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void automaticallyAssignRoom() {
         List<Examination> examinations = examinationService.getAwaitingExaminations();
         for (Examination examination : examinations) {
