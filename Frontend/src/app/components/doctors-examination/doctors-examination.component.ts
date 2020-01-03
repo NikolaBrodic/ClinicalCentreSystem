@@ -37,17 +37,17 @@ export class DoctorsExaminationComponent implements OnInit {
 
   cancel(examination: Examination) {
     if (!examination) {
-      this.toastr.error("First you need to chose examination", 'Assign room');
+      this.toastr.error('First you need to chose examination', 'Assign room');
       this.router.navigate(['/clinical-centre-admin/examination/get-awaiting']);
     }
 
     this.examinationService.cancelExamination(examination).subscribe(
-      responseData => {
-        this.toastr.success("Successfully cancel scheduled examinaion ", 'Cancel examination');
+      () => {
+        this.toastr.success('Successfully cancel scheduled examinaion', 'Cancel examination');
         this.getDoctorsExaminations();
       },
-      message => {
-        this.toastr.error("You can cancel scheduled examination/operation only 24 hours before it is going to be held. ",
+      () => {
+        this.toastr.error('You can cancel scheduled examination/operation only 24 hours before it is going to be held.',
           'Error during canceling examination/operation');
       }
     );

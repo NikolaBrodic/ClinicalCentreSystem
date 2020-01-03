@@ -21,6 +21,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -65,7 +66,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public boolean isAvailable(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-
+        if (doctor == null) {
+            return false;
+        }
         if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
@@ -85,6 +88,17 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public boolean canGetTimeOff(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
+            return false;
+        }
+
+        List<Examination> examinations = examinationService.getDoctorExaminationsBetween(doctor.getId(), startDateTime, endDateTime);
+
+        return (examinations == null || examinations.isEmpty());
+    }
+
+    @Override
     public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
         List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {
@@ -93,6 +107,22 @@ public class DoctorServiceImpl implements DoctorService {
             }
         }
         return null;
+    }
+
+    @Override
+    public Set<Doctor> getAvailableDoctors(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
+        Set<Doctor> availableDoctors = new HashSet<>();
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
+        for (Doctor doctor : doctors) {
+            if (isAvailable(doctor, startDateTime, endDateTime)) {
+                availableDoctors.add(doctor);
+            }
+            if (availableDoctors.size() == 2) {
+                break;
+            }
+        }
+
+        return availableDoctors;
     }
 
     @Override

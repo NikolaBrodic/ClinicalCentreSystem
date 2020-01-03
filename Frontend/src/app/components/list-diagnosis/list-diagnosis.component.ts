@@ -49,7 +49,7 @@ export class ListDiagnosisComponent implements OnInit {
   }
 
   fetchData() {
-    this.diagnoseService.getAllDiagnosis().subscribe(data => {
+    this.diagnoseService.getAllDiagnosis().subscribe((data) => {
       this.diagnosisDataSource = new MatTableDataSource(data);
       this.diagnosisDataSource.sort = this.sort;
     })

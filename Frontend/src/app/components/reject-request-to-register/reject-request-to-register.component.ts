@@ -11,25 +11,24 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
   styleUrls: ['./reject-request-to-register.component.css']
 })
 export class RejectRequestToRegisterComponent implements OnInit {
-
   rejectRequestToRegisterForm: FormGroup
 
   constructor(
     private toastr: ToastrService,
     private requestToRegisterService: RequestToRegisterService,
     public dialogRef: MatDialogRef<RejectRequestToRegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.rejectRequestToRegisterForm = new FormGroup({
-      reason: new FormControl(null, Validators.required),
+      reason: new FormControl(null, Validators.required)
     });
   }
 
-  reject() {
+  reject(): void {
     if (this.rejectRequestToRegisterForm.invalid) {
-      this.toastr.error("Please enter an explanation for rejection.", "Reject request to register");
+      this.toastr.error('Please enter an explanation for rejection. ', 'Reject request to register ');
       return;
     }
 
@@ -37,19 +36,18 @@ export class RejectRequestToRegisterComponent implements OnInit {
     const reason = this.rejectRequestToRegisterForm.value.reason;
 
     this.requestToRegisterService.reject(id, reason).subscribe(
-      responseData => {
+      () => {
         this.rejectRequestToRegisterForm.reset();
         this.dialogRef.close();
         this.toastr.success(
-          "Request to register is rejected. Patient will be notified",
-          "Reject request to register"
+          'Request to register is rejected. Patient will be notified ',
+          'Reject request to register '
         );
         this.requestToRegisterService.rejectSuccessEmitter.next(reason);
       },
-      errorMessage => {
-        this.toastr.error("Request to register can't be rejected.", "Reject request to register");
+      () => {
+        this.toastr.error("Request to register can't be rejected. ", 'Reject request to register ');
       }
     )
   }
-
 }

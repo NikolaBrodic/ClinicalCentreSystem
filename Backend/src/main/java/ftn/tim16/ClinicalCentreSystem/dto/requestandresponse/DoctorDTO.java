@@ -23,13 +23,14 @@ public class DoctorDTO {
 
     private String phoneNumber;
 
-    private Integer doctorRating;
+    private Double doctorRating;
 
     public DoctorDTO() {
 
     }
 
-    public DoctorDTO(Long id, String phoneNumber, String firstName, String lastName, String workHoursFrom, String workHoursTo, String email, String password, ExaminationType specialized) {
+    public DoctorDTO(Long id, String phoneNumber, String firstName, String lastName, String workHoursFrom, String workHoursTo, String email, String password,
+                     ExaminationType specialized, Double doctorRating) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
@@ -43,12 +44,12 @@ public class DoctorDTO {
         } else {
             this.specialized = null;
         }
-
+        this.doctorRating = doctorRating;
     }
 
     public DoctorDTO(Doctor doctor) {
         this(doctor.getId(), doctor.getPhoneNumber(), doctor.getFirstName(), doctor.getLastName(), doctor.getWorkHoursFrom().toString(), doctor.getWorkHoursTo().toString(), doctor.getEmail(),
-                doctor.getPassword(), doctor.getSpecialized());
+                doctor.getPassword(), doctor.getSpecialized(), doctor.getDoctorRating() == null ? 0 : doctor.getDoctorRating());
     }
 
     public String getPhoneNumber() {
@@ -123,11 +124,13 @@ public class DoctorDTO {
         this.specialized = specialized;
     }
 
-    public Integer getDoctorRating() {
+    public Double getDoctorRating() {
         return doctorRating;
     }
 
-    public void setDoctorRating(Integer doctorRating) {
+    public void setDoctorRating(Double doctorRating) {
         this.doctorRating = doctorRating;
     }
+
+
 }

@@ -31,6 +31,8 @@ export class LoginPatientComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.redirectToHomePage();
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -49,12 +51,12 @@ export class LoginPatientComponent implements OnInit {
       this.loginForm.value.password);
 
     this.userService.login(user).subscribe(
-      data => {
+      () => {
         this.toastr.success("You have successfuly logged in!", 'Login');
         this.redirectToHomePage();
       },
-      error => {
-        if (error.status == 406) {
+      (error) => {
+        if (error.status === 406) {
           this.toastr.info("You have to change received generic password on first attempt to login.", 'Login');
           this.router.navigate(['/user/change-password']);
         } else {

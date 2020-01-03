@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Choose doctor</h1>
+<mat-dialog-content class="dialog-class">
+    <form [formGroup]="chooseDoctorsForm" class="form-full-width">
+        <mat-form-field class="form-full-width">
+            <mat-label>Available doctors</mat-label>
+            <mat-select formControlName="doctorsList">
+                <mat-option *ngFor="let doctor of doctors" [value]="doctor">
+                    {{doctor.firstName}} {{doctor.lastName}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="chooseDoctorsForm.get('doctorsList').invalid">
+                Please choose doctors that will perform the examination.
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="mt-3 mb-1">
+    <button mat-raised-button color="primary" (click)="assign()" [disabled]="!chooseDoctorsForm.valid">Finish</button>
+</mat-dialog-actions>

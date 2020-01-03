@@ -2,7 +2,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { environment } from './../../../environments/environment';
 import { AddClinicAdministratorComponent } from './../add-clinic-administrator/add-clinic-administrator.component';
-
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
@@ -11,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { ClinicAdministratorService } from 'src/app/services/clinic-administrator.service';
 import { Clinic } from 'src/app/models/clinic';
 import { ClinicService } from 'src/app/services/clinic.service';
-
 @Component({
   selector: 'app-list-clinic-administrators',
   templateUrl: './list-clinic-administrators.component.html',
@@ -38,7 +36,7 @@ export class ListClinicAdministratorsComponent implements OnInit {
     this.clinicId0 = new Clinic("All", "All", "All", 0);
     this.clinic = this.clinicId0;
     this.clinicService.getAllClinics().subscribe(
-      data => {
+      (data) => {
         this.clinics = data;
       }
     );
@@ -53,7 +51,7 @@ export class ListClinicAdministratorsComponent implements OnInit {
   }
 
   fetchData() {
-    this.clinicAdminService.getAllClinicAdminsInClinic(this.clinic).subscribe(data => {
+    this.clinicAdminService.getAllClinicAdminsInClinic(this.clinic).subscribe((data) => {
       this.clinicAdminsDataSource = new MatTableDataSource(data);
       this.clinicAdminsDataSource.paginator = this.paginator;
       this.clinicAdminsDataSource.sort = this.sort;

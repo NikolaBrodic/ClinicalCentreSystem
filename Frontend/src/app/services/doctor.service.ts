@@ -19,15 +19,15 @@ export class DoctorService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public create(doctor: Doctor) {
+  public create(doctor: Doctor): any {
     return this.httpClient.post(this.url, doctor);
   }
 
-  public put(doctor: Doctor) {
+  public put(doctor: Doctor): any {
     return this.httpClient.put(this.url, doctor);
   }
 
-  public get(id: number) {
+  public get(id: number): any {
     return this.httpClient.get(this.url + "/" + id);
   }
 
@@ -59,7 +59,7 @@ export class DoctorService {
   }
 
 
-  public getAllAvailableDoctors(specialized: any, startDateTime: string, endDateTime: string) {
+  public getAllAvailableDoctors(specialized: any, startDateTime: string, endDateTime: string): any {
     let params = new HttpParams();
     params = params.append('specialized', specialized);
     params = params.append('startDateTime', startDateTime);
@@ -70,7 +70,18 @@ export class DoctorService {
     });
   }
 
-  public deleteDoctor(id: number) {
+  public deleteDoctor(id: number): any {
     return this.httpClient.delete(this.url + '/' + id);
+  }
+
+  public isAvailable(doctorId: any, startTime: string, endTime: string): any {
+    let params = new HttpParams();
+    params = params.append('doctorId', doctorId);
+    params = params.append('startTime', startTime);
+    params = params.append('endTime', endTime);
+
+    return this.httpClient.get(this.url + "/is-available", {
+      params: params
+    });
   }
 }

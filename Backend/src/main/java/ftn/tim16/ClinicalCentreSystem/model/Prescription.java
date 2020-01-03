@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import ftn.tim16.ClinicalCentreSystem.enumeration.PrescriptionStatus;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -18,6 +20,9 @@ public class Prescription {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Nurse nurse;
 
+    @Enumerated(EnumType.STRING)
+    private PrescriptionStatus status;
+
     public Prescription() {
     }
 
@@ -25,6 +30,7 @@ public class Prescription {
         this.medicine = medicine;
         this.examinationReport = examinationReport;
         this.nurse = nurse;
+        this.status = PrescriptionStatus.UNSTAMPED;
     }
 
     public Long getId() {
@@ -53,6 +59,14 @@ public class Prescription {
 
     public void setNurse(Nurse nurse) {
         this.nurse = nurse;
+    }
+
+    public PrescriptionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PrescriptionStatus status) {
+        this.status = status;
     }
 
     @Override

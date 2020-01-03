@@ -1,3 +1,4 @@
+import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-holiday-or-time-off/requests-for-holiday-or-time-off.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationClinicAdminComponent } from './components/edit/edit-personal-information-clinic-admin/edit-personal-information-clinic-admin.component';
@@ -36,6 +37,12 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 import { ListMedicinesComponent } from './components/list-medicines/list-medicines.component';
 import { ExaminationComponent } from './components/examination/examination.component';
+import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
+import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
+import { BusinessReportComponent } from './components/business-report/business-report.component';
+import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
+import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
+import { CreateRequestForTimeOffComponent } from './components/create-request-for-time-off/create-request-for-time-off.component';
 
 
 const routes: Routes = [
@@ -63,6 +70,12 @@ const routes: Routes = [
   },
 
   //***************** CLINIC ADMIN *****************
+
+  {
+    path: 'clinic-admin/clinic-profile',
+    component: EditClinicProfileComponent,
+    canActivate: [ClinicAdminGuard],
+  },
   {
     path: 'clinic-admin/doctors',
     component: ListOfDoctorsComponent,
@@ -99,6 +112,11 @@ const routes: Routes = [
     canActivate: [ClinicAdminGuard],
   },
   {
+    path: 'clinic-admin/examination/awaiting-operations',
+    component: ListOperationRequestsComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
     path: 'clinic-admin/predefined-examination/get-all',
     component: ListOfCreatedPredefinedExaminationComponent,
     canActivate: [ClinicAdminGuard],
@@ -106,6 +124,15 @@ const routes: Routes = [
   {
     path: 'clinic-admin/edit-personal-information',
     component: EditPersonalInformationClinicAdminComponent,
+    canActivate: [ClinicAdminGuard],
+  },
+  {
+    path: 'clinic-admin/requests-for-holiday-or-time-off',
+    component: RequestsForHolidayOrTimeOffComponent,
+  },
+  {
+    path: 'clinic-admin/business-report',
+    component: BusinessReportComponent,
     canActivate: [ClinicAdminGuard],
   },
 
@@ -126,6 +153,11 @@ const routes: Routes = [
     canActivate: [ClinicalCentreAdminGuard]
   },
   {
+    path: 'clinical-centre-admin/clinical-centre-admins',
+    component: ListClinicalCentreAdminsComponent,
+    canActivate: [ClinicalCentreAdminGuard]
+  },
+  {
     path: 'clinical-centre-admin/diagnosis',
     component: ListDiagnosisComponent,
     canActivate: [ClinicalCentreAdminGuard]
@@ -135,6 +167,8 @@ const routes: Routes = [
     component: ListMedicinesComponent,
     canActivate: [ClinicalCentreAdminGuard]
   },
+
+
 
   //*************************** DOCTOR **********************
   {
@@ -168,6 +202,11 @@ const routes: Routes = [
     component: WorkCalendarComponent,
     canActivate: [MedicalStaffGuard],
   },
+  {
+    path: 'medical-staff/create-request-for-time-off',
+    component: CreateRequestForTimeOffComponent,
+    canActivate: [MedicalStaffGuard],
+  },
 
   //********************* PATIENT ***************************
   {
@@ -182,6 +221,12 @@ const routes: Routes = [
     component: EditPersonalInformationNurseComponent,
     canActivate: [NurseGuard],
   },
+  {
+    path: 'nurse/prescriptions',
+    component: ListPrescriptionsComponent,
+    canActivate: [NurseGuard],
+  },
+
   //******************* ERROR PAGES ************************
   {
     path: 'error/non-authenticated',

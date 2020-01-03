@@ -11,36 +11,46 @@
             <a mat-list-item routerLink="/clinical-centre-admin/requests-to-register">Requests to register</a>
             <a mat-list-item routerLink="/clinical-centre-admin/clinics">Clinics</a>
             <a mat-list-item routerLink="/clinical-centre-admin/clinic-administrators">Clinic administrators</a>
+            <a mat-list-item routerLink="/clinical-centre-admin/clinical-centre-admins">Clinical centre
+                administrators</a>
             <a mat-list-item routerLink="/clinical-centre-admin/diagnosis">Diagnosis</a>
             <a mat-list-item routerLink="/clinical-centre-admin/medicines">Medicines</a>
             <a mat-list-item routerLink="/user/change-password">Change password</a>
             <a mat-list-item (click)="onLogout()">Log out</a>
         </mat-nav-list>
         <mat-nav-list *ngIf="isClinicAdmin()">
+            <a mat-list-item routerLink="/clinic-admin/clinic-profile">Clinic profile</a>
             <a mat-list-item routerLink="/clinic-admin/doctors">Doctors</a>
             <a mat-list-item routerLink="/clinic-admin/examination-types">Examination types</a>
             <a mat-list-item routerLink="/clinic-admin/price-list">Price list</a>
             <a mat-list-item routerLink="/clinic-admin/rooms">Rooms</a>
             <a mat-list-item routerLink="/clinic-admin/nurses">Nurses</a>
             <a mat-list-item routerLink="/clinic-admin/examination/get-awaiting">Requests for examination</a>
+            <a mat-list-item routerLink="/clinic-admin/examination/awaiting-operations">Requests for operation</a>
             <a mat-list-item routerLink="/clinic-admin/predefined-examination/get-all">Predefined examinations</a>
+            <a mat-list-item routerLink="/clinic-admin/requests-for-holiday-or-time-off">Requests for holiday/time
+                off</a>
+            <a mat-list-item routerLink="/clinic-admin/business-report">Business report</a>
             <a mat-list-item routerLink="/clinic-admin/edit-personal-information">Your profile</a>
             <a mat-list-item routerLink="/user/change-password">Change password</a>
             <a mat-list-item (click)="onLogout()">Log out</a>
         </mat-nav-list>
 
         <mat-nav-list *ngIf="isDoctor()">
+            <a mat-list-item routerLink="/medical-staff/work-calendar">Work calendar</a>
             <a mat-list-item routerLink="/doctor/examinations">Scheduled examinations/operations</a>
             <a mat-list-item routerLink="/medical-staff/patients">Patients</a>
-            <a mat-list-item routerLink="/medical-staff/work-calendar">Work calendar</a>
+            <a mat-list-item routerLink="/medical-staff/create-request-for-time-off">Request for holiday/time off</a>
             <a mat-list-item routerLink="/doctor/edit-personal-information">Your profile</a>
             <a mat-list-item routerLink="/user/change-password">Change password</a>
             <a mat-list-item (click)="onLogout()">Log out</a>
         </mat-nav-list>
 
         <mat-nav-list *ngIf="isNurse()">
-            <a mat-list-item routerLink="/medical-staff/patients">Patients</a>
             <a mat-list-item routerLink="/medical-staff/work-calendar">Work calendar</a>
+            <a mat-list-item routerLink="/nurse/prescriptions">Prescriptions</a>
+            <a mat-list-item routerLink="/medical-staff/patients">Patients</a>
+            <a mat-list-item routerLink="/medical-staff/create-request-for-time-off">Request for holiday/time off</a>
             <a mat-list-item routerLink="/nurse/edit-personal-information">Your profile</a>
             <a mat-list-item routerLink="/user/change-password">Change password</a>
             <a mat-list-item (click)="onLogout()">Log out</a>

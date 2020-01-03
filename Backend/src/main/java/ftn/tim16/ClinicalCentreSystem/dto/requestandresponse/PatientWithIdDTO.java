@@ -47,6 +47,10 @@ public class PatientWithIdDTO {
                 patient.getAddress(), patient.getCity(), patient.getCountry(), patient.getHealthInsuranceId());
     }
 
+    public PatientWithIdDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -62,7 +66,6 @@ public class PatientWithIdDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     public String getFirstName() {
         return firstName;

@@ -15,8 +15,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 export class UserChangePasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
 
-  constructor(private userService: UserService, private toastr: ToastrService,
-    private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private userService: UserService, private toastr: ToastrService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.changePasswordForm = this.formBuilder.group({
@@ -35,19 +34,19 @@ export class UserChangePasswordComponent implements OnInit {
       this.toastr.error("Please enter a valid data.", 'Change password');
       return;
     }
-    if (this.changePasswordForm.value.newPassword != this.changePasswordForm.value.repeatedPassword) {
+    if (this.changePasswordForm.value.newPassword !== this.changePasswordForm.value.repeatedPassword) {
       this.toastr.error("Repeated password must be the same as a new password", 'Change password');
       return;
     }
     const user = new User(this.changePasswordForm.value.userEmail, this.changePasswordForm.value.userOldPassword, this.changePasswordForm.value.newPassword);
 
     this.userService.changePassword(user).subscribe(
-      responseData => {
+      () => {
         this.changePasswordForm.reset();
         this.toastr.success("Successfully changed password. Please sign in with your new password.", 'Change password');
         this.userService.logout();
       },
-      message => {
+      () => {
         this.toastr.error("Old password is invalid. Please try again.", 'Change password');
       }
     );

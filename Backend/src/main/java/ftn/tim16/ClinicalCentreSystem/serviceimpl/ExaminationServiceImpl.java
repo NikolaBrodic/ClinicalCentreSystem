@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationOrOperationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationPagingDTO;
@@ -20,10 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -46,6 +44,12 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private ClinicAdministratorService clinicAdministratorService;
+
+    @Autowired
+    private PatientService patientService;
 
     @Override
     public List<Examination> getExaminationsOnDay(Long idRoom, LocalDateTime day) {
@@ -110,11 +114,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         if (kind == null) {
             return null;
         }
-        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusAndKind
-                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind);
+        List<Examination> examinations = examinationRepository.findByClinicAdministratorIdAndStatusAndKindAndIntervalStartDateTimeAfter
+                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, LocalDateTime.now());
 
-        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByClinicAdministratorIdAndStatusAndKind
-                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, page).getContent(), examinations.size());
+        ExaminationPagingDTO examinationPagingDTO = new ExaminationPagingDTO(examinationRepository.findByClinicAdministratorIdAndStatusAndKindAndIntervalStartDateTimeAfter
+                (clinicAdministrator.getId(), ExaminationStatus.AWAITING, examinationKind, LocalDateTime.now(), page).getContent(), examinations.size());
         return examinationPagingDTO;
     }
 
@@ -145,6 +149,15 @@ public class ExaminationServiceImpl implements ExaminationService {
         selectedExamination.setNurse(chosenNurse);
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
+
+        return examinationRepository.save(selectedExamination);
+    }
+
+    @Override
+    public Examination assignRoomForOperation(Examination selectedExamination, Room room, Set<Doctor> doctors) {
+        selectedExamination.setRoom(room);
+        selectedExamination.setStatus(ExaminationStatus.APPROVED);
+        selectedExamination.setDoctors(doctors);
 
         return examinationRepository.save(selectedExamination);
     }
@@ -306,5 +319,108 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
     }
 
+    @Override
+    public List<Examination> getClinicExaminations(Long clinicId, LocalDateTime startDate, LocalDateTime endDateTime) {
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.APPROVED);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        return examinationRepository.findByClinicIdAndStatusInAndIntervalStartDateTimeGreaterThanEqualAndIntervalEndDateTimeLessThan(clinicId, statuses, startDate, endDateTime);
+    }
 
+    @Override
+    public List<Examination> getAllHeldExaminations(Long clinicId) {
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.APPROVED);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        return examinationRepository.findByClinicIdAndStatusInAndIntervalEndDateTimeLessThan(clinicId, statuses, LocalDateTime.now());
+    }
+
+    @Override
+    public ExaminationDTO createExaminationOrOperation(CreateExaminationOrOperationDTO createExaminationOrOperationDTO, Doctor loggedDoctor) {
+
+        ExaminationKind kind = getKind(createExaminationOrOperationDTO.getKind());
+        if (kind == null) {
+            return null;
+        }
+        Patient patient = patientService.getPatient(createExaminationOrOperationDTO.getPatient().getId());
+        if (patient == null) {
+            return null;
+        }
+        LocalDate localDate = getDate(createExaminationOrOperationDTO.getStartDateTime());
+        LocalDateTime startDateTime = getLocalDateTime(localDate, createExaminationOrOperationDTO.getStartDateTime());
+        LocalDateTime endDateTime = getLocalDateTime(localDate, createExaminationOrOperationDTO.getEndDateTime());
+
+        if (startDateTime.isBefore(LocalDateTime.now()) || startDateTime.isAfter(endDateTime)) {
+            return null;
+        }
+
+        ExaminationType examinationType = examinationTypeService.findById(createExaminationOrOperationDTO.getExaminationType().getId());
+        if (createExaminationOrOperationDTO.getKind().equals("EXAMINATION")) {
+            Doctor doctor = doctorService.getDoctor(createExaminationOrOperationDTO.getDoctor().getId());
+
+            if (examinationType == null || doctor == null || examinationType.getId() != doctor.getSpecialized().getId() || !doctorService.isAvailable(doctor, startDateTime, endDateTime)) {
+                return null;
+            }
+
+            DateTimeInterval dateTimeInterval = new DateTimeInterval(startDateTime, endDateTime);
+            ClinicAdministrator clinicAdministrator = clinicAdministratorService.findRandomAdminInClinic(loggedDoctor.getClinic().getId());
+            if (clinicAdministrator == null) {
+                return null;
+            }
+            Examination examination = new Examination(kind, dateTimeInterval, ExaminationStatus.AWAITING, examinationType,
+                    null, 0, null, loggedDoctor.getClinic(), clinicAdministrator, patient);
+            examination.getDoctors().add(doctor);
+            sendMailToClinicAdministrator(examination, loggedDoctor, clinicAdministrator);
+            return new ExaminationDTO(examinationRepository.save(examination));
+        }
+        if (examinationType == null) {
+            return null;
+        }
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.findRandomAdminInClinic(loggedDoctor.getClinic().getId());
+        if (clinicAdministrator == null) {
+            return null;
+        }
+        DateTimeInterval dateTimeInterval = new DateTimeInterval(startDateTime, endDateTime);
+        Examination examination = new Examination(kind, dateTimeInterval, ExaminationStatus.AWAITING, examinationType,
+                null, 0, null, loggedDoctor.getClinic(), clinicAdministrator, patient);
+
+        sendMailToClinicAdministrator(examination, loggedDoctor, clinicAdministrator);
+        return new ExaminationDTO(examinationRepository.save(examination));
+    }
+
+    @Override
+    public List<Examination> getExaminationsAfter(Long idRoom, LocalDateTime endDateTime) {
+        return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeGreaterThanEqualOrderByIntervalStartDateTime(
+                idRoom, ExaminationStatus.CANCELED, endDateTime
+        );
+    }
+
+    @Override
+    public List<Examination> getDoctorExaminationsBetween(Long doctorId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan(doctorId, ExaminationStatus.CANCELED, startDateTime, endDateTime);
+    }
+
+    @Override
+    public List<Examination> getNurseExaminationsBetween(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return examinationRepository.findByNurseIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan(nurseId, ExaminationStatus.CANCELED, startDateTime, endDateTime);
+    }
+
+    private void sendMailToClinicAdministrator(Examination examination, Doctor doctor, ClinicAdministrator clinicAdministrator) {
+        if (clinicAdministrator == null || doctor == null || examination == null) {
+            return;
+        }
+        String subject = "Notice: Examination request has been created ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(doctor.getFirstName());
+        sb.append(" ");
+        sb.append(doctor.getLastName());
+        sb.append("has created the ");
+        sb.append(examination.getKind().toString().toLowerCase());
+        sb.append(" scheduled for ");
+        sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
+        sb.append(".");
+
+        String text = sb.toString();
+        emailNotificationService.sendEmail(clinicAdministrator.getEmail(), subject, text);
+    }
 }

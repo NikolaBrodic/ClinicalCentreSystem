@@ -31,9 +31,9 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
 
     Examination getByIdAndStatusNot(Long id, ExaminationStatus status);
 
-    List<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind);
+    List<Examination> findByClinicAdministratorIdAndStatusAndKindAndIntervalStartDateTimeAfter(Long id, ExaminationStatus status, ExaminationKind kind, LocalDateTime now);
 
-    Page<Examination> findByClinicAdministratorIdAndStatusAndKind(Long id, ExaminationStatus status, ExaminationKind kind, Pageable page);
+    Page<Examination> findByClinicAdministratorIdAndStatusAndKindAndIntervalStartDateTimeAfter(Long id, ExaminationStatus status, ExaminationKind kind, LocalDateTime now, Pageable page);
 
     Page<Examination> findByClinicAdministratorIdAndStatusIn(Long id, Collection<ExaminationStatus> examinationStatus, Pageable page);
 
@@ -56,4 +56,11 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
     List<Examination> findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
 
     List<Examination> findByExaminationTypeIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
+
+    List<Examination> findByClinicIdAndStatusInAndIntervalStartDateTimeGreaterThanEqualAndIntervalEndDateTimeLessThan(Long id, Collection<ExaminationStatus> examinationStatus,
+                                                                                                                      LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    List<Examination> findByClinicIdAndStatusInAndIntervalEndDateTimeLessThan(Long id, Collection<ExaminationStatus> examinationStatus, LocalDateTime endDateTime);
+
+    List<Examination> findByRoomIdAndStatusNotAndIntervalEndDateTimeGreaterThanEqualOrderByIntervalStartDateTime(Long id, ExaminationStatus status, LocalDateTime endDateTime);
 }

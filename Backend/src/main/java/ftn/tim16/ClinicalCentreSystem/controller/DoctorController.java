@@ -4,6 +4,7 @@ import ftn.tim16.ClinicalCentreSystem.dto.request.CreateDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.DoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.EditDoctorDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -68,13 +71,17 @@ public class DoctorController {
     }
 
     @GetMapping(value = "/available")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN','DOCTOR')")
     public ResponseEntity<List<DoctorDTO>> getAllAvailableDoctors(@RequestParam(value = "specialized", required = true) Long specializedId,
                                                                   @RequestParam(value = "startDateTime", required = true) String startDateTime,
                                                                   @RequestParam(value = "endDateTime", required = true) String endDateTime) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            Doctor doctor = doctorService.getLoginDoctor();
+            if (doctor == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(doctorService.getAllAvailableDoctors(specializedId, doctor.getClinic().getId(), startDateTime, endDateTime), HttpStatus.OK);
         }
         return new ResponseEntity<>(doctorService.getAllAvailableDoctors(specializedId, clinicAdministrator.getClinic().getId(), startDateTime, endDateTime), HttpStatus.OK);
     }
@@ -107,5 +114,27 @@ public class DoctorController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(doctor, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/is-available")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Boolean> isAvailable(@RequestParam(value = "doctorId", required = true) String id,
+                                               @RequestParam(value = "startTime") String searchStartTime,
+                                               @RequestParam(value = "endTime") String searchEndTime) {
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
+        if (clinicAdministrator == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            Long doctorId = Long.parseLong(id);
+            boolean isAvailable = doctorService.isAvailable(doctorService.getDoctor(doctorId), LocalDateTime.parse(searchStartTime, formatter),
+                    LocalDateTime.parse(searchEndTime, formatter));
+            return new ResponseEntity<>(isAvailable, HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (NumberFormatException num) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

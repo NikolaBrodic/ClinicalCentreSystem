@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationOrOperationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.request.PredefinedExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationForWorkCalendarDTO;
@@ -168,6 +169,28 @@ public class ExaminationController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         ExaminationDTO createdExamination = examinationService.createPredefinedExamination(predefinedExaminationDTO, clinicAdministrator);
+        if (createdExamination == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(createdExamination, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/create-examination-operation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ExaminationDTO> createExaminationOrOperation(@Valid @RequestBody CreateExaminationOrOperationDTO createExaminationOrOperationDTO) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        LocalDateTime examinationTime = LocalDateTime.now();
+        Examination ongoingExamination = examinationService.getOngoingExamination(createExaminationOrOperationDTO.getPatient().getId(), doctor.getId(), examinationTime);
+        if (ongoingExamination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ExaminationDTO createdExamination = examinationService.createExaminationOrOperation(createExaminationOrOperationDTO, doctor);
         if (createdExamination == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

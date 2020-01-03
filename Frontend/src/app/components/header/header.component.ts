@@ -19,13 +19,12 @@ export class HeaderComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
-      map(result => result.matches),
+      map((result) => result.matches),
       shareReplay()
     );
 
   ngOnInit() {
-    //check this
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.isLoggedIn()) {
           this.user = this.userService.getLoggedInUser();
@@ -62,7 +61,4 @@ export class HeaderComponent implements OnInit {
     this.userService.logout();
     this.router.navigate(['/user/login']);
   }
-
-
-
 }

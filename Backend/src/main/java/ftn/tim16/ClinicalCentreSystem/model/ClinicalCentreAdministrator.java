@@ -47,6 +47,19 @@ public class ClinicalCentreAdministrator implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
 
+    public ClinicalCentreAdministrator() {
+    }
+
+    public ClinicalCentreAdministrator(String email, String password, String firstName, String lastName, String phoneNumber, Set<Authority> authorities) {
+        this.email = email;
+        setPassword(password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.status = UserStatus.NEVER_LOGGED_IN;
+        this.authorities = authorities;
+    }
+
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }

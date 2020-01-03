@@ -20,6 +20,7 @@ public class ClinicAdministratorController {
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
+
     @GetMapping(value = "/all")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<List<ClinicAdministratorDTO>> getAllClinicAdministratorsInClinic(@RequestParam Long clinicId) {
@@ -53,4 +54,5 @@ public class ClinicAdministratorController {
         }
         return new ResponseEntity<>(clinicAdministrator, HttpStatus.CREATED);
     }
+
 }

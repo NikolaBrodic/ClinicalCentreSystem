@@ -14,7 +14,6 @@ export class PatientService {
 
   urlAuth = environment.baseUrl + environment.user;
   urlPatient = environment.baseUrl + environment.patient;
-  selectedPatient: PatientWithId;
   subjectForSelectedPatient = new BehaviorSubject<PatientWithId>(null);
 
   constructor(

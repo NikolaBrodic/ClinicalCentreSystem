@@ -1,6 +1,6 @@
+import { DoctorAddExaminationOrOperationComponent } from './../doctor-add-examination-or-operation/doctor-add-examination-or-operation.component';
 import { MedicalRecord } from './../../models/medicalRecord';
 import { MedicalRecordService } from './../../services/medical-record.service';
-import { ExaminationService } from './../../services/examination.service';
 import { ExaminationReport } from './../../models/examinationReport';
 import { ExaminationReportService } from './../../services/examination-report.service';
 import { MedicineService } from './../../services/medicine.service';
@@ -12,6 +12,8 @@ import { Medicine } from 'src/app/models/medicine';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material';
+import { Examination } from 'src/app/models/examination';
 
 @Component({
   selector: 'app-examination',
@@ -24,7 +26,7 @@ export class ExaminationComponent implements OnInit {
   createExaminationReportForm: FormGroup;
   diagnosis: Diagnose[] = [];
   medicines: Medicine[] = [];
-  examinationId: number;
+  selectedExamination: Examination;
 
   medicalRecordForm: FormGroup;
   medicalRecord: MedicalRecord = new MedicalRecord(-1, 0, 0, "", "");
@@ -36,18 +38,19 @@ export class ExaminationComponent implements OnInit {
     private examinationReportService: ExaminationReportService,
     private diagnoseService: DiagnoseService,
     private medicineService: MedicineService,
-    private examinationService: ExaminationService,
     private medicalRecordService: MedicalRecordService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    this.examinationId = this.examinationService.startingExamination;
-    if (!this.examinationId) {
+    this.dialog.closeAll();
+    this.selectedExamination = JSON.parse(localStorage.getItem('startingExamination'));
+    if (!this.selectedExamination) {
       this.location.back();
       return;
     }
 
-    this.patientFullName = this.examinationService.choosenPatient.firstName + " " + this.examinationService.choosenPatient.lastName;
+    this.patientFullName = this.selectedExamination.patient.firstName + ' ' + this.selectedExamination.patient.lastName;
 
     this.createExaminationReportForm = new FormGroup({
       comment: new FormControl(null, [Validators.required]),
@@ -62,7 +65,7 @@ export class ExaminationComponent implements OnInit {
       allergies: new FormControl(),
     })
 
-    this.medicalRecordService.get(this.examinationService.choosenPatient.id).subscribe(
+    this.medicalRecordService.get(this.selectedExamination.patient.id).subscribe(
       (responseData: MedicalRecord) => {
         this.medicalRecord = responseData;
         this.medicalRecordForm.patchValue(
@@ -89,7 +92,7 @@ export class ExaminationComponent implements OnInit {
   }
 
   createExaminationReport() {
-    if (!this.examinationId) {
+    if (!this.selectedExamination) {
       this.location.back();
       return;
     }
@@ -114,14 +117,14 @@ export class ExaminationComponent implements OnInit {
       );
     }
 
-    this.examinationReportService.create(this.examinationId, examinationReport).subscribe(
-      responseData => {
+    this.examinationReportService.create(this.selectedExamination.id, examinationReport).subscribe(
+      () => {
         this.toastr.success("Successfully created an examination report.", 'Create examination report');
         this.router.navigate(['/medical-staff/work-calendar']);
         this.examinationReportService.createSuccessEmitter.next(examinationReport);
       },
-      message => {
-        if (message.status == 406) {
+      (message) => {
+        if (message.status === 406) {
           this.toastr.error("Examination report for this examination is already made.", 'Create examination report');
         } else {
           this.toastr.error("Examination report couldn't be made. Please check entered data.", 'Create examination report');
@@ -142,8 +145,11 @@ export class ExaminationComponent implements OnInit {
     })
   }
 
+  createExamination() {
+    this.dialog.open(DoctorAddExaminationOrOperationComponent);
+  }
   saveChanges() {
-    if (!this.examinationId) {
+    if (!this.selectedExamination) {
       this.location.back();
       return;
     }
@@ -161,12 +167,12 @@ export class ExaminationComponent implements OnInit {
       this.medicalRecordForm.value.allergies,
     );
 
-    this.medicalRecordService.edit(this.examinationId, editedMedicalRecord).subscribe(
-      responseData => {
+    this.medicalRecordService.edit(this.selectedExamination.id, editedMedicalRecord).subscribe(
+      () => {
         this.toastr.success("Successfully edited patient's medical record information.", 'Edit medical record');
         this.medicalRecordService.editSuccessEmitter.next(editedMedicalRecord);
       },
-      message => {
+      () => {
         this.toastr.error("Medical information couldn't be changed. Please check entered data.", 'Edit medical record');
       }
     );

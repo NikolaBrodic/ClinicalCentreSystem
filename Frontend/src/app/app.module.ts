@@ -1,3 +1,4 @@
+import { DoctorAddExaminationOrOperationComponent } from './components/doctor-add-examination-or-operation/doctor-add-examination-or-operation.component';
 import { AddPredefinedExaminationComponent } from './components/add-predefined-examination/add-predefined-examination.component';
 import { ListOfCreatedPredefinedExaminationComponent } from './components/list-of-created-predefined-examination/list-of-created-predefined-examination.component';
 import { MedicalStaffGuard } from './guards/medical.staff.guard';
@@ -65,6 +66,28 @@ import { EditPersonalInformationClinicAdminComponent } from './components/edit/e
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { ExaminationComponent } from './components/examination/examination.component';
+import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-holiday-or-time-off/requests-for-holiday-or-time-off.component';
+import { RejectRequestForHolidayOrTimeOffComponent } from './components/reject-request-for-holiday-or-time-off/reject-request-for-holiday-or-time-off.component';
+import { ApproveRequestForHolidayOrTimeOffComponent } from './components/approve-request-for-holiday-or-time-off/approve-request-for-holiday-or-time-off.component';
+import { ListClinicalCentreAdminsComponent } from './components/list-clinical-centre-admins/list-clinical-centre-admins.component';
+import { AddClinicalCentreAdminComponent } from './components/add-clinical-centre-admin/add-clinical-centre-admin.component';
+import { ListPrescriptionsComponent } from './components/list-prescriptions/list-prescriptions.component';
+import { BusinessReportComponent } from './components/business-report/business-report.component';
+import { RatingModule } from 'ng-starrating';
+import { ChartsModule } from 'ng2-charts';
+import { DailyStatisticComponent } from './components/charts/daily-statistic/daily-statistic.component';
+import { WeekStatisticComponent } from './components/charts/week-statistic/week-statistic.component';
+import { MountStatisticComponent } from './components/charts/mount-statistic/mount-statistic.component';
+import { EditClinicProfileComponent } from './components/edit/edit-clinic-profile/edit-clinic-profile.component';
+import { AdminsGuard } from './guards/admins.guard';
+import { MapComponent } from './components/map/map.component';
+import { ListExaminationReportsComponent } from './components/list-examination-reports/list-examination-reports.component';
+import { EditExaminationReportComponent } from './components/edit/edit-examination-report/edit-examination-report.component';
+import { ListOperationRequestsComponent } from './components/list-operation-requests/list-operation-requests.component';
+import { AssignDoctorsComponent } from './components/assign-doctors/assign-doctors.component';
+import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.component';
+import { CreateRequestForTimeOffComponent } from './components/create-request-for-time-off/create-request-for-time-off.component';
+import { ExaminationInfoComponent } from './components/examination-info/examination-info.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +137,26 @@ import { ExaminationComponent } from './components/examination/examination.compo
     EditPersonalInformationDoctorComponent,
     EditPersonalInformationNurseComponent,
     ExaminationComponent,
+    RequestsForHolidayOrTimeOffComponent,
+    RejectRequestForHolidayOrTimeOffComponent,
+    ApproveRequestForHolidayOrTimeOffComponent,
+    ListClinicalCentreAdminsComponent,
+    AddClinicalCentreAdminComponent,
+    ListPrescriptionsComponent,
+    BusinessReportComponent,
+    DailyStatisticComponent,
+    WeekStatisticComponent,
+    MountStatisticComponent,
+    EditClinicProfileComponent,
+    MapComponent,
+    ListExaminationReportsComponent,
+    EditExaminationReportComponent,
+    DoctorAddExaminationOrOperationComponent,
+    ListOperationRequestsComponent,
+    AssignDoctorsComponent,
+    ChooseDoctorComponent,
+    CreateRequestForTimeOffComponent,
+    ExaminationInfoComponent,
 
   ],
   imports: [
@@ -133,6 +176,8 @@ import { ExaminationComponent } from './components/examination/examination.compo
     DemoMaterialModule,
     MatNativeDateModule,
     AxiomSchedulerModule,
+    RatingModule,
+    ChartsModule
   ],
   entryComponents: [
     ListOfExaminationTypesComponent,
@@ -160,6 +205,21 @@ import { ExaminationComponent } from './components/examination/examination.compo
     EditRoomComponent,
     EditPriceListComponent,
     ExaminationComponent,
+    RequestsForHolidayOrTimeOffComponent,
+    RejectRequestForHolidayOrTimeOffComponent,
+    ApproveRequestForHolidayOrTimeOffComponent,
+    ListClinicalCentreAdminsComponent,
+    AddClinicalCentreAdminComponent,
+    MapComponent,
+    ListExaminationReportsComponent,
+    EditExaminationReportComponent,
+    ExaminationComponent,
+    DoctorAddExaminationOrOperationComponent,
+    ListOperationRequestsComponent,
+    AssignDoctorsComponent,
+    SearchRoomsComponent,
+    ChooseDoctorComponent,
+    ExaminationInfoComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
@@ -169,7 +229,8 @@ import { ExaminationComponent } from './components/examination/examination.compo
     PatientGuard,
     DoctorGuard,
     NurseGuard,
-    MedicalStaffGuard
+    MedicalStaffGuard,
+    AdminsGuard
 
   ],
   bootstrap: [AppComponent]

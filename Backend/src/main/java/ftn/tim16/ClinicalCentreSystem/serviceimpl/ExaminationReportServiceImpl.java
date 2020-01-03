@@ -1,6 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationReportDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationReportForTableDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.ExaminationReportRepository;
 import ftn.tim16.ClinicalCentreSystem.service.DiagnoseService;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -32,7 +35,6 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Override
     public ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO) {
-
         Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
         if (diagnose == null) {
             return null;
@@ -58,5 +60,41 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
         ExaminationReport createdExaminationReport = examinationReportRepository.save(examinationReport);
 
         return new ExaminationReportDTO(createdExaminationReport);
+    }
+
+    @Override
+    public ExaminationReportDTO edit(Doctor doctor, ExaminationReportDTO examinationReportDTO) {
+        Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
+        if (diagnose == null) {
+            return null;
+        }
+
+        ExaminationReport examinationReport = examinationReportRepository.findByIdAndDoctorId(examinationReportDTO.getId(), doctor.getId());
+        if (examinationReport == null) {
+            return null;
+        }
+
+        examinationReport.setComment(examinationReportDTO.getComment());
+        examinationReport.setDiagnose(diagnose);
+        ExaminationReport editedExaminationReport = examinationReportRepository.save(examinationReport);
+
+        return new ExaminationReportDTO(editedExaminationReport);
+    }
+
+    @Override
+    public List<ExaminationReportForTableDTO> getPatientExaminationReports(Long patientId) {
+        List<ExaminationReport> patientExaminationReports = examinationReportRepository.findByMedicalRecordPatientIdOrderByTimeCreatedDesc(patientId);
+        return convertToDTO(patientExaminationReports);
+    }
+
+    private List<ExaminationReportForTableDTO> convertToDTO(List<ExaminationReport> examinationReports) {
+        if (examinationReports == null || examinationReports.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<ExaminationReportForTableDTO> examinationReportForTableDTOS = new ArrayList<>();
+        for (ExaminationReport examinationReport : examinationReports) {
+            examinationReportForTableDTOS.add(new ExaminationReportForTableDTO(examinationReport));
+        }
+        return examinationReportForTableDTOS;
     }
 }

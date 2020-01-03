@@ -28,21 +28,21 @@ export class AddRoomComponent implements OnInit {
 
   create() {
     if (this.addRoomForm.invalid) {
-      this.toastr.error("Please enter a valid data.", 'Add room');
+      this.toastr.error('Please enter a valid data.', 'Add room');
       return;
     }
 
     const room = new Room(this.addRoomForm.value.label, this.addRoomForm.value.kind);
 
     this.roomService.create(room).subscribe(
-      responseData => {
+      () => {
         this.addRoomForm.reset();
         this.dialogRef.close();
-        this.toastr.success("Successfully created a new room.", 'Add room');
+        this.toastr.success('Successfully created a new room.', 'Add room');
         this.roomService.createSuccessEmitter.next(room);
       },
-      message => {
-        this.toastr.error("Room with same label aready exist.", 'Add room');
+      () => {
+        this.toastr.error('Room with same label aready exist.', 'Add room');
       }
     );
   }

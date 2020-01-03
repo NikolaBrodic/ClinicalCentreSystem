@@ -1,3 +1,4 @@
+import { ExaminationInfoComponent } from './../examination-info/examination-info.component';
 import { TimeOffNurseService } from './../../services/time-off-nurse.service';
 import { TimeOffForWorkCalendar } from './../../models/timeOffForWorkCalendar';
 import { TimeOffDoctorService } from '../../services/time-off-doctor.service';
@@ -9,6 +10,7 @@ import { ExaminationForWorkCalendar } from 'src/app/models/examinationForWorkCal
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { AxiomSchedulerEvent } from 'axiom-scheduler';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-work-calendar',
@@ -19,20 +21,19 @@ export class WorkCalendarComponent implements OnInit {
 
   axiomSchedulerParams = new AxiomSchedulerParams();
   events: (ExaminationForWorkCalendar | TimeOffForWorkCalendar)[] = [];
-
   colors = {
-    "examination": "#3399FF",
-    "predef. examination": "#9933FF",
-    "operation": "#FF9933",
-    "holiday": "#CC0033",
-    "time off": "#339933",
+    'examination': '#3399FF',
+    'predef. examination': '#9933FF',
+    'operation': '#FF9933',
+    'holiday': '#CC0033',
+    'time off': '#339933',
   }
 
   constructor(
     private examinationService: ExaminationService,
     private timeOffDoctorService: TimeOffDoctorService,
     private timeOffNurseService: TimeOffNurseService,
-    private userService: UserService, private router: Router
+    private userService: UserService, private router: Router, public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -46,32 +47,29 @@ export class WorkCalendarComponent implements OnInit {
     }
   }
 
-  getDoctorExaminations() {
+  getDoctorExaminations(): void {
     this.examinationService.getDoctorExaminationsForWorkCalendar().subscribe((data: ExaminationForWorkCalendar[]) => {
       this.convertExaminations(data);
     })
   }
 
-  getNurseExaminations() {
+  getNurseExaminations(): void {
     this.examinationService.getNurseExaminationsForWorkCalendar().subscribe((data: ExaminationForWorkCalendar[]) => {
       this.convertExaminations(data);
     })
   }
 
-  convertExaminations(examinations: ExaminationForWorkCalendar[]) {
+  convertExaminations(examinations: ExaminationForWorkCalendar[]): void {
     let event: any = {};
-    examinations.forEach(item => {
+    examinations.forEach((item) => {
       event = {
-        "data": {
-          "kind": item.kind,
-          "room": item.room ? item.room.label : null,
-          "patientFirstName": item.patient ? item.patient.firstName : null,
-          "patientLastName": item.patient ? item.patient.lastName : null,
+        'data': {
+          'examination': item
         },
-        "from": moment(item.interval.startDateTime, "YYYY-MM-DD HH:mm").toISOString(),
-        "to": moment(item.interval.endDateTime, "YYYY-MM-DD HH:mm").toISOString(),
-        "color": this.colors[item.kind.toLowerCase()],
-        "locked": true,
+        'from': moment(item.interval.startDateTime, 'YYYY-MM-DD HH:mm').toISOString(),
+        'to': moment(item.interval.endDateTime, 'YYYY-MM-DD HH:mm').toISOString(),
+        'color': this.colors[item.kind.toLowerCase()],
+        'locked': true,
       }
 
       this.events.push(event);
@@ -79,16 +77,13 @@ export class WorkCalendarComponent implements OnInit {
 
     this.events.map(item =>
       new AxiomSchedulerEvent(
-        item["data"]["kind"],
-        new Date(item["from"]),
-        new Date(item["to"]),
+        item['data']['examination']['kind'],
+        new Date(item['from']),
+        new Date(item['to']),
         {
-          kind: item["data"]["kind"],
-          room: item["data"]["room"],
-          patientFirstName: item["data"]["patientFirstName"],
-          patientLastName: item["data"]["patientLastName"],
+          examination: item
         },
-        item["color"],
+        item['color'],
         true
       )
     );
@@ -106,12 +101,12 @@ export class WorkCalendarComponent implements OnInit {
     })
   }
 
-  convertTimeOffs(timeOffs: TimeOffForWorkCalendar[]) {
+  convertTimeOffs(timeOffs: TimeOffForWorkCalendar[]): void {
     let event: any = {};
-    let dateFormat = "YYYY-MM-DD";
-    let dateTimeFormat = "YYYY-MM-DD HH:mm";
+    let dateFormat = 'YYYY-MM-DD';
+    let dateTimeFormat = 'YYYY-MM-DD HH:mm';
 
-    timeOffs.forEach(item => {
+    timeOffs.forEach((item) => {
       let itemType = item.type.replace('_', ' ');
 
       let startDate = moment(item.interval.startDateTime.toString().substr(0, 10), dateFormat);
@@ -122,7 +117,8 @@ export class WorkCalendarComponent implements OnInit {
 
         event = this.makeEvent(itemType, startDateTime, endDateTime, startDateTime, endDateTime);
         this.events.push(event);
-      } else {
+      }
+      else {
         let firstDayStartTime = moment(item.interval.startDateTime, dateTimeFormat);
         let firstDayEndTime = moment(item.interval.startDateTime, dateTimeFormat).set({ 'hour': 23, 'minute': 59 });
 
@@ -148,31 +144,31 @@ export class WorkCalendarComponent implements OnInit {
 
     this.events.map(item =>
       new AxiomSchedulerEvent(
-        item["data"]["type"],
-        new Date(item["from"]),
-        new Date(item["to"]),
+        item['data']['type'],
+        new Date(item['from']),
+        new Date(item['to']),
         {
-          type: item["data"]["type"],
-          from: item["data"]["from"],
-          to: item["data"]["to"],
+          type: item['data']['type'],
+          from: item['data']['from'],
+          to: item['data']['to'],
         },
-        item["color"],
+        item['color'],
         true
       )
     );
   }
 
-  makeEvent(itemType: string, fromForData: moment.Moment, toForData: moment.Moment, from: moment.Moment, to: moment.Moment) {
+  makeEvent(itemType: string, fromForData: moment.Moment, toForData: moment.Moment, from: moment.Moment, to: moment.Moment): any {
     return {
-      "data": {
-        "type": itemType,
-        "from": fromForData,
-        "to": toForData,
+      'data': {
+        'type': itemType,
+        'from': fromForData,
+        'to': toForData,
       },
-      "from": from.toISOString(),
-      "to": to.toISOString(),
-      "color": this.colors[itemType.toLowerCase()],
-      "locked": true,
+      'from': from.toISOString(),
+      'to': to.toISOString(),
+      'color': this.colors[itemType.toLowerCase()],
+      'locked': true,
     }
   }
 
@@ -183,5 +179,10 @@ export class WorkCalendarComponent implements OnInit {
     this.scheduler.refreshScheduler();
   }
   */
+  openViewExamination($event: AxiomSchedulerEvent): void {
+    if ($event.data.examination) {
+      this.dialog.open(ExaminationInfoComponent, { data: $event.data.examination });
+    }
+  }
 
 }

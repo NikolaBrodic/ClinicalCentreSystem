@@ -28,7 +28,7 @@ export class ListOfRoomsComponent implements OnInit {
   numberOfItem: number;
   itemsPerPage = environment.itemsPerPage;
   searchExaminationType: string;
-  searchLabel: string = "";
+  searchLabel: string = '';
 
   constructor(public dialog: MatDialog,
     private roomService: RoomService, private toastr: ToastrService) { }
@@ -40,9 +40,9 @@ export class ListOfRoomsComponent implements OnInit {
     this.searchRooms(0);
 
     this.successCreatedRoom = this.roomService.createSuccessEmitter.subscribe(
-      data => {
-        this.searchExaminationType = "All";
-        this.searchLabel = "";
+      () => {
+        this.searchExaminationType = 'All';
+        this.searchLabel = '';
         this.searchRooms(0);
       }
     );
@@ -50,11 +50,11 @@ export class ListOfRoomsComponent implements OnInit {
 
   searchRooms(pageIndex: number) {
     if (isUndefined(this.searchExaminationType)) {
-      this.searchExaminationType = "";
+      this.searchExaminationType = '';
     }
     this.paginator.pageIndex = pageIndex;
     this.roomService.getRoomsForAdminPaging
-      (pageIndex, 5, this.sort, this.searchExaminationType.toLowerCase(), this.searchLabel, "", "", "").
+      (pageIndex, 5, this.sort, this.searchExaminationType.toLowerCase(), this.searchLabel, '', '', '').
       subscribe((data: RoomsWithNumberOffItmes) => {
         this.numberOfItem = data.numberOfItems;
         this.roomsDataSource = new MatTableDataSource(data.roomDTOList);
@@ -84,12 +84,12 @@ export class ListOfRoomsComponent implements OnInit {
 
   deleteRoom(room: Room) {
     this.roomService.deleteRoom(room.id).subscribe(
-      responseData => {
+      () => {
         this.searchRooms(0);
-        this.toastr.success("Successfully deleted room.", 'Delete room');
+        this.toastr.success('Successfully deleted room.', 'Delete room');
       },
-      message => {
-        this.toastr.error("You can not delete this room because this room is reserved.", 'Delete room');
+      () => {
+        this.toastr.error('You can not delete this room because this room is reserved.', 'Delete room');
       }
     );
   }

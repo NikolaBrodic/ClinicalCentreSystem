@@ -19,9 +19,9 @@ export class ListOfDoctorsComponent implements OnInit {
   doctorsDataSource: MatTableDataSource<Doctor>;
   displayedColumns: string[] = ['firstName', 'lastName', 'specializedfor', 'workhours', 'delete'];
   searchString: string;
-  searchFirstName: string = "";
-  searchLastName: string = "";
-  searchSpecializedFor: string = "";
+  searchFirstName: string = '';
+  searchLastName: string = '';
+  searchSpecializedFor: string = '';
   itemsPerPage = environment.itemsPerPage;
   successCreatedDoctor: Subscription;
 
@@ -35,14 +35,14 @@ export class ListOfDoctorsComponent implements OnInit {
     this.getDoctorsForAdmin();
 
     this.successCreatedDoctor = this.doctorService.createSuccessEmitter.subscribe(
-      data => {
+      () => {
         this.getDoctorsForAdmin();
       }
     );
   }
 
   getDoctorsForAdmin() {
-    this.doctorService.getAllDoctorsForAdmin().subscribe(data => {
+    this.doctorService.getAllDoctorsForAdmin().subscribe((data) => {
       this.doctorsDataSource = new MatTableDataSource(data);
       this.doctorsDataSource.sort = this.sort;
       this.doctorsDataSource.paginator = this.paginator;
@@ -50,7 +50,7 @@ export class ListOfDoctorsComponent implements OnInit {
   }
 
   search() {
-    this.doctorService.searchDoctorsForAdminRequest(this.searchFirstName, this.searchLastName, this.searchSpecializedFor).subscribe(data => {
+    this.doctorService.searchDoctorsForAdminRequest(this.searchFirstName, this.searchLastName, this.searchSpecializedFor).subscribe((data) => {
       this.doctorsDataSource = new MatTableDataSource(data);
       this.doctorsDataSource.sort = this.sort;
       this.doctorsDataSource.paginator = this.paginator;
@@ -64,19 +64,15 @@ export class ListOfDoctorsComponent implements OnInit {
     this.doctorsDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openEditingDialog() {
-
-  }
-
   deleteDoctor(doctor: Doctor) {
 
     this.doctorService.deleteDoctor(doctor.id).subscribe(
-      responseData => {
+      () => {
         this.getDoctorsForAdmin();
-        this.toastr.success("Successfully deleted doctor.", 'Delete doctor');
+        this.toastr.success('Successfully deleted doctor.', 'Delete doctor');
       },
-      message => {
-        this.toastr.error("You can not delete this doctor because he has upcoming appointments.", 'Delete doctor');
+      () => {
+        this.toastr.error('You can not delete this doctor because he has upcoming appointments.', 'Delete doctor');
       }
     );
   }

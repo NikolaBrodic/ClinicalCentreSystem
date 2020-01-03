@@ -16,4 +16,6 @@ public interface ClinicAdministratorRepository extends JpaRepository<ClinicAdmin
     ClinicAdministrator findByPhoneNumber(String phoneNumber);
 
     List<ClinicAdministrator> findByClinicId(Long id);
+
+    List<ClinicAdministrator> findByClinicIdAndStatusNot(Long id, UserStatus status);
 }

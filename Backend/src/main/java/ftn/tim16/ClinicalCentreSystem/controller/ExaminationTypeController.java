@@ -3,7 +3,9 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 import ftn.tim16.ClinicalCentreSystem.dto.request.CreateExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationTypeDTO;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
+import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,8 @@ public class ExaminationTypeController {
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
 
+    @Autowired
+    private DoctorService doctorService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -69,13 +73,19 @@ public class ExaminationTypeController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN','DOCTOR')")
     public ResponseEntity<List<ExaminationTypeDTO>> getAllExaminationTypesForAdmin() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            Doctor doctor = doctorService.getLoginDoctor();
+            if (doctor == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(doctor.getClinic().getId()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(examinationTypeService.findAllTypesInClinic(clinicAdministrator.getClinic().getId()), HttpStatus.OK);
+
     }
 
     @GetMapping(value = "/search-types")

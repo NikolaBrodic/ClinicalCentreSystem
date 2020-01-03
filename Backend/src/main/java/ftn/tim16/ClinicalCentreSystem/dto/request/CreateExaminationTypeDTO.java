@@ -19,9 +19,6 @@ public class CreateExaminationTypeDTO {
     @Positive(message = "Price is not a positive number.")
     private Double price;
 
-    public CreateExaminationTypeDTO() {
-    }
-
     public CreateExaminationTypeDTO(Long id, String label, Double price) {
         super();
         this.id = id;
@@ -31,6 +28,10 @@ public class CreateExaminationTypeDTO {
 
     public CreateExaminationTypeDTO(ExaminationType examinationType) {
         this(examinationType.getId(), examinationType.getLabel(), examinationType.getPrice());
+    }
+
+    public CreateExaminationTypeDTO() {
+
     }
 
     public Long getId() {

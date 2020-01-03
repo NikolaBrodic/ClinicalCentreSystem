@@ -1,0 +1,33 @@
+<mat-dialog-content class="dialog-class">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <!-- section-title -->
+            <div class="section-title mb-0">
+                <h2>{{examination.kind | titlecase}}</h2>
+            </div>
+            <table class="table table-font mt-4">
+                <tbody>
+                    <tr *ngIf="examination.room">
+                        <th>Room</th>
+                        <td>{{examination.room.label }}</td>
+                    </tr>
+                    <tr *ngIf="examination.patient">
+                        <th>Patient</th>
+                        <td>{{examination.patient.firstName}} {{examination.patient.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Time</th>
+                        <td>{{ examination.interval.startDateTime | date:'HH:mm' }} -
+                            {{ examination.interval.endDateTime | date:'HH:mm' }}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mt-3" *ngIf="startingExaminationExists" style="justify-content: center;">
+                <a mat-list-item routerLink="/doctor/examination" class="link-font">Start
+                    examination</a>
+            </div>
+            <!-- /.section-title -->
+        </div>
+    </div>
+</mat-dialog-content>

@@ -25,16 +25,16 @@ export class ApproveRequestToRegisterComponent implements OnInit {
     const requestToRegister = this.data.requestToRegister;
 
     this.requestToRegisterService.approve(requestToRegister).subscribe(
-      responseData => {
+      () => {
         this.dialogRef.close();
         this.toastr.success(
-          "Request to register is approved. Patient will be notified.",
-          "Approve request to register"
+          'Request to register is approved. Patient will be notified.',
+          'Approve request to register'
         );
         this.requestToRegisterService.approveSuccessEmitter.next();
       },
-      errorMessage => {
-        this.toastr.error("Request to register can't be aproved.", "Approve request to register");
+      () => {
+        this.toastr.error("Request to register can't be aproved.", 'Approve request to register');
       }
     )
   }

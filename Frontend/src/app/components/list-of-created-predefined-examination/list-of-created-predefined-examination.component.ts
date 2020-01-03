@@ -32,7 +32,7 @@ export class ListOfCreatedPredefinedExaminationComponent implements OnInit {
   ngOnInit() {
     this.getPredefinedExaminations();
     this.successCreatedPredefinedExamination = this.examinationService.successCreatedPredefinedExamination.subscribe(
-      data => {
+      () => {
         this.getPredefinedExaminations();
       }
     );

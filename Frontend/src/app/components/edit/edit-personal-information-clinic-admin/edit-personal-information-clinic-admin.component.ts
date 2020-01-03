@@ -36,7 +36,7 @@ export class EditPersonalInformationClinicAdminComponent implements OnInit {
           }
         );
       },
-      message => {
+      () => {
         this.userService.logout();
       }
     );
@@ -53,10 +53,10 @@ export class EditPersonalInformationClinicAdminComponent implements OnInit {
       this.editPersonalInformation.value.phoneNumber, this.loggedClinicAdmin.id);
 
     this.clinicAdministratorService.put(admin).subscribe(
-      responseData => {
+      () => {
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
-      message => {
+      () => {
         this.toastr.error("Error! Please try again.", 'Edit personal information');
       }
     );

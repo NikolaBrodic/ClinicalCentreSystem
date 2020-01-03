@@ -1,21 +1,9 @@
 <ng-template #eventTemplate let-item="item">
     <div class="event-template">
-        <div *ngIf="item.data.kind">
-            <b>{{ item.data.kind | titlecase}}</b>
-            <span *ngIf="item.data.room">
-                <br>
-                <i>Room: </i>{{ item.data.room }}
-            </span>
-            <span *ngIf="item.data.patientFirstName && item.data.patientLastName">
-                <br>
-                <i>Patient: </i>{{ item.data.patientFirstName }} {{item.data.patientLastName}}
-            </span>
-            <span>
-                <br>
-                <i>Time: </i>{{ item.from | date:'HH:mm' }} - {{ item.to | date:'HH:mm' }}
-            </span>
+        <div *ngIf="item.data.examination">
+            <b>{{ item.data.examination.kind | titlecase}}</b>
         </div>
-        <div *ngIf="!item.data.kind">
+        <div *ngIf="!item.data.examination">
             <b>{{ item.data.type | titlecase}}</b>
             <span>
                 <br>
@@ -29,9 +17,9 @@
     </div>
 
 </ng-template>
-
+(axViewChange)="viewChange($event)"
 <ax-scheduler [axEventTemplate]="eventTemplate" [axSchedulerView]="'week'"
     [axViews]="axiomSchedulerParams.viewsToChoose" [axEventToolbar]="axiomSchedulerParams.enableToolbar"
     [axAnimation]="axiomSchedulerParams.animationType" [axTheme]="axiomSchedulerParams.theme" [axEvents]="events"
-    [axShowLocale]="axiomSchedulerParams.enableLocaleChange">
+    [axShowLocale]="axiomSchedulerParams.enableLocaleChange" (axEventClick)="openViewExamination($event)">
 </ax-scheduler>

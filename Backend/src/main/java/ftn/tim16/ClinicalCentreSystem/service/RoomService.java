@@ -27,7 +27,7 @@ public interface RoomService {
 
     List<RoomDTO> findAllRoomsInClinic(Clinic clinic);
 
-    RoomPagingDTO findAllRoomsInClinic(String kind, Clinic clinic, Pageable page, String search, String date, String searchStartTime, String searchEndTime);
+    RoomPagingDTO searchRoomsInClinic(String kind, Clinic clinic, Pageable page, String search, String date, String searchStartTime, String searchEndTime);
 
     List<RoomDTO> getAvailableExaminationRooms(Long clinicId, String startDateTime, String endDateTime);
 

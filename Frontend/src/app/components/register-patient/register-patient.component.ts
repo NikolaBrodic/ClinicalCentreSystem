@@ -41,7 +41,6 @@ export class RegisterPatientComponent implements OnInit {
     });
   }
 
-  // Convenience getter for easy access to form fields
   get f() {
     return this.registerForm.controls;
   }
@@ -49,7 +48,6 @@ export class RegisterPatientComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // Stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
@@ -72,7 +70,7 @@ export class RegisterPatientComponent implements OnInit {
 
   private createPatient() {
     this.patientService.createPatient(this.patient).subscribe(
-      data => {
+      () => {
         this.router.navigate(['/patient/pending-approval']);
       }
     );
