@@ -170,7 +170,6 @@ public class PatientServiceImpl implements PatientService {
         });
         // return cloned patient
         return (Patient) appContext.getBean(patientCache.get(patientId).getPrototypeBeanName(), patientCache.get(patientId));
-
     }
 
     @Override
@@ -198,6 +197,4 @@ public class PatientServiceImpl implements PatientService {
 
         return awaitingApprovalPatientDTO;
     }
-
-
 }
