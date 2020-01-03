@@ -19,7 +19,7 @@ import java.util.Set;
 @Entity
 @Component("patient")
 @Scope("prototype")
-public class Patient implements UserDetails, Cloneable {
+public class Patient implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
