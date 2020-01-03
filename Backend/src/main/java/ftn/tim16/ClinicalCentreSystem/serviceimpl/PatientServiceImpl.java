@@ -12,6 +12,7 @@ import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -19,9 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -35,13 +34,20 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
 
+    @Autowired
+    private ApplicationContext appContext;
+
+    private static final Map<Long, Patient> patientCache = new HashMap<>();
+
     @Override
     public Patient changePassword(String newPassword, Patient user) {
         if (user.getStatus().equals(PatientStatus.AWAITING_APPROVAL)) {
             return null;
         }
         user.setPassword(newPassword);
-        return patientRepository.save(user);
+        Patient updatedPatient = patientRepository.save(user);
+        patientCache.put(updatedPatient.getId(), updatedPatient);
+        return updatedPatient;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class PatientServiceImpl implements PatientService {
         medicalRecordRepository.save(medicalRecord);
 
         Patient updatedPatient = patientRepository.save(patient);
-
+        patientCache.put(updatedPatient.getId(), updatedPatient);
         composeAndSendApprovalEmail(updatedPatient.getEmail());
 
         return new PatientWithIdDTO(updatedPatient);
@@ -151,7 +157,20 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientWithIdDTO getPatientForMedicalStaff(Long id) {
-        return new PatientWithIdDTO(patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED));
+        return new PatientWithIdDTO(get(id));
+    }
+
+    public Patient get(Long patientId) {
+        /*
+        if patient is not cached, fetch patient from database
+        and cache fetched patient
+         */
+        patientCache.computeIfAbsent(patientId, s -> {
+            return patientRepository.findByIdAndStatus(patientId, PatientStatus.APPROVED);
+        });
+        // return cloned patient
+        return (Patient) appContext.getBean(patientCache.get(patientId).getPrototypeBeanName(), patientCache.get(patientId));
+
     }
 
     @Override
@@ -170,7 +189,6 @@ public class PatientServiceImpl implements PatientService {
         return patientWithIdDTOS;
     }
 
-    //TODO: Change to use some made mapper as dependency
     private AwaitingApprovalPatientDTO convertToDTO(Patient patient) {
         AwaitingApprovalPatientDTO awaitingApprovalPatientDTO = new AwaitingApprovalPatientDTO();
         awaitingApprovalPatientDTO.setId(patient.getId());
@@ -180,4 +198,6 @@ public class PatientServiceImpl implements PatientService {
 
         return awaitingApprovalPatientDTO;
     }
+
+
 }
