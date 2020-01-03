@@ -89,7 +89,7 @@ public class PatientController {
 
     @GetMapping(value = "/forMedicalStaff/{id}")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
-    public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable long id) {
+    public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable Long id) {
         PatientWithIdDTO patientWithIdDTO = patientService.getPatientForMedicalStaff(id);
         if (patientWithIdDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
