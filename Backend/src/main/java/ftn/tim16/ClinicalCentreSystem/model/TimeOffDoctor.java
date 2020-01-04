@@ -26,6 +26,9 @@ public class TimeOffDoctor {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Doctor doctor;
 
+    @Version
+    private Long version;
+
     public TimeOffDoctor() {
     }
 
@@ -34,6 +37,14 @@ public class TimeOffDoctor {
         this.interval = interval;
         this.status = status;
         this.doctor = doctor;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getId() {

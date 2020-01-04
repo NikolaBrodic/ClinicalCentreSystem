@@ -48,8 +48,14 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
           );
           this.timeOffDoctorService.rejectSuccessEmitter.next(reason);
         },
-        () => {
-          this.toastr.error("Request for holiday/time off can't be rejected.", "Reject request for holiday/time off");
+        (message) => {
+          if (message.status === 409) {
+            this.toastr.error("Request for holiday/time off is already approved/rejected.", 'Reject request for holiday/time off');
+          } else {
+            this.toastr.error("Request for holiday/time off can't be rejected.", "Reject request for holiday/time off");
+          }
+          this.timeOffDoctorService.rejectSuccessEmitter.next();
+          this.dialogRef.close();
         }
       )
     } else {
@@ -63,8 +69,14 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
           );
           this.timeOffNurseService.rejectSuccessEmitter.next(reason);
         },
-        () => {
-          this.toastr.error("Request for holiday/time off can't be rejected.", "Reject request for holiday/time off");
+        (message) => {
+          if (message.status === 409) {
+            this.toastr.error("Request for holiday/time off is already approved/rejected.", 'Reject request for holiday/time off');
+          } else {
+            this.toastr.error("Request for holiday/time off can't be rejected.", "Reject request for holiday/time off");
+          }
+          this.timeOffNurseService.rejectSuccessEmitter.next();
+          this.dialogRef.close();
         }
       )
     }

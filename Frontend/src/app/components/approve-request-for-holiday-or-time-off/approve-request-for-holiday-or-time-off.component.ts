@@ -32,8 +32,14 @@ export class ApproveRequestForHolidayOrTimeOffComponent {
           );
           this.timeOffDoctorService.approveSuccessEmitter.next();
         },
-        () => {
-          this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
+        (message) => {
+          if (message.status === 409) {
+            this.toastr.error("Request for holiday/time off is already approved/rejected.", 'Approve request');
+          } else {
+            this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
+          }
+          this.timeOffDoctorService.approveSuccessEmitter.next();
+          this.dialogRef.close();
         }
       )
     } else {
@@ -46,8 +52,14 @@ export class ApproveRequestForHolidayOrTimeOffComponent {
           );
           this.timeOffNurseService.approveSuccessEmitter.next();
         },
-        () => {
-          this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
+        (message) => {
+          if (message.status === 409) {
+            this.toastr.error("Request for holiday/time off is already approved/rejected.", 'Approve request');
+          } else {
+            this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
+          }
+          this.timeOffNurseService.approveSuccessEmitter.next();
+          this.dialogRef.close();
         }
       )
     }

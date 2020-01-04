@@ -14,7 +14,10 @@ import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.OptimisticLockException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
 
     @Autowired
@@ -34,6 +38,7 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
     private EmailNotificationService emailNotificationService;
 
     @Override
+    @Transactional(readOnly = false)
     public TimeOffDTO create(Doctor doctor, CreateTimeOffRequestDTO timeOffRequestDTO) throws DateTimeParseException {
         LocalDateTime startDateTime = getLocalDateTime(timeOffRequestDTO.getStartDateTime());
         LocalDateTime endDateTime = getLocalDateTime(timeOffRequestDTO.getEndDateTime());
@@ -80,7 +85,8 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
     }
 
     @Override
-    public RequestForTimeOffDTO approveRequestForHolidayOrTimeOff(Long id) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public RequestForTimeOffDTO approveRequestForHolidayOrTimeOff(Long id) throws OptimisticLockException {
         TimeOffDoctor timeOffDoctor = timeOffDoctorRepository.findByIdAndStatus(id, TimeOffStatus.AWAITING);
 
         if (timeOffDoctor == null) {
@@ -92,7 +98,6 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
         TimeOffDoctor updatedTimeOff = timeOffDoctorRepository.save(timeOffDoctor);
 
         composeAndSendApprovalEmail(updatedTimeOff.getDoctor().getEmail(), updatedTimeOff.getType().toString());
-
         return new RequestForTimeOffDTO(updatedTimeOff);
     }
 
@@ -108,9 +113,9 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
     }
 
     @Override
-    public RequestForTimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public RequestForTimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason) throws OptimisticLockException {
         TimeOffDoctor timeOffDoctor = timeOffDoctorRepository.findByIdAndStatus(id, TimeOffStatus.AWAITING);
-
         if (timeOffDoctor == null) {
             return null;
         }
@@ -119,6 +124,7 @@ public class TimeOffDoctorServiceImpl implements TimeOffDoctorService {
         TimeOffDoctor updatedTimeOff = timeOffDoctorRepository.save(timeOffDoctor);
 
         composeAndSendRejectionEmail(updatedTimeOff.getDoctor().getEmail(), updatedTimeOff.getType().toString(), reason);
+
         return new RequestForTimeOffDTO(updatedTimeOff);
     }
 

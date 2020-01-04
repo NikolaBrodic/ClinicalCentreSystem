@@ -212,6 +212,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationDTO createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
         LocalDate localDate = getDate(predefinedExaminationDTO.getStartDateTime());
         LocalDateTime startDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getStartDateTime());
@@ -344,6 +345,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationDTO createExaminationOrOperation(CreateExaminationOrOperationDTO createExaminationOrOperationDTO, Doctor loggedDoctor) {
 
         ExaminationKind kind = getKind(createExaminationOrOperationDTO.getKind());

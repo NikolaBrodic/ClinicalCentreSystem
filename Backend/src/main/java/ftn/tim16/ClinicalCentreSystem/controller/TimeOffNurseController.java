@@ -82,21 +82,29 @@ public class TimeOffNurseController {
     @PutMapping(value = "/approve-request-for-holiday-or-time-off/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<RequestForTimeOffDTO> approveRequestForHolidayOrTimeOff(@PathVariable Long id) {
-        RequestForTimeOffDTO request = timeOffNurseService.approveRequestForHolidayOrTimeOff(id);
-        if (request == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try {
+            RequestForTimeOffDTO request = timeOffNurseService.approveRequestForHolidayOrTimeOff(id);
+            if (request == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(request, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(request, HttpStatus.OK);
     }
 
     @PutMapping(value = "/reject-request-for-holiday-or-time-off/{id}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<RequestForTimeOffDTO> rejectRequestForHolidayOrTimeOff(@RequestBody String reason, @PathVariable Long id) {
-        RequestForTimeOffDTO request = timeOffNurseService.rejectRequestForHolidayOrTimeOff(id, reason);
-        if (request == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(request, HttpStatus.OK);
+        try {
+            RequestForTimeOffDTO request = timeOffNurseService.rejectRequestForHolidayOrTimeOff(id, reason);
+            if (request == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<>(request, HttpStatus.OK);
+            }
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 }
