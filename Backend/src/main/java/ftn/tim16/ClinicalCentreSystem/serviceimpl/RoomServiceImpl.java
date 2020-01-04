@@ -16,9 +16,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.IllegalTransactionStateException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockTimeoutException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,7 +51,7 @@ public class RoomServiceImpl implements RoomService {
     private DateTimeIntervalService dateTimeIntervalService;
 
     @Override
-    public Room findById(Long id) {
+    public Room findById(Long id) throws LockTimeoutException {
         return roomRepository.getByIdAndStatusNot(id, LogicalStatus.DELETED);
     }
 
@@ -304,7 +306,12 @@ public class RoomServiceImpl implements RoomService {
 
     private Room assignRoom(Long examinationId, RoomDTO roomDTO, DoctorDTO doctorDTO) {
         Examination selectedExamination = examinationService.getExamination(examinationId);
-        Room room = findById(roomDTO.getId());
+        Room room = null;
+        try {
+            room = findById(roomDTO.getId());
+        } catch (Exception p) {
+            return null;
+        }
         if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
@@ -370,18 +377,28 @@ public class RoomServiceImpl implements RoomService {
 
                 }
                 selectedExamination.setInterval(dateTimeInterval);
-                examinationService.assignRoom(selectedExamination, room, chosenNurse);
+                try {
+                    examinationService.assignRoom(selectedExamination, room, chosenNurse);
+                } catch (IllegalTransactionStateException ex) {
+                    return null;
+                }
+
             }
 
         }
-
         sendMail(selectedExamination, doctor, selectedExamination.getPatient(), chosenNurse);
         return findById(roomDTO.getId());
     }
 
     private Room assignRoomForOperation(Long examinationId, RoomDTO roomDTO, Set<Doctor> doctors) {
         Examination selectedExamination = examinationService.getExamination(examinationId);
-        Room room = findById(roomDTO.getId());
+        Room room = null;
+        try {
+            room = findById(roomDTO.getId());
+        } catch (Exception p) {
+            return null;
+        }
+
         if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
@@ -415,11 +432,14 @@ public class RoomServiceImpl implements RoomService {
                     }
                 }
                 selectedExamination.setInterval(dateTimeInterval);
-                examinationService.assignRoomForOperation(selectedExamination, room, doctors);
+                try {
+                    examinationService.assignRoomForOperation(selectedExamination, room, doctors);
+                } catch (IllegalTransactionStateException ex) {
+                    return null;
+                }
             }
 
         }
-
         sendMailToAll(selectedExamination, doctors, selectedExamination.getPatient());
         return findById(roomDTO.getId());
     }
@@ -508,7 +528,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public void automaticallyAssignRoom() {
         List<Examination> examinations = examinationService.getAwaitingExaminations();
         for (Examination examination : examinations) {

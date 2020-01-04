@@ -406,7 +406,7 @@ insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',20,'AWAITING',1,1,1,12);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2020 10:30','25.12.2020 19:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2020 10:30','25.12.2020 14:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',21,'AWAITING',1,1,1,14);
 

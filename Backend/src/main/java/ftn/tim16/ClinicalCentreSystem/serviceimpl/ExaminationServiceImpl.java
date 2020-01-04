@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -142,6 +143,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public Examination assignRoom(Examination selectedExamination, Room room, Nurse chosenNurse) {
         if (chosenNurse == null) {
             return null;
@@ -154,6 +156,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public Examination assignRoomForOperation(Examination selectedExamination, Room room, Set<Doctor> doctors) {
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
@@ -220,8 +223,12 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         ExaminationType examinationType = examinationTypeService.findById(predefinedExaminationDTO.getExaminationTypeDTO().getId());
         Doctor doctor = doctorService.getDoctor(predefinedExaminationDTO.getDoctorDTO().getId());
-        Room room = roomService.findById(predefinedExaminationDTO.getRoom());
-
+        Room room = null;
+        try {
+            roomService.findById(predefinedExaminationDTO.getRoom());
+        } catch (Exception p) {
+            return null;
+        }
         if (examinationType == null || doctor == null || room == null || examinationType.getId() != doctor.getSpecialized().getId()) {
             return null;
         }
