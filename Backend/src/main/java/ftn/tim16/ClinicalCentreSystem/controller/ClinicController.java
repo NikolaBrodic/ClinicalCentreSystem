@@ -117,12 +117,15 @@ public class ClinicController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        EditClinicDTO changedClinic = clinicService.edit(clinicDTO, clinicAdministrator.getClinic().getId());
-        if (changedClinic == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        try {
+            EditClinicDTO changedClinic = clinicService.edit(clinicDTO, clinicAdministrator.getClinic().getId());
+            if (changedClinic == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+            return new ResponseEntity<>(changedClinic, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(changedClinic, HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/week-statistic")

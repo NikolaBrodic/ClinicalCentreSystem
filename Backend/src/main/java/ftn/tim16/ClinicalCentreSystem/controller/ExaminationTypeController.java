@@ -51,11 +51,16 @@ public class ExaminationTypeController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationTypeDTO changedExaminationType = examinationTypeService.edit(examinationType, clinicAdministrator.getClinic().getId());
-        if (changedExaminationType == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        try {
+            ExaminationTypeDTO changedExaminationType = examinationTypeService.edit(examinationType, clinicAdministrator.getClinic().getId());
+            if (changedExaminationType == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+            return new ResponseEntity<>(changedExaminationType, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(changedExaminationType, HttpStatus.ACCEPTED);
+
     }
 
     @PutMapping(value = "/edit-price-list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,11 +70,15 @@ public class ExaminationTypeController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationTypeDTO changedExaminationType = examinationTypeService.editPriceList(examinationType, clinicAdministrator.getClinic().getId());
-        if (changedExaminationType == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        try {
+            ExaminationTypeDTO changedExaminationType = examinationTypeService.editPriceList(examinationType, clinicAdministrator.getClinic().getId());
+            if (changedExaminationType == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+            return new ResponseEntity<>(changedExaminationType, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(changedExaminationType, HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/all")
@@ -119,11 +128,16 @@ public class ExaminationTypeController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        ExaminationTypeDTO examinationType = examinationTypeService.deleteExaminationType(clinicAdministrator.getClinic().getId(), id);
-        if (examinationType == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        try {
+            ExaminationTypeDTO examinationType = examinationTypeService.deleteExaminationType(clinicAdministrator.getClinic().getId(), id);
+            if (examinationType == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+            return new ResponseEntity<>(examinationType, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(examinationType, HttpStatus.ACCEPTED);
+
     }
 
 }

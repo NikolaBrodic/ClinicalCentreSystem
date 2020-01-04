@@ -32,7 +32,6 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     @Autowired
     private DoctorService doctorService;
 
-
     @Override
     @Transactional(readOnly = false)
     public ExaminationTypeDTO create(CreateExaminationTypeDTO examinationTypeDTO, Clinic clinic) {
@@ -46,7 +45,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId) {
+    public ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId) throws Exception {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
             return null;
@@ -65,12 +64,11 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
+    public ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId) throws Exception {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
             return null;
         }
-
         List<Examination> upcomingExaminations = examinationService.getUpcomingExaminationsOfExaminationType(examinationType.getId());
         if (upcomingExaminations != null && !upcomingExaminations.isEmpty()) {
             return null;
@@ -102,7 +100,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public ExaminationTypeDTO deleteExaminationType(Long clinicId, Long examinationTypeId) {
+    public ExaminationTypeDTO deleteExaminationType(Long clinicId, Long examinationTypeId) throws Exception {
         ExaminationType examinationType = findById(examinationTypeId);
         if (examinationType == null) {
             return null;

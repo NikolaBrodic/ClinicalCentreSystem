@@ -98,6 +98,7 @@ public class DoctorController {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(doctor, HttpStatus.ACCEPTED);
+
     }
 
     @GetMapping(value = "/{id}")

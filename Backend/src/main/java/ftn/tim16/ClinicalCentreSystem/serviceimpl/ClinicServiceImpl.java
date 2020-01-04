@@ -185,7 +185,7 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) {
+    public EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) throws Exception {
 
         Clinic existingClinic = clinicRepository.findOneById(clinicDTO.getId());
 

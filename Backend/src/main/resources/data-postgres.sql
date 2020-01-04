@@ -19,8 +19,8 @@ insert into clinical_centre_admin_authority (user_id, authority_id) values (3,1)
 
 /*CLINIC*/
 
-insert into clinic (address, description, name,clinic_rating) values ('Novi sad Tolstojeva','dddd','VMA1',0);
-insert into clinic (address, description, name,clinic_rating) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
+insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Tolstojeva','dddd','VMA1',0,0);
+insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',0,0);
 
 
 /*CLINIC ADMIN*/

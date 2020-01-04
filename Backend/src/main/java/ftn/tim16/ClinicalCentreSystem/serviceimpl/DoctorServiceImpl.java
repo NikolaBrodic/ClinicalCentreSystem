@@ -152,13 +152,6 @@ public class DoctorServiceImpl implements DoctorService {
         return null;
     }
 
-    @Override
-    public List<DoctorDTO> findByFirstNameAndLastNameAndDoctorRating(String firstName, String lastName, int doctorRating) {
-        List<Doctor> listOfDoctors = doctorRepository.findByFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndDoctorRating(
-                firstName, lastName, doctorRating);
-        return convertToDTO(listOfDoctors);
-    }
-
     private LocalDateTime getLocalDateTime(String date) throws DateTimeParseException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(date, formatter);

@@ -50,6 +50,9 @@ public class Clinic {
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ClinicAdministrator> clinicAdministrators = new HashSet<>();
 
+    @Version
+    private Long version;
+
     public Clinic() {
     }
 
@@ -64,6 +67,14 @@ public class Clinic {
         this.examinationTypes = new HashSet<>();
         this.clinicAdministrators = new HashSet<>();
         this.clinicRating = 0.0;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getId() {

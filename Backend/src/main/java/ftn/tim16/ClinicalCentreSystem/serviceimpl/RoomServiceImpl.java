@@ -50,6 +50,7 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private DateTimeIntervalService dateTimeIntervalService;
 
+
     @Override
     public Room findById(Long id) throws LockTimeoutException {
         return roomRepository.getByIdAndStatusNot(id, LogicalStatus.DELETED);
@@ -71,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) {
+    public RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) throws Exception {
         Room existingRoom = roomRepository.getByIdAndStatus(roomDTO.getId(), LogicalStatus.EXISTING);
         if (existingRoom == null) {
             return null;
@@ -159,7 +160,6 @@ public class RoomServiceImpl implements RoomService {
         if (room == null) {
             return null;
         }
-
         if (!isEditable(roomId, room.getClinic().getId(), clinicId)) {
             return null;
         }
