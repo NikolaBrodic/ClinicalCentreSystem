@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.LockTimeoutException;
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
@@ -54,6 +57,7 @@ public class DoctorServiceImpl implements DoctorService {
     private TimeOffDoctorService timeOffDoctorService;
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Doctor changePassword(String newPassword, Doctor user) {
         if (user.getStatus().equals(DoctorStatus.DELETED)) {
             return null;
@@ -127,6 +131,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void removeExamination(Examination examination, String email) {
         Doctor doc = doctorRepository.findByEmail(email);
         doc.getExaminations().remove(examination);
@@ -185,6 +190,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public DoctorDTO deleteDoctor(Long clinicId, Long id) {
 
         Doctor doctor = getDoctor(id);
@@ -214,6 +220,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public DoctorDTO editPersonalInformation(EditDoctorDTO editDoctorDTO) {
         Doctor doctor = getLoginDoctor();
 
@@ -252,6 +259,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
 

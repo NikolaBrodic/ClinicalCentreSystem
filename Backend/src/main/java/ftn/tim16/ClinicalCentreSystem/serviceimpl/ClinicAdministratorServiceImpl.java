@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class ClinicAdministratorServiceImpl implements ClinicAdministratorService {
 
     @Autowired
@@ -47,6 +50,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private EmailNotificationService emailNotificationService;
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user) {
         user.setPassword(newPassword);
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {
@@ -70,6 +74,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ClinicAdministratorDTO editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO) {
         ClinicAdministrator clinicAdministrator = getLoginAdmin();
 
@@ -105,6 +110,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ClinicAdministratorDTO create(ClinicAdministratorDTO clinicAdministratorDTO) {
         UserDetails userDetails = userService.findUserByEmail(clinicAdministratorDTO.getEmail());
         if (userDetails != null) {

@@ -13,11 +13,14 @@ import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
     @Autowired
@@ -31,6 +34,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationTypeDTO create(CreateExaminationTypeDTO examinationTypeDTO, Clinic clinic) {
         if (examinationTypeRepository.findByLabelIgnoringCase(examinationTypeDTO.getLabel()) != null) {
             return null;
@@ -41,6 +45,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId) {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
@@ -59,6 +64,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId) {
         ExaminationType existingExaminationType = findById(examinationType.getId());
         if (existingExaminationType == null) {
@@ -95,6 +101,7 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationTypeDTO deleteExaminationType(Long clinicId, Long examinationTypeId) {
         ExaminationType examinationType = findById(examinationTypeId);
         if (examinationType == null) {

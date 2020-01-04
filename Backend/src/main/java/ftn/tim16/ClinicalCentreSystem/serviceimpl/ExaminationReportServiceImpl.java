@@ -9,6 +9,8 @@ import ftn.tim16.ClinicalCentreSystem.service.ExaminationReportService;
 import ftn.tim16.ClinicalCentreSystem.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class ExaminationReportServiceImpl implements ExaminationReportService {
 
     @Autowired
@@ -34,6 +37,7 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationReportDTO create(Doctor doctor, Examination examination, ExaminationReportDTO examinationReportDTO) {
         Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
         if (diagnose == null) {
@@ -63,6 +67,7 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationReportDTO edit(Doctor doctor, ExaminationReportDTO examinationReportDTO) {
         Diagnose diagnose = diagnoseService.findById(examinationReportDTO.getDiagnoseId());
         if (diagnose == null) {
