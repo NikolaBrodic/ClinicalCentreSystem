@@ -42,21 +42,29 @@ public class PatientController {
     @PutMapping(value = "/approve-request-to-register/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<PatientWithIdDTO> approveRequestToRegister(@PathVariable Long id) {
-        PatientWithIdDTO updatedPatient = patientService.approveRequestToRegister(id);
-        if (updatedPatient == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try {
+            PatientWithIdDTO updatedPatient = patientService.approveRequestToRegister(id);
+            if (updatedPatient == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
     }
 
     @PutMapping(value = "/reject-request-to-register/{id}")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<Void> rejectRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
-        boolean success = patientService.rejectRequestToRegister(id, reason);
-        if (success) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            boolean success = patientService.rejectRequestToRegister(id, reason);
+            if (success) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
