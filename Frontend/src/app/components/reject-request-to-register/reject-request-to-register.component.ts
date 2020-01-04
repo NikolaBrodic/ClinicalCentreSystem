@@ -46,7 +46,9 @@ export class RejectRequestToRegisterComponent implements OnInit {
         this.requestToRegisterService.rejectSuccessEmitter.next(reason);
       },
       () => {
-        this.toastr.error("Request to register can't be rejected. ", 'Reject request to register ');
+        this.toastr.error("Request to register has already been approved/rejected.", 'Reject request to register');
+        this.requestToRegisterService.rejectSuccessEmitter.next();
+        this.dialogRef.close();
       }
     )
   }

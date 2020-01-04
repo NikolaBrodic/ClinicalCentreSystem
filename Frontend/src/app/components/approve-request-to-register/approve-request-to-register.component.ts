@@ -34,7 +34,9 @@ export class ApproveRequestToRegisterComponent implements OnInit {
         this.requestToRegisterService.approveSuccessEmitter.next();
       },
       () => {
-        this.toastr.error("Request to register can't be aproved.", 'Approve request to register');
+        this.toastr.error("Request to register has already been approved/rejected.", 'Approve request to register');
+        this.requestToRegisterService.approveSuccessEmitter.next();
+        this.dialogRef.close();
       }
     )
   }
