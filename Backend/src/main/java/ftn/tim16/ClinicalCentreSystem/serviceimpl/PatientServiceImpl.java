@@ -19,10 +19,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.OptimisticLockException;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
@@ -40,6 +44,7 @@ public class PatientServiceImpl implements PatientService {
     private static final Map<Long, Patient> patientCache = new HashMap<>();
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public Patient changePassword(String newPassword, Patient user) {
         if (user.getStatus().equals(PatientStatus.AWAITING_APPROVAL)) {
             return null;
@@ -62,29 +67,33 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public PatientWithIdDTO approveRequestToRegister(Long id) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public PatientWithIdDTO approveRequestToRegister(Long id) throws OptimisticLockException {
         Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
-
         if (patient == null) {
             return null;
         }
 
         patient.setStatus(PatientStatus.APPROVED);
+
+        Patient updatedPatient = patientRepository.saveAndFlush(patient);
+        if (updatedPatient == null) {
+            return null;
+        }
+
         MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setPatient(patient);
+        medicalRecord.setPatient(updatedPatient);
         medicalRecordRepository.save(medicalRecord);
 
-        Patient updatedPatient = patientRepository.save(patient);
         patientCache.put(updatedPatient.getId(), updatedPatient);
         composeAndSendApprovalEmail(updatedPatient.getEmail());
-
         return new PatientWithIdDTO(updatedPatient);
     }
 
     @Override
-    public boolean rejectRequestToRegister(Long id, String reason) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public boolean rejectRequestToRegister(Long id, String reason) throws OptimisticLockException {
         Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
-
         if (patient == null) {
             return false;
         } else if (patient.getStatus() == PatientStatus.APPROVED) {
@@ -92,9 +101,7 @@ public class PatientServiceImpl implements PatientService {
         }
 
         patientRepository.deleteById(id);
-
         composeAndSendRejectionEmail(patient.getEmail(), reason);
-
         return true;
     }
 

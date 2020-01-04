@@ -72,6 +72,9 @@ public class Patient implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
 
+    @Version
+    private Long version;
+
     public Patient() {
 
     }
@@ -111,6 +114,14 @@ public class Patient implements UserDetails {
         this.examinations = patient.getExaminations();
         this.lastPasswordResetDate = patient.getLastPasswordResetDate();
         this.authorities = patient.authorities;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public void setAuthorities(Set<Authority> authorities) {
