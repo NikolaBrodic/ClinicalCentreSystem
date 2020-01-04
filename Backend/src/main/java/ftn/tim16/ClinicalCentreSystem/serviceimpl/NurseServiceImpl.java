@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockTimeoutException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -61,6 +62,11 @@ public class NurseServiceImpl implements NurseService {
             user.setStatus(UserStatus.ACTIVE);
         }
         return nurseRepository.save(user);
+    }
+
+    @Override
+    public Nurse findById(Long id) throws LockTimeoutException {
+        return nurseRepository.findOneById(id);
     }
 
     @Override
@@ -108,7 +114,14 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public boolean canGetTimeOff(Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public boolean canGetTimeOff(Nurse loggedInNurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Nurse nurse;
+        try {
+            nurse = findById(loggedInNurse.getId());
+        } catch (Exception e) {
+            return false;
+        }
+
         if (timeOffNurseService.isNurseOnVacation(nurse.getId(), startDateTime, endDateTime)) {
             return false;
         }
@@ -226,23 +239,22 @@ public class NurseServiceImpl implements NurseService {
         List<Nurse> nurses = nurseRepository.findByClinicId(clinic_id);
         List<Nurse> availableNurses = new ArrayList<>();
         for (Nurse nurse : nurses) {
-            if (isAvailable(nurse.getId(), startDateTime, endDateTime)) {
+            if (isAvailable(nurse, startDateTime, endDateTime)) {
                 availableNurses.add(nurse);
             }
         }
         return availableNurses;
     }
 
-    private boolean isAvailable(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        Nurse nurse = nurseRepository.getById(nurseId);
+    private boolean isAvailable(Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         if (!nurse.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
 
-        if (timeOffNurseService.isNurseOnVacation(nurseId, startDateTime, endDateTime)) {
+        if (timeOffNurseService.isNurseOnVacation(nurse.getId(), startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getNurseExaminationsOnDay(nurseId, startDateTime);
+        List<Examination> examinations = examinationService.getNurseExaminationsOnDay(nurse.getId(), startDateTime);
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {
                 if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {

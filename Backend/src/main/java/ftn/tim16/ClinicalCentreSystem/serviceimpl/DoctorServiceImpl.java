@@ -93,7 +93,14 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public boolean canGetTimeOff(Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public boolean canGetTimeOff(Doctor loggedInDoctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Doctor doctor;
+        try {
+            doctor = findById(loggedInDoctor.getId());
+        } catch (Exception e) {
+            return false;
+        }
+
         if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
             return false;
         }
