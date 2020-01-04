@@ -53,11 +53,16 @@ public class RoomController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        RoomWithIdDTO changedRoom = roomService.edit(roomDTO, clinicAdministrator.getClinic().getId());
-        if (changedRoom == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        try {
+            RoomWithIdDTO changedRoom = roomService.edit(roomDTO, clinicAdministrator.getClinic().getId());
+            if (changedRoom == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+            return new ResponseEntity<>(changedRoom, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(changedRoom, HttpStatus.ACCEPTED);
+
     }
 
     @GetMapping(value = "/all")
@@ -138,12 +143,12 @@ public class RoomController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
         RoomWithIdDTO room = roomService.deleteRoom(clinicAdministrator.getClinic().getId(), id);
         if (room == null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(room, HttpStatus.ACCEPTED);
+
     }
 
 }

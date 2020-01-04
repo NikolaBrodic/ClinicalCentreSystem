@@ -64,7 +64,7 @@ export class ListOfExaminationTypesComponent implements OnInit {
         this.toastr.success("Successfully deleted examination type.", 'Delete examination type');
       },
       () => {
-        this.toastr.error("You can not delete this examination type because this examination type is specialization of some doctor or type of some examination.",
+        this.toastr.error("You can not delete this examination type because it is in use.",
           'Delete examination type');
       }
     );

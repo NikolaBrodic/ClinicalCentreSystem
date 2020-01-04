@@ -5,14 +5,18 @@ import ftn.tim16.ClinicalCentreSystem.model.Nurse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 
+import javax.persistence.LockModeType;
 import java.util.List;
 
 public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
     Nurse findByEmail(String email);
 
-    Nurse getById(Long id);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+        //@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "0")})
+    Nurse findOneById(Long id);
 
     Nurse findByIdAndStatus(Long id, UserStatus userStatus);
 

@@ -6,8 +6,11 @@ import ftn.tim16.ClinicalCentreSystem.repository.MedicalRecordRepository;
 import ftn.tim16.ClinicalCentreSystem.service.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Autowired
@@ -19,6 +22,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public MedicalRecordDTO update(MedicalRecordDTO medicalRecordDTO) {
         MedicalRecord medicalRecord = medicalRecordRepository.findOneById(medicalRecordDTO.getId());
         if (medicalRecord == null) {

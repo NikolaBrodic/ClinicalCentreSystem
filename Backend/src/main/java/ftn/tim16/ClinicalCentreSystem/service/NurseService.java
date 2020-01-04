@@ -10,7 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface NurseService {
+
     Nurse changePassword(String newPassword, Nurse user);
+
+    Nurse findById(Long id);
 
     List<NurseDTO> getAllNursesInClinic(Long id);
 

@@ -33,7 +33,9 @@ export class ApproveRequestForHolidayOrTimeOffComponent {
           this.timeOffDoctorService.approveSuccessEmitter.next();
         },
         () => {
-          this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
+          this.toastr.error("Request for holiday/time off has  already been approved/rejected.", 'Approve request');
+          this.timeOffDoctorService.approveSuccessEmitter.next();
+          this.dialogRef.close();
         }
       )
     } else {
@@ -47,7 +49,9 @@ export class ApproveRequestForHolidayOrTimeOffComponent {
           this.timeOffNurseService.approveSuccessEmitter.next();
         },
         () => {
-          this.toastr.error("Request for holiday/time off can't be aproved.", 'Approve request');
+          this.toastr.error("Request for holiday/time off has  already been  approved/rejected.", 'Approve request');
+          this.timeOffNurseService.approveSuccessEmitter.next();
+          this.dialogRef.close();
         }
       )
     }

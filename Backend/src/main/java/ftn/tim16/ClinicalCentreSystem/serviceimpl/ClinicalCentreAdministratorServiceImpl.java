@@ -16,12 +16,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdministratorService {
 
     @Autowired
@@ -40,6 +42,7 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
     private EmailNotificationService emailNotificationService;
 
     @Override
+    @Transactional(readOnly = false)
     public ClinicalCentreAdministrator changePassword(String newPassword, ClinicalCentreAdministrator user) {
         user.setPassword(newPassword);
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {
@@ -68,6 +71,7 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ClinicalCentreAdminDTO create(ClinicalCentreAdminDTO clinicalCentreAdminDTO) {
         UserDetails userDetails = userService.findUserByEmail(clinicalCentreAdminDTO.getEmail());
         if (userDetails != null) {

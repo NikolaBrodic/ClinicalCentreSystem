@@ -61,6 +61,9 @@ public class Examination {
     @ManyToOne(fetch = FetchType.LAZY)
     private ClinicAdministrator clinicAdministrator;
 
+    @Version
+    private Long version;
+
     public Examination() {
         this.doctorRating = 0;
         this.clinicRating = 0;
@@ -105,6 +108,14 @@ public class Examination {
         this.patient = patient;
         doctors = new HashSet<Doctor>();
 
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getId() {

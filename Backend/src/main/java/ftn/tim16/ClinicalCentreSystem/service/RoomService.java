@@ -19,7 +19,7 @@ public interface RoomService {
 
     RoomWithIdDTO create(CreateRoomDTO roomDTO, ClinicAdministrator clinicAdministrator);
 
-    RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId);
+    RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) throws Exception;
 
     RoomWithIdDTO assignRoom(AssignExaminationDTO examination, ClinicAdministrator clinicAdministrator);
 

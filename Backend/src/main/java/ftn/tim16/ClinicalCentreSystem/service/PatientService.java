@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import org.springframework.data.domain.Pageable;
 
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 
 public interface PatientService {
@@ -14,9 +15,9 @@ public interface PatientService {
 
     List<AwaitingApprovalPatientDTO> findByStatus(PatientStatus patientStatus);
 
-    PatientWithIdDTO approveRequestToRegister(Long id);
+    PatientWithIdDTO approveRequestToRegister(Long id) throws OptimisticLockException;
 
-    boolean rejectRequestToRegister(Long id, String reason);
+    boolean rejectRequestToRegister(Long id, String reason) throws OptimisticLockException;
 
     PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page);
 

@@ -30,11 +30,11 @@ public interface DoctorService {
 
     Doctor getLoginDoctor();
 
-    List<DoctorDTO> findByFirstNameAndLastNameAndDoctorRating(String firstName, String lastName, int doctorRating);
-
     List<DoctorDTO> getAllAvailableDoctors(Long specializedId, Long clinicId, String startDateTime, String endDateTime);
 
     Doctor getDoctor(Long id);
+
+    Doctor findById(Long id);
 
     DoctorDTO deleteDoctor(Long clinicId, Long id);
 

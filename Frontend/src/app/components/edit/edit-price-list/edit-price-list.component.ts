@@ -50,6 +50,7 @@ export class EditPriceListComponent implements OnInit {
       },
       () => {
         this.toastr.error('You can not edit price of this examination type because this examination type is type of some examination.');
+        this.dialogRef.close();
       }
     );
   }

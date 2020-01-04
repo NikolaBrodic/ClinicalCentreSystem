@@ -16,8 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     protected final Log LOGGER = LogFactory.getLog(getClass());
@@ -65,8 +68,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         throw new UsernameNotFoundException(String.format("No user found with email '%s'.", email));
     }
 
-    //TODO: Change this method using FACTORY
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public UserDetails changePassword(UserDTO userDTO) {
         UserDetails user = findUserByEmail(userDTO.getEmail());
 

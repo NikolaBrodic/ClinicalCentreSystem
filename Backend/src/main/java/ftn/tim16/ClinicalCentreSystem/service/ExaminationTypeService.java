@@ -11,9 +11,9 @@ public interface ExaminationTypeService {
 
     ExaminationTypeDTO create(CreateExaminationTypeDTO examinationType, Clinic clinic);
 
-    ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId);
+    ExaminationTypeDTO edit(ExaminationTypeDTO examinationType, Long clinicId) throws Exception;
 
-    ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId);
+    ExaminationTypeDTO editPriceList(ExaminationTypeDTO examinationType, Long clinicId) throws Exception;
 
     List<ExaminationTypeDTO> findAllTypesInClinic(Long clinicId);
 
@@ -21,5 +21,5 @@ public interface ExaminationTypeService {
 
     ExaminationType findById(Long id);
 
-    ExaminationTypeDTO deleteExaminationType(Long clinicId, Long id);
+    ExaminationTypeDTO deleteExaminationType(Long clinicId, Long id) throws Exception;
 }

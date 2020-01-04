@@ -6,6 +6,7 @@ import ftn.tim16.ClinicalCentreSystem.dto.response.TimeOffDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 
+import javax.persistence.OptimisticLockException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public interface TimeOffDoctorService {
 
     List<RequestForTimeOffDTO> getRequestsForHolidayOrTimeOff(Long clinicId);
 
-    RequestForTimeOffDTO approveRequestForHolidayOrTimeOff(Long id);
+    RequestForTimeOffDTO approveRequestForHolidayOrTimeOff(Long id) throws OptimisticLockException;
 
-    RequestForTimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason);
+    RequestForTimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason) throws OptimisticLockException;
 
 }

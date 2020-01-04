@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -142,6 +143,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public Examination assignRoom(Examination selectedExamination, Room room, Nurse chosenNurse) {
         if (chosenNurse == null) {
             return null;
@@ -154,6 +156,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public Examination assignRoomForOperation(Examination selectedExamination, Room room, Set<Doctor> doctors) {
         selectedExamination.setRoom(room);
         selectedExamination.setStatus(ExaminationStatus.APPROVED);
@@ -174,6 +177,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationDTO cancelExamination(Doctor doctor, Long examinationId) {
         Examination examination = getExamination(examinationId);
         if (examination == null) {
@@ -209,6 +213,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationDTO createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator) {
         LocalDate localDate = getDate(predefinedExaminationDTO.getStartDateTime());
         LocalDateTime startDateTime = getLocalDateTime(localDate, predefinedExaminationDTO.getStartDateTime());
@@ -219,9 +224,14 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
 
         ExaminationType examinationType = examinationTypeService.findById(predefinedExaminationDTO.getExaminationTypeDTO().getId());
-        Doctor doctor = doctorService.getDoctor(predefinedExaminationDTO.getDoctorDTO().getId());
-        Room room = roomService.findById(predefinedExaminationDTO.getRoom());
-
+        Doctor doctor;
+        Room room;
+        try {
+            room = roomService.findById(predefinedExaminationDTO.getRoom());
+            doctor = doctorService.findById(predefinedExaminationDTO.getDoctorDTO().getId());
+        } catch (Exception p) {
+            return null;
+        }
         if (examinationType == null || doctor == null || room == null || examinationType.getId() != doctor.getSpecialized().getId()) {
             return null;
         }
@@ -336,6 +346,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ExaminationDTO createExaminationOrOperation(CreateExaminationOrOperationDTO createExaminationOrOperationDTO, Doctor loggedDoctor) {
 
         ExaminationKind kind = getKind(createExaminationOrOperationDTO.getKind());
@@ -356,8 +367,12 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         ExaminationType examinationType = examinationTypeService.findById(createExaminationOrOperationDTO.getExaminationType().getId());
         if (createExaminationOrOperationDTO.getKind().equals("EXAMINATION")) {
-            Doctor doctor = doctorService.getDoctor(createExaminationOrOperationDTO.getDoctor().getId());
-
+            Doctor doctor;
+            try {
+                doctor = doctorService.findById(createExaminationOrOperationDTO.getDoctor().getId());
+            } catch (Exception e) {
+                return null;
+            }
             if (examinationType == null || doctor == null || examinationType.getId() != doctor.getSpecialized().getId() || !doctorService.isAvailable(doctor, startDateTime, endDateTime)) {
                 return null;
             }

@@ -77,6 +77,7 @@ public class Doctor implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "doctor_authority",
@@ -117,6 +118,7 @@ public class Doctor implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
+
 
     @Override
     public String getUsername() {

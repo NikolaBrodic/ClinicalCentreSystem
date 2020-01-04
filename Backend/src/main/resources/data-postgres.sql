@@ -19,8 +19,8 @@ insert into clinical_centre_admin_authority (user_id, authority_id) values (3,1)
 
 /*CLINIC*/
 
-insert into clinic (address, description, name,clinic_rating) values ('Novi sad Tolstojeva','dddd','VMA1',0);
-insert into clinic (address, description, name,clinic_rating) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',0);
+insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Tolstojeva','dddd','VMA1',0,0);
+insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',0,0);
 
 
 /*CLINIC ADMIN*/
@@ -230,17 +230,17 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 values ('EXAMINATION',5,'APPROVED',2,1,1,5);
 insert into examining (examination_id,doctor_id) values (5,4);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('18.11.2019 00:01','18.11.2019 06:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('28.01.2020 00:01','28.01.2020 06:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
 values ('EXAMINATION',6,'APPROVED',2,1,1,6);
 insert into examining (examination_id,doctor_id) values (6,4);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('28.11.2019 08:00','28.11.2019 12:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('28.01.2019 08:00','28.01.2020 12:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,discount)
 values ('EXAMINATION',7,'PREDEF_BOOKED',1,1,1,7,10);
 insert into examining (examination_id,doctor_id) values (7,1);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('31.10.2019 08:00','31.10.2019 11:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('28.01.2020 07:00','28.01.2020 11:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id)
 values ('EXAMINATION',8,'APPROVED',2,1,1,4,8);
 insert into examining (examination_id,doctor_id) values (8,4);
@@ -323,12 +323,12 @@ insert into examining (examination_id,doctor_id) values (14,1);
 /* PATIENTS*/
 
 
-  insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 08:30','13.12.2019 09:00');
+  insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 09:30','13.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',15,'AWAITING',1,1,1,3);
  insert into examining(doctor_id, examination_id) values (1,15);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2020 09:00','13.12.2020 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('13.01.2020 09:00','13.01.2020 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',16,'AWAITING',1,1,1,4);
  insert into examining(doctor_id, examination_id) values (1,16);
@@ -345,15 +345,15 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,discount)
  values ('EXAMINATION',16,'AWAITING',1,1,1,9,0);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('14.12.2019 08:30','14.12.2019 09:00');
+ insert into date_time_interval (start_date_time, end_date_time) values ('14.12.2020 08:30','14.12.2020 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
  values ('EXAMINATION',17,'AWAITING',1,1,1,2);
-
-  insert into date_time_interval (start_date_time, end_date_time) values ('16.12.2020 08:30','16.12.2020 09:00');
+ insert into examining(doctor_id, examination_id) values (1,21);
+  insert into date_time_interval (start_date_time, end_date_time) values ('14.12.2020 09:30','14.12.2020 10:20');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id )
- values ('EXAMINATION',18,'AWAITING',1,2,4,4);
+ values ('EXAMINATION',18,'AWAITING',1,1,1,4);
 
-
+ insert into examining(doctor_id, examination_id) values (2,22);
  /* Examinations for calendar */
  /*****************************/
 
@@ -406,7 +406,7 @@ insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',20,'AWAITING',1,1,1,12);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('25.12.2020 10:30','25.12.2020 19:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('15.12.2020 10:30','25.12.2020 14:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id)
  values ('OPERATION',21,'AWAITING',1,1,1,14);
 

@@ -16,11 +16,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
@@ -42,6 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional(readOnly = false)
     public PatientDTO registerPatient(PatientDTO patientDTO) {
         UserDetails userDetails = userService.findUserByEmail(patientDTO.getEmail());
         if (userDetails != null) {
