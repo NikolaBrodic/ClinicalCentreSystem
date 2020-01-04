@@ -290,7 +290,11 @@ public class RoomServiceImpl implements RoomService {
 
             Set<Doctor> doctors = new HashSet<>();
             for (DoctorDTO doctorDTO : examination.getDoctors()) {
-                doctors.add(doctorService.getDoctor(doctorDTO.getId()));
+                try {
+                    doctors.add(doctorService.findById(doctorDTO.getId()));
+                } catch (Exception e) {
+                    return null;
+                }
             }
             if (doctors.isEmpty()) {
                 return null;
@@ -358,23 +362,30 @@ public class RoomServiceImpl implements RoomService {
                     doctorService.removeExamination(selectedExamination, doctor.getEmail());
                     selectedExamination.getDoctors().remove(doctor);
                     if (doctorDTO == null) {
-                        doctor = doctorService.getAvailableDoctor(selectedExamination.getExaminationType(),
+                        Doctor availableDoctor = doctorService.getAvailableDoctor(selectedExamination.getExaminationType(),
                                 dateTimeInterval.getStartDateTime(), dateTimeInterval.getEndDateTime(),
                                 selectedExamination.getClinic().getId());
+                        if (availableDoctor == null) {
+                            return null;
+                        }
+                        try {
+                            doctor = doctorService.findById(availableDoctor.getId());
+                        } catch (Exception e) {
+                            return null;
+                        }
                     } else {
-                        doctor = doctorService.getDoctor(doctorDTO.getId());
-                        if (!doctorService.isAvailable(doctor, dateTimeInterval.getStartDateTime(),
-                                dateTimeInterval.getEndDateTime())) {
+                        try {
+                            doctor = doctorService.findById(doctorDTO.getId());
+                        } catch (Exception e) {
                             return null;
                         }
                     }
 
-                    if (doctor == null) {
+                    if (doctor == null || !doctorService.isAvailable(doctor, dateTimeInterval.getStartDateTime(),
+                            dateTimeInterval.getEndDateTime())) {
                         return null;
                     }
-
                     selectedExamination.getDoctors().add(doctor);
-
                 }
                 selectedExamination.setInterval(dateTimeInterval);
                 try {

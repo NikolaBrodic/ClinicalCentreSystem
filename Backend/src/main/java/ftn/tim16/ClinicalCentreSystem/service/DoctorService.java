@@ -36,6 +36,8 @@ public interface DoctorService {
 
     Doctor getDoctor(Long id);
 
+    Doctor findById(Long id);
+
     DoctorDTO deleteDoctor(Long clinicId, Long id);
 
     List<Doctor> findDoctorsByClinicIdAndExaminationTypeId(Long clinicId, Long specializedId);

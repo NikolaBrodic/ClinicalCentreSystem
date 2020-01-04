@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.LockTimeoutException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -176,6 +177,14 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor findById(Long id) throws LockTimeoutException {
+        List<DoctorStatus> doctorStatuses = new ArrayList<>();
+        doctorStatuses.add(DoctorStatus.NEVER_LOGGED_IN);
+        doctorStatuses.add(DoctorStatus.ACTIVE);
+        return doctorRepository.findByIdAndStatusIn(id, doctorStatuses);
+    }
+
+    @Override
     public DoctorDTO deleteDoctor(Long clinicId, Long id) {
 
         Doctor doctor = getDoctor(id);
@@ -236,7 +245,10 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public EditDoctorDTO findDoctorById(Long id) {
-        return new EditDoctorDTO(doctorRepository.findByIdAndStatus(id, DoctorStatus.ACTIVE));
+        List<DoctorStatus> doctorStatuses = new ArrayList<>();
+        doctorStatuses.add(DoctorStatus.NEVER_LOGGED_IN);
+        doctorStatuses.add(DoctorStatus.DELETED);
+        return new EditDoctorDTO(doctorRepository.findByIdAndStatusNotIn(id, doctorStatuses));
     }
 
     @Override

@@ -52,6 +52,8 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private PatientService patientService;
 
+    private static boolean yes = true;
+
     @Override
     public List<Examination> getExaminationsOnDay(Long idRoom, LocalDateTime day) {
         LocalDate date = getDate(day.toString());
@@ -222,10 +224,11 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
 
         ExaminationType examinationType = examinationTypeService.findById(predefinedExaminationDTO.getExaminationTypeDTO().getId());
-        Doctor doctor = doctorService.getDoctor(predefinedExaminationDTO.getDoctorDTO().getId());
-        Room room = null;
+        Doctor doctor;
+        Room room;
         try {
-            roomService.findById(predefinedExaminationDTO.getRoom());
+            room = roomService.findById(predefinedExaminationDTO.getRoom());
+            doctor = doctorService.findById(predefinedExaminationDTO.getDoctorDTO().getId());
         } catch (Exception p) {
             return null;
         }
@@ -247,7 +250,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         Examination examination = new Examination(ExaminationKind.EXAMINATION, dateTimeInterval, ExaminationStatus.PREDEF_AVAILABLE, examinationType,
                 room, predefinedExaminationDTO.getDiscount(), nurse, clinicAdministrator.getClinic(), clinicAdministrator);
         examination.getDoctors().add(doctor);
-
+        
         return new ExaminationDTO(examinationRepository.save(examination));
     }
 
@@ -363,8 +366,12 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         ExaminationType examinationType = examinationTypeService.findById(createExaminationOrOperationDTO.getExaminationType().getId());
         if (createExaminationOrOperationDTO.getKind().equals("EXAMINATION")) {
-            Doctor doctor = doctorService.getDoctor(createExaminationOrOperationDTO.getDoctor().getId());
-
+            Doctor doctor;
+            try {
+                doctor = doctorService.findById(createExaminationOrOperationDTO.getDoctor().getId());
+            } catch (Exception e) {
+                return null;
+            }
             if (examinationType == null || doctor == null || examinationType.getId() != doctor.getSpecialized().getId() || !doctorService.isAvailable(doctor, startDateTime, endDateTime)) {
                 return null;
             }
