@@ -177,6 +177,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ExaminationDTO cancelExamination(Doctor doctor, Long examinationId) {
         Examination examination = getExamination(examinationId);
         if (examination == null) {

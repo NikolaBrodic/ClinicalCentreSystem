@@ -57,7 +57,7 @@ public class DoctorServiceImpl implements DoctorService {
     private TimeOffDoctorService timeOffDoctorService;
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false)
     public Doctor changePassword(String newPassword, Doctor user) {
         if (user.getStatus().equals(DoctorStatus.DELETED)) {
             return null;

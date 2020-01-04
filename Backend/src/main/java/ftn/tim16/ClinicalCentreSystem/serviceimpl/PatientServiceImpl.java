@@ -44,7 +44,7 @@ public class PatientServiceImpl implements PatientService {
     private static final Map<Long, Patient> patientCache = new HashMap<>();
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false)
     public Patient changePassword(String newPassword, Patient user) {
         if (user.getStatus().equals(PatientStatus.AWAITING_APPROVAL)) {
             return null;

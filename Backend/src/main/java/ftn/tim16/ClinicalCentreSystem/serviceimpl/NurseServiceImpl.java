@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,6 +31,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class NurseServiceImpl implements NurseService {
     @Autowired
     private NurseRepository nurseRepository;
@@ -51,6 +54,7 @@ public class NurseServiceImpl implements NurseService {
     @Autowired
     private TimeOffNurseService timeOffNurseService;
 
+    @Transactional(readOnly = false)
     public Nurse changePassword(String newPassword, Nurse user) {
         user.setPassword(newPassword);
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {
@@ -70,6 +74,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public NurseDTO create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator) {
         UserDetails userDetails = userService.findUserByEmail(nurseDTO.getEmail());
         if (userDetails != null) {
@@ -175,6 +180,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public NurseDTO editPersonalInformation(EditNurseDTO editNurseDTO) {
         Nurse nurse = getLoginNurse();
 

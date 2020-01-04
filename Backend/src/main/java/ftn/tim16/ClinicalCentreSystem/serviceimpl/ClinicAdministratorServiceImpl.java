@@ -50,7 +50,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private EmailNotificationService emailNotificationService;
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false)
     public ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user) {
         user.setPassword(newPassword);
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {

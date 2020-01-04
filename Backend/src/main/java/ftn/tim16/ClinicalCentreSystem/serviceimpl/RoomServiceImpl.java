@@ -29,8 +29,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-@Transactional(readOnly = true)
 @Service
+@Transactional(readOnly = true)
 public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomRepository roomRepository;
