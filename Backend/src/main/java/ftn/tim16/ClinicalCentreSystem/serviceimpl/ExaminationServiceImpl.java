@@ -52,8 +52,6 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private PatientService patientService;
 
-    private static boolean yes = true;
-
     @Override
     public List<Examination> getExaminationsOnDay(Long idRoom, LocalDateTime day) {
         LocalDate date = getDate(day.toString());
@@ -250,7 +248,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         Examination examination = new Examination(ExaminationKind.EXAMINATION, dateTimeInterval, ExaminationStatus.PREDEF_AVAILABLE, examinationType,
                 room, predefinedExaminationDTO.getDiscount(), nurse, clinicAdministrator.getClinic(), clinicAdministrator);
         examination.getDoctors().add(doctor);
-        
+
         return new ExaminationDTO(examinationRepository.save(examination));
     }
 
