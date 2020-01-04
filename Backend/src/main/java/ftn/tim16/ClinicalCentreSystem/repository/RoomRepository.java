@@ -18,6 +18,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         //@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "0")})
     Room getByIdAndStatusNot(Long id, LogicalStatus status);
 
+    Room getByIdAndStatus(Long id, LogicalStatus status);
+
     List<Room> findByClinicIdAndStatus(Long id, LogicalStatus status);
 
     Page<Room> findByClinicIdAndStatusAndLabelContainsIgnoringCase(Long id, LogicalStatus status, String label, Pageable page);

@@ -72,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public RoomWithIdDTO edit(RoomWithIdDTO roomDTO, Long clinicId) {
-        Room existingRoom = findById(roomDTO.getId());
+        Room existingRoom = roomRepository.getByIdAndStatus(roomDTO.getId(), LogicalStatus.EXISTING);
         if (existingRoom == null) {
             return null;
         }
@@ -387,7 +387,7 @@ public class RoomServiceImpl implements RoomService {
 
         }
         sendMail(selectedExamination, doctor, selectedExamination.getPatient(), chosenNurse);
-        return findById(roomDTO.getId());
+        return roomRepository.getByIdAndStatus(roomDTO.getId(), LogicalStatus.EXISTING);
     }
 
     private Room assignRoomForOperation(Long examinationId, RoomDTO roomDTO, Set<Doctor> doctors) {
@@ -441,7 +441,7 @@ public class RoomServiceImpl implements RoomService {
 
         }
         sendMailToAll(selectedExamination, doctors, selectedExamination.getPatient());
-        return findById(roomDTO.getId());
+        return roomRepository.getByIdAndStatus(roomDTO.getId(), LogicalStatus.EXISTING);
     }
 
     private void sendMail(Examination examination, Doctor doctor, Patient patient, Nurse nurse) {
