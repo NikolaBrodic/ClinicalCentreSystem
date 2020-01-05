@@ -59,9 +59,9 @@ export class ExaminationComponent implements OnInit {
     });
 
     this.medicalRecordForm = new FormGroup({
-      height: new FormControl(),
-      weight: new FormControl(),
-      bloodType: new FormControl(null, [Validators.maxLength(3)]),
+      height: new FormControl(null, [Validators.maxLength(3), Validators.minLength(0)]),
+      weight: new FormControl(null, [Validators.maxLength(3)]),
+      bloodType: new FormControl(null, [Validators.maxLength(3), Validators.pattern("[AB0][AB]?[+-]?")]),
       allergies: new FormControl(),
     })
 

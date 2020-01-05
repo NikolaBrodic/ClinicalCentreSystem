@@ -149,7 +149,7 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
  values ('ClinicDoctor6@maildrop.cc', '$2a$10$E1K7MZ9u5TkTZtESLfc8lOulf9/aPXKXhsFxtZQYMAeRnk9ezZ42q', 'Miodrag6', 'Simic', '076287175','06:00','20:00',1,'ACTIVE',9,2.5);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('05.01.2020 21:00','05.01.2020 23:50');
+ insert into date_time_interval (start_date_time, end_date_time) values ('05.01.2020 21:00','05.01.2020 23:59');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',11,'APPROVED',7,1,1,1,1,1,0);
 insert into examining (examination_id,doctor_id) values (11,1);

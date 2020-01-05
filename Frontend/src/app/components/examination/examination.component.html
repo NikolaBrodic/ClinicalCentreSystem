@@ -27,18 +27,29 @@
                         <form [formGroup]="medicalRecordForm" class="mat-elevation-z8 form">
                             <h3>{{ patientFullName }}'s<br> medical record</h3>
                             <mat-form-field class="mt-2">
-                                <input matInput placeholder="Height" formControlName="height">
+                                <input matInput placeholder="Height" type="number" formControlName="height">
                                 <span matSuffix class="ml-2">cm</span>
+                                <mat-error
+                                    *ngIf="medicalRecordForm.get('height').errors && medicalRecordForm.get('height').errors['maxlength']">
+                                    Height can't have more than 3 digits.
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput placeholder="Weight" formControlName="weight">
+                                <input matInput placeholder="Weight" type="number" formControlName="weight">
                                 <span matSuffix class="ml-2">kg</span>
+                                <mat-error *ngIf="medicalRecordForm.get('weight').invalid">
+                                    Weight can't have more than 3 digits.
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <input matInput placeholder="Blood type" formControlName="bloodType">
                                 <mat-error
                                     *ngIf="medicalRecordForm.get('bloodType').errors && medicalRecordForm.get('bloodType').errors['maxlength']">
                                     Maximal number of characters for this field is 3.
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="medicalRecordForm.get('bloodType').errors && medicalRecordForm.get('bloodType').errors['pattern']">
+                                    Please enter a valid blood type.
                                 </mat-error>
                             </mat-form-field>
                             <mat-form-field class="mt-2">
