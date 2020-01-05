@@ -177,7 +177,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         sb.append(" Clinic. From now on, you are in charge of managing the business of the clinic.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");

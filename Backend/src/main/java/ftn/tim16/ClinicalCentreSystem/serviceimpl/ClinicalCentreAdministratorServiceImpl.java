@@ -121,7 +121,7 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
         sb.append("and creating codebooks of diagnosis and medicines.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");
