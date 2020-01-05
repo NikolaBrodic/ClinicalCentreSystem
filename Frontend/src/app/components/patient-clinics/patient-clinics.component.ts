@@ -1,3 +1,4 @@
+import { Clinic } from './../../models/clinic';
 import { PatientFilterClinics } from './../../models/patientFilterClinics';
 import { Router } from '@angular/router';
 import { PatientService } from 'src/app/services/patient.service';
@@ -16,6 +17,7 @@ import { ExaminationType } from 'src/app/models/examinationType';
 import { ExaminationTypeService } from 'src/app/services/examination-type.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-patient-clinics',
@@ -26,11 +28,13 @@ export class PatientClinicsComponent implements OnInit {
   
   public patientClinicsDataSource: MatTableDataSource<Clinic>;
   public displayedColumns: string[] = ['options', 'name', 'clinicRating', 'address', 'id'];
+  public selection = new SelectionModel<Clinic>(false, []);
+
   public selectedRow: string;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
+  public selectedClinic: Clinic;
 
-  private examinationFilter: Examination;
   private patientFilterClinics: PatientFilterClinics;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -49,8 +53,8 @@ export class PatientClinicsComponent implements OnInit {
 
     // Filter clinics
     this.firstFormGroup = this._formBuilder.group({
-      examinationDateCtrl: ['', Validators.required],
-      examinationTypeCtrl: ['', Validators.required],
+      examinationDateCtrl: [''],
+      examinationTypeCtrl: [''],
       clinicAddressCtrl: [''],
       clinicMinRatingCtrl: [''],
       examinationMaxPriceCtrl: [''],
@@ -79,7 +83,6 @@ export class PatientClinicsComponent implements OnInit {
   }
 
   searchPatientClinics() {
-
     this.patientFilterClinics = new PatientFilterClinics(
       this.firstFormGroup.get("examinationDateCtrl").value,
       this.firstFormGroup.get("examinationTypeCtrl").value,
@@ -107,24 +110,6 @@ export class PatientClinicsComponent implements OnInit {
   }
 
   populateFilteredTable() {
-    // Working example to send as a post request:
-    /*
-    {
-      "id": 1,
-      "interval": {
-          "startDateTime": "2019-12-12 09:00",
-          "endDateTime": "2019-12-12 10:00"
-      },
-      "examinationType": {
-          "label": "Ginekolog",
-          "price": 5000.0
-      },
-      "clinic": {
-          "address": "3.Oktobar 73",
-          "clinicRating": 0
-      }
-    }
-    */
     this.patientService.getFilteredClinicsByExamination(this.patientFilterClinics).subscribe(
       (data) => {
         this.patientClinicsDataSource = new MatTableDataSource(data);
@@ -136,8 +121,37 @@ export class PatientClinicsComponent implements OnInit {
     );
   }
 
-  chooseDoctor() {
-    this.router.navigate(['/patient/choose-doctor']);
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.patientClinicsDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.patientClinicsDataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: Clinic): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    if (this.selection.isSelected(row)) {
+      this.selectedClinic = row;
+    } else {
+      this.selectedClinic = null;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  clinicChosen() {
+    if (this.selectedClinic == null) {
+      alert("D");
+    }
   }
 
 }
