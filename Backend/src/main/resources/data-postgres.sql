@@ -52,6 +52,42 @@ insert into nurse_authority(user_id, authority_id) values (1,5);
  insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Prasina, jaja', 1);
 insert into patient_authority(user_id, authority_id) values (1,3);
 
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient2@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Adam', 'Bah', '065298255','Marsala tita 14','Beograd',
+ 'Srbija','0625351286915','ACTIVATED',0);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 80, 'B-', 'Prasina, jaja', 2);
+insert into patient_authority(user_id, authority_id) values (2,3);
+
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient3@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Srdjan', 'Stanojevic', '065898255','Marsala tita 17','Kikinda',
+ 'Srbija','0625351286815','ACTIVATED',0);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 75, 'B-', 'Prasina, jaja', 3);
+insert into patient_authority(user_id, authority_id) values (3,3);
+
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient4@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Pavle', 'Milivojevic', '065568255','Marsala tita 17','Zrenjanin',
+ 'Srbija','0725351286815','ACTIVATED',0);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 75, 'B-', 'Prasina, jaja', 4);
+insert into patient_authority(user_id, authority_id) values (4,3);
+
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient5@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Tamara', 'Bozic', '068868255','Marsala tita 17','Paracin',
+ 'Srbija','0725351286842','ACTIVATED',0);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 75, 'B-', 'Prasina, jaja', 5);
+insert into patient_authority(user_id, authority_id) values (5,3);
+
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient6@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Nikola', 'Lazarevic', '069878255','Marsala tita 17','Sremska mitrovica',
+ 'Srbija','0725353386842','ACTIVATED',0);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 75, 'B-', 'Prasina, jaja', 6);
+insert into patient_authority(user_id, authority_id) values (6,3);
+
+  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient7@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Milovan', 'Lazarevic', '075878255','Marsala tita 17','Sremska mitrovica',
+ 'Srbija','0825353386842','ACTIVATED',0);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 75, 'B-', 'Prasina, jaja', 7);
+insert into patient_authority(user_id, authority_id) values (7,3);
+
 insert into room (label, kind,status,clinic_id,version) values ('Room 1', 'EXAMINATION','EXISTING' ,1,0);
 insert into room (label, kind,status,clinic_id,version) values ('Room 2', 'EXAMINATION','EXISTING' ,1,0);
 insert into room (label, kind,status,clinic_id,version) values ('Room 4', 'OPERATION','EXISTING' ,1,0);
@@ -63,23 +99,23 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 
 insert into date_time_interval (start_date_time, end_date_time) values ('10.12.2019 10:00','10.12.2019 11:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
- values ('EXAMINATION',2,'APPROVED',1,1,1,1,0);
+ values ('EXAMINATION',2,'APPROVED',1,1,1,2,0);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('02.12.2019 10:00','02.12.2019 11:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
- values ('EXAMINATION',3,'APPROVED',2,1,1,1,0);
+ values ('EXAMINATION',3,'APPROVED',2,1,1,3,0);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('23.12.2019 08:00','23.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
- values ('EXAMINATION',4,'APPROVED',1,1,1,1,0);
+ values ('EXAMINATION',4,'APPROVED',1,1,1,4,0);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('18.12.2019 08:00','18.12.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
- values ('EXAMINATION',5,'APPROVED',1,1,1,1,0);
+ values ('EXAMINATION',5,'APPROVED',1,1,1,5,0);
 
   insert into date_time_interval (start_date_time, end_date_time) values ('13.11.2019 08:00','13.11.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
- values ('EXAMINATION',6,'APPROVED',1,1,1,1,0);
+ values ('EXAMINATION',6,'APPROVED',1,1,1,6,0);
 
    insert into date_time_interval (start_date_time, end_date_time) values ('08.11.2019 08:00','08.11.2019 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
@@ -125,7 +161,7 @@ insert into examining (examination_id,doctor_id) values (12,4);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('OPERATION',13,'CANCELED',3,1,1,1,3,1);
+ values ('OPERATION',13,'CANCELED',3,1,1,7,3,1);
 insert into examining (examination_id,doctor_id) values (13,5);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
