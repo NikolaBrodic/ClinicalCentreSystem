@@ -136,6 +136,7 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
         sb.append(" Your request for ");
         sb.append(type.toLowerCase());
         sb.append(" is rejected by a clinic administrator.");
+        sb.append(System.lineSeparator());
         sb.append("Explanation:");
         sb.append(System.lineSeparator());
         sb.append(reason);
