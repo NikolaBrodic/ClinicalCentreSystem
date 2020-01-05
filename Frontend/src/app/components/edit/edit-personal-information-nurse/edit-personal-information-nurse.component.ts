@@ -66,7 +66,7 @@ export class EditPersonalInformationNurseComponent implements OnInit {
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
       () => {
-        this.toastr.error("You can not change work hours because you have scheduled examinations.Or someone has the same phone number.", 'Edit personal information');
+        this.toastr.error("You can not change work hours because you have scheduled examinations or someone has the same phone number.", 'Edit personal information');
       }
     );
   }
