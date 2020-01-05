@@ -8,9 +8,9 @@ import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicAdministratorRepository;
-import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -35,7 +35,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private ClinicAdministratorRepository clinicAdministratorRepository;
 
     @Autowired
-    private ClinicRepository clinicRepository;
+    private ClinicService clinicService;
 
     @Autowired
     private UserServiceImpl userService;
@@ -121,7 +121,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
             return null;
         }
 
-        Clinic clinic = clinicRepository.findOneById(clinicAdministratorDTO.getClinic().getId());
+        Clinic clinic = clinicService.findOneById(clinicAdministratorDTO.getClinic().getId());
         if (clinic == null) {
             return null;
         }

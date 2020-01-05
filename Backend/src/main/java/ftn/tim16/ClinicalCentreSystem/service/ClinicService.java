@@ -7,6 +7,9 @@ import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import java.util.List;
 
 public interface ClinicService {
+
+    Clinic findOneById(Long id);
+
     ClinicDTO findById(Long id);
 
     Clinic findByName(String name);

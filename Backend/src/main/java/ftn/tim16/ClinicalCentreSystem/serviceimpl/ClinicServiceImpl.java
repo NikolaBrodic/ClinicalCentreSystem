@@ -32,6 +32,11 @@ public class ClinicServiceImpl implements ClinicService {
     private ExaminationService examinationService;
 
     @Override
+    public Clinic findOneById(Long id) {
+        return clinicRepository.findOneById(id);
+    }
+
+    @Override
     public ClinicDTO findById(Long id) {
         Clinic clinic = clinicRepository.findOneById(id);
         if (clinic == null) {

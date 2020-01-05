@@ -5,11 +5,10 @@ import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.PatientPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
-import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
-import ftn.tim16.ClinicalCentreSystem.repository.MedicalRecordRepository;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
+import ftn.tim16.ClinicalCentreSystem.service.MedicalRecordService;
 import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -36,7 +35,7 @@ public class PatientServiceImpl implements PatientService {
     private EmailNotificationService emailNotificationService;
 
     @Autowired
-    private MedicalRecordRepository medicalRecordRepository;
+    private MedicalRecordService medicalRecordService;
 
     @Autowired
     private ApplicationContext appContext;
@@ -81,9 +80,7 @@ public class PatientServiceImpl implements PatientService {
             return null;
         }
 
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setPatient(updatedPatient);
-        medicalRecordRepository.save(medicalRecord);
+        medicalRecordService.create(updatedPatient);
 
         patientCache.put(updatedPatient.getId(), updatedPatient);
         composeAndSendApprovalEmail(updatedPatient.getEmail());
