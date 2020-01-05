@@ -305,7 +305,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         sb.append(doctor.getFirstName());
         sb.append(" ");
         sb.append(doctor.getLastName());
-        sb.append("has canceled the examination scheduled for ");
+        sb.append(" has canceled the examination scheduled for ");
         sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
         sb.append(".");
 

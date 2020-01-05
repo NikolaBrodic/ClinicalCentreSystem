@@ -50,12 +50,12 @@
                 </td>
             </tr>
         </table>
-        <mat-error *ngIf="(addNurseForm.get('workHoursFrom').errors && addNurseForm.get('workHoursFrom').errors['required']) || 
+        <mat-error class="work-hours" *ngIf="(addNurseForm.get('workHoursFrom').errors && addNurseForm.get('workHoursFrom').errors['required']) || 
             (addNurseForm.get('workHoursTo').errors && addNurseForm.get('workHoursTo').errors['required']) ">
             Work hours are required to fill in.
         </mat-error>
 
-        <mat-error
+        <mat-error class="work-hours"
             *ngIf="addNurseForm.get('workHoursTo').errors && addNurseForm.get('workHoursTo').errors['timeError']">
             Starting work hours must be before ending work hours.
         </mat-error>
