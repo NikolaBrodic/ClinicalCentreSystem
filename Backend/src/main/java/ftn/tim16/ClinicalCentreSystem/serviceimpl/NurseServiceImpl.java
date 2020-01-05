@@ -235,6 +235,16 @@ public class NurseServiceImpl implements NurseService {
         return new EditNurseDTO(nurseRepository.findByIdAndStatus(id, UserStatus.ACTIVE));
     }
 
+    @Override
+    public Nurse findByEmail(String email) {
+        return nurseRepository.findByEmail(email);
+    }
+
+    @Override
+    public Nurse findByPhoneNumber(String phoneNumber) {
+        return nurseRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private List<Nurse> getAvailable(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         List<Nurse> nurses = nurseRepository.findByClinicId(clinic_id);
         List<Nurse> availableNurses = new ArrayList<>();

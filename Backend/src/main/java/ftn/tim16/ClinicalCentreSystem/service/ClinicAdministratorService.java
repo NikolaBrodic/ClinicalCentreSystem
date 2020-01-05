@@ -21,4 +21,8 @@ public interface ClinicAdministratorService {
     ClinicAdministratorDTO create(ClinicAdministratorDTO clinicAdministratorDTO);
 
     ClinicAdministrator findRandomAdminInClinic(Long clinicId);
+
+    ClinicAdministrator findByEmail(String email);
+
+    ClinicAdministrator findByPhoneNumber(String phoneNumber);
 }

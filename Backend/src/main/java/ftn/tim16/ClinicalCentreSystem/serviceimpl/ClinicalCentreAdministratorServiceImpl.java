@@ -99,6 +99,16 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
         return new ClinicalCentreAdminDTO(clinicalCentreAdminRepository.save(clinicalCentreAdministrator));
     }
 
+    @Override
+    public ClinicalCentreAdministrator findByEmail(String email) {
+        return clinicalCentreAdminRepository.findByEmail(email);
+    }
+
+    @Override
+    public ClinicalCentreAdministrator findByPhoneNumber(String phoneNumber) {
+        return clinicalCentreAdminRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private void composeAndSendEmail(String recipientEmail, String generatedPassword) {
         String subject = "New position: Clinical Centre Administrator";
         StringBuilder sb = new StringBuilder();

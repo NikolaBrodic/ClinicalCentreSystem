@@ -43,4 +43,8 @@ public interface DoctorService {
     DoctorDTO editPersonalInformation(EditDoctorDTO editDoctorDTO);
 
     EditDoctorDTO findDoctorById(Long id);
+
+    Doctor findByEmail(String email);
+
+    Doctor findByPhoneNumber(String phoneNumber);
 }

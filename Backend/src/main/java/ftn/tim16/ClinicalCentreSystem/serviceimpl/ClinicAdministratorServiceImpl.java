@@ -152,6 +152,16 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         return clinicAdministrators.get(new Random().nextInt(clinicAdministrators.size()));
     }
 
+    @Override
+    public ClinicAdministrator findByEmail(String email) {
+        return clinicAdministratorRepository.findByEmail(email);
+    }
+
+    @Override
+    public ClinicAdministrator findByPhoneNumber(String phoneNumber) {
+        return clinicAdministratorRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
         String subject = "New position: Clinic Administrator";
         StringBuilder sb = new StringBuilder();
