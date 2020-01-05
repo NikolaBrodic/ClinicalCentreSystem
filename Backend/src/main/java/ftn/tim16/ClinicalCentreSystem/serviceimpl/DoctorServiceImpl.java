@@ -234,7 +234,9 @@ public class DoctorServiceImpl implements DoctorService {
         if (workHoursFrom.isAfter(workHoursTo) || examinationType == null) {
             return null;
         }
-
+        if (doctorRepository.findByPhoneNumberAndIdNot(editDoctorDTO.getPhoneNumber(), editDoctorDTO.getId()) != null) {
+            return null;
+        }
         if (!workHoursFrom.equals(doctor.getWorkHoursFrom()) || !workHoursTo.equals(doctor.getWorkHoursTo()) || doctor.getSpecialized().getId() != editDoctorDTO.getSpecialized().getId()) {
             if (!isEditable(editDoctorDTO.getId())) {
                 return null;
@@ -246,6 +248,9 @@ public class DoctorServiceImpl implements DoctorService {
 
         doctor.setFirstName(editDoctorDTO.getFirstName());
         doctor.setLastName(editDoctorDTO.getLastName());
+        if (doctorRepository.findByPhoneNumber(editDoctorDTO.getPhoneNumber()) != null) {
+            return null;
+        }
         doctor.setPhoneNumber(editDoctorDTO.getPhoneNumber());
         return new DoctorDTO(doctorRepository.save(doctor));
     }

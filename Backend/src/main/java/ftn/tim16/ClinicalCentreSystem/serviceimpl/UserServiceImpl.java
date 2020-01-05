@@ -6,8 +6,6 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -106,36 +104,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails findUserByPhoneNumber(String phoneNumber) {
-        ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorService.findByPhoneNumber(phoneNumber);
-        if (clinicalCentreAdministrator != null) {
-            return clinicalCentreAdministrator;
-        }
-
-        ClinicAdministrator clinicAdministrator = clinicAdministratorService.findByPhoneNumber(phoneNumber);
-        if (clinicAdministrator != null) {
-            return clinicAdministrator;
-        }
-
-        Patient patient = patientService.findByPhoneNumber(phoneNumber);
-        if (patient != null) {
-            return patient;
-        }
-
-        Nurse nurse = nurseService.findByPhoneNumber(phoneNumber);
-        if (nurse != null) {
-            return nurse;
-        }
-
-        Doctor doctor = doctorService.findByPhoneNumber(phoneNumber);
-        if (doctor != null) {
-            return doctor;
-        }
-
-        return null;
-    }
-
-    @Override
     public boolean neverLoggedIn(String email) {
         ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorService.findByEmail(email);
         if (clinicalCentreAdministrator != null) {
@@ -160,8 +128,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return false;
     }
 
-    public UserDetails getLoggedInUser() {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        return findUserByEmail(currentUser.getName());
-    }
 }

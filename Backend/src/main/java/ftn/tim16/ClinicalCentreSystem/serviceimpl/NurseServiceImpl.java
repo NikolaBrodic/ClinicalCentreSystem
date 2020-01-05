@@ -206,7 +206,9 @@ public class NurseServiceImpl implements NurseService {
         if (workHoursFrom.isAfter(workHoursTo)) {
             return null;
         }
-
+        if (nurseRepository.findByPhoneNumberAndIdNot(editNurseDTO.getPhoneNumber(), editNurseDTO.getId()) != null) {
+            return null;
+        }
         if (!workHoursFrom.equals(nurse.getWorkHoursFrom()) || !workHoursTo.equals(nurse.getWorkHoursTo())) {
             if (!isEditable(editNurseDTO.getId())) {
                 return null;

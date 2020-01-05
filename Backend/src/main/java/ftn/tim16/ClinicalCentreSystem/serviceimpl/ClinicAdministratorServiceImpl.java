@@ -81,9 +81,12 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         if (clinicAdministrator.getId() != editClinicAdminDTO.getId()) {
             return null;
         }
-
+        if (clinicAdministratorRepository.findByPhoneNumberAndIdNot(editClinicAdminDTO.getPhoneNumber(), editClinicAdminDTO.getId()) != null) {
+            return null;
+        }
         clinicAdministrator.setFirstName(editClinicAdminDTO.getFirstName());
         clinicAdministrator.setLastName(editClinicAdminDTO.getLastName());
+
         clinicAdministrator.setPhoneNumber(editClinicAdminDTO.getPhoneNumber());
 
         return new ClinicAdministratorDTO(clinicAdministratorRepository.save(clinicAdministrator));

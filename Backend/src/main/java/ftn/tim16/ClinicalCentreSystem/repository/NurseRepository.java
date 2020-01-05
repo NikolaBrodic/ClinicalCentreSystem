@@ -22,6 +22,8 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
     Nurse findByPhoneNumber(String phoneNumber);
 
+    Nurse findByPhoneNumberAndIdNot(String phoneNumber, Long id);
+
     List<Nurse> findAllByClinicId(Long id);
 
     Page<Nurse> findAllByClinicId(Long id, Pageable page);
