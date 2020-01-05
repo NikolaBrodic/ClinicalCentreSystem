@@ -237,7 +237,11 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public Nurse findByEmail(String email) {
-        return nurseRepository.findByEmail(email);
+        try {
+            return nurseRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
     }
 
     @Override

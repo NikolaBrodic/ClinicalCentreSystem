@@ -47,3 +47,23 @@ h1 {
 .mat-cell {
     vertical-align: middle;
 }
+
+.ellipsis {
+    position: relative;
+    width: 50%;
+}
+
+.ellipsis:before {
+    content: '&nbsp;';
+    visibility: hidden;
+}
+
+.ellipsis span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}

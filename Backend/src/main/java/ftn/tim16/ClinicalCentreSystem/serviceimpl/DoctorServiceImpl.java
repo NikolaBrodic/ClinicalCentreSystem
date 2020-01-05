@@ -260,7 +260,11 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor findByEmail(String email) {
-        return doctorRepository.findByEmail(email);
+        try {
+            return doctorRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
     }
 
     @Override

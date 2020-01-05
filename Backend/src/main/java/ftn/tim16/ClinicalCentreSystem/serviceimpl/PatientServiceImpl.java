@@ -218,7 +218,11 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient findByEmail(String email) {
-        return patientRepository.findByEmail(email);
+        try {
+            return patientRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
     }
 
     @Override

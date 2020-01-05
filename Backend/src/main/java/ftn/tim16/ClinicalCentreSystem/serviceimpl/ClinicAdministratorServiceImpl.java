@@ -154,7 +154,11 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
 
     @Override
     public ClinicAdministrator findByEmail(String email) {
-        return clinicAdministratorRepository.findByEmail(email);
+        try {
+            return clinicAdministratorRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
     }
 
     @Override
