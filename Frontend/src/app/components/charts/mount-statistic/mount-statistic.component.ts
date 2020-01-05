@@ -42,7 +42,7 @@ export class MountStatisticComponent implements OnInit {
 
   ngOnInit() {
 
-    this.clinicService.getMountStatistic().subscribe((data: Number[]) => {
+    this.clinicService.getMonthStatistic().subscribe((data: Number[]) => {
       this.barChartData = [
         { data: data, label: 'Number of examinations' }
       ];

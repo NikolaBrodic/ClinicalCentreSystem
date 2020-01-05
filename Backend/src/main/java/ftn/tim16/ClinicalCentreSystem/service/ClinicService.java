@@ -26,7 +26,7 @@ public interface ClinicService {
 
     int[] getWeekStatistic(Long clinicId);
 
-    int[] getMountStatistic(Long clinicId);
+    int[] getMonthStatistic(Long clinicId);
 
     EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) throws Exception;
 }

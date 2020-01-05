@@ -57,8 +57,8 @@ export class ClinicService {
     return this.httpClient.get(this.url + '/daily-statistic');
   }
 
-  public getMountStatistic() {
-    return this.httpClient.get(this.url + '/mount-statistic');
+  public getMonthStatistic() {
+    return this.httpClient.get(this.url + '/month-statistic');
   }
 
   public getWeekStatistic() {

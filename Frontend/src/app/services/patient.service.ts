@@ -17,26 +17,11 @@ export class PatientService {
   subjectForSelectedPatient = new BehaviorSubject<PatientWithId>(null);
 
   constructor(
-    private httpClient: HttpClient,
-    private router: Router
+    private httpClient: HttpClient
   ) { }
 
   public createPatient(patient) {
     return this.httpClient.post(this.urlAuth + "/register", patient);
-  }
-
-  public getPatients() {
-    return this.httpClient.get<Patient[]>(this.urlPatient + "/all=patients");
-  }
-  public getPatient(id: number) {
-    return this.httpClient.get(this.urlPatient + "/" + id);
-  }
-  public updatePatient(id, patient) {
-    return this.httpClient.put(this.urlPatient + "/" + id, patient);
-  }
-
-  public deletePatient(id) {
-    return this.httpClient.delete(this.urlPatient + "/" + id);
   }
 
   public getPatientsForMedicalStaffPaging(pageIndex, pageSize, sort: MatSort, searchFirstName: string,
@@ -54,12 +39,12 @@ export class PatientService {
     params = params.append('firstName', searchFirstName);
     params = params.append('lastName', searchLastName);
     params = params.append('healthInsuranceId', searchHealthInsuranceID);
-    return this.httpClient.get(this.urlPatient + "/pageAll", {
+    return this.httpClient.get(this.urlPatient + "/page-all", {
       params: params
     });
   }
 
   public getPatientForMedicalStaff(id: number) {
-    return this.httpClient.get(this.urlPatient + "/forMedicalStaff/" + id);
+    return this.httpClient.get(this.urlPatient + "/for-medical-staff/" + id);
   }
 }

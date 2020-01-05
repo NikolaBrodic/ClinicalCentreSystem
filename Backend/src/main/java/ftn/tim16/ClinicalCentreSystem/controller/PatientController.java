@@ -68,7 +68,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping(value = "/pageAll")
+    @GetMapping(value = "/page-all")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<PatientPagingDTO> getPatientsForMedicalStaffPaging(@RequestParam(value = "firstName") String firstName,
                                                                              @RequestParam(value = "lastName") String lastName,
@@ -95,7 +95,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping(value = "/forMedicalStaff/{id}")
+    @GetMapping(value = "/for-medical-staff/{id}")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable Long id) {
         PatientWithIdDTO patientWithIdDTO = patientService.getPatientForMedicalStaff(id);
