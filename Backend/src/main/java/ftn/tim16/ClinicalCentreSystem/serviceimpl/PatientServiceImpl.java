@@ -122,6 +122,7 @@ public class PatientServiceImpl implements PatientService {
         StringBuilder sb = new StringBuilder();
         sb.append("Great news! Your request to register as a patient is approved by a clinical centre administrator.");
         sb.append(System.lineSeparator());
+        sb.append(System.lineSeparator());
         sb.append("To activate your account click the following link:");
         sb.append(System.lineSeparator());
         sb.append("http://localhost:4200/patient/account-activated/" + patientId);
