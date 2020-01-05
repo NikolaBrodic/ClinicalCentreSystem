@@ -11,9 +11,13 @@ insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1)
 insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',2.5,0);
 insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Tolstojeva', 'VMA', 'Klinika',3.7,0);
 
-insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values
- ('ClinicAdmin1@maildrop.cc', '$2a$10$O2sRY6wvf0lpUu/mF5RN2u9dSW3AAzEplF4g9RpzwDOfSCFRhad6C', 'Marko', 'Marković', '064153456', 'ACTIVE',1);
+insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id,last_password_reset_date) values
+ ('ClinicAdmin1@maildrop.cc', '$2a$10$O2sRY6wvf0lpUu/mF5RN2u9dSW3AAzEplF4g9RpzwDOfSCFRhad6C', 'Marko', 'Marković', '064153456', 'ACTIVE',1,'2020-01-05 16:33:14');
 insert into clinic_admin_authority(user_id, authority_id) values (1,2);
+
+insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id) values
+ ('ClinicAdmin2@maildrop.cc', '$2a$10$O2sRY6wvf0lpUu/mF5RN2u9dSW3AAzEplF4g9RpzwDOfSCFRhad6C', 'Marko2', 'Marković', '064153459', 'ACTIVE',1);
+insert into clinic_admin_authority(user_id, authority_id) values (2,2);
 
 insert into examination_type (label, price,status,clinic_id,version) values ('Opsta praksa', '1000','EXISTING' ,1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Dermatolog', '2000','EXISTING',1,0);
@@ -122,10 +126,8 @@ insert into examining (examination_id,doctor_id) values (13,5);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('EXAMINATION',14,'PREDEF_BOOKED',4,1,1,1,4,1);
+ values ('EXAMINATION',14,'PREDEF_BOOKED',4,2,2,1,4,1);
 insert into examining (examination_id,doctor_id) values (14,6);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('OPERATION',15,'APPROVED',6,1,1,1,3,1);
-insert into examining (examination_id,doctor_id) values (15,1);
+
+

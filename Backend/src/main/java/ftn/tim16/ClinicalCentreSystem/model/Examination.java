@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 
@@ -37,7 +36,6 @@ public class Examination {
     @Column
     private Integer discount;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Nurse nurse;
 
@@ -47,7 +45,6 @@ public class Examination {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Patient patient;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "examination", cascade = CascadeType.ALL)
     private ExaminationReport examinationReport;
 
@@ -57,7 +54,6 @@ public class Examination {
     @Column
     private Integer clinicRating;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private ClinicAdministrator clinicAdministrator;
 
