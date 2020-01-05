@@ -75,7 +75,6 @@ public class Doctor implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "doctor_authority",

@@ -248,9 +248,6 @@ public class DoctorServiceImpl implements DoctorService {
 
         doctor.setFirstName(editDoctorDTO.getFirstName());
         doctor.setLastName(editDoctorDTO.getLastName());
-        if (doctorRepository.findByPhoneNumber(editDoctorDTO.getPhoneNumber()) != null) {
-            return null;
-        }
         doctor.setPhoneNumber(editDoctorDTO.getPhoneNumber());
         return new DoctorDTO(doctorRepository.save(doctor));
     }

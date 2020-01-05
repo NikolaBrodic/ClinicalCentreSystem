@@ -42,9 +42,9 @@ export class UserChangePasswordComponent implements OnInit {
 
     this.userService.changePassword(user).subscribe(
       () => {
+        this.userService.logout();
         this.changePasswordForm.reset();
         this.toastr.success("Successfully changed password. Please sign in with your new password.", 'Change password');
-        this.userService.logout();
       },
       () => {
         this.toastr.error("Old password is invalid. Please try again.", 'Change password');
