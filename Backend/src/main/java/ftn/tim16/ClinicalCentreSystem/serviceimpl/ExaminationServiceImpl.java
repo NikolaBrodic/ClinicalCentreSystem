@@ -24,8 +24,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-@Transactional
 @Service
+@Transactional(readOnly = true)
 public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
@@ -297,7 +297,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
     private void sendMail(Examination examination, Doctor doctor, Nurse nurse, Patient patient) {
-        if (nurse == null || patient == null) {
+        if (patient == null) {
             return;
         }
         String subject = "Notice: Examination has been canceled ";
@@ -310,7 +310,10 @@ public class ExaminationServiceImpl implements ExaminationService {
         sb.append(".");
 
         String text = sb.toString();
-        emailNotificationService.sendEmail(nurse.getEmail(), subject, text);
+        if (nurse != null) {
+            emailNotificationService.sendEmail(nurse.getEmail(), subject, text);
+        }
+
         emailNotificationService.sendEmail(patient.getEmail(), subject, text);
         if (examination.getKind().equals(ExaminationKind.OPERATION)) {
             for (Doctor doc : examination.getDoctors()) {
