@@ -22,9 +22,11 @@
 
     <ng-container matColumnDef="medicinesList">
         <th mat-header-cell *matHeaderCellDef> Prescribed medicines </th>
-        <td mat-cell *matCellDef="let element" class="ellipsis medicines"><span>
+        <td mat-cell *matCellDef="let element" class="ellipsis medicines">
+            <span *ngIf="element.medicines.length[0]">
                 {{element.medicines.join(', ')}}
-            </span></td>
+            </span>
+            <span *ngIf="!element.medicines.length[0]">-</span></td>
     </ng-container>
 
     <ng-container matColumnDef="edit">

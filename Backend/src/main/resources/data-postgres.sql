@@ -149,7 +149,7 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
  values ('ClinicDoctor6@maildrop.cc', '$2a$10$E1K7MZ9u5TkTZtESLfc8lOulf9/aPXKXhsFxtZQYMAeRnk9ezZ42q', 'Miodrag6', 'Simic', '076287175','06:00','20:00',1,'ACTIVE',9,2.5);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('05.01.2020 21:00','05.01.2020 23:59');
+ insert into date_time_interval (start_date_time, end_date_time) values ('06.01.2020 00:01','06.01.2020 23:59');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',11,'APPROVED',7,1,1,1,1,1,0);
 insert into examining (examination_id,doctor_id) values (11,1);
@@ -157,12 +157,12 @@ insert into examining (examination_id,doctor_id) values (11,1);
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2019 06:00','27.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',12,'APPROVED',8,1,1,1,2,1,0);
-insert into examining (examination_id,doctor_id) values (12,4);
+insert into examining (examination_id,doctor_id) values (12,1);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
+ insert into date_time_interval (start_date_time, end_date_time) values ('14.12.2019 06:00','14.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('OPERATION',13,'CANCELED',3,1,1,7,3,1,0);
-insert into examining (examination_id,doctor_id) values (13,5);
+ values ('OPERATION',13,'CANCELED',3,1,1,1,3,1,0);
+insert into examining (examination_id,doctor_id) values (13,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
@@ -184,5 +184,16 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('OPERATION',17,'CANCELED',3,1,1,7,3,1,0);
 insert into examining (examination_id,doctor_id) values (17,5);
 
+insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
+ 'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
+  'bronchodilators (LABAs) are used in the treatment of asthma.');
+insert into diagnose (title, description) values ('Diabetes', 'Diabetes is a chronic condition characterized by high levels ' ||
+ 'of sugar (glucose) in the blood. Symptoms of diabetes include increased urine output, thirst, hunger, and fatigue.');
+
+insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima astmu', '27.12.2019. 12:30', 1, 1, 1, 12);
+
+ insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima svasta', '14.12.2019. 12:30', 2, 2, 1, 12);
 
 
