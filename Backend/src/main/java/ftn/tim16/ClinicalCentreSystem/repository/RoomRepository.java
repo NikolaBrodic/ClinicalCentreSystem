@@ -24,6 +24,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     Page<Room> findByClinicIdAndStatusAndLabelContainsIgnoringCase(Long id, LogicalStatus status, String label, Pageable page);
 
+    List<Room> findByClinicIdAndStatusAndLabelContainsIgnoringCase(Long id, LogicalStatus status, String label);
+
     Page<Room> findByClinicIdAndStatusAndKind(Long id, LogicalStatus status, ExaminationKind kind, Pageable page);
 
     List<Room> findByClinicIdAndStatusAndKind(Long id, LogicalStatus status, ExaminationKind kind);

@@ -106,7 +106,7 @@ public class RoomServiceImpl implements RoomService {
         if (examinationKind == null) {
             return new RoomPagingDTO(convertToDTO(
                     roomRepository.findByClinicIdAndStatusAndLabelContainsIgnoringCase(clinic.getId(), LogicalStatus.EXISTING, search, page).getContent()),
-                    findAllRoomsInClinic(clinic).size());
+                    roomRepository.findByClinicIdAndStatusAndLabelContainsIgnoringCase(clinic.getId(), LogicalStatus.EXISTING, search).size());
         }
 
         boolean dateSearchActive = true;
@@ -117,7 +117,8 @@ public class RoomServiceImpl implements RoomService {
         if ((search == null || search.isEmpty()) && !dateSearchActive) {
             RoomPagingDTO roomPagingDTO = new RoomPagingDTO(convertToDTO(roomRepository
                     .findByClinicIdAndStatusAndKind(clinic.getId(), LogicalStatus.EXISTING, examinationKind, page)
-                    .getContent()), findAllRoomsInClinic(clinic).size());
+                    .getContent()), roomRepository
+                    .findByClinicIdAndStatusAndKind(clinic.getId(), LogicalStatus.EXISTING, examinationKind).size());
             return roomPagingDTO;
         }
 
