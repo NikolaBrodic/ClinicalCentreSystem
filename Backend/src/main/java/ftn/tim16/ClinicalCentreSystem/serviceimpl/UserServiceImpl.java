@@ -5,8 +5,6 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.service.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
-
-    protected final Log LOGGER = LogFactory.getLog(getClass());
 
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;

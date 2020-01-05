@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -66,6 +67,15 @@ public class PatientController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+    }
+
+    @PutMapping(value = "/activate")
+    public ResponseEntity<PatientWithIdDTO> activateAccount(@NotNull @RequestBody Long id) {
+        PatientWithIdDTO activatedPatient = patientService.activateAccount(id);
+        if (activatedPatient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(activatedPatient, HttpStatus.OK);
     }
 
     @GetMapping(value = "/pageAll")

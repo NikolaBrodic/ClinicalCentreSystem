@@ -62,4 +62,9 @@ export class PatientService {
   public getPatientForMedicalStaff(id: number) {
     return this.httpClient.get(this.urlPatient + "/forMedicalStaff/" + id);
   }
+
+  public activatePatient(id: number) {
+    return this.httpClient.put(this.urlPatient + "/activate", id);
+  }
+
 }

@@ -158,7 +158,7 @@ public class Patient implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return (status != PatientStatus.AWAITING_APPROVAL);
+        return (status == PatientStatus.ACTIVATED);
     }
 
     public Long getId() {

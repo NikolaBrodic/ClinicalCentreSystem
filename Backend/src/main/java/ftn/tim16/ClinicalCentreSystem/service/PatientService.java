@@ -22,6 +22,8 @@ public interface PatientService {
 
     boolean rejectRequestToRegister(Long id, String reason) throws OptimisticLockException;
 
+    PatientWithIdDTO activateAccount(Long id);
+
     PatientPagingDTO getPatientsForMedicalStaffPaging(Long clinicId, String firstName, String lastName, String healthInsuranceId, Pageable page);
 
     Patient getLoginPatient();

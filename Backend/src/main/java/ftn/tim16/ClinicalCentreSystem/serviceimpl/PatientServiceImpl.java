@@ -51,12 +51,12 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional(readOnly = false)
     public Patient changePassword(String newPassword, Patient user) {
-        if (user.getStatus().equals(PatientStatus.AWAITING_APPROVAL)) {
+        if (!user.getStatus().equals(PatientStatus.ACTIVATED)) {
             return null;
         }
         user.setPassword(newPassword);
         Patient updatedPatient = patientRepository.save(user);
-        patientCache.put(updatedPatient.getId(), updatedPatient);
+        //patientCache.put(updatedPatient.getId(), updatedPatient);
         return updatedPatient;
     }
 
@@ -89,7 +89,7 @@ public class PatientServiceImpl implements PatientService {
         medicalRecordService.create(updatedPatient);
 
         patientCache.put(updatedPatient.getId(), updatedPatient);
-        composeAndSendApprovalEmail(updatedPatient.getEmail());
+        composeAndSendApprovalEmail(updatedPatient.getEmail(), updatedPatient.getId());
         return new PatientWithIdDTO(updatedPatient);
     }
 
@@ -99,8 +99,6 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.AWAITING_APPROVAL);
         if (patient == null) {
             return false;
-        } else if (patient.getStatus() == PatientStatus.APPROVED) {
-            return false;
         }
 
         patientRepository.deleteById(id);
@@ -108,13 +106,25 @@ public class PatientServiceImpl implements PatientService {
         return true;
     }
 
-    private void composeAndSendApprovalEmail(String recipientEmail) {
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public PatientWithIdDTO activateAccount(Long id) {
+        Patient patient = patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED);
+        if (patient == null) {
+            return null;
+        }
+        patient.setStatus(PatientStatus.ACTIVATED);
+        return new PatientWithIdDTO(patientRepository.save(patient));
+    }
+
+    private void composeAndSendApprovalEmail(String recipientEmail, Long patientId) {
         String subject = "Request to register approved";
         StringBuilder sb = new StringBuilder();
         sb.append("Great news! Your request to register as a patient is approved by a clinical centre administrator.");
         sb.append(System.lineSeparator());
+        sb.append("To activate your account click the following link:");
         sb.append(System.lineSeparator());
-        sb.append("You can now login to the Clinical Centre System and start using it.");
+        sb.append("http://localhost:4200/patient/account-activated/" + patientId);
         String text = sb.toString();
 
         emailNotificationService.sendEmail(recipientEmail, subject, text);
@@ -141,9 +151,9 @@ public class PatientServiceImpl implements PatientService {
             statuses.add(ExaminationStatus.APPROVED);
             statuses.add(ExaminationStatus.PREDEF_BOOKED);
             Page<Patient> patients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
-                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, statuses, page);
+                    clinicId, PatientStatus.ACTIVATED, firstName, lastName, healthInsuranceId, statuses, page);
             List<Patient> allPatients = patientRepository.findDistinctByExaminationsClinicIdAndStatusAndFirstNameContainsIgnoringCaseAndLastNameContainsIgnoringCaseAndHealthInsuranceIdContainsAndExaminationsStatusIn(
-                    clinicId, PatientStatus.APPROVED, firstName, lastName, healthInsuranceId, statuses);
+                    clinicId, PatientStatus.ACTIVATED, firstName, lastName, healthInsuranceId, statuses);
             return new PatientPagingDTO(convertToDTO(patients.getContent()), allPatients.size());
         } catch (Error e) {
             return null;
@@ -176,7 +186,7 @@ public class PatientServiceImpl implements PatientService {
         and cache fetched patient
          */
         patientCache.computeIfAbsent(patientId, s -> {
-            return patientRepository.findByIdAndStatus(patientId, PatientStatus.APPROVED);
+            return patientRepository.findByIdAndStatus(patientId, PatientStatus.ACTIVATED);
         });
         // return cloned patient
         return (Patient) appContext.getBean(patientCache.get(patientId).getPrototypeBeanName(), patientCache.get(patientId));
@@ -184,7 +194,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient getPatient(Long id) {
-        return patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED);
+        return patientRepository.findByIdAndStatus(id, PatientStatus.ACTIVATED);
     }
 
     @Override
