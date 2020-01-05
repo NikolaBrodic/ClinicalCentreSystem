@@ -170,8 +170,8 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examining (examination_id,doctor_id) values (14,6);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('07.01.2020 17:00','07.01.2020 18:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',15,'APPROVED',1,1,1,1,1,1,0);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,nurse_id,version)
+ values ('EXAMINATION',15,'PREDEF_AVAILABLE',1,1,1,1,1,0);
 insert into examining (examination_id,doctor_id) values (15,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('06.01.2020 17:00','06.01.2020 18:00');
