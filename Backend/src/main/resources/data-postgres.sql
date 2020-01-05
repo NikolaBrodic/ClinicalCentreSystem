@@ -24,13 +24,15 @@ insert into examination_type (label, price,status,clinic_id,version) values ('Zu
 insert into examination_type (label, price,status,clinic_id,version) values ('Logoped', '1500','EXISTING',1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Sportski lekar', '1500','EXISTING',1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Sportski lekar 1111', '1500','EXISTING',1,0);
+
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
- values ('ClinicDoctor1@maildrop.cc', '$2a$10$dYGaiAblDscBBR9YERSaXug8OA5skjf96lKndFWvIkkcrnGop6.Z2', 'Misa', 'Percic', '065256856','07:30','20:00',1,'ACTIVE',1,4);
+ values ('ClinicDoctor1@maildrop.cc', '$2a$10$dYGaiAblDscBBR9YERSaXug8OA5skjf96lKndFWvIkkcrnGop6.Z2', 'Misa1', 'Percic', '065256856','07:30','20:00',1,'ACTIVE',1,4);
 insert into doctor_authority(user_id, authority_id) values (1,4);
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
- values ('ClinicDoctor2@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag', 'Simic', '065257165','06:00','20:00',1,'ACTIVE',2,2.5);
+ values ('ClinicDoctor2@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag2', 'Simic', '065257165','06:00','20:00',1,'ACTIVE',2,2.5);
 insert into doctor_authority(user_id, authority_id) values (2,4);
+
 
 insert into nurse (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status)
 values ('Nurse.01@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Milica', 'Milić', '065432432','06:00','14:00',1,'ACTIVE');
@@ -87,31 +89,43 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version )
  values ('EXAMINATION',10,'APPROVED',1,1,1,1,0);
 
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
+ values ('ClinicDoctor3@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag3', 'Simic', '065257175','06:00','20:00',1,'ACTIVE',9,2.5);
+insert into doctor_authority(user_id, authority_id) values (3,4);
+
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
+ values ('ClinicDoctor4@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag4', 'Simic', '065287175','06:00','20:00',1,'ACTIVE',9,2.5);
+insert into doctor_authority(user_id, authority_id) values (4,4);
+
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
+ values ('ClinicDoctor5@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag5', 'Simic', '075287175','06:00','20:00',1,'ACTIVE',9,2.5);
+insert into doctor_authority(user_id, authority_id) values (5,4);
+
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
+ values ('ClinicDoctor6@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag6', 'Simic', '076287175','06:00','20:00',1,'ACTIVE',9,2.5);
+insert into doctor_authority(user_id, authority_id) values (6,4);
+
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2019 06:00','27.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('EXAMINATION',11,'APPROVED',7,1,1,1,1,1);
-insert into examining (examination_id,doctor_id) values (11,1);
+insert into examining (examination_id,doctor_id) values (11,3);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('EXAMINATION',12,'APPROVED',8,1,1,1,2,1);
-insert into examining (examination_id,doctor_id) values (12,1);
+insert into examining (examination_id,doctor_id) values (12,4);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('OPERATION',13,'CANCELED',3,1,1,1,3,1);
-insert into examining (examination_id,doctor_id) values (13,1);
+insert into examining (examination_id,doctor_id) values (13,5);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('EXAMINATION',14,'PREDEF_BOOKED',4,1,1,1,4,1);
-insert into examining (examination_id,doctor_id) values (14,1);
+insert into examining (examination_id,doctor_id) values (14,6);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('OPERATION',15,'APPROVED',6,1,1,1,3,1);
 insert into examining (examination_id,doctor_id) values (15,1);
-
- insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
- values ('ClinicDoctor3@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag', 'Simic', '065257175','06:00','20:00',1,'ACTIVE',9,2.5);
-insert into doctor_authority(user_id, authority_id) values (3,4);
