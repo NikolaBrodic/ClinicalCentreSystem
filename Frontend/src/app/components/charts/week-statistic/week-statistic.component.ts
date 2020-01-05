@@ -17,10 +17,15 @@ export class WeekStatisticComponent implements OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true, stepSize: 1
         }
       }]
-    }
+    },
+    title: {
+      display: true,
+      text: 'Held examinations - Week statistics',
+      fontSize: 20
+    },
   };
 
   public barChartLabels = ['FIRST', 'SECOND', 'THIRD', 'FOURTH'];

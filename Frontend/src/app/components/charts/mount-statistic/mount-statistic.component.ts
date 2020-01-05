@@ -17,10 +17,16 @@ export class MountStatisticComponent implements OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
+          stepSize: 1
         }
       }]
-    }
+    },
+    title: {
+      display: true,
+      text: 'Held examinations - Mounth statistics',
+      fontSize: 20
+    },
   };
 
   public barChartLabels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
