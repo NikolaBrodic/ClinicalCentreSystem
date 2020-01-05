@@ -17,7 +17,13 @@ insert into clinic_admin_authority(user_id, authority_id) values (1,2);
 
 insert into examination_type (label, price,status,clinic_id,version) values ('Opsta praksa', '1000','EXISTING' ,1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Dermatolog', '2000','EXISTING',1,0);
-
+insert into examination_type (label, price,status,clinic_id,version) values ('Oftamolog', '1000','EXISTING',1,0);
+insert into examination_type (label, price,status,clinic_id,version) values ('Psiholog', '1500','EXISTING',1,0);
+insert into examination_type (label, price,status,clinic_id,version) values ('Zubar', '1500','EXISTING',2,0);
+insert into examination_type (label, price,status,clinic_id,version) values ('Zubarka', '1500','EXISTING',1,0);
+insert into examination_type (label, price,status,clinic_id,version) values ('Logoped', '1500','EXISTING',1,0);
+insert into examination_type (label, price,status,clinic_id,version) values ('Sportski lekar', '1500','EXISTING',1,0);
+insert into examination_type (label, price,status,clinic_id,version) values ('Sportski lekar 1111', '1500','EXISTING',1,0);
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
  values ('ClinicDoctor1@maildrop.cc', '$2a$10$dYGaiAblDscBBR9YERSaXug8OA5skjf96lKndFWvIkkcrnGop6.Z2', 'Misa', 'Percic', '065256856','07:30','20:00',1,'ACTIVE',1,4);
 insert into doctor_authority(user_id, authority_id) values (1,4);
@@ -83,25 +89,29 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2019 06:00','27.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('EXAMINATION',11,'APPROVED',1,1,1,1,1,1);
+ values ('EXAMINATION',11,'APPROVED',7,1,1,1,1,1);
 insert into examining (examination_id,doctor_id) values (11,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('EXAMINATION',12,'APPROVED',1,1,1,1,2,1);
+ values ('EXAMINATION',12,'APPROVED',8,1,1,1,2,1);
 insert into examining (examination_id,doctor_id) values (12,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('OPERATION',13,'CANCELED',1,1,1,1,3,1);
+ values ('OPERATION',13,'CANCELED',3,1,1,1,3,1);
 insert into examining (examination_id,doctor_id) values (13,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('EXAMINATION',14,'PREDEF_BOOKED',1,1,1,1,4,1);
+ values ('EXAMINATION',14,'PREDEF_BOOKED',4,1,1,1,4,1);
 insert into examining (examination_id,doctor_id) values (14,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2020 06:00','27.12.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
- values ('OPERATION',15,'APPROVED',1,1,1,1,3,1);
+ values ('OPERATION',15,'APPROVED',6,1,1,1,3,1);
 insert into examining (examination_id,doctor_id) values (15,1);
+
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id,doctor_rating)
+ values ('ClinicDoctor3@maildrop.cc', '$2a$10$NKLDw2XWuf73CpHD.tSdLOS7xIgyI/3DeddI7Ob20DVnEjqcQWhQm', 'Miodrag', 'Simic', '065257175','06:00','20:00',1,'ACTIVE',9,2.5);
+insert into doctor_authority(user_id, authority_id) values (3,4);
