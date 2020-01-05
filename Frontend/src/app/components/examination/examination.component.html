@@ -29,8 +29,7 @@
                             <mat-form-field class="mt-2">
                                 <input matInput placeholder="Height" type="number" formControlName="height">
                                 <span matSuffix class="ml-2">cm</span>
-                                <mat-error
-                                    *ngIf="medicalRecordForm.get('height').errors && medicalRecordForm.get('height').errors['max']">
+                                <mat-error *ngIf="medicalRecordForm.get('height').invalid">
                                     Height can't have more than 3 digits.
                                 </mat-error>
                             </mat-form-field>
