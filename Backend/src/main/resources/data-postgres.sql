@@ -149,10 +149,10 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
  values ('ClinicDoctor6@maildrop.cc', '$2a$10$E1K7MZ9u5TkTZtESLfc8lOulf9/aPXKXhsFxtZQYMAeRnk9ezZ42q', 'Miodrag6', 'Simic', '076287175','06:00','20:00',1,'ACTIVE',9,2.5);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2019 06:00','27.12.2019 23:00');
+ insert into date_time_interval (start_date_time, end_date_time) values ('05.01.2020 21:00','05.01.2020 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('EXAMINATION',11,'APPROVED',7,1,1,1,1,1);
-insert into examining (examination_id,doctor_id) values (11,3);
+insert into examining (examination_id,doctor_id) values (11,1);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('27.12.2019 06:00','27.12.2019 23:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
@@ -168,6 +168,11 @@ insert into examining (examination_id,doctor_id) values (13,5);
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
  values ('EXAMINATION',14,'PREDEF_BOOKED',4,2,2,1,4,1);
 insert into examining (examination_id,doctor_id) values (14,6);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('07.01.2020 17:00','07.01.2020 18:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id)
+ values ('EXAMINATION',15,'APPROVED',1,1,1,1,1,1);
+insert into examining (examination_id,doctor_id) values (15,1);
 
 
 

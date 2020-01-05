@@ -25,11 +25,13 @@ export class ExaminationInfoComponent implements OnInit {
     this.examinationService.getPatientStartingExamination(this.examination.patient.id).subscribe(
       (responseExamination: Examination) => {
         if (responseExamination) {
-          if (JSON.parse(localStorage.getItem('startingExamination'))) {
-            localStorage.removeItem('startingExamination');
+          if (responseExamination.id === this.examination.id) {
+            if (JSON.parse(localStorage.getItem('startingExamination'))) {
+              localStorage.removeItem('startingExamination');
+            }
+            localStorage.setItem('startingExamination', JSON.stringify(responseExamination));
+            this.startingExaminationExists = true;
           }
-          localStorage.setItem('startingExamination', JSON.stringify(responseExamination));
-          this.startingExaminationExists = true;
         }
       },
       () => {
