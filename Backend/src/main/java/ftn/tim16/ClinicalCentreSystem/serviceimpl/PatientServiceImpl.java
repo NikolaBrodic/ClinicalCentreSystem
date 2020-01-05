@@ -1,10 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
 import ftn.tim16.ClinicalCentreSystem.dto.request.AwaitingApprovalPatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.PatientPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
+import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.repository.MedicalRecordRepository;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +43,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private ApplicationContext appContext;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static final Map<Long, Patient> patientCache = new HashMap<>();
 
@@ -182,6 +188,35 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient getPatient(Long id) {
         return patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED);
+    }
+
+    @Override
+    public PatientDTO create(PatientDTO patientDTO, Set<Authority> authorities) {
+        if (patientRepository.findByHealthInsuranceId(patientDTO.getHealthInsuranceID()) != null) {
+            return null;
+        }
+
+        if (patientRepository.findByPhoneNumber(patientDTO.getPhoneNumber()) != null) {
+            return null;
+        }
+
+        String hashedPassword = passwordEncoder.encode(patientDTO.getPassword());
+
+        Patient newPatient = new Patient(patientDTO.getEmail(), hashedPassword, patientDTO.getFirstName(),
+                patientDTO.getLastName(), patientDTO.getPhoneNumber(), patientDTO.getAddress(), patientDTO.getCity(),
+                patientDTO.getCountry(), patientDTO.getHealthInsuranceID(), authorities);
+
+        return new PatientDTO(patientRepository.save(newPatient));
+    }
+
+    @Override
+    public Patient findByEmail(String email) {
+        return patientRepository.findByEmail(email);
+    }
+
+    @Override
+    public Patient findByPhoneNumber(String phoneNumber) {
+        return patientRepository.findByPhoneNumber(phoneNumber);
     }
 
     private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {

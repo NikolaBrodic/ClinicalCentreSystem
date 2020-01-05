@@ -259,6 +259,16 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor findByEmail(String email) {
+        return doctorRepository.findByEmail(email);
+    }
+
+    @Override
+    public Doctor findByPhoneNumber(String phoneNumber) {
+        return doctorRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
