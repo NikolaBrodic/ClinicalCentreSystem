@@ -10,6 +10,8 @@ import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicalCentreAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +42,19 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
 
     @Autowired
     private EmailNotificationService emailNotificationService;
+
+    @Transactional(readOnly = false)
+    @EventListener(ApplicationReadyEvent.class)
+    public void insertAfterStartup() {
+        Set<Authority> authorities = authenticationService.findByName("ROLE_CLINICAL_CENTRE_ADMIN");
+        // Initial password: 1st.Admin
+        ClinicalCentreAdministrator clinicalCentreAdministrator = new ClinicalCentreAdministrator("1st.Admin@maildrop.cc", "$2a$10$JA.M/IQm9r29csrRlkNSteO/k4q3MclGtWfW/MjVqKFMVKb9T.F0i", "Stefan", "Stefanovic", "061123456", authorities);
+        if (userService.findUserByEmail(clinicalCentreAdministrator.getEmail()) != null) {
+            return;
+        }
+
+        clinicalCentreAdminRepository.save(clinicalCentreAdministrator);
+    }
 
     @Override
     @Transactional(readOnly = false)

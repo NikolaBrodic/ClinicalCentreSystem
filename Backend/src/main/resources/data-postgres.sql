@@ -3,9 +3,13 @@ INSERT INTO AUTHORITY (name) VALUES ('ROLE_CLINIC_ADMIN');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_PATIENT');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_DOCTOR');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_NURSE');
-
+/*
 insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values
-('1st.Admin@maildrop.cc', '$2a$10$0fX3yNqeWX3O/f0HtZRtVOA/6SA1Jq2vqARolGgJjRu47FX4AE/Y.', 'Marko', 'Marković', '064123456', 'ACTIVE');
+('1st.Admin@maildrop.cc', '$2a$10$JA.M/IQm9r29csrRlkNSteO/k4q3MclGtWfW/MjVqKFMVKb9T.F0i', 'Stefan', 'Stefanovic', '061123456', 'NEVER_LOGGED_IN');
+insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
+*/
+insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values
+('2nd.Admin@maildrop.cc', '$2a$10$EdmtVAmmfTwJfHg7tZk4U.a5GJSoptQRFUSCIPl8b6iw1xXctVi7e', 'Petar', 'Petrovic', '062123456', 'ACTIVE');
 insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
 
 insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',2.5,0);
