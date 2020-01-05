@@ -142,14 +142,14 @@ public class ClinicController {
         return new ResponseEntity<>(statistic, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/mount-statistic")
+    @GetMapping(value = "/month-statistic")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<int[]> getMountStatistic() {
+    public ResponseEntity<int[]> getMonthStatistic() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        int[] statistic = clinicService.getMountStatistic(clinicAdministrator.getClinic().getId());
+        int[] statistic = clinicService.getMonthStatistic(clinicAdministrator.getClinic().getId());
         if (statistic == null || statistic.length != 12) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -78,12 +78,11 @@ public class PatientController {
         return new ResponseEntity<>(activatedPatient, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/pageAll")
+    @GetMapping(value = "/page-all")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
-    public ResponseEntity<PatientPagingDTO> getPatientsForMedicalStaffPaging(@RequestParam(value = "firstName") String firstName,
-                                                                             @RequestParam(value = "lastName") String lastName,
-                                                                             @RequestParam(value = "healthInsuranceId") String healthInsuranceId,
-                                                                             Pageable page) {
+    public ResponseEntity<PatientPagingDTO> getPatientsForMedicalStaffPaging(
+            @RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName,
+            @RequestParam(value = "healthInsuranceId") String healthInsuranceId, Pageable page) {
         Doctor doctor = doctorService.getLoginDoctor();
         Long clinicId;
         if (doctor == null) {
@@ -97,15 +96,15 @@ public class PatientController {
         }
 
         try {
-            PatientPagingDTO patientPagingDTO = patientService.
-                    getPatientsForMedicalStaffPaging(clinicId, firstName, lastName, healthInsuranceId, page);
+            PatientPagingDTO patientPagingDTO = patientService.getPatientsForMedicalStaffPaging(clinicId, firstName,
+                    lastName, healthInsuranceId, page);
             return new ResponseEntity<>(patientPagingDTO, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping(value = "/forMedicalStaff/{id}")
+    @GetMapping(value = "/for-medical-staff/{id}")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable Long id) {
         PatientWithIdDTO patientWithIdDTO = patientService.getPatientForMedicalStaff(id);

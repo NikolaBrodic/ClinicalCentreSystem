@@ -134,6 +134,7 @@ const routes: Routes = [
   {
     path: 'clinic-admin/requests-for-holiday-or-time-off',
     component: RequestsForHolidayOrTimeOffComponent,
+    canActivate: [ClinicAdminGuard],
   },
   {
     path: 'clinic-admin/business-report',
