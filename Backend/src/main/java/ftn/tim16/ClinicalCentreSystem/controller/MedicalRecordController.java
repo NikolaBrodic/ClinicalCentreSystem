@@ -1,14 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.MedicalRecordDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
-import ftn.tim16.ClinicalCentreSystem.model.Patient;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.MedicalRecordService;
-import ftn.tim16.ClinicalCentreSystem.service.PatientService;
+import ftn.tim16.ClinicalCentreSystem.model.*;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,9 +29,26 @@ public class MedicalRecordController {
     @Autowired
     private ExaminationService examinationService;
 
+    @Autowired
+    private NurseService nurseService;
+
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
+    @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<MedicalRecordDTO> getPatientMedicalRecord(@PathVariable("id") Long patientId) {
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor != null && !examinationService.hasDoctorHeldExaminationForPatient(doctor, patientId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (doctor == null) {
+            Nurse nurse = nurseService.getLoginNurse();
+            if (nurse == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            } else if (!examinationService.hasNurseHeldExaminationForPatient(nurse, patientId)) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
         Patient patient = patientService.getPatient(patientId);
         if (patient == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -74,7 +85,7 @@ public class MedicalRecordController {
         if (updatedMedicalRecordDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        
+
         return new ResponseEntity<>(updatedMedicalRecordDTO, HttpStatus.CREATED);
     }
 

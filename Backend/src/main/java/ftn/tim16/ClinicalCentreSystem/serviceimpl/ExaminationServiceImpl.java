@@ -423,6 +423,25 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationRepository.findByNurseIdAndStatusNotAndIntervalStartDateTimeGreaterThanEqualAndIntervalStartDateTimeLessThan(nurseId, ExaminationStatus.CANCELED, startDateTime, endDateTime);
     }
 
+    @Override
+    public Boolean hasDoctorHeldExaminationForPatient(Doctor doctor, Long patientId) {
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.APPROVED);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        List<Examination> examinations = examinationRepository.findByClinicIdAndStatusInAndDoctorsIdAndPatientIdAndIntervalStartDateTimeLessThanEqual(doctor.getClinic().getId(),
+                statuses, doctor.getId(), patientId, LocalDateTime.now());
+        return !examinations.isEmpty();
+    }
+
+    @Override
+    public Boolean hasNurseHeldExaminationForPatient(Nurse nurse, Long patientId) {
+        Collection<ExaminationStatus> statuses = new ArrayList<>();
+        statuses.add(ExaminationStatus.APPROVED);
+        statuses.add(ExaminationStatus.PREDEF_BOOKED);
+        return !examinationRepository.findByClinicIdAndStatusInAndNurseIdAndPatientIdAndIntervalStartDateTimeLessThanEqual(nurse.getClinic().getId(),
+                statuses, nurse.getId(), patientId, LocalDateTime.now()).isEmpty();
+    }
+
     private void sendMailToClinicAdministrator(Examination examination, Doctor doctor, ClinicAdministrator clinicAdministrator) {
         if (clinicAdministrator == null || doctor == null || examination == null) {
             return;

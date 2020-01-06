@@ -13,8 +13,6 @@ import { TokenInterceptor } from './interseptors/token.interceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-
 import { DemoMaterialModule } from './material-module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -174,7 +172,6 @@ import { AccountActivatedPatientComponent } from './components/account-activated
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgxMaterialTimepickerModule,
     DemoMaterialModule,
     MatNativeDateModule,
     AxiomSchedulerModule,
