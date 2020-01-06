@@ -39,12 +39,11 @@
                         </td>
                     </tr>
                 </table>
-                <mat-error *ngIf="(dateTimeTypeForm.get('timeFrom').errors && dateTimeTypeForm.get('timeFrom').errors['required']) || 
+                <mat-error class="work-hours" *ngIf="(dateTimeTypeForm.get('timeFrom').errors && dateTimeTypeForm.get('timeFrom').errors['required']) || 
                 (dateTimeTypeForm.get('timeTo').errors && dateTimeTypeForm.get('timeTo').errors['required']) ">
                     Please choose start and end time of examination/operation.
                 </mat-error>
-                <mat-error
-                    *ngIf="dateTimeTypeForm.get('timeTo').errors && dateTimeTypeForm.get('timeTo').errors['timeError']">
+                <mat-error class="work-hours" *ngIf="dateTimeTypeForm.errors && dateTimeTypeForm.errors['timeError']">
                     Start time must be before end time.
                 </mat-error>
                 <mat-form-field class="form-full-width mt-3">

@@ -54,12 +54,9 @@
             (addNurseForm.get('workHoursTo').errors && addNurseForm.get('workHoursTo').errors['required']) ">
             Work hours are required to fill in.
         </mat-error>
-
-        <mat-error class="work-hours"
-            *ngIf="addNurseForm.get('workHoursTo').errors && addNurseForm.get('workHoursTo').errors['timeError']">
+        <mat-error class="work-hours" *ngIf="addNurseForm.errors && addNurseForm.errors['timeError']">
             Starting work hours must be before ending work hours.
         </mat-error>
-
         <mat-form-field class="form-full-width mt-3">
             <input matInput placeholder="Phone number" formControlName="phoneNumber">
             <mat-error

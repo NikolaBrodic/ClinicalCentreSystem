@@ -5,13 +5,22 @@ import { ExaminationTypeService } from './../../services/examination-type.servic
 import { ToastrService } from 'ngx-toastr';
 import { Examination } from './../../models/examination';
 import { formatDate, Location } from '@angular/common';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ExaminationType } from '../../models/examinationType';
 import { Doctor } from '../../models/doctor';
-import { TimeValidator } from 'src/app/validators/time.validator';
 
+const TimeVal: ValidatorFn = (fg: FormGroup) => {
+  const from = fg.get('timeFrom').value;
+  const to = fg.get('timeTo').value;
+  if (!from || !to) {
+    return null;
+  }
+  return from !== null && to !== null && from < to
+    ? null
+    : { timeError: true };
+};
 @Component({
   selector: 'app-doctor-add-examination-or-operation',
   templateUrl: './doctor-add-examination-or-operation.component.html',
@@ -49,7 +58,7 @@ export class DoctorAddExaminationOrOperationComponent implements OnInit {
       timeTo: new FormControl(null, [Validators.required]),
       examinationType: new FormControl(null, [Validators.required])
     }, {
-      validator: TimeValidator('timeFrom', 'timeTo')
+      validator: [TimeVal]
     });
     this.dateTimeTypeForm.patchValue(
       {
