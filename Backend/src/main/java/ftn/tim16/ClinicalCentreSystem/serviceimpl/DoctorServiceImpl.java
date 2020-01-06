@@ -275,6 +275,31 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public boolean haveToChangeDoctor(Examination assignedExamination, Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+
+        if (doctor == null) {
+            return false;
+        }
+        if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
+            return false;
+        }
+        if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
+            return false;
+        }
+        List<Examination> examinations = examinationService.getDoctorExaminationsOnDay(doctor.getId(), startDateTime);
+
+        if (!examinations.isEmpty()) {
+            for (Examination examination : examinations) {
+                if (examination.getId() != assignedExamination.getId() && !examination.getInterval().isAvailable(startDateTime, endDateTime)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public DoctorDTO create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());

@@ -74,8 +74,9 @@ export class DoctorService {
     return this.httpClient.delete(this.url + '/' + id);
   }
 
-  public isAvailable(doctorId: any, startTime: string, endTime: string): any {
+  public isAvailable(examinationId: any, doctorId: any, startTime: string, endTime: string): any {
     let params = new HttpParams();
+    params = params.append('examinationId', examinationId);
     params = params.append('doctorId', doctorId);
     params = params.append('startTime', startTime);
     params = params.append('endTime', endTime);

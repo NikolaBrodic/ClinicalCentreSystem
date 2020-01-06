@@ -195,14 +195,13 @@ public class RoomServiceImpl implements RoomService {
         List<RoomDTO> available = new ArrayList<>();
         long duration = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
         for (Room currentRoom : roomsInClinicAll) {
-            List<Examination> examinations = examinationService.getExaminationsAfter(currentRoom.getId(), endDateTime);
+            List<Examination> examinations = examinationService.getExaminationsAfter(currentRoom.getId(), startDateTime);
             if (examinations.isEmpty()) {
                 LocalDateTime newEndExamination = endDateTime.plusSeconds(duration);
                 if (isAvailable(currentRoom, endDateTime, newEndExamination)) {
                     RoomDTO roomDTO = new RoomDTO(currentRoom);
                     roomDTO.setAvailable(endDateTime);
                     available.add(roomDTO);
-                    break;
                 }
             } else {
                 for (Examination examination : examinations) {
@@ -358,7 +357,7 @@ public class RoomServiceImpl implements RoomService {
                     return null;
                 }
 
-                if (!doctorService.isAvailable(doctor, dateTimeInterval.getStartDateTime(),
+                if (!doctorService.haveToChangeDoctor(selectedExamination, doctor, dateTimeInterval.getStartDateTime(),
                         dateTimeInterval.getEndDateTime())) {
                     doctorService.removeExamination(selectedExamination, doctor.getEmail());
                     selectedExamination.getDoctors().remove(doctor);

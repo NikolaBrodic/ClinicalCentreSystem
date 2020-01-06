@@ -47,4 +47,7 @@ public interface DoctorService {
     Doctor findByEmail(String email);
 
     Doctor findByPhoneNumber(String phoneNumber);
+
+    boolean haveToChangeDoctor(Examination assignedExamination, Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }

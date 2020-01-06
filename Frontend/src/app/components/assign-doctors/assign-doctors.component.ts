@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Examination } from './../../models/examination';
 import { DoctorService } from './../../services/doctor.service';
 import { Room } from './../../models/room';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
@@ -26,7 +26,8 @@ export class AssignDoctorsComponent implements OnInit {
     private toastr: ToastrService,
     private doctorService: DoctorService,
     private roomService: RoomService,
-    @Inject(MAT_DIALOG_DATA) public receivedData
+    @Inject(MAT_DIALOG_DATA) public receivedData,
+    public dialogRef: MatDialogRef<AssignDoctorsComponent>
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +46,9 @@ export class AssignDoctorsComponent implements OnInit {
     this.roomService.assignRoomWithDoctors(this.choosenRoom, this.choosenExamination, choosenDoctors).subscribe(
       () => {
         this.toastr.success('Successfully assigned examination room', 'Assign room');
+        this.dialogRef.close();
         this.router.navigate(['/clinic-admin/examination/awaiting-operations']);
+
       },
       () => {
         this.toastr.error('You can not assign this room. Please choose another one or change choosen doctors.', 'Assign room');

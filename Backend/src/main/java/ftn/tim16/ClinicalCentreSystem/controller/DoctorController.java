@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.model.Doctor;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
+import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +30,9 @@ public class DoctorController {
 
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
+
+    @Autowired
+    private ExaminationService examinationService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -119,7 +123,8 @@ public class DoctorController {
 
     @GetMapping(value = "/is-available")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Boolean> isAvailable(@RequestParam(value = "doctorId", required = true) String id,
+    public ResponseEntity<Boolean> isAvailable(@RequestParam(value = "examinationId", required = true) String examinationId,
+                                               @RequestParam(value = "doctorId", required = true) String id,
                                                @RequestParam(value = "startTime") String searchStartTime,
                                                @RequestParam(value = "endTime") String searchEndTime) {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
@@ -129,7 +134,8 @@ public class DoctorController {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             Long doctorId = Long.parseLong(id);
-            boolean isAvailable = doctorService.isAvailable(doctorService.getDoctor(doctorId), LocalDateTime.parse(searchStartTime, formatter),
+            boolean isAvailable = doctorService.haveToChangeDoctor(examinationService.getExamination(Long.parseLong(examinationId)),
+                    doctorService.getDoctor(doctorId), LocalDateTime.parse(searchStartTime, formatter),
                     LocalDateTime.parse(searchEndTime, formatter));
             return new ResponseEntity<>(isAvailable, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
