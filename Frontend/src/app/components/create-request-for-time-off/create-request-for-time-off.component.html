@@ -77,10 +77,15 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr class="validation-height">
+                                    <td colspan="2">
+                                        <mat-error class="date-time-err"
+                                            *ngIf="createRequestForTimeOffForm.errors && createRequestForTimeOffForm.errors['dateTimeError']">
+                                            Start date and time must be before end date and time.
+                                        </mat-error>
+                                    </td>
+                                </tr>
                             </table>
-                            <mat-error *ngIf="dateTimeError" class="date-time-err">
-                                Start date and time must be before end date and time.
-                            </mat-error>
                             <br>
                             <div align="end">
                                 <button mat-raised-button color="primary" (click)="sendRequest()"
