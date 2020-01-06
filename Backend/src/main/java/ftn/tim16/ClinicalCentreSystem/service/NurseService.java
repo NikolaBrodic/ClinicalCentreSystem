@@ -31,4 +31,7 @@ public interface NurseService {
 
     EditNurseDTO findNurseById(Long id);
 
+    Nurse findByEmail(String email);
+
+    Nurse findByPhoneNumber(String phoneNumber);
 }

@@ -4,17 +4,16 @@ import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.AuthorityRepository;
-import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
 import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
+import ftn.tim16.ClinicalCentreSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,10 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserServiceImpl userService;
 
     @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PatientService patientService;
 
     @Override
     @Transactional(readOnly = false)
@@ -50,23 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userDetails != null) {
             return null;
         }
-
-        if (patientRepository.findByHealthInsuranceId(patientDTO.getHealthInsuranceID()) != null) {
-            return null;
-        }
-
-        if (patientRepository.findByPhoneNumber(patientDTO.getPhoneNumber()) != null) {
-            return null;
-        }
-
-        String hashedPassword = passwordEncoder.encode(patientDTO.getPassword());
-        Set<Authority> authorities = findByName("ROLE_PATIENT");
-
-        Patient newPatient = new Patient(patientDTO.getEmail(), hashedPassword, patientDTO.getFirstName(),
-                patientDTO.getLastName(), patientDTO.getPhoneNumber(), patientDTO.getAddress(), patientDTO.getCity(),
-                patientDTO.getCountry(), patientDTO.getHealthInsuranceID(), authorities);
-
-        return new PatientDTO(patientRepository.save(newPatient));
+        return patientService.create(patientDTO, findByName("ROLE_PATIENT"));
     }
 
     @Override
@@ -146,7 +126,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return null;
     }
 
-    public String getHashedPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
 }

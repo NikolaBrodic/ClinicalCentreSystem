@@ -91,7 +91,7 @@ export class SearchRoomsComponent implements OnInit {
       )
       const endDateTime = moment(element.available, 'YYYY-MM-DD HH:mm').add(duration).format('YYYY-MM-DD HH:mm');
 
-      this.doctorService.isAvailable(this.examination.doctors[0].id, formatDate(element.available.toString(), format, locale),
+      this.doctorService.isAvailable(this.examination.id, this.examination.doctors[0].id, formatDate(element.available.toString(), format, locale),
         endDateTime).subscribe((responseData: boolean) => {
           if (!responseData) {
             this.dialog.open(ChooseDoctorComponent, {

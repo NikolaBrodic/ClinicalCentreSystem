@@ -47,7 +47,9 @@
                             <label class="page-title">Clinic's revenue</label>
                         </div>
                         <div class="col-3">
-                            <label class="page-title"> {{clinicRevenue}} RSD</label>
+                            <label class="page-title" *ngIf="startDate && endDate"> {{clinicRevenue}} RSD</label>
+                            <label class="no-date" *ngIf="!startDate || !endDate"> Specify date interval
+                                first</label>
                         </div>
                     </div>
                     <br>
@@ -105,9 +107,11 @@
                         <app-daily-statistic></app-daily-statistic>
                     </div>
                     <br>
+                    <br>
                     <div>
                         <app-week-statistic></app-week-statistic>
                     </div>
+                    <br>
                     <br>
                     <div>
                         <app-mount-statistic></app-mount-statistic>

@@ -2,11 +2,22 @@ import { ExaminationTypeService } from '../../services/examination-type.service'
 import { Doctor } from './../../models/doctor';
 import { DoctorService } from './../../services/doctor.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ExaminationType } from 'src/app/models/examinationType';
-import { TimeValidator } from 'src/app/validators/time.validator';
+
+const TimeVal: ValidatorFn = (fg: FormGroup) => {
+  const from = fg.get('workHoursFrom').value;
+  const to = fg.get('workHoursTo').value;
+  if (!from || !to) {
+    return null;
+  }
+  return from !== null && to !== null && from < to
+    ? null
+    : { timeError: true };
+};
+
 @Component({
   selector: 'app-add-doctor',
   templateUrl: './add-doctor.component.html',
@@ -30,7 +41,7 @@ export class AddDoctorComponent implements OnInit {
       workHoursTo: new FormControl(null, [Validators.required]),
       specialized: new FormControl(null, [Validators.required]),
     }, {
-      validator: TimeValidator('workHoursFrom', 'workHoursTo')
+      validator: [TimeVal]
     });
 
     this.getSpecializations();

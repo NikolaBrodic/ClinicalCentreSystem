@@ -38,7 +38,7 @@ public class ClinicalCentreAdministrator implements UserDetails {
     private UserStatus status;
 
     @Column
-    private Timestamp lastPasswordResetDate;
+    private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(

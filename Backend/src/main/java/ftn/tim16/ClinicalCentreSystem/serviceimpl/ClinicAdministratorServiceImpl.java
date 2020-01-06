@@ -8,9 +8,9 @@ import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicAdministratorRepository;
-import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -35,7 +35,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private ClinicAdministratorRepository clinicAdministratorRepository;
 
     @Autowired
-    private ClinicRepository clinicRepository;
+    private ClinicService clinicService;
 
     @Autowired
     private UserServiceImpl userService;
@@ -81,9 +81,12 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         if (clinicAdministrator.getId() != editClinicAdminDTO.getId()) {
             return null;
         }
-
+        if (clinicAdministratorRepository.findByPhoneNumberAndIdNot(editClinicAdminDTO.getPhoneNumber(), editClinicAdminDTO.getId()) != null) {
+            return null;
+        }
         clinicAdministrator.setFirstName(editClinicAdminDTO.getFirstName());
         clinicAdministrator.setLastName(editClinicAdminDTO.getLastName());
+
         clinicAdministrator.setPhoneNumber(editClinicAdminDTO.getPhoneNumber());
 
         return new ClinicAdministratorDTO(clinicAdministratorRepository.save(clinicAdministrator));
@@ -121,7 +124,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
             return null;
         }
 
-        Clinic clinic = clinicRepository.findOneById(clinicAdministratorDTO.getClinic().getId());
+        Clinic clinic = clinicService.findOneById(clinicAdministratorDTO.getClinic().getId());
         if (clinic == null) {
             return null;
         }
@@ -152,6 +155,20 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         return clinicAdministrators.get(new Random().nextInt(clinicAdministrators.size()));
     }
 
+    @Override
+    public ClinicAdministrator findByEmail(String email) {
+        try {
+            return clinicAdministratorRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public ClinicAdministrator findByPhoneNumber(String phoneNumber) {
+        return clinicAdministratorRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
         String subject = "New position: Clinic Administrator";
         StringBuilder sb = new StringBuilder();
@@ -160,7 +177,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         sb.append(" Clinic. From now on, you are in charge of managing the business of the clinic.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");

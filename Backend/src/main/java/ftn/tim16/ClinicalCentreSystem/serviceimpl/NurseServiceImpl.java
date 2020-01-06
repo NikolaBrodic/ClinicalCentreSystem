@@ -139,7 +139,7 @@ public class NurseServiceImpl implements NurseService {
         sb.append(" Clinic. From now on, you are in charge of stamping prescriptions to patients and helping doctors on examinations.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");
@@ -206,7 +206,9 @@ public class NurseServiceImpl implements NurseService {
         if (workHoursFrom.isAfter(workHoursTo)) {
             return null;
         }
-
+        if (nurseRepository.findByPhoneNumberAndIdNot(editNurseDTO.getPhoneNumber(), editNurseDTO.getId()) != null) {
+            return null;
+        }
         if (!workHoursFrom.equals(nurse.getWorkHoursFrom()) || !workHoursTo.equals(nurse.getWorkHoursTo())) {
             if (!isEditable(editNurseDTO.getId())) {
                 return null;
@@ -233,6 +235,20 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public EditNurseDTO findNurseById(Long id) {
         return new EditNurseDTO(nurseRepository.findByIdAndStatus(id, UserStatus.ACTIVE));
+    }
+
+    @Override
+    public Nurse findByEmail(String email) {
+        try {
+            return nurseRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public Nurse findByPhoneNumber(String phoneNumber) {
+        return nurseRepository.findByPhoneNumber(phoneNumber);
     }
 
     private List<Nurse> getAvailable(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime) {

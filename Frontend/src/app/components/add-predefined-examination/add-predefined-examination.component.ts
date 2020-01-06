@@ -8,10 +8,20 @@ import { DoctorService } from './../../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { Room } from './../../models/room';
 import { Doctor } from './../../models/doctor';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ExaminationService } from 'src/app/services/examination.service';
-import { TimeValidator } from 'src/app/validators/time.validator';
+
+const TimeVal: ValidatorFn = (fg: FormGroup) => {
+  const from = fg.get('timeFrom').value;
+  const to = fg.get('timeTo').value;
+  if (!from || !to) {
+    return null;
+  }
+  return from !== null && to !== null && from < to
+    ? null
+    : { timeError: true };
+};
 
 @Component({
   selector: 'app-add-predefined-examination',
@@ -40,7 +50,7 @@ export class AddPredefinedExaminationComponent implements OnInit {
       timeTo: new FormControl(null, [Validators.required]),
       examinationType: new FormControl(null, [Validators.required])
     }, {
-      validator: TimeValidator('timeFrom', 'timeTo')
+      validator: [TimeVal]
     });
 
     this.addPredefinedExaminationForm = new FormGroup({

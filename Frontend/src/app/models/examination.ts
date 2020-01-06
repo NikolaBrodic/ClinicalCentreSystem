@@ -9,16 +9,16 @@ import { DateTimeInterval } from './dateTimeInterval';
 
 export class Examination {
     id: number;
-    kind: String;
+    kind: string;
     interval: DateTimeInterval;
-    status: String;
+    status: string;
     examinationType: ExaminationType;
     doctors: Doctor[];
     room: Room;
     discount: number;
     nurse: Nurse;
     patient: PatientWithId;
-    constructor(id: number, kind: String, interval: DateTimeInterval, status: String, examinationType: ExaminationType, doctors: Doctor[],
+    constructor(id: number, kind: string, interval: DateTimeInterval, status: string, examinationType: ExaminationType, doctors: Doctor[],
         room: Room, discount: number, nurse: Nurse, patient: PatientWithId) {
         this.id = id;
         this.kind = kind;

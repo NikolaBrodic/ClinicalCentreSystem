@@ -57,7 +57,7 @@ export class EditPersonalInformationClinicAdminComponent implements OnInit {
         this.toastr.success("Successfully changed your personal information.", 'Edit personal information');
       },
       () => {
-        this.toastr.error("Error! Please try again.", 'Edit personal information');
+        this.toastr.error("Clinic admin with same phone number already exist.", 'Edit personal information');
       }
     );
   }

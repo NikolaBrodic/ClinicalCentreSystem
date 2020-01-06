@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -16,29 +17,33 @@ export class ExaminationInfoComponent implements OnInit {
 
   constructor(private toastr: ToastrService,
     public dialogRef: MatDialogRef<EditRoomComponent>, private examinationService: ExaminationService,
-    @Inject(MAT_DIALOG_DATA) public examination: ExaminationForWorkCalendar) { }
+    @Inject(MAT_DIALOG_DATA) public examination: ExaminationForWorkCalendar, private userService: UserService) { }
 
   ngOnInit() {
     if (!this.examination) {
       this.dialogRef.close();
     }
-    this.examinationService.getPatientStartingExamination(this.examination.patient.id).subscribe(
-      (responseExamination: Examination) => {
-        if (responseExamination) {
+    if (this.userService.isDoctor() && this.examination.patient) {
+      this.examinationService.getPatientStartingExamination(this.examination.patient.id).subscribe(
+        (responseExamination: Examination) => {
+          if (responseExamination) {
+            if (responseExamination.id === this.examination.id) {
+              if (JSON.parse(localStorage.getItem('startingExamination'))) {
+                localStorage.removeItem('startingExamination');
+              }
+              localStorage.setItem('startingExamination', JSON.stringify(responseExamination));
+              this.startingExaminationExists = true;
+            }
+          }
+        },
+        () => {
           if (JSON.parse(localStorage.getItem('startingExamination'))) {
             localStorage.removeItem('startingExamination');
           }
-          localStorage.setItem('startingExamination', JSON.stringify(responseExamination));
-          this.startingExaminationExists = true;
+          this.startingExaminationExists = false;
         }
-      },
-      () => {
-        if (JSON.parse(localStorage.getItem('startingExamination'))) {
-          localStorage.removeItem('startingExamination');
-        }
-        this.startingExaminationExists = false;
-      }
-    );
+      );
+    }
   }
 
 }

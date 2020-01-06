@@ -10,6 +10,8 @@ import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicalCentreAdministratorService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +42,19 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
 
     @Autowired
     private EmailNotificationService emailNotificationService;
+
+    @Transactional(readOnly = false)
+    @EventListener(ApplicationReadyEvent.class)
+    public void insertAfterStartup() {
+        Set<Authority> authorities = authenticationService.findByName("ROLE_CLINICAL_CENTRE_ADMIN");
+        // Initial password: 1st.Admin
+        ClinicalCentreAdministrator clinicalCentreAdministrator = new ClinicalCentreAdministrator("1st.Admin@maildrop.cc", "$2a$10$JA.M/IQm9r29csrRlkNSteO/k4q3MclGtWfW/MjVqKFMVKb9T.F0i", "Stefan", "Stefanovic", "061123456", authorities);
+        if (userService.findUserByEmail(clinicalCentreAdministrator.getEmail()) != null) {
+            return;
+        }
+
+        clinicalCentreAdminRepository.save(clinicalCentreAdministrator);
+    }
 
     @Override
     @Transactional(readOnly = false)
@@ -99,6 +114,20 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
         return new ClinicalCentreAdminDTO(clinicalCentreAdminRepository.save(clinicalCentreAdministrator));
     }
 
+    @Override
+    public ClinicalCentreAdministrator findByEmail(String email) {
+        try {
+            return clinicalCentreAdminRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public ClinicalCentreAdministrator findByPhoneNumber(String phoneNumber) {
+        return clinicalCentreAdminRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private void composeAndSendEmail(String recipientEmail, String generatedPassword) {
         String subject = "New position: Clinical Centre Administrator";
         StringBuilder sb = new StringBuilder();
@@ -107,7 +136,7 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
         sb.append("and creating codebooks of diagnosis and medicines.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");

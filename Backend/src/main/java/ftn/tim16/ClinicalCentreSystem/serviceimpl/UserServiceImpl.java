@@ -4,13 +4,8 @@ import ftn.tim16.ClinicalCentreSystem.dto.request.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.UserStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
-import ftn.tim16.ClinicalCentreSystem.repository.*;
 import ftn.tim16.ClinicalCentreSystem.service.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
-
-    protected final Log LOGGER = LogFactory.getLog(getClass());
 
     @Autowired
     private ClinicAdministratorService clinicAdministratorService;
@@ -39,22 +32,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private NurseService nurseService;
-
-    @Autowired
-    private ClinicAdministratorRepository clinicAdministratorRepository;
-
-    @Autowired
-    private ClinicalCentreAdministratorRepository clinicalCentreAdministratorRepository;
-
-    @Autowired
-    private DoctorRepository doctorRepository;
-
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private NurseRepository nurseRepository;
-
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -98,75 +75,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails findUserByEmail(String email) {
-        try {
-            ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByEmail(email);
-            if (clinicalCentreAdministrator != null) {
-                return clinicalCentreAdministrator;
-            }
-        } catch (UsernameNotFoundException ex) {
-
-        }
-
-        try {
-            ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.findByEmail(email);
-            if (clinicAdministrator != null) {
-                return clinicAdministrator;
-            }
-        } catch (UsernameNotFoundException ex) {
-
-        }
-
-        try {
-            Patient patient = patientRepository.findByEmail(email);
-            if (patient != null) {
-                return patient;
-            }
-        } catch (UsernameNotFoundException ex) {
-
-        }
-
-        try {
-            Nurse nurse = nurseRepository.findByEmail(email);
-            if (nurse != null) {
-                return nurse;
-            }
-        } catch (UsernameNotFoundException ex) {
-
-        }
-        try {
-            Doctor doctor = doctorRepository.findByEmail(email);
-            if (doctor != null) {
-                return doctor;
-            }
-        } catch (UsernameNotFoundException ex) {
-
-        }
-        return null;
-    }
-
-    @Override
-    public UserDetails findUserByPhoneNumber(String phoneNumber) {
-        ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByPhoneNumber(phoneNumber);
+        ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorService.findByEmail(email);
         if (clinicalCentreAdministrator != null) {
             return clinicalCentreAdministrator;
         }
 
-        ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.findByPhoneNumber(phoneNumber);
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.findByEmail(email);
         if (clinicAdministrator != null) {
             return clinicAdministrator;
         }
 
-        Patient patient = patientRepository.findByPhoneNumber(phoneNumber);
+        Patient patient = patientService.findByEmail(email);
         if (patient != null) {
             return patient;
         }
 
-        Nurse nurse = nurseRepository.findByPhoneNumber(phoneNumber);
+        Nurse nurse = nurseService.findByEmail(email);
         if (nurse != null) {
             return nurse;
         }
 
-        Doctor doctor = doctorRepository.findByPhoneNumber(phoneNumber);
+        Doctor doctor = doctorService.findByEmail(email);
         if (doctor != null) {
             return doctor;
         }
@@ -176,44 +105,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public boolean neverLoggedIn(String email) {
-        try {
-            ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorRepository.findByEmail(email);
-            if (clinicalCentreAdministrator != null) {
-                return (clinicalCentreAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
-            }
-        } catch (UsernameNotFoundException ex) {
-
+        ClinicalCentreAdministrator clinicalCentreAdministrator = clinicalCentreAdministratorService.findByEmail(email);
+        if (clinicalCentreAdministrator != null) {
+            return (clinicalCentreAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
         }
 
-        try {
-            ClinicAdministrator clinicAdministrator = clinicAdministratorRepository.findByEmail(email);
-            if (clinicAdministrator != null) {
-                return (clinicAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
-            }
-        } catch (UsernameNotFoundException ex) {
-
+        ClinicAdministrator clinicAdministrator = clinicAdministratorService.findByEmail(email);
+        if (clinicAdministrator != null) {
+            return (clinicAdministrator.getStatus() == UserStatus.NEVER_LOGGED_IN);
         }
 
-        try {
-            Nurse nurse = nurseRepository.findByEmail(email);
-            if (nurse != null) {
-                return (nurse.getStatus() == UserStatus.NEVER_LOGGED_IN);
-            }
-        } catch (UsernameNotFoundException ex) {
+        Nurse nurse = nurseService.findByEmail(email);
+        if (nurse != null) {
+            return (nurse.getStatus() == UserStatus.NEVER_LOGGED_IN);
+        }
 
+        Doctor doctor = doctorService.findByEmail(email);
+        if (doctor != null) {
+            return (doctor.getStatus() == DoctorStatus.NEVER_LOGGED_IN);
         }
-        try {
-            Doctor doctor = doctorRepository.findByEmail(email);
-            if (doctor != null) {
-                return (doctor.getStatus() == DoctorStatus.NEVER_LOGGED_IN);
-            }
-        } catch (UsernameNotFoundException ex) {
-        }
+
         return false;
     }
 
-    public UserDetails getLoggedInUser() {
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        return findUserByEmail(currentUser.getName());
-    }
 }

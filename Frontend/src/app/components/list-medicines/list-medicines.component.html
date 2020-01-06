@@ -34,13 +34,13 @@
                             </ng-container>
 
                             <ng-container matColumnDef="chemicalComposition">
-                                <th mat-header-cell *matHeaderCellDef> Chemical composition </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Chemical composition </th>
                                 <td mat-cell *matCellDef="let element" class="ellipsis second">
                                     <span>{{element.chemicalComposition}}</span></td>
                             </ng-container>
 
                             <ng-container matColumnDef="usage">
-                                <th mat-header-cell *matHeaderCellDef> Usage </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Usage </th>
                                 <td mat-cell *matCellDef="let element" class="ellipsis"><span>{{element.usage}}</span>
                                 </td>
                             </ng-container>

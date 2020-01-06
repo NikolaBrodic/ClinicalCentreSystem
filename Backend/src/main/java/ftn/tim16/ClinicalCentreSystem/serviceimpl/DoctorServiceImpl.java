@@ -234,7 +234,9 @@ public class DoctorServiceImpl implements DoctorService {
         if (workHoursFrom.isAfter(workHoursTo) || examinationType == null) {
             return null;
         }
-
+        if (doctorRepository.findByPhoneNumberAndIdNot(editDoctorDTO.getPhoneNumber(), editDoctorDTO.getId()) != null) {
+            return null;
+        }
         if (!workHoursFrom.equals(doctor.getWorkHoursFrom()) || !workHoursTo.equals(doctor.getWorkHoursTo()) || doctor.getSpecialized().getId() != editDoctorDTO.getSpecialized().getId()) {
             if (!isEditable(editDoctorDTO.getId())) {
                 return null;
@@ -256,6 +258,45 @@ public class DoctorServiceImpl implements DoctorService {
         doctorStatuses.add(DoctorStatus.NEVER_LOGGED_IN);
         doctorStatuses.add(DoctorStatus.DELETED);
         return new EditDoctorDTO(doctorRepository.findByIdAndStatusNotIn(id, doctorStatuses));
+    }
+
+    @Override
+    public Doctor findByEmail(String email) {
+        try {
+            return doctorRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public Doctor findByPhoneNumber(String phoneNumber) {
+        return doctorRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public boolean haveToChangeDoctor(Examination assignedExamination, Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+
+        if (doctor == null) {
+            return false;
+        }
+        if (!doctor.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
+            return false;
+        }
+        if (timeOffDoctorService.isDoctorOnVacation(doctor.getId(), startDateTime, endDateTime)) {
+            return false;
+        }
+        List<Examination> examinations = examinationService.getDoctorExaminationsOnDay(doctor.getId(), startDateTime);
+
+        if (!examinations.isEmpty()) {
+            for (Examination examination : examinations) {
+                if (examination.getId() != assignedExamination.getId() && !examination.getInterval().isAvailable(startDateTime, endDateTime)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
     }
 
     @Override
@@ -311,7 +352,7 @@ public class DoctorServiceImpl implements DoctorService {
         sb.append(" Clinic. From now on, you are in charge of examining patients and performing operations to them.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");

@@ -32,6 +32,11 @@ public class ClinicServiceImpl implements ClinicService {
     private ExaminationService examinationService;
 
     @Override
+    public Clinic findOneById(Long id) {
+        return clinicRepository.findOneById(id);
+    }
+
+    @Override
     public ClinicDTO findById(Long id) {
         Clinic clinic = clinicRepository.findOneById(id);
         if (clinic == null) {
@@ -143,7 +148,7 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public int[] getMountStatistic(Long clinicId) {
+    public int[] getMonthStatistic(Long clinicId) {
         List<Examination> examinations = examinationService.getAllHeldExaminations(clinicId);
 
         List<Examination> jan = getMountExamination(examinations, 1);

@@ -43,7 +43,9 @@ export class AddClinicComponent implements OnInit {
     const clinic = new Clinic("", this.addClinicForm.value.address,
       "", -1);
 
-    this.clinicService.addClinicAdressEmiter.next(clinic);
+    if (clinic.address) {
+      this.clinicService.addClinicAdressEmiter.next(clinic);
+    }
   }
 
   add() {

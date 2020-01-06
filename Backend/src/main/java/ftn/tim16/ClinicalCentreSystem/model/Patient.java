@@ -27,7 +27,6 @@ public class Patient implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -58,12 +57,11 @@ public class Patient implements UserDetails {
     @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @Column
-    private Timestamp lastPasswordResetDate;
+    private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -158,7 +156,7 @@ public class Patient implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return (status != PatientStatus.AWAITING_APPROVAL);
+        return (status == PatientStatus.ACTIVATED);
     }
 
     public Long getId() {

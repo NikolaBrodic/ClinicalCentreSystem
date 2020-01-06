@@ -29,7 +29,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
       specialized: new FormControl(null, [Validators.required]),
       workHoursFrom: new FormControl(null, [Validators.required]),
       workHoursTo: new FormControl(null, [Validators.required]),
-      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern('0[0-9]+ ')]),
+      phoneNumber: new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(10), Validators.pattern("0[0-9]+")]),
     });
 
     this.doctorService.get(this.userService.getLoggedInUser().id).subscribe(
@@ -87,7 +87,7 @@ export class EditPersonalInformationDoctorComponent implements OnInit {
         this.toastr.success('Successfully changed your personal information. ', 'Edit personal information');
       },
       () => {
-        this.toastr.error('You can not change work hours and specialization because you have scheduled examinations. ', 'Edit personal information');
+        this.toastr.error('You can not change work hours and specialization because you have scheduled examinations or someone has the same phone number. ', 'Edit personal information');
       }
     );
   }

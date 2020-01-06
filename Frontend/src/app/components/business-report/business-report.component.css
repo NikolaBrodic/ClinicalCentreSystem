@@ -64,6 +64,11 @@ h1 {
   font-weight: 600; 
 }
 
+.no-date {
+  padding-top: 10px;
+  font-size: 16px; 
+  color: black; 
+}
 .rating-style {
   pointer-events: none;
 }

@@ -24,8 +24,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-@Transactional
 @Service
+@Transactional(readOnly = true)
 public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
@@ -297,7 +297,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
     private void sendMail(Examination examination, Doctor doctor, Nurse nurse, Patient patient) {
-        if (nurse == null || patient == null) {
+        if (patient == null) {
             return;
         }
         String subject = "Notice: Examination has been canceled ";
@@ -305,12 +305,15 @@ public class ExaminationServiceImpl implements ExaminationService {
         sb.append(doctor.getFirstName());
         sb.append(" ");
         sb.append(doctor.getLastName());
-        sb.append("has canceled the examination scheduled for ");
+        sb.append(" has canceled the examination scheduled for ");
         sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
         sb.append(".");
 
         String text = sb.toString();
-        emailNotificationService.sendEmail(nurse.getEmail(), subject, text);
+        if (nurse != null) {
+            emailNotificationService.sendEmail(nurse.getEmail(), subject, text);
+        }
+
         emailNotificationService.sendEmail(patient.getEmail(), subject, text);
         if (examination.getKind().equals(ExaminationKind.OPERATION)) {
             for (Doctor doc : examination.getDoctors()) {
@@ -429,7 +432,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         sb.append(doctor.getFirstName());
         sb.append(" ");
         sb.append(doctor.getLastName());
-        sb.append("has created the ");
+        sb.append(" has created the ");
         sb.append(examination.getKind().toString().toLowerCase());
         sb.append(" scheduled for ");
         sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));

@@ -1,3 +1,4 @@
+import { AccountActivatedPatientComponent } from './components/account-activated-patient/account-activated-patient.component';
 import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-holiday-or-time-off/requests-for-holiday-or-time-off.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
 import { EditPersonalInformationDoctorComponent } from './components/edit/edit-personal-information-doctor/edit-personal-information-doctor.component';
@@ -68,6 +69,10 @@ const routes: Routes = [
     path: 'patient/pending-approval',
     component: PendingApprovalPatientComponent
   },
+  {
+    path: 'patient/account-activated/:id',
+    component: AccountActivatedPatientComponent
+  },
 
   //***************** CLINIC ADMIN *****************
 
@@ -129,6 +134,7 @@ const routes: Routes = [
   {
     path: 'clinic-admin/requests-for-holiday-or-time-off',
     component: RequestsForHolidayOrTimeOffComponent,
+    canActivate: [ClinicAdminGuard],
   },
   {
     path: 'clinic-admin/business-report',
