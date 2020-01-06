@@ -13,7 +13,6 @@ import { TokenInterceptor } from './interseptors/token.interceptor';
 import { ErrorComponent } from './components/error/error.component';
 import { PendingApprovalPatientComponent } from './components/pending-approval-patient/pending-approval-patient.component';
 import { LoginPatientComponent } from './components/login-patient/login-patient.component';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { DemoMaterialModule } from './material-module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -89,6 +88,8 @@ import { ChooseDoctorComponent } from './components/choose-doctor/choose-doctor.
 import { CreateRequestForTimeOffComponent } from './components/create-request-for-time-off/create-request-for-time-off.component';
 import { ExaminationInfoComponent } from './components/examination-info/examination-info.component';
 import { AccountActivatedPatientComponent } from './components/account-activated-patient/account-activated-patient.component';
+import { MedicalRecordComponent } from './components/medical-record/medical-record.component';
+import { ListExaminationReportsForDoctorComponent } from './components/list-examination-reports-for-doctor/list-examination-reports-for-doctor.component';
 
 @NgModule({
   declarations: [
@@ -159,6 +160,8 @@ import { AccountActivatedPatientComponent } from './components/account-activated
     CreateRequestForTimeOffComponent,
     ExaminationInfoComponent,
     AccountActivatedPatientComponent,
+    MedicalRecordComponent,
+    ListExaminationReportsForDoctorComponent,
 
   ],
   imports: [
@@ -174,7 +177,6 @@ import { AccountActivatedPatientComponent } from './components/account-activated
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgxMaterialTimepickerModule,
     DemoMaterialModule,
     MatNativeDateModule,
     AxiomSchedulerModule,

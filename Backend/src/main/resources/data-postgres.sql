@@ -128,7 +128,10 @@ insert into room (label, kind,status,clinic_id,version) values ('Room 10', 'EXAM
  values ('Patient1@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Milovan', 'Milic', '065258255','Marsala tita 13','Novi Sad',
  'Srbija','0625351236915','ACTIVATED',0);
 
- insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Prasina, jaja', 1);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Lorem ipsum dolor sit amet, ' ||
+  'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' ||
+   'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate ' ||
+    'velit esse cillum dolore eu fugiat nulla pariatur. ', 1);
 insert into patient_authority(user_id, authority_id) values (1,3);
 
   insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
