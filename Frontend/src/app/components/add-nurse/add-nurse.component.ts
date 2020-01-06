@@ -1,11 +1,20 @@
 import { NurseService } from './../../services/nurse.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material';
 import { Nurse } from 'src/app/models/nurse';
-import { TimeValidator } from 'src/app/validators/time.validator';
 
+const TimeVal: ValidatorFn = (fg: FormGroup) => {
+  const from = fg.get('workHoursFrom').value;
+  const to = fg.get('workHoursTo').value;
+  if (!from || !to) {
+    return null;
+  }
+  return from !== null && to !== null && from < to
+    ? null
+    : { timeError: true };
+};
 @Component({
   selector: 'app-add-nurse',
   templateUrl: './add-nurse.component.html',
@@ -31,7 +40,7 @@ export class AddNurseComponent implements OnInit {
       workHoursFrom: new FormControl(null, [Validators.required]),
       workHoursTo: new FormControl(null, [Validators.required]),
     }, {
-      validator: TimeValidator('workHoursFrom', 'workHoursTo')
+      validator: [TimeVal]
     });
   }
 

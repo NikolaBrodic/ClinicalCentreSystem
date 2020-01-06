@@ -63,8 +63,7 @@
             (addDoctorForm.get('workHoursTo').errors && addDoctorForm.get('workHoursTo').errors['required']) ">
             Work hours are required to fill in.
         </mat-error>
-        <mat-error class="work-hours"
-            *ngIf="addDoctorForm.get('workHoursTo').errors && addDoctorForm.get('workHoursTo').errors['timeError']">
+        <mat-error class="work-hours" *ngIf="addDoctorForm.errors && addDoctorForm.errors['timeError']">
             Starting work hours must be before ending work hours.
         </mat-error>
         <mat-form-field class="form-full-width mt-3">
