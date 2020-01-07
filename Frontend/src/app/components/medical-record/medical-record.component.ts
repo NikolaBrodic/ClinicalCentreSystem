@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 })
 export class MedicalRecordComponent implements OnInit {
   patientId: number;
-  medicalRecord = new MedicalRecord(0, 0, 0, "", "");
+  medicalRecord = new MedicalRecord(0, 0, 0, "-", "-");
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +32,10 @@ export class MedicalRecordComponent implements OnInit {
               this.toastr.error("Medical record for that patient doesn't exist.");
               this.location.back();
             }
+          },
+          () => {
+            this.toastr.error("You are not allowed to view this patient's medical record, because he/she wasn't your patient in the past.");
+            this.location.back();
           }
         )
       }

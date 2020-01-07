@@ -49,3 +49,7 @@ h2 {
 .section-title { 
     margin-bottom: 60px; 
 }
+
+.first-col {
+    width: 25%;
+}

@@ -96,21 +96,22 @@ public class ExaminationReportController {
     @GetMapping(value = "/patients-all/{id}")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<List<ExaminationReportForTableDTO>> getPatientExaminationReports(@PathVariable("id") Long patientId) {
+        Patient patient = patientService.getPatient(patientId);
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         Doctor doctor = doctorService.getLoginDoctor();
-        if (doctor != null && !examinationService.hasDoctorHeldExaminationForPatient(doctor, patientId)) {
+        if (doctor != null && !examinationService.hasDoctorHeldExaminationForPatient(doctor, patient)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         if (doctor == null) {
             Nurse nurse = nurseService.getLoginNurse();
             if (nurse == null) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            } else if (!examinationService.hasNurseHeldExaminationForPatient(nurse, patientId)) {
+            } else if (!examinationService.hasNurseHeldExaminationForPatient(nurse, patient)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-        }
-        Patient patient = patientService.getPatient(patientId);
-        if (patient == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(examinationReportService.getPatientExaminationReports(patientId), HttpStatus.OK);

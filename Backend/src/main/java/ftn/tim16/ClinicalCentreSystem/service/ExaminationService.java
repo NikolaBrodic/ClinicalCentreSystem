@@ -65,7 +65,7 @@ public interface ExaminationService {
 
     List<Examination> getNurseExaminationsBetween(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
-    Boolean hasDoctorHeldExaminationForPatient(Doctor doctor, Long patientId);
+    boolean hasDoctorHeldExaminationForPatient(Doctor doctor, Patient patient);
 
-    Boolean hasNurseHeldExaminationForPatient(Nurse nurse, Long patientId);
+    boolean hasNurseHeldExaminationForPatient(Nurse nurse, Patient patient);
 }

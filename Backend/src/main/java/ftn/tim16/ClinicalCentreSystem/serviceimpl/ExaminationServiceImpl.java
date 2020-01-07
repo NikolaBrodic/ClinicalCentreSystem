@@ -424,22 +424,23 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public Boolean hasDoctorHeldExaminationForPatient(Doctor doctor, Long patientId) {
+    public boolean hasDoctorHeldExaminationForPatient(Doctor doctor, Patient patient) {
         Collection<ExaminationStatus> statuses = new ArrayList<>();
         statuses.add(ExaminationStatus.APPROVED);
         statuses.add(ExaminationStatus.PREDEF_BOOKED);
         List<Examination> examinations = examinationRepository.findByClinicIdAndStatusInAndDoctorsIdAndPatientIdAndIntervalStartDateTimeLessThanEqual(doctor.getClinic().getId(),
-                statuses, doctor.getId(), patientId, LocalDateTime.now());
+                statuses, doctor.getId(), patient.getId(), LocalDateTime.now());
         return !examinations.isEmpty();
     }
 
     @Override
-    public Boolean hasNurseHeldExaminationForPatient(Nurse nurse, Long patientId) {
+    public boolean hasNurseHeldExaminationForPatient(Nurse nurse, Patient patient) {
         Collection<ExaminationStatus> statuses = new ArrayList<>();
         statuses.add(ExaminationStatus.APPROVED);
         statuses.add(ExaminationStatus.PREDEF_BOOKED);
-        return !examinationRepository.findByClinicIdAndStatusInAndNurseIdAndPatientIdAndIntervalStartDateTimeLessThanEqual(nurse.getClinic().getId(),
-                statuses, nurse.getId(), patientId, LocalDateTime.now()).isEmpty();
+        List<Examination> examinations = examinationRepository.findByClinicIdAndStatusInAndNurseIdAndPatientIdAndIntervalStartDateTimeLessThanEqual(nurse.getClinic().getId(),
+                statuses, nurse.getId(), patient.getId(), LocalDateTime.now());
+        return !examinations.isEmpty();
     }
 
     private void sendMailToClinicAdministrator(Examination examination, Doctor doctor, ClinicAdministrator clinicAdministrator) {

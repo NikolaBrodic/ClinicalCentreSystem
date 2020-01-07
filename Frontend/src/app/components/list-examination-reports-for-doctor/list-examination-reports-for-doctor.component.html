@@ -1,4 +1,4 @@
-<h3 class="mt-2">Previous examination reports</h3>
+<h3>Previous examination reports</h3>
 
 <table mat-table [dataSource]="examinationReportsDataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
 
@@ -39,7 +39,11 @@
                     </div>
                     <div class="element-div">
                         <i class="font-boldness">All prescribed medicines:</i><br>
-                        {{element.medicines.join(', ')}}</div>
+                        <span *ngIf="element.medicines.length[0]">
+                            {{element.medicines.join(', ')}}
+                        </span>
+                        <span *ngIf="!element.medicines.length[0]"><i>(None)</i></span>
+                    </div>
                 </div>
             </div>
         </td>

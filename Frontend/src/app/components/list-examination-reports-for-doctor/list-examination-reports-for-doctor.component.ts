@@ -1,13 +1,12 @@
+import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { ExaminationReportResponse } from './../../models/examinationReportResponse';
 import { ExaminationReportForTable } from './../../models/examinationReportForTable';
-import { ExaminationService } from './../../services/examination.service';
 import { ExaminationReportService } from './../../services/examination-report.service';
 import { MatSort } from '@angular/material/sort';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-list-examination-reports-for-doctor',
@@ -25,34 +24,22 @@ export class ListExaminationReportsForDoctorComponent implements OnInit {
   examinationReportsDataSource: MatTableDataSource<ExaminationReportForTable>;
   displayedColumns: string[] = ['timeCreated', 'diagnose', 'comment', 'medicinesList'];
   expandedElement: ExaminationReportForTable | null;
-  patientId: number;
-  loggedInDoctorId: number;
 
+  @Input() patientId: number;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private examinationReportService: ExaminationReportService,
-    private examinationService: ExaminationService,
-    private userService: UserService,
+    private toastr: ToastrService,
     public dialog: MatDialog,
     private location: Location
   ) { }
 
   ngOnInit() {
-
-    const currentExamination = JSON.parse(localStorage.getItem('startingExamination'));
-    if (!currentExamination) {
-      this.location.back();
-      return;
-    }
-    this.patientId = currentExamination.patient.id;
-    this.loggedInDoctorId = this.userService.getLoggedInUser().id;
-
     this.fetchData();
   }
 
   fetchData() {
-
     this.examinationReportService.getPatientsExaminationReports(this.patientId).subscribe(
       (data: ExaminationReportResponse[]) => {
         let examinationReportsForTable: ExaminationReportForTable[] = [];
@@ -61,7 +48,12 @@ export class ListExaminationReportsForDoctorComponent implements OnInit {
         })
         this.examinationReportsDataSource = new MatTableDataSource(examinationReportsForTable);
         this.examinationReportsDataSource.sort = this.sort;
-      });
+      }/*,
+      () => {
+        this.toastr.error("You are not allowed to view this patient's medical record, because he/she wasn't your patient in the past.");
+        this.location.back();
+      }*/
+    );
   }
 
 }
