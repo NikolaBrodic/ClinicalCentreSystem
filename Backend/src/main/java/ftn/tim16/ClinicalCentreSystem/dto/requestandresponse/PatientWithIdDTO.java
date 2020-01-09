@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 
 public class PatientWithIdDTO {
@@ -8,29 +10,25 @@ public class PatientWithIdDTO {
 
     private String email;
 
-
     private String firstName;
-
 
     private String lastName;
 
-
     private String phoneNumber;
-
 
     private String address;
 
-
     private String city;
-
 
     private String country;
 
-
     private String healthInsuranceID;
 
+    @JsonIgnore
+    private PatientStatus status;
+
     public PatientWithIdDTO(Long id, String email, String firstName, String lastName, String phoneNumber, String address,
-                            String city, String country, String healthInsuranceID) {
+                            String city, String country, String healthInsuranceID, PatientStatus status) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -40,11 +38,12 @@ public class PatientWithIdDTO {
         this.city = city;
         this.country = country;
         this.healthInsuranceID = healthInsuranceID;
+        this.status = status;
     }
 
     public PatientWithIdDTO(Patient patient) {
         this(patient.getId(), patient.getEmail(), patient.getFirstName(), patient.getLastName(), patient.getPhoneNumber(),
-                patient.getAddress(), patient.getCity(), patient.getCountry(), patient.getHealthInsuranceId());
+                patient.getAddress(), patient.getCity(), patient.getCountry(), patient.getHealthInsuranceId(), patient.getStatus());
     }
 
     public PatientWithIdDTO() {
@@ -121,5 +120,13 @@ public class PatientWithIdDTO {
 
     public void setHealthInsuranceID(String healthInsuranceID) {
         this.healthInsuranceID = healthInsuranceID;
+    }
+
+    public PatientStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PatientStatus status) {
+        this.status = status;
     }
 }
