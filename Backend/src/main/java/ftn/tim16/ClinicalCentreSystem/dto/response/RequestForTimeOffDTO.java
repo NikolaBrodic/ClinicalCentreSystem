@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffDoctor;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffNurse;
@@ -15,27 +17,39 @@ public class RequestForTimeOffDTO {
 
     private String lastName;
 
+    @JsonIgnore
+    private TimeOffStatus status;
+
     public RequestForTimeOffDTO() {
 
     }
 
     public RequestForTimeOffDTO(Long id, String type, DateTimeInterval interval,
-                                String firstName, String lastName) {
+                                String firstName, String lastName, TimeOffStatus timeOffStatus) {
         this.id = id;
         this.type = type;
         this.interval = interval;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.status = timeOffStatus;
     }
 
     public RequestForTimeOffDTO(TimeOffNurse timeOffNurse) {
         this(timeOffNurse.getId(), timeOffNurse.getType().toString(), timeOffNurse.getInterval(),
-                timeOffNurse.getNurse().getFirstName(), timeOffNurse.getNurse().getLastName());
+                timeOffNurse.getNurse().getFirstName(), timeOffNurse.getNurse().getLastName(), timeOffNurse.getStatus());
     }
 
     public RequestForTimeOffDTO(TimeOffDoctor timeOffDoctor) {
         this(timeOffDoctor.getId(), timeOffDoctor.getType().toString(), timeOffDoctor.getInterval(),
-                timeOffDoctor.getDoctor().getFirstName(), timeOffDoctor.getDoctor().getLastName());
+                timeOffDoctor.getDoctor().getFirstName(), timeOffDoctor.getDoctor().getLastName(), timeOffDoctor.getStatus());
+    }
+
+    public TimeOffStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TimeOffStatus status) {
+        this.status = status;
     }
 
     public Long getId() {

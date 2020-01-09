@@ -39,6 +39,10 @@ public class TimeOffDoctor {
         this.doctor = doctor;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getVersion() {
         return version;
     }

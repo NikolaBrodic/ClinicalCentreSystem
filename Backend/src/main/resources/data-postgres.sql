@@ -8,6 +8,7 @@ insert into clinical_centre_administrator (email, password, first_name, last_nam
 ('1st.Admin@maildrop.cc', '$2a$10$JA.M/IQm9r29csrRlkNSteO/k4q3MclGtWfW/MjVqKFMVKb9T.F0i', 'Stefan', 'Stefanovic', '061123456', 'NEVER_LOGGED_IN');
 insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
 */
+
 insert into clinical_centre_administrator (email, password, first_name, last_name, phone_number, status) values
 ('2nd.Admin@maildrop.cc', '$2a$10$EdmtVAmmfTwJfHg7tZk4U.a5GJSoptQRFUSCIPl8b6iw1xXctVi7e', 'Petar', 'Petrovic', '062123456', 'ACTIVE');
 insert into clinical_centre_admin_authority (user_id, authority_id) values (1,1);
@@ -29,6 +30,7 @@ insert into examination_type (label, price,status,clinic_id,version) values ('Of
 insert into examination_type (label, price,status,clinic_id,version) values ('Zubar', '1500','EXISTING',2,0);
 
 /*DOCTORS*/
+
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
  values ('ClinicDoctor1@maildrop.cc', '$2a$10$E1K7MZ9u5TkTZtESLfc8lOulf9/aPXKXhsFxtZQYMAeRnk9ezZ42q', 'Misa1', 'Percic', '065256856','07:30','20:00',1,'ACTIVE',1,4);
 insert into doctor_authority(user_id, authority_id) values (1,4);
@@ -101,18 +103,19 @@ insert into nurse (email, password, first_name, last_name, phone_number,work_hou
 values ('Nurse.10@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Milica10', 'Milić', '065432438','00:01','23:00',1,'ACTIVE');
 insert into nurse_authority(user_id, authority_id) values (10,5);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('07.01.2020 08:00','15.01.2020 10:00');
-insert into time_off_doctor (status, type, doctor_id, interval_id)
- values ('APPROVED', 'HOLIDAY', 1, 1);
+insert into date_time_interval (start_date_time, end_date_time) values ('07.01.2020 08:00:00','15.01.2020 10:00:00');
+insert into time_off_doctor (status, type, doctor_id, interval_id,version)
+ values ('APPROVED', 'HOLIDAY', 1, 1,0);
 
-insert into time_off_doctor (status, type, doctor_id, interval_id)
- values ('REJECTED', 'HOLIDAY', 2, 1);
+insert into time_off_doctor (status, type, doctor_id, interval_id,version)
+ values ('AWAITING', 'HOLIDAY', 2, 1,0);
 
-insert into time_off_nurse (status, type, nurse_id, interval_id)
- values ('APPROVED', 'HOLIDAY', 1, 1);
 
-insert into time_off_nurse (status, type, nurse_id, interval_id)
- values ('REJECTED', 'HOLIDAY', 2, 1);
+insert into time_off_nurse (status, type, nurse_id, interval_id,version)
+ values ('APPROVED', 'HOLIDAY', 1, 1,0);
+
+insert into time_off_nurse (status, type, nurse_id, interval_id,version)
+ values ('AWAITING', 'HOLIDAY', 2, 1,0);
 
 insert into room (label, kind,status,clinic_id,version) values ('Room 1', 'EXAMINATION','EXISTING' ,1,0);
 insert into room (label, kind,status,clinic_id,version) values ('Room 2', 'EXAMINATION','EXISTING' ,1,0);
