@@ -56,7 +56,7 @@ public class PatientServiceImpl implements PatientService {
         }
         user.setPassword(newPassword);
         Patient updatedPatient = patientRepository.save(user);
-        //patientCache.put(updatedPatient.getId(), updatedPatient);
+        patientCache.put(updatedPatient.getId(), updatedPatient);
         return updatedPatient;
     }
 
