@@ -7,6 +7,10 @@ INSERT INTO AUTHORITY (name) VALUES ('ROLE_NURSE');
 insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',2.5,0);
 insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Tolstojeva', 'VMA', 'Klinika',3.7,0);
 
+insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id,last_password_reset_date) values
+ ('ClinicAdmin1@maildrop.cc', '$2a$10$O2sRY6wvf0lpUu/mF5RN2u9dSW3AAzEplF4g9RpzwDOfSCFRhad6C', 'Marko', 'Marković', '064153456', 'ACTIVE',1,'2020-01-05 16:33:14');
+insert into clinic_admin_authority(user_id, authority_id) values (1,2);
+
 insert into examination_type (label, price,status,clinic_id,version) values ('Opsta praksa', '1000','EXISTING' ,1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Dermatolog', '2000','EXISTING',1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Oftamolog', '1800','DELETED',1,0);
@@ -37,25 +41,26 @@ values ('Nurse.03@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWph
 insert into nurse_authority(user_id, authority_id) values (3,5);
 
 insert into date_time_interval (start_date_time, end_date_time) values ( PARSEDATETIME('07.05.2020 08:00', 'dd.MM.yyyy HH:mm'),PARSEDATETIME('15.05.2020 10:00:00', 'dd.MM.yyyy HH:mm'));
-insert into time_off_doctor (status, type, doctor_id, interval_id)
- values ('APPROVED', 'HOLIDAY', 1, 1);
+insert into time_off_doctor (status, type, doctor_id, interval_id,version)
+ values ('APPROVED', 'HOLIDAY', 1, 1,0);
 
-  insert into time_off_doctor (status, type, doctor_id, interval_id)
- values ('AWAITING', 'HOLIDAY', 2, 1);
+  insert into time_off_doctor (status, type, doctor_id, interval_id,version)
+ values ('AWAITING', 'HOLIDAY', 2, 1,0);
 
-   insert into time_off_doctor (status, type, doctor_id, interval_id)
- values ('AWAITING', 'TIME_OFF', 3, 1);
+   insert into time_off_doctor (status, type, doctor_id, interval_id,version)
+ values ('AWAITING', 'TIME_OFF', 3, 1,0);
 
-insert into time_off_nurse (status, type, nurse_id, interval_id)
- values ('APPROVED', 'HOLIDAY', 1, 1);
+insert into time_off_nurse (status, type, nurse_id, interval_id,version)
+ values ('APPROVED', 'HOLIDAY', 1, 1,0);
 
- insert into time_off_nurse (status, type, nurse_id, interval_id)
- values ('AWAITING', 'HOLIDAY', 2, 1);
+ insert into time_off_nurse (status, type, nurse_id, interval_id,version)
+ values ('AWAITING', 'HOLIDAY', 2, 1,0);
 
-  insert into time_off_nurse (status, type, nurse_id, interval_id)
- values ('REJECTED', 'HOLIDAY', 3, 1);
+  insert into time_off_nurse (status, type, nurse_id, interval_id,version)
+ values ('REJECTED', 'HOLIDAY', 3, 1,0);
 
- insert into date_time_interval (start_date_time, end_date_time) values ( PARSEDATETIME('07.07.2020 08:00', 'dd.MM.yyyy HH:mm'),PARSEDATETIME('15.07.2020 10:00:00', 'dd.MM.yyyy HH:mm'));
+ insert into date_time_interval (start_date_time, end_date_time)
+ values ( PARSEDATETIME('07.07.2020 08:00', 'dd.MM.yyyy HH:mm'),PARSEDATETIME('15.07.2020 10:00:00', 'dd.MM.yyyy HH:mm'));
 
 
 

@@ -16,10 +16,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffDoctorConstants.*;
+import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffNurseConstants.AWAITING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -41,9 +44,37 @@ public class TimeOffDoctorServiceUnitTests {
     private EmailNotificationService emailNotificationServiceMocked;
 
     @Test
+    public void testFindByDoctorClinicIdAndStatus() {
+        Clinic clinic = new Clinic(NEW_CLINIC_NAME, NEW_CLINIC_ADDRESS, NEW_CLINIC_DESCRIPTION);
+        ExaminationType examinationType = new ExaminationType(NEW_EXAMINATION_TYPE_LABEL, NEW_EXAMINATION_TYPE_PRICE, clinic, EXISTING);
+
+        Doctor doctor = new Doctor(NEW_DOCTOR_EMAIL, NEW_DOCTOR_PASSWORD, NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME, NEW_DOCTOR_PHONE_NUMBER,
+                LocalTime.parse(NEW_DOCTOR_WORK_HOURS_FROM), LocalTime.parse(NEW_DOCTOR_WORK_HOURS_TO), clinic, examinationType,
+                ACTIVE, getAuthority(NEW_DOCTOR_AUTHORITY));
+
+        LocalDateTime startDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH, HOUR, MIN, SEC);
+        LocalDateTime endDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH_TO, HOUR, MIN, SEC);
+
+        TimeOffDoctor timeOffDoctor = new TimeOffDoctor(HOLIDAY, new DateTimeInterval(startDate, endDate), AWAITING, doctor);
+        timeOffDoctor.setId(ID);
+        List<TimeOffDoctor> requestForTimeOffDTOS = new ArrayList<>();
+        requestForTimeOffDTOS.add(timeOffDoctor);
+
+        Mockito.when(timeOffDoctorRepositoryMocked.findByDoctorClinicIdAndStatus(ID, TIME_OFF_STATUS_AWAITING)).thenReturn(requestForTimeOffDTOS);
+        List<RequestForTimeOffDTO> timeOffDoctorResults = timeOffDoctorService.getRequestsForHolidayOrTimeOff(ID);
+        Assert.assertNotNull(timeOffDoctorResults);
+        Assert.assertEquals(DB_SERVICE_AWAITING_COUNT, timeOffDoctorResults.size());
+        for (RequestForTimeOffDTO requestForTimeOffDTO : timeOffDoctorResults) {
+            Assert.assertEquals(AWAITING, requestForTimeOffDTO.getStatus());
+        }
+        verify(timeOffDoctorRepositoryMocked, times(1)).findByDoctorClinicIdAndStatus(ID, TIME_OFF_STATUS_AWAITING);
+    }
+
+    @Test
     public void testApproveRequestForHolidayOrTimeOff_timeOffDoctor_doesNotExist() {
 
         Mockito.when(timeOffDoctorRepositoryMocked.findByIdAndStatus(APPROVED_TIME_OFF, TIME_OFF_STATUS_AWAITING)).thenReturn(null);
+
         Assert.assertNull(timeOffDoctorService.approveRequestForHolidayOrTimeOff(APPROVED_TIME_OFF));
 
         verify(timeOffDoctorRepositoryMocked, times(1)).findByIdAndStatus(APPROVED_TIME_OFF, TIME_OFF_STATUS_AWAITING);

@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem;
 
+import ftn.tim16.ClinicalCentreSystem.controller.TimeOffDoctorControllerUnitTests;
+import ftn.tim16.ClinicalCentreSystem.controller.TimeOffNurseControllerUnitTests;
 import ftn.tim16.ClinicalCentreSystem.repository.TimeOffDoctorRepositoryUnitTests;
 import ftn.tim16.ClinicalCentreSystem.repository.TimeOffNurseRepositoryUnitTests;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorServiceUnitTests;
@@ -12,7 +14,9 @@ import org.junit.runners.Suite;
         TimeOffDoctorRepositoryUnitTests.class,
         TimeOffNurseRepositoryUnitTests.class,
         TimeOffDoctorServiceUnitTests.class,
-        TimeOffNurseServiceUnitTests.class
+        TimeOffNurseServiceUnitTests.class,
+        TimeOffDoctorControllerUnitTests.class,
+        TimeOffNurseControllerUnitTests.class
 })
 public class TestSuite {
 }

@@ -53,7 +53,7 @@ public class TimeOffDoctorConstants {
 
     public static final TimeOffStatus REJECTED = TimeOffStatus.REJECTED;
 
-    public static final TimeOffStatus AWAITING = TimeOffStatus.REJECTED;
+    public static final TimeOffStatus AWAITING = TimeOffStatus.AWAITING;
 
     public static final TimeOffStatus APPROVED = TimeOffStatus.APPROVED;
 
@@ -62,6 +62,8 @@ public class TimeOffDoctorConstants {
     public static final DoctorStatus ACTIVE = DoctorStatus.ACTIVE;
 
     public static final TimeOffType HOLIDAY = TimeOffType.HOLIDAY;
+
+    public static final TimeOffType TIME_OFF = TimeOffType.TIME_OFF;
 
     public static final int YEAR = 2020;
 
@@ -76,4 +78,10 @@ public class TimeOffDoctorConstants {
     public static final int MIN = 00;
 
     public static final int SEC = 00;
+
+    public static final String DB_DOCTOR_FIRST_NAME = "Miodrag";
+
+    public static final String DB_DOCTOR_LAST_NAME = "Lazarevic";
+
+    public static final int DB_SERVICE_AWAITING_COUNT = 1;
 }

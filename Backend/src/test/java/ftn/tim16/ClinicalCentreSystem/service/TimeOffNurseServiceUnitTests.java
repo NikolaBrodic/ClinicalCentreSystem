@@ -18,7 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffNurseConstants.*;
@@ -41,6 +43,35 @@ public class TimeOffNurseServiceUnitTests {
 
     @MockBean
     private EmailNotificationService emailNotificationServiceMocked;
+
+    @Test
+    public void testFindByNurseClinicIdAndStatus() {
+        Clinic clinic = new Clinic(NEW_CLINIC_NAME, NEW_CLINIC_ADDRESS, NEW_CLINIC_DESCRIPTION);
+        Nurse nurse = new Nurse(NEW_NURSE_EMAIL, NEW_NURSE_PASSWORD, NEW_NURSE_FIRST_NAME, NEW_NURSE_lAST_NAME, NEW_NURSE_PHONE_NUMBER,
+                LocalTime.parse(NEW_NURSE_WORK_HOURS_FROM), LocalTime.parse(NEW_NURSE_WORK_HOURS_TO), clinic, getAuthority(NEW_NURSE_AUTHORITY));
+
+        LocalDateTime startDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH, HOUR, MIN, SEC);
+        LocalDateTime endDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH_TO, HOUR, MIN, SEC);
+
+        TimeOffNurse timeOffNurse1 = new TimeOffNurse(TIME_OFF, new DateTimeInterval(startDate, endDate), AWAITING, nurse);
+        timeOffNurse1.setId(ID);
+
+        TimeOffNurse timeOffNurse2 = new TimeOffNurse(TIME_OFF, new DateTimeInterval(startDate.plusDays(2), endDate.plusDays(4)), AWAITING, nurse);
+        timeOffNurse2.setId(ID + 1);
+
+        List<TimeOffNurse> requestForTimeOffDTOS = new ArrayList<>();
+        requestForTimeOffDTOS.add(timeOffNurse1);
+        requestForTimeOffDTOS.add(timeOffNurse2);
+
+        Mockito.when(timeOffNurseRepositoryMocked.findByNurseClinicIdAndStatus(ID, TIME_OFF_STATUS)).thenReturn(requestForTimeOffDTOS);
+        List<RequestForTimeOffDTO> timeOffDoctorResults = timeOffNurseService.getRequestsForHolidayOrTimeOff(ID);
+        Assert.assertNotNull(timeOffDoctorResults);
+        Assert.assertEquals(DB_SERVICE_AWAITING_COUNT, timeOffDoctorResults.size());
+        for (RequestForTimeOffDTO requestForTimeOffDTO : timeOffDoctorResults) {
+            Assert.assertEquals(AWAITING, requestForTimeOffDTO.getStatus());
+        }
+        verify(timeOffNurseRepositoryMocked, times(1)).findByNurseClinicIdAndStatus(ID, TIME_OFF_STATUS);
+    }
 
     @Test
     public void testApproveRequestForHolidayOrTimeOff_timeOffNurse_doesNotExist() {
@@ -77,7 +108,6 @@ public class TimeOffNurseServiceUnitTests {
         assertNotNull(timeOffNurseResult);
         assertEquals(requestForTimeOffDTO.getId(), requestForTimeOffDTO.getId());
         assertEquals(requestForTimeOffDTO.getStatus(), requestForTimeOffDTO.getStatus());
-
         verify(timeOffNurseRepositoryMocked, times(1)).findByIdAndStatus(AWAITING_TIME_OFF, TIME_OFF_STATUS);
         verify(timeOffNurseRepositoryMocked, times(1)).save(ArgumentMatchers.any(TimeOffNurse.class));
     }
