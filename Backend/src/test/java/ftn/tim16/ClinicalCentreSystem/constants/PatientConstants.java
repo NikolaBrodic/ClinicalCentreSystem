@@ -16,6 +16,7 @@ public class PatientConstants {
     public static final PatientStatus PATIENT_STATUS_AWAITING_APPROVAL = PatientStatus.AWAITING_APPROVAL;
     public static final String PATIENT_ROLE = "ROLE_PATIENT";
 
+    public static final Long NEW_PATIENT_ID = 4L;
     public static final String NEW_PATIENT_EMAIL = "Patient4@maildrop.cc";
     public static final String NEW_PATIENT_PASSWORD = "$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS";
     public static final String NEW_PATIENT_FIRST_NAME = "Pavle";
@@ -26,7 +27,6 @@ public class PatientConstants {
     public static final String NEW_PATIENT_COUNTRY = "Srbija";
     public static final String NEW_PATIENT_HEALTH_INSURANCE_ID = "0725351286815";
     public static final PatientStatus NEW_PATIENT_STATUS_AWAITING_APPROVAL = PatientStatus.AWAITING_APPROVAL;
-    public static final String NEW_PATIENT_ROLE = "ROLE_PATIENT";
 
     public static final Long ACTIVATED_PATIENT_ID = 3L;
     public static final String REASON_FOR_REJECTION = "Some reason";

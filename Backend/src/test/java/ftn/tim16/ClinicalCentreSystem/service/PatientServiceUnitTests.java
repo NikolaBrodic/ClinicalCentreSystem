@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
+import ftn.tim16.ClinicalCentreSystem.dto.request.AwaitingApprovalPatientDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Authority;
@@ -15,7 +16,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static ftn.tim16.ClinicalCentreSystem.constants.PatientConstants.*;
@@ -40,6 +43,33 @@ public class PatientServiceUnitTests {
 
     @MockBean
     private MedicalRecordService medicalRecordServiceMock;
+
+    @Test
+    public void testFindByStatus() {
+        Patient patient1 = new Patient(PATIENT_EMAIL, PATIENT_PASSWORD, PATIENT_FIRST_NAME, PATIENT_LAST_NAME,
+                PATIENT_PHONE_NUMBER, PATIENT_ADDRESS, PATIENT_CITY, PATIENT_COUNTRY, PATIENT_HEALTH_INSURANCE_ID,
+                getPatientAuthority());
+        patient1.setId(PATIENT_ID);
+
+        Patient patient2 = new Patient(NEW_PATIENT_EMAIL, NEW_PATIENT_PASSWORD, NEW_PATIENT_FIRST_NAME, NEW_PATIENT_LAST_NAME,
+                NEW_PATIENT_PHONE_NUMBER, NEW_PATIENT_ADDRESS, NEW_PATIENT_CITY, NEW_PATIENT_COUNTRY, NEW_PATIENT_HEALTH_INSURANCE_ID,
+                getPatientAuthority());
+        patient2.setId(NEW_PATIENT_ID);
+
+        List<Patient> patients = new ArrayList<>();
+        patients.add(patient1);
+        patients.add(patient2);
+
+        Mockito.when(patientRepositoryMock.findByStatus(PATIENT_STATUS_AWAITING_APPROVAL)).thenReturn(patients);
+
+        List<AwaitingApprovalPatientDTO> patientsResult = patientService.findByStatus(PATIENT_STATUS_AWAITING_APPROVAL);
+
+        assertEquals(patients.size(), patientsResult.size());
+        for (int i = 0; i < patients.size(); i++) {
+            assertEquals(patients.get(i).getId(), patientsResult.get(i).getId());
+            assertEquals(patients.get(i).getStatus(), patientsResult.get(i).getStatus());
+        }
+    }
 
     @Test
     public void testApproveRequestToRegister_Success() {
