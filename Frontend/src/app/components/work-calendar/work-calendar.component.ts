@@ -75,17 +75,21 @@ export class WorkCalendarComponent implements OnInit {
       this.events.push(event);
     });
 
-    this.events.map(item =>
-      new AxiomSchedulerEvent(
-        item['data']['examination']['kind'],
-        new Date(item['from']),
-        new Date(item['to']),
-        {
-          examination: item
-        },
-        item['color'],
-        true
-      )
+    this.events.map(item => {
+      if (item['data']['examination']) {
+        new AxiomSchedulerEvent(
+          item['data']['examination']['kind'],
+          new Date(item['from']),
+          new Date(item['to']),
+          {
+            examination: item
+          },
+          item['color'],
+          true
+        )
+      }
+    }
+
     );
   }
 
@@ -142,19 +146,22 @@ export class WorkCalendarComponent implements OnInit {
       }
     });
 
-    this.events.map(item =>
-      new AxiomSchedulerEvent(
-        item['data']['type'],
-        new Date(item['from']),
-        new Date(item['to']),
-        {
-          type: item['data']['type'],
-          from: item['data']['from'],
-          to: item['data']['to'],
-        },
-        item['color'],
-        true
-      )
+    this.events.map(item => {
+      if (item['data']['type']) {
+        new AxiomSchedulerEvent(
+          item['data']['type'],
+          new Date(item['from']),
+          new Date(item['to']),
+          {
+            type: item['data']['type'],
+            from: item['data']['from'],
+            to: item['data']['to'],
+          },
+          item['color'],
+          true
+        )
+      }
+    }
     );
   }
 

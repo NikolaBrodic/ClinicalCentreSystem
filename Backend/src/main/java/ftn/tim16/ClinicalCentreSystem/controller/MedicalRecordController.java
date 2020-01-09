@@ -42,15 +42,15 @@ public class MedicalRecordController {
 
         Doctor doctor = doctorService.getLoginDoctor();
         if (doctor != null && !examinationService.hasDoctorHeldExaminationForPatient(doctor, patient)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (doctor == null) {
             Nurse nurse = nurseService.getLoginNurse();
             if (nurse == null) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } else if (!examinationService.hasNurseHeldExaminationForPatient(nurse, patient)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
 

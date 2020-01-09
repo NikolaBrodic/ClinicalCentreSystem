@@ -4,6 +4,7 @@ import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -36,7 +37,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             if (username != null) {
                 UserDetails userDetails;
-              /*  try {
+                try {
                     userDetails = userDetailsService.loadUserByUsername(username);
                     if (tokenUtils.validateToken(authToken, userDetails)) {
                         TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
@@ -44,11 +45,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 } catch (UsernameNotFoundException e) {
-                }*/
-                userDetails = userDetailsService.loadUserByUsername(username);
-                TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
-                authentication.setToken(authToken);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         }
 
