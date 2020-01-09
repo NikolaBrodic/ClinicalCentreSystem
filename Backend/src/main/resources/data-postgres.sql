@@ -128,7 +128,10 @@ insert into room (label, kind,status,clinic_id,version) values ('Room 10', 'EXAM
  values ('Patient1@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Milovan', 'Milic', '065258255','Marsala tita 13','Novi Sad',
  'Srbija','0625351236915','ACTIVATED',0);
 
- insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Prasina, jaja', 1);
+ insert into medical_record(height, weight, blood_type, allergies, patient_id) values (186, 80, 'B-', 'Lorem ipsum dolor sit amet, ' ||
+  'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' ||
+   'nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate ' ||
+    'velit esse cillum dolore eu fugiat nulla pariatur. ', 1);
 insert into patient_authority(user_id, authority_id) values (1,3);
 
   insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
@@ -164,21 +167,34 @@ insert into patient_authority(user_id, authority_id) values (6,3);
   insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
  values ('Patient7@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Milovan', 'Lazarevic', '075878255','Marsala tita 17','Sremska mitrovica',
  'Srbija','0825353386842','ACTIVATED',0);
- insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 75, 'B-', 'Prasina, jaja', 7);
+ insert into medical_record(patient_id) values (7);
 insert into patient_authority(user_id, authority_id) values (7,3);
 
+insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
+ 'and result in symptoms like wheezing, coughing, and shortness of breath. Inhaled corticosteroids (ICS) and long-acting ' ||
+  'bronchodilators (LABAs) are used in the treatment of asthma.');
+insert into diagnose (title, description) values ('Diabetes', 'Diabetes is a chronic condition characterized by high levels ' ||
+ 'of sugar (glucose) in the blood. Symptoms of diabetes include increased urine output, thirst, hunger, and fatigue.');
 
-insert into date_time_interval (start_date_time, end_date_time) values ('01.02.2020 08:00','01.02.2020 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('01.01.2020 08:00','01.01.2020 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version,nurse_id,room_id )
  values ('EXAMINATION',2,'APPROVED',2,1,1,1,0,1,1);
 insert into examining (examination_id,doctor_id) values (1,4);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('10.01.2020 06:00','10.01.2020 07:00');
+insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima astmu', '01.01.2020. 09:30', 1, 4, 1, 1);
+
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('02.01.2020 06:00','02.01.2020 07:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',3,'CANCELED',1,1,1,7,1,1,0);
+ values ('EXAMINATION',3,'APPROVED',1,1,1,7,1,1,0);
 insert into examining (examination_id,doctor_id) values (2,2);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('06.01.2020 08:00','06.01.2020 20:00');
+ insert into examination_report(comment, time_created, diagnose_id, doctor_id, medical_record_id, examination_id)
+ values ('Pacijent ima svasta', '02.01.2020 06:10', 2, 2, 1, 2);
+
+
+insert into date_time_interval (start_date_time, end_date_time) values ('07.01.2020 08:00','07.01.2020 20:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version,nurse_id,room_id )
  values ('EXAMINATION',4,'APPROVED',2,1,1,1,0,1,1);
 insert into examining (examination_id,doctor_id) values (3,4);

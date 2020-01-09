@@ -1,0 +1,69 @@
+table {
+    width: 100%;
+}
+
+.mat-cell {
+    vertical-align: middle;
+}
+
+.font-boldness {    
+    font-weight: 550;
+}
+
+.first {
+    width: 20%;
+}
+
+.medicines {
+    width: 30%;
+}
+
+.last {
+    width: 10%;
+}
+
+.ellipsis {
+    position: relative;
+}
+
+.ellipsis:before {
+    content: '&nbsp;';
+    visibility: hidden;
+}
+
+.ellipsis span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 20px;
+}
+
+tr.detail-row {
+    height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+tr.element-row:not(.expanded-row):active {
+    background: #efefef;
+}
+
+.element-row td {
+    border-bottom-width: 0;
+}
+
+.element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.element-div {
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}

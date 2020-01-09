@@ -53,10 +53,11 @@
                         </tbody>
                     </table>
                     <div class="links">
-                        <!-- <div>
-                            <a mat-list-item routerLink="" class="link-font">View {{selectedPatient.firstName}}
-                                {{selectedPatient.lastName}}'s medical record</a>
-                        </div> -->
+                        <div>
+                            <a mat-list-item *ngIf="medicalRecordIsAvailable"
+                                routerLink="/medical-staff/patient-medical-record/{{selectedPatient.id}}"
+                                class="link-font">View medical record</a>
+                        </div>
                         <div class="mt-3" *ngIf="startingExaminationExists">
                             <a mat-list-item routerLink="/doctor/examination" class="link-font">Start
                                 examination</a>

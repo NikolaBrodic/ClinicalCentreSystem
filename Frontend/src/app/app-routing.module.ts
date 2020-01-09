@@ -1,3 +1,4 @@
+import { MedicalRecordComponent } from './components/medical-record/medical-record.component';
 import { AccountActivatedPatientComponent } from './components/account-activated-patient/account-activated-patient.component';
 import { RequestsForHolidayOrTimeOffComponent } from './components/requests-for-holiday-or-time-off/requests-for-holiday-or-time-off.component';
 import { EditPersonalInformationNurseComponent } from './components/edit/edit-personal-information-nurse/edit-personal-information-nurse.component';
@@ -211,6 +212,11 @@ const routes: Routes = [
   {
     path: 'medical-staff/create-request-for-time-off',
     component: CreateRequestForTimeOffComponent,
+    canActivate: [MedicalStaffGuard],
+  },
+  {
+    path: 'medical-staff/patient-medical-record/:id',
+    component: MedicalRecordComponent,
     canActivate: [MedicalStaffGuard],
   },
 

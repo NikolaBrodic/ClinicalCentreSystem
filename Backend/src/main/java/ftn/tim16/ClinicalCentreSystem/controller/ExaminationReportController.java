@@ -2,14 +2,8 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.ExaminationReportDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.ExaminationReportForTableDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.ExaminationReport;
-import ftn.tim16.ClinicalCentreSystem.model.Patient;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationReportService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.PatientService;
+import ftn.tim16.ClinicalCentreSystem.model.*;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +30,9 @@ public class ExaminationReportController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private NurseService nurseService;
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DOCTOR')")
@@ -97,11 +94,24 @@ public class ExaminationReportController {
     }
 
     @GetMapping(value = "/patients-all/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
+    @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
     public ResponseEntity<List<ExaminationReportForTableDTO>> getPatientExaminationReports(@PathVariable("id") Long patientId) {
         Patient patient = patientService.getPatient(patientId);
         if (patient == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Doctor doctor = doctorService.getLoginDoctor();
+        if (doctor != null && !examinationService.hasDoctorHeldExaminationForPatient(doctor, patient)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (doctor == null) {
+            Nurse nurse = nurseService.getLoginNurse();
+            if (nurse == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            } else if (!examinationService.hasNurseHeldExaminationForPatient(nurse, patient)) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
 
         return new ResponseEntity<>(examinationReportService.getPatientExaminationReports(patientId), HttpStatus.OK);

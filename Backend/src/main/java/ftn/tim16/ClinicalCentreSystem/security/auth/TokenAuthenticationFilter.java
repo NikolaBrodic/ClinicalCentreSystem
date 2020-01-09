@@ -46,7 +46,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     }
                 } catch (UsernameNotFoundException e) {
                 }
-
             }
         }
 
