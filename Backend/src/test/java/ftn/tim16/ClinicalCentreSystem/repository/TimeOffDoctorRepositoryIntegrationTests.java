@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")
-public class TimeOffDoctorRepositoryUnitTests {
+public class TimeOffDoctorRepositoryIntegrationTests {
 
     @Autowired
     private TestEntityManager entityManager;

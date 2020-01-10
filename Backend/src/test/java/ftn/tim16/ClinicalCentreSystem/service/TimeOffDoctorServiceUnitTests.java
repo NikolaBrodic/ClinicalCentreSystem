@@ -63,7 +63,7 @@ public class TimeOffDoctorServiceUnitTests {
         Mockito.when(timeOffDoctorRepositoryMocked.findByDoctorClinicIdAndStatus(ID, TIME_OFF_STATUS_AWAITING)).thenReturn(requestForTimeOffDTOS);
         List<RequestForTimeOffDTO> timeOffDoctorResults = timeOffDoctorService.getRequestsForHolidayOrTimeOff(ID);
         Assert.assertNotNull(timeOffDoctorResults);
-        Assert.assertEquals(DB_SERVICE_AWAITING_COUNT, timeOffDoctorResults.size());
+        Assert.assertEquals(SERVICE_AWAITING_COUNT, timeOffDoctorResults.size());
         for (RequestForTimeOffDTO requestForTimeOffDTO : timeOffDoctorResults) {
             Assert.assertEquals(AWAITING, requestForTimeOffDTO.getStatus());
         }

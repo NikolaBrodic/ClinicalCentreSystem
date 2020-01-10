@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.TimeOffStatus;
 import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.model.TimeOffDoctor;
@@ -17,7 +16,6 @@ public class RequestForTimeOffDTO {
 
     private String lastName;
 
-    @JsonIgnore
     private TimeOffStatus status;
 
     public RequestForTimeOffDTO() {

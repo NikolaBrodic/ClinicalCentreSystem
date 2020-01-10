@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class TimeOffDoctorControllerUnitTests {
+public class TimeOffDoctorControllerIntegrationTests {
 
     private static final String URL_PREFIX = "/api/time-off-doctor";
 
@@ -72,7 +72,8 @@ public class TimeOffDoctorControllerUnitTests {
                 .andExpect(jsonPath("$", hasSize(DB_AWAITING_COUNT)))
                 .andExpect(jsonPath("$.[*].type").value(hasItem(HOLIDAY.toString().toLowerCase())))
                 .andExpect(jsonPath("$.[*].firstName").value(hasItem(DB_DOCTOR_FIRST_NAME)))
-                .andExpect(jsonPath("$.[*].lastName").value(hasItem(DB_DOCTOR_LAST_NAME)));
+                .andExpect(jsonPath("$.[*].lastName").value(hasItem(DB_DOCTOR_LAST_NAME)))
+                .andExpect(jsonPath("$.[*].status").value(hasItem(AWAITING.toString())));
     }
 
     @Test
@@ -85,7 +86,8 @@ public class TimeOffDoctorControllerUnitTests {
         this.mockMvc.perform(put(URL_PREFIX + "/approve-request-for-holiday-or-time-off/" + DB_AWAITING_TIME_OFF).header("Authorization", accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(DB_DOCTOR_FIRST_NAME))
-                .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME));
+                .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME))
+                .andExpect(jsonPath("$.status").value(APPROVED.toString()));
     }
 
     @Test
@@ -106,7 +108,8 @@ public class TimeOffDoctorControllerUnitTests {
                 .content(reason).header("Authorization", accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(DB_DOCTOR_FIRST_NAME))
-                .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME));
+                .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME))
+                .andExpect(jsonPath("$.status").value(REJECTED.toString()));
     }
 
     @Test

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")
-public class TimeOffNurseRepositoryUnitTests {
+public class TimeOffNurseRepositoryIntegrationTests {
 
     @Autowired
     private TimeOffNurseRepository timeOffNurseRepository;
@@ -62,6 +62,5 @@ public class TimeOffNurseRepositoryUnitTests {
 
         assertNotNull(timeOffNurseResult);
         assertEquals(HOLIDAY, timeOffNurseResult.getType());
-
     }
 }
