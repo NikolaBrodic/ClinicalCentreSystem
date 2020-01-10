@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class PatientControllerUnitTests {
+public class PatientControllerIntegrationTests {
 
     public static final String URL_PREFIX = "/api/patient";
 
@@ -96,7 +96,8 @@ public class PatientControllerUnitTests {
                 .andExpect(status().isBadRequest());
     }
 
-    @Sql(scripts = "classpath:update-data-h2.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Test
+    @Sql(scripts = "classpath:insert-data-h2.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void testRejectRequestToRegister_Success() throws Exception {
         String jsonBody = TestUtil.json(REASON_FOR_REJECTION);
 

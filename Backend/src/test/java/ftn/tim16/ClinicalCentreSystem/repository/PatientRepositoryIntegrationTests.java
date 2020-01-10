@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")
-public class PatientRepositoryUnitTests {
+public class PatientRepositoryIntegrationTests {
 
     @Autowired
     private PatientRepository patientRepository;
