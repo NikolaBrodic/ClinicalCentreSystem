@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.TestUtil;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -76,6 +78,7 @@ public class PatientControllerUnitTests {
     }
 
     @Test
+    @Sql(scripts = "classpath:update-data-h2.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void testApproveRequestToRegister_Success() throws Exception {
         this.mockMvc.perform(put(URL_PREFIX + "/approve-request-to-register/" + PATIENT_ID)
                 .header("Authorization", accessToken))
@@ -84,5 +87,34 @@ public class PatientControllerUnitTests {
                 .andExpect(jsonPath("$.id").value(PATIENT_ID.intValue()))
                 .andExpect(jsonPath("$.phoneNumber").value(PATIENT_PHONE_NUMBER))
                 .andExpect(jsonPath("$.healthInsuranceID").value(PATIENT_HEALTH_INSURANCE_ID));
+    }
+
+    @Test
+    public void testApproveRequestToRegister_BadRequest() throws Exception {
+        this.mockMvc.perform(put(URL_PREFIX + "/approve-request-to-register/" + ACTIVATED_PATIENT_ID)
+                .header("Authorization", accessToken))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Sql(scripts = "classpath:update-data-h2.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    public void testRejectRequestToRegister_Success() throws Exception {
+        String jsonBody = TestUtil.json(REASON_FOR_REJECTION);
+
+        this.mockMvc.perform(put(URL_PREFIX + "/reject-request-to-register/" + PATIENT_ID)
+                .header("Authorization", accessToken)
+                .contentType(contentType)
+                .content(jsonBody))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testRejectRequestToRegister_NotFound() throws Exception {
+        String jsonBody = TestUtil.json(REASON_FOR_REJECTION);
+
+        this.mockMvc.perform(put(URL_PREFIX + "/reject-request-to-register/" + ACTIVATED_PATIENT_ID)
+                .header("Authorization", accessToken)
+                .contentType(contentType)
+                .content(jsonBody))
+                .andExpect(status().isNotFound());
     }
 }

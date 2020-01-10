@@ -1,0 +1,1 @@
+update patient set status='AWAITING_APPROVAL' where id=1;
