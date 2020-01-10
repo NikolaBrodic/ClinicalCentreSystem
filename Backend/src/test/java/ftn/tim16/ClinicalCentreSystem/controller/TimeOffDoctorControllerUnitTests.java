@@ -1,5 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.TestUtil;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import org.junit.Before;
@@ -10,12 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
@@ -76,14 +76,44 @@ public class TimeOffDoctorControllerUnitTests {
     }
 
     @Test
-    @Transactional
-    @Rollback(true)
+    @Sql(
+            scripts = "classpath:update-data-h2.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+    )
     public void testApproveRequestForHolidayOrTimeOff() throws Exception {
 
-        this.mockMvc.perform(put(URL_PREFIX + "/approve-request-for-holiday-or-time-off/2").header("Authorization", accessToken))
+        this.mockMvc.perform(put(URL_PREFIX + "/approve-request-for-holiday-or-time-off/" + DB_AWAITING_TIME_OFF).header("Authorization", accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(DB_DOCTOR_FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME));
+    }
+
+    @Test
+    public void testApproveRequestForHolidayOrTimeOff_badRequest() throws Exception {
+
+        this.mockMvc.perform(put(URL_PREFIX + "/approve-request-for-holiday-or-time-off/" + DB_APPROVED_TIME_OFF).header("Authorization", accessToken))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Sql(
+            scripts = "classpath:update-data-h2.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+    )
+    public void testRejectRequestForHolidayOrTimeOff() throws Exception {
+        String reason = TestUtil.json("At that time we have a lot of work so you have to work.");
+        this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + DB_AWAITING_TIME_OFF).contentType(contentType)
+                .content(reason).header("Authorization", accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value(DB_DOCTOR_FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME));
+    }
+
+    @Test
+    public void testRejectRequestForHolidayOrTimeOff_badRequest() throws Exception {
+        String reason = TestUtil.json("At that time we have a lot of work so you have to work.");
+        this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + DB_APPROVED_TIME_OFF).contentType(contentType)
+                .content(reason).header("Authorization", accessToken)).andExpect(status().isBadRequest());
     }
 }
 

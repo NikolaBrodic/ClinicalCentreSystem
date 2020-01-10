@@ -84,4 +84,9 @@ public class TimeOffDoctorConstants {
     public static final String DB_DOCTOR_LAST_NAME = "Lazarevic";
 
     public static final int DB_SERVICE_AWAITING_COUNT = 1;
+
+    public static final Long DB_AWAITING_TIME_OFF = 2L;
+
+    public static final Long DB_APPROVED_TIME_OFF = 1L;
+
 }

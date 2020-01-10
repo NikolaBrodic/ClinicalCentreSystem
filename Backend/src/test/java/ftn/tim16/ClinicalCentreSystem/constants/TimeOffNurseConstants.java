@@ -81,5 +81,7 @@ public class TimeOffNurseConstants {
 
     public static final int DB_SERVICE_AWAITING_COUNT = 2;
 
+    public static final Long DB_AWAITING_TIME_OFF = 2L;
 
+    public static final Long DB_APPROVED_TIME_OFF = 1L;
 }
