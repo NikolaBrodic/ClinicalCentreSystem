@@ -45,7 +45,7 @@ export class ListRequestsToRegisterComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.requestToRegisterService.getRequestsToRegister().subscribe((data) => {
+    this.requestToRegisterService.getRequestsToRegister().subscribe((data: RequestToRegister[]) => {
       this.requestToRegisterDataSource = new MatTableDataSource(data);
       this.requestToRegisterDataSource.paginator = this.paginator;
     });

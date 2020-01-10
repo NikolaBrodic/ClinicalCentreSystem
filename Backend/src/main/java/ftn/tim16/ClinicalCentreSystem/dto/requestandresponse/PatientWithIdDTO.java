@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.dto.requestandresponse;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 
@@ -24,7 +23,6 @@ public class PatientWithIdDTO {
 
     private String healthInsuranceID;
 
-    @JsonIgnore
     private PatientStatus status;
 
     public PatientWithIdDTO(Long id, String email, String firstName, String lastName, String phoneNumber, String address,

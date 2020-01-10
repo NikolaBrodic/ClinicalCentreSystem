@@ -11,7 +11,7 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
   styleUrls: ['./reject-request-to-register.component.css']
 })
 export class RejectRequestToRegisterComponent implements OnInit {
-  rejectRequestToRegisterForm: FormGroup
+  rejectRequestToRegisterForm: FormGroup;
 
   constructor(
     private toastr: ToastrService,

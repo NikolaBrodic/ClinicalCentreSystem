@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 
@@ -14,7 +13,6 @@ public class AwaitingApprovalPatientDTO {
 
     private String email;
 
-    @JsonIgnore
     private PatientStatus status;
 
     public AwaitingApprovalPatientDTO() {

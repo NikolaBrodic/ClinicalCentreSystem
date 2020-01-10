@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.TestUtil;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +75,8 @@ public class PatientControllerIntegrationTests {
                 .andExpect(jsonPath("$.[*].id").value(hasItem(PATIENT_ID.intValue())))
                 .andExpect(jsonPath("$.[*].firstName").value(hasItem(PATIENT_FIRST_NAME)))
                 .andExpect(jsonPath("$.[*].lastName").value(hasItem(PATIENT_LAST_NAME)))
-                .andExpect(jsonPath("$.[*].email").value(hasItem(PATIENT_EMAIL)));
+                .andExpect(jsonPath("$.[*].email").value(hasItem(PATIENT_EMAIL)))
+                .andExpect(jsonPath("$.[*].status").value(hasItem(PATIENT_STATUS_AWAITING_APPROVAL.toString())));
     }
 
     @Test
@@ -86,7 +88,8 @@ public class PatientControllerIntegrationTests {
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$.id").value(PATIENT_ID.intValue()))
                 .andExpect(jsonPath("$.phoneNumber").value(PATIENT_PHONE_NUMBER))
-                .andExpect(jsonPath("$.healthInsuranceID").value(PATIENT_HEALTH_INSURANCE_ID));
+                .andExpect(jsonPath("$.healthInsuranceID").value(PATIENT_HEALTH_INSURANCE_ID))
+                .andExpect(jsonPath("$.status").value(PatientStatus.APPROVED.toString()));
     }
 
     @Test
