@@ -5,7 +5,7 @@ import { RequestsForHolidayOrTimeOffComponent } from './requests-for-holiday-or-
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DemoMaterialModule } from 'src/app/material-module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
 import { MatSelectModule, MatDialog, MatTableDataSource } from '@angular/material';

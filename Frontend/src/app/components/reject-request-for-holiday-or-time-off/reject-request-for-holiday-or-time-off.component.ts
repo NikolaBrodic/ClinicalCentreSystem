@@ -16,7 +16,7 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
   rejectRequestForm: FormGroup
 
   constructor(
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private timeOffDoctorService: TimeOffDoctorService, private timeOffNurseService: TimeOffNurseService,
     public dialogRef: MatDialogRef<RejectRequestForHolidayOrTimeOffComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -33,7 +33,6 @@ export class RejectRequestForHolidayOrTimeOffComponent implements OnInit {
       this.toastr.error("Please enter an explanation for rejection.", "Reject request for holiday/time off");
       return;
     }
-
     const id = this.data.id;
     const reason = this.rejectRequestForm.value.reason;
 

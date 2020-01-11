@@ -12,7 +12,7 @@ import { TimeOffNurseService } from 'src/app/services/time-off-nurse.service';
 export class ApproveRequestForHolidayOrTimeOffComponent {
 
   constructor(
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private timeOffDoctorService: TimeOffDoctorService, private timeOffNurseService: TimeOffNurseService,
     public dialogRef: MatDialogRef<ApproveRequestForHolidayOrTimeOffComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -31,11 +31,13 @@ export class ApproveRequestForHolidayOrTimeOffComponent {
             'Approve request'
           );
           this.timeOffDoctorService.approveSuccessEmitter.next();
+
         },
         () => {
+          this.dialogRef.close();
           this.toastr.error("Request for holiday/time off has  already been approved/rejected.", 'Approve request');
           this.timeOffDoctorService.approveSuccessEmitter.next();
-          this.dialogRef.close();
+
         }
       )
     } else {
@@ -47,11 +49,14 @@ export class ApproveRequestForHolidayOrTimeOffComponent {
             'Approve request'
           );
           this.timeOffNurseService.approveSuccessEmitter.next();
+
+
         },
         () => {
+          this.dialogRef.close();
+
           this.toastr.error("Request for holiday/time off has  already been  approved/rejected.", 'Approve request');
           this.timeOffNurseService.approveSuccessEmitter.next();
-          this.dialogRef.close();
         }
       )
     }
