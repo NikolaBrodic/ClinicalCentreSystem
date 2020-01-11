@@ -7,7 +7,7 @@ import { DateTimeInterval } from '../models/dateTimeInterval';
 import { RequestsForHolidayOrTimeOff } from '../models/requestForHolidayOrTimeOff';
 import { DateTime } from 'luxon';
 
-describe('TimeOffNurseServiceUnitTests', () => {
+describe('TimeOffNurseServiceTests', () => {
     let service: TimeOffNurseService;
     let httpMock: HttpTestingController;
     const url = environment.baseUrl + environment.timeOffNurse;

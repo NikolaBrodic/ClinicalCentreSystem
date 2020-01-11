@@ -1,14 +1,13 @@
 import { RequestsForHolidayOrTimeOff } from 'src/app/models/requestForHolidayOrTimeOff';
 import { DateTime } from 'luxon';
-import { DateTimeInterval } from './../models/dateTimeInterval';
-import { TimeOffForWorkCalendar } from './../models/timeOffForWorkCalendar';
+import { DateTimeInterval } from '../models/dateTimeInterval';
 import { environment } from 'src/environments/environment';
 import { TimeOffDoctorService } from "./time-off-doctor.service";
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-describe('TimeOffDoctorServiceUnitTests', () => {
+describe('TimeOffDoctorServiceTests', () => {
     let service: TimeOffDoctorService;
     let httpMock: HttpTestingController;
     const url = environment.baseUrl + environment.timeOffDoctor;

@@ -15,10 +15,13 @@ describe('ApproveRequestForHolidayOrTimeOffComponentUnitTests', () => {
     beforeEach(() => {
         const dateTimeInterval = new DateTimeInterval(1, DateTime.fromString("17.09.2020 09:00", 'dd.MM.yyyy HH:mm'), DateTime.fromString("19.09.2020 09:00", 'dd.MM.yyyy HH:mm'));
         const timeOffBeforeAccept: RequestsForHolidayOrTimeOff = new RequestsForHolidayOrTimeOff(1, 'HOLIDAY', dateTimeInterval, 'Petar', 'Stanisic', 'AWAITING');
+
         const dataDoctor = { requestForHolidayOrTimeOff: timeOffBeforeAccept, for: "Doctor" };
         const dataNurse = { requestForHolidayOrTimeOff: timeOffBeforeAccept, for: "Nurse" };
+
         timeOffDoctorService = new TimeOffDoctorService(null);
         timeOffNurseService = new TimeOffNurseService(null);
+
         componentDoctor = new ApproveRequestForHolidayOrTimeOffComponent(null, timeOffDoctorService, timeOffNurseService, null, dataDoctor);
         componentNurse = new ApproveRequestForHolidayOrTimeOffComponent(null, timeOffDoctorService, timeOffNurseService, null, dataNurse);
     });

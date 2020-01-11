@@ -18,6 +18,7 @@ describe('RejectRequestForHolidayOrTimeOffComponentUnitTests', () => {
         const dataNurse = { requestForHolidayOrTimeOff: timeOffBeforeAccept, for: "Nurse" };
         timeOffDoctorService = new TimeOffDoctorService(null);
         timeOffNurseService = new TimeOffNurseService(null);
+
         componentDoctor = new RejectRequestForHolidayOrTimeOffComponent(null, timeOffDoctorService, timeOffNurseService, null, dataDoctor);
         componentNurse = new RejectRequestForHolidayOrTimeOffComponent(null, timeOffDoctorService, timeOffNurseService, null, dataNurse);
     });
