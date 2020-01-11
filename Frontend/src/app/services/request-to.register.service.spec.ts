@@ -1,5 +1,5 @@
-import { RequestToRegister } from './../models/request-to-register';
-import { environment } from './../../environments/environment';
+import { RequestToRegister } from '../models/request-to-register';
+import { environment } from '../../environments/environment';
 import { RequestToRegisterService } from './request-to.register.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';

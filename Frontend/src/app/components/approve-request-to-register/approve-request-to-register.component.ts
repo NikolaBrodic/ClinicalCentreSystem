@@ -12,9 +12,9 @@ import { RequestToRegisterService } from 'src/app/services/request-to.register.s
 export class ApproveRequestToRegisterComponent implements OnInit {
 
   constructor(
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private requestToRegisterService: RequestToRegisterService,
-    public dialogRef: MatDialogRef<RejectRequestToRegisterComponent>,
+    public dialogRef: MatDialogRef<ApproveRequestToRegisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 

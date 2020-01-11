@@ -14,7 +14,7 @@ export class RejectRequestToRegisterComponent implements OnInit {
   rejectRequestToRegisterForm: FormGroup;
 
   constructor(
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private requestToRegisterService: RequestToRegisterService,
     public dialogRef: MatDialogRef<RejectRequestToRegisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data
