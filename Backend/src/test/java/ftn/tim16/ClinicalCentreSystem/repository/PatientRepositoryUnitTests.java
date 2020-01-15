@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")
-public class PatientRepositoryIntegrationTests {
+public class PatientRepositoryUnitTests {
 
     @Autowired
     private PatientRepository patientRepository;
@@ -63,6 +63,7 @@ public class PatientRepositoryIntegrationTests {
                 getPatientAuthority());
 
         entityManager.persist(patient);
+
         Patient patientResult = patientRepository.findByEmail(NEW_PATIENT_EMAIL);
 
         assertNotNull(patientResult);

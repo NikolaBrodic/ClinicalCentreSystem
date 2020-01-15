@@ -78,18 +78,18 @@ public class PatientServiceUnitTests {
                 getPatientAuthority());
         patient.setId(PATIENT_ID);
 
-        Patient activatedPatient = new Patient(PATIENT_EMAIL, PATIENT_PASSWORD, PATIENT_FIRST_NAME, PATIENT_LAST_NAME,
+        Patient approvedPatient = new Patient(PATIENT_EMAIL, PATIENT_PASSWORD, PATIENT_FIRST_NAME, PATIENT_LAST_NAME,
                 PATIENT_PHONE_NUMBER, PATIENT_ADDRESS, PATIENT_CITY, PATIENT_COUNTRY, PATIENT_HEALTH_INSURANCE_ID,
                 getPatientAuthority());
-        activatedPatient.setId(PATIENT_ID);
-        activatedPatient.setStatus(PatientStatus.APPROVED);
+        approvedPatient.setId(PATIENT_ID);
+        approvedPatient.setStatus(PatientStatus.APPROVED);
 
         MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setPatient(activatedPatient);
+        medicalRecord.setPatient(approvedPatient);
 
         Mockito.when(patientRepositoryMock.findByIdAndStatus(PATIENT_ID, PATIENT_STATUS_AWAITING_APPROVAL)).thenReturn(patient);
-        Mockito.when(patientRepositoryMock.saveAndFlush(activatedPatient)).thenReturn(activatedPatient);
-        Mockito.when(medicalRecordServiceMock.create(activatedPatient)).thenReturn(medicalRecord);
+        Mockito.when(patientRepositoryMock.saveAndFlush(approvedPatient)).thenReturn(approvedPatient);
+        Mockito.when(medicalRecordServiceMock.create(approvedPatient)).thenReturn(medicalRecord);
         Mockito.doNothing().when(emailNotificationServiceMock).sendEmail(anyString(), anyString(), anyString());
 
         PatientWithIdDTO patientDTOResult = patientService.approveRequestToRegister(patient.getId());
@@ -98,8 +98,8 @@ public class PatientServiceUnitTests {
         assertEquals(PatientStatus.APPROVED, patientDTOResult.getStatus());
 
         verify(patientRepositoryMock, times(1)).findByIdAndStatus(PATIENT_ID, PATIENT_STATUS_AWAITING_APPROVAL);
-        verify(patientRepositoryMock, times(1)).saveAndFlush(activatedPatient);
-        verify(medicalRecordServiceMock, times(1)).create(activatedPatient);
+        verify(patientRepositoryMock, times(1)).saveAndFlush(approvedPatient);
+        verify(medicalRecordServiceMock, times(1)).create(approvedPatient);
         verify(emailNotificationServiceMock, times(1)).sendEmail(anyString(), anyString(), anyString());
     }
 
