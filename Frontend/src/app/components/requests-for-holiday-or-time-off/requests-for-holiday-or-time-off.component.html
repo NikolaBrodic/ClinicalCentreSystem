@@ -24,15 +24,17 @@
                             <div class="col-3">
                                 <mat-form-field class="full-width-field select">
                                     <mat-label>Requests from</mat-label>
-                                    <mat-select [(ngModel)]="forDoctorOrNurse" (selectionChange)="changeFor()">
+                                    <mat-select [(ngModel)]="forDoctorOrNurse" id="selectNurseRequestForHoliday"
+                                        (selectionChange)="changeFor()">
                                         <mat-option value="Doctor">Doctors</mat-option>
-                                        <mat-option value="Nurse">Nurses</mat-option>
+                                        <mat-option id="chosenNurseRequestForHoliday" value="Nurse">Nurses</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
 
-                        <table mat-table [dataSource]="requestsDataSource" class="mat-elevation-z8 table" matSort>
+                        <table mat-table [dataSource]="requestsDataSource" id="requests-to-register-table"
+                            class="mat-elevation-z8 table" matSort>
                             <ng-container matColumnDef="name">
                                 <th mat-header-cell *matHeaderCellDef> Name </th>
                                 <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}}
@@ -59,15 +61,15 @@
                             <ng-container matColumnDef="approve" class="mat-column-button">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element" class="buttons">
-                                    <button mat-raised-button name="approve-btn" class="approve-btn"
-                                        (click)="openApproveDialog(element)">Approve</button>
+                                    <button mat-raised-button name="approve-btn" id="requests-for-holiday-approve"
+                                        class="approve-btn" (click)="openApproveDialog(element)">Approve</button>
                                 </td>
                             </ng-container>
 
                             <ng-container matColumnDef="reject">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element" class="buttons">
-                                    <button mat-raised-button class="reject-btn"
+                                    <button mat-raised-button class="reject-btn" id="requests-for-holiday-reject"
                                         (click)="openRejectDialog(element.id)">Reject</button>
                                 </td>
                             </ng-container>
