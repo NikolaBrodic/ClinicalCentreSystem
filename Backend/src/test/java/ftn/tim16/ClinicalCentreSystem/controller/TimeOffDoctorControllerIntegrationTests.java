@@ -1,6 +1,5 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.TestUtil;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import org.junit.Before;
@@ -103,9 +102,8 @@ public class TimeOffDoctorControllerIntegrationTests {
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
     )
     public void testRejectRequestForHolidayOrTimeOff() throws Exception {
-        String reason = TestUtil.json("At that time we have a lot of work so you have to work.");
         this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + DB_AWAITING_TIME_OFF).contentType(contentType)
-                .content(reason).header("Authorization", accessToken))
+                .content(REASON_FOR_REJECTION).header("Authorization", accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(DB_DOCTOR_FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(DB_DOCTOR_LAST_NAME))
@@ -114,9 +112,8 @@ public class TimeOffDoctorControllerIntegrationTests {
 
     @Test
     public void testRejectRequestForHolidayOrTimeOff_badRequest() throws Exception {
-        String reason = TestUtil.json("At that time we have a lot of work so you have to work.");
         this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + DB_APPROVED_TIME_OFF).contentType(contentType)
-                .content(reason).header("Authorization", accessToken)).andExpect(status().isBadRequest());
+                .content(REASON_FOR_REJECTION).header("Authorization", accessToken)).andExpect(status().isBadRequest());
     }
 }
 

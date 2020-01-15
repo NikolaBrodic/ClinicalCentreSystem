@@ -106,8 +106,8 @@ public class TimeOffNurseServiceUnitTests {
         RequestForTimeOffDTO timeOffNurseResult = timeOffNurseService.approveRequestForHolidayOrTimeOff(AWAITING_TIME_OFF);
 
         assertNotNull(timeOffNurseResult);
-        assertEquals(requestForTimeOffDTO.getId(), requestForTimeOffDTO.getId());
-        assertEquals(requestForTimeOffDTO.getStatus(), requestForTimeOffDTO.getStatus());
+        assertEquals(requestForTimeOffDTO.getId(), timeOffNurseResult.getId());
+        assertEquals(requestForTimeOffDTO.getStatus(), timeOffNurseResult.getStatus());
         verify(timeOffNurseRepositoryMocked, times(1)).findByIdAndStatus(AWAITING_TIME_OFF, TIME_OFF_STATUS);
         verify(timeOffNurseRepositoryMocked, times(1)).save(ArgumentMatchers.any(TimeOffNurse.class));
     }
@@ -116,7 +116,7 @@ public class TimeOffNurseServiceUnitTests {
     public void testRejectRequestForHolidayOrTimeOff_timeOffNurse_doesNotExist() {
 
         Mockito.when(timeOffNurseRepositoryMocked.findByIdAndStatus(APPROVED_TIME_OFF, TIME_OFF_STATUS)).thenReturn(null);
-        Assert.assertNull(timeOffNurseService.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECT));
+        Assert.assertNull(timeOffNurseService.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECTION));
 
         verify(timeOffNurseRepositoryMocked, times(1)).findByIdAndStatus(APPROVED_TIME_OFF, TIME_OFF_STATUS);
     }
@@ -142,11 +142,11 @@ public class TimeOffNurseServiceUnitTests {
         Mockito.when(timeOffNurseRepositoryMocked.save(timeOffNurseSaved)).thenReturn(timeOffNurseSaved);
         Mockito.doNothing().when(emailNotificationServiceMocked).sendEmail(anyString(), anyString(), anyString());
 
-        RequestForTimeOffDTO timeOffNurseResult = timeOffNurseService.rejectRequestForHolidayOrTimeOff(AWAITING_TIME_OFF, REASON_FOR_REJECT);
+        RequestForTimeOffDTO timeOffNurseResult = timeOffNurseService.rejectRequestForHolidayOrTimeOff(AWAITING_TIME_OFF, REASON_FOR_REJECTION);
 
         assertNotNull(timeOffNurseResult);
-        assertEquals(requestForTimeOffDTO.getId(), requestForTimeOffDTO.getId());
-        assertEquals(requestForTimeOffDTO.getStatus(), requestForTimeOffDTO.getStatus());
+        assertEquals(requestForTimeOffDTO.getId(), timeOffNurseResult.getId());
+        assertEquals(requestForTimeOffDTO.getStatus(), timeOffNurseResult.getStatus());
 
         verify(timeOffNurseRepositoryMocked, times(1)).findByIdAndStatus(AWAITING_TIME_OFF, TIME_OFF_STATUS);
         verify(timeOffNurseRepositoryMocked, times(1)).save(ArgumentMatchers.any(TimeOffNurse.class));

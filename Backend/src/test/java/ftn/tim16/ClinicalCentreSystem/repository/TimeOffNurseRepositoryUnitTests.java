@@ -30,8 +30,6 @@ public class TimeOffNurseRepositoryUnitTests {
     @Test
     public void testFindByNurseClinicIdAndStatus() {
         List<TimeOffNurse> timeOffNursesResults = timeOffNurseRepository.findByNurseClinicIdAndStatus(CLINIC_ID, TIME_OFF_STATUS);
-
-        assertNotNull(timeOffNursesResults);
         assertEquals(DB_AWAITING_COUNT, timeOffNursesResults.size());
         for (int i = 0; i < DB_AWAITING_COUNT; i++) {
             assertEquals(TIME_OFF_STATUS, timeOffNursesResults.get(i).getStatus());
@@ -41,7 +39,6 @@ public class TimeOffNurseRepositoryUnitTests {
     @Test
     public void testFindByIdAndStatus() {
         TimeOffNurse timeOffNursesResult = timeOffNurseRepository.findByIdAndStatus(NURSE_ID_WITH_AWAITING, TIME_OFF_STATUS);
-        assertNotNull(timeOffNursesResult);
         assertEquals(TIME_OFF_STATUS, timeOffNursesResult.getStatus());
         assertEquals(NURSE_ID_WITH_AWAITING, timeOffNursesResult.getNurse().getId());
     }
@@ -63,5 +60,6 @@ public class TimeOffNurseRepositoryUnitTests {
 
         assertNotNull(timeOffNurseResult);
         assertEquals(HOLIDAY, timeOffNurseResult.getType());
+        assertEquals(TIME_OFF_STATUS, timeOffNurseResult.getStatus());
     }
 }

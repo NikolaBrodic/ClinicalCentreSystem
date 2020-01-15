@@ -43,7 +43,7 @@ public class TimeOffNurseConstants {
 
     public static final String NEW_CLINIC_DESCRIPTION = "VMA Novi Sad";
 
-    public static final String REASON_FOR_REJECT = "At that time we have a lot of work so you have to work.";
+    public static final String REASON_FOR_REJECTION = "At that time we have a lot of work so you have to work.";
 
     public static final Long ID = 1L;
 

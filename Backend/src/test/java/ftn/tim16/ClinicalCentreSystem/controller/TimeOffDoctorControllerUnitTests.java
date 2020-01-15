@@ -1,9 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.TestUtil;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RequestForTimeOffDTO;
-import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.DateTimeInterval;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
@@ -26,9 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffDoctorConstants.*;
 import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffNurseConstants.AWAITING;
@@ -111,8 +107,6 @@ public class TimeOffDoctorControllerUnitTests {
         LocalDateTime startDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH, HOUR, MIN, SEC);
         LocalDateTime endDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH_TO, HOUR, MIN, SEC);
 
-        RequestForTimeOffDTO requestForTimeOffDTO = new RequestForTimeOffDTO(ID, "HOLIDAY", new DateTimeInterval(startDate, endDate), NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME,
-                AWAITING);
         RequestForTimeOffDTO requestForTimeOffDTOSaved = new RequestForTimeOffDTO(ID, "HOLIDAY", new DateTimeInterval(startDate, endDate), NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME,
                 APPROVED);
 
@@ -136,42 +130,31 @@ public class TimeOffDoctorControllerUnitTests {
 
     @Test
     public void testRejectRequestForHolidayOrTimeOff() throws Exception {
-        String reason = TestUtil.json("At that time we have a lot of work so you have to work.");
+
         LocalDateTime startDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH, HOUR, MIN, SEC);
         LocalDateTime endDate = LocalDateTime.of(YEAR, MONTH, DAY_OF_MONTH_TO, HOUR, MIN, SEC);
 
-        RequestForTimeOffDTO requestForTimeOffDTO = new RequestForTimeOffDTO(ID, "HOLIDAY", new DateTimeInterval(startDate, endDate), NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME,
-                AWAITING);
         RequestForTimeOffDTO requestForTimeOffDTOSaved = new RequestForTimeOffDTO(ID, "HOLIDAY", new DateTimeInterval(startDate, endDate), NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME,
                 REJECTED);
 
-        Mockito.when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(ID, reason)).thenReturn(requestForTimeOffDTOSaved);
+        Mockito.when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(ID, REASON_FOR_REJECTION)).thenReturn(requestForTimeOffDTOSaved);
 
         this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + ID).contentType(contentType)
-                .content(reason).header("Authorization", accessToken))
+                .content(REASON_FOR_REJECTION).header("Authorization", accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(NEW_DOCTOR_FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(NEW_DOCTOR_lAST_NAME))
                 .andExpect(jsonPath("$.status").value(REJECTED.toString()));
-        verify(timeOffDoctorServiceMocked, times(1)).rejectRequestForHolidayOrTimeOff(ID, reason);
+        verify(timeOffDoctorServiceMocked, times(1)).rejectRequestForHolidayOrTimeOff(ID, REASON_FOR_REJECTION);
     }
 
     @Test
     public void testRejectRequestForHolidayOrTimeOff_badRequest() throws Exception {
-        String reason = TestUtil.json("At that time we have a lot of work so you have to work.");
-        Mockito.when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, reason)).thenReturn(null);
+        Mockito.when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECTION)).thenReturn(null);
         this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + APPROVED_TIME_OFF).contentType(contentType)
-                .content(reason).header("Authorization", accessToken)).andExpect(status().isBadRequest());
+                .content(REASON_FOR_REJECTION).header("Authorization", accessToken)).andExpect(status().isBadRequest());
 
-        verify(timeOffDoctorServiceMocked, times(1)).rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, reason);
+        verify(timeOffDoctorServiceMocked, times(1)).rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECTION);
     }
 
-    private Set<Authority> getAuthority(String role) {
-        Authority authority = new Authority();
-        authority.setName(role);
-        Set<Authority> authorities = new HashSet<>();
-        authorities.add(authority);
-
-        return authorities;
-    }
 }

@@ -106,8 +106,8 @@ public class TimeOffDoctorServiceUnitTests {
         RequestForTimeOffDTO timeOffDoctorResult = timeOffDoctorService.approveRequestForHolidayOrTimeOff(AWAITING_TIME_OFF);
 
         assertNotNull(timeOffDoctorResult);
-        assertEquals(requestForTimeOffDTO.getId(), requestForTimeOffDTO.getId());
-        assertEquals(requestForTimeOffDTO.getStatus(), requestForTimeOffDTO.getStatus());
+        assertEquals(requestForTimeOffDTO.getId(), timeOffDoctorResult.getId());
+        assertEquals(requestForTimeOffDTO.getStatus(), timeOffDoctorResult.getStatus());
 
         verify(timeOffDoctorRepositoryMocked, times(1)).findByIdAndStatus(AWAITING_TIME_OFF, TIME_OFF_STATUS_AWAITING);
         verify(timeOffDoctorRepositoryMocked, times(1)).save(ArgumentMatchers.any(TimeOffDoctor.class));
@@ -117,7 +117,7 @@ public class TimeOffDoctorServiceUnitTests {
     public void testRejectRequestForHolidayOrTimeOff_timeOffDoctor_doesNotExist() {
 
         Mockito.when(timeOffDoctorRepositoryMocked.findByIdAndStatus(APPROVED_TIME_OFF, TIME_OFF_STATUS_AWAITING)).thenReturn(null);
-        Assert.assertNull(timeOffDoctorService.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECT));
+        Assert.assertNull(timeOffDoctorService.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECTION));
 
         verify(timeOffDoctorRepositoryMocked, times(1)).findByIdAndStatus(APPROVED_TIME_OFF, TIME_OFF_STATUS_AWAITING);
     }
@@ -145,11 +145,11 @@ public class TimeOffDoctorServiceUnitTests {
         Mockito.when(timeOffDoctorRepositoryMocked.save(timeOffDoctorSaved)).thenReturn(timeOffDoctorSaved);
         Mockito.doNothing().when(emailNotificationServiceMocked).sendEmail(anyString(), anyString(), anyString());
 
-        RequestForTimeOffDTO timeOffDoctorResult = timeOffDoctorService.rejectRequestForHolidayOrTimeOff(AWAITING_TIME_OFF, REASON_FOR_REJECT);
+        RequestForTimeOffDTO timeOffDoctorResult = timeOffDoctorService.rejectRequestForHolidayOrTimeOff(AWAITING_TIME_OFF, REASON_FOR_REJECTION);
 
         assertNotNull(timeOffDoctorResult);
-        assertEquals(requestForTimeOffDTO.getId(), requestForTimeOffDTO.getId());
-        assertEquals(requestForTimeOffDTO.getStatus(), requestForTimeOffDTO.getStatus());
+        assertEquals(requestForTimeOffDTO.getId(), timeOffDoctorResult.getId());
+        assertEquals(requestForTimeOffDTO.getStatus(), timeOffDoctorResult.getStatus());
 
         verify(timeOffDoctorRepositoryMocked, times(1)).findByIdAndStatus(AWAITING_TIME_OFF, TIME_OFF_STATUS_AWAITING);
         verify(timeOffDoctorRepositoryMocked, times(1)).save(ArgumentMatchers.any(TimeOffDoctor.class));
