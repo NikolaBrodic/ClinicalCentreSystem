@@ -33,13 +33,11 @@ public class LoginPage {
     }
 
     public void ensureIsDisplayedEmail() {
-        (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.elementToBeClickable(email));
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(email));
     }
 
     public void ensureIsNotVisibleLoginBtn() {
-        (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.invisibilityOfElementLocated(By.id("login-btn")));
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.invisibilityOfElementLocated(By.id("login-btn")));
     }
 
     public void ensureIsNotVisibleLogoutBtnClinicalCentreAdmin() {
