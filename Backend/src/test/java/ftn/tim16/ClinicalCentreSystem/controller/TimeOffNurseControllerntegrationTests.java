@@ -20,7 +20,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 
-import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffDoctorConstants.DB_APPROVED_TIME_OFF;
 import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffNurseConstants.*;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;

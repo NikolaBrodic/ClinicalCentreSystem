@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")
-public class TimeOffNurseRepositoryIntegrationTests {
+public class TimeOffNurseRepositoryUnitTests {
 
     @Autowired
     private TimeOffNurseRepository timeOffNurseRepository;
@@ -57,6 +57,7 @@ public class TimeOffNurseRepositoryIntegrationTests {
         TimeOffNurse timeOffNurse = new TimeOffNurse(HOLIDAY, null, AWAITING, null);
 
         TimeOffNurse timeOffNurseSaved = this.entityManager.persist(timeOffNurse);
+        entityManager.flush();
 
         TimeOffNurse timeOffNurseResult = timeOffNurseRepository.findByIdAndStatus(timeOffNurseSaved.getId(), AWAITING);
 
