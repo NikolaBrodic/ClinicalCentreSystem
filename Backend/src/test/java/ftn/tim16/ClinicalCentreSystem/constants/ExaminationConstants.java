@@ -83,4 +83,9 @@ public class ExaminationConstants {
     public static final String CLINIC_ADMIN_PHONE_NUMBER = "064153456";
 
     public static final String CLINIC_ADMIN_ROLE = "ROLE_CLINIC_ADMIN";
+
+    public static final String KIND_EXAMINATION = "EXAMINATION";
+    public static final Integer PAGE_NUMBER = 0;
+    public static final Integer PAGE_SIZE = 5;
+    public static final Integer LIST_EXAMINATIONS_COUNT = 2;
 }

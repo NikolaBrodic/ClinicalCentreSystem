@@ -6,6 +6,8 @@ import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 
 public class DoctorConstants {
+    public static final Long NEW_DOCTOR_ID = 4L;
+
     public static final String NEW_DOCTOR_EMAIL = "miroslav.simic@maildrop.cc";
 
     public static final String NEW_DOCTOR_PASSWORD = "$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK";
@@ -21,6 +23,8 @@ public class DoctorConstants {
     public static final String NEW_DOCTOR_AUTHORITY = "DOCTOR";
 
     public static final String NEW_DOCTOR_WORK_HOURS_TO = "22:00:00";
+
+    public static final Double NEW_DOCTOR_RATING = 4.2;
 
     public static final DoctorStatus DOCTOR_STATUS_DELETED = DoctorStatus.DELETED;
 
@@ -92,6 +96,8 @@ public class DoctorConstants {
 
     public static final String END_DATE_TIME = "2020-12-12 11:00";
 
+    public static final Long NEW_DOCTOR_2_ID = 5L;
+
     public static final String NEW_DOCTOR_2_EMAIL = "tamara.simic@maildrop.cc";
 
     public static final String NEW_DOCTOR_2_PASSWORD = "$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK";
@@ -109,4 +115,9 @@ public class DoctorConstants {
     public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_1 = 3;
 
     public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_2 = 2;
+
+    public static final Double NEW_DOCTOR_2_RATING = 3.7;
+
+    public static final Integer DB_AVAILABLE_DOCTORS_COUNT = 4;
+    public static final Integer LIST_AVAILABLE_DOCTORS_COUNT = 2;
 }

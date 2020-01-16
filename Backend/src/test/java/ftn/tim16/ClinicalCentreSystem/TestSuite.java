@@ -7,13 +7,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({TimeOffDoctorRepositoryUnitTests.class, TimeOffNurseRepositoryUnitTests.class,
-        TimeOffDoctorServiceUnitTests.class, TimeOffNurseServiceUnitTests.class,
-        TimeOffDoctorControllerUnitTests.class, TimeOffNurseControllerUnitTests.class,
-        TimeOffDoctorControllerIntegrationTests.class, TimeOffNurseControllerntegrationTests.class,
-        PatientRepositoryUnitTests.class, PatientServiceUnitTests.class, PatientControllerUnitTests.class,
-        PatientControllerIntegrationTests.class, RoomServiceUnitTests.class, NurseServiceUnitTests.class,
-        ExaminationServiceUnitTests.class, DoctorServiceUnitTests.class, DoctorRepositoryUnitTests.class,
-        RoomRepositoryUnitTests.class, DoctorRepositoryUnitTests.class})
+@Suite.SuiteClasses({ TimeOffDoctorRepositoryUnitTests.class, TimeOffNurseRepositoryUnitTests.class,
+                TimeOffDoctorServiceUnitTests.class, TimeOffNurseServiceUnitTests.class,
+                TimeOffDoctorControllerUnitTests.class, TimeOffNurseControllerUnitTests.class,
+                TimeOffDoctorControllerIntegrationTests.class, TimeOffNurseControllerntegrationTests.class,
+                PatientRepositoryUnitTests.class, PatientServiceUnitTests.class, PatientControllerUnitTests.class,
+                PatientControllerIntegrationTests.class, RoomControllerUnitTests.class,
+                RoomControllerIntegrationTests.class, DoctorControllerUnitTests.class,
+                DoctorControllerIntegrationTests.class, ExaminationControllerUnitTests.class,
+                ExaminationControllerIntegrationTests.class, RoomServiceUnitTests.class, NurseServiceUnitTests.class,
+                ExaminationServiceUnitTests.class, DoctorServiceUnitTests.class, DoctorRepositoryUnitTests.class,
+                RoomRepositoryUnitTests.class, DoctorRepositoryUnitTests.class })
 public class TestSuite {
 }
