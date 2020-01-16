@@ -1,5 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
+import ftn.tim16.ClinicalCentreSystem.TestUtil;
+import ftn.tim16.ClinicalCentreSystem.dto.request.AssignExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import org.junit.Before;
@@ -23,6 +25,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -91,6 +94,46 @@ public class RoomControllerIntegrationTests {
                 .param("searchStartTime", SEARCH_START_TIME)
                 .param("searchEndTime", SEARCH_END_TIME)
                 .header("Authorization", accessToken))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testAssignRoom_Success() throws Exception {
+        AssignExaminationDTO examinationDTO = new AssignExaminationDTO();
+        examinationDTO.setId(EXAMINATION_1_ID);
+        examinationDTO.setKind(KIND_EXAMINATION);
+        examinationDTO.setRoomId(ROOM_1_ID);
+        examinationDTO.setLabel(ROOM_1_LABEL);
+        examinationDTO.setAvailable(AVAILABLE_ROOM);
+
+        String jsonBody = TestUtil.json(examinationDTO);
+
+        mockMvc.perform(put(URL_PREFIX + "/assign")
+                .header("Authorization", accessToken)
+                .contentType(contentType)
+                .content(jsonBody))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.id").value(ROOM_1_ID.intValue()))
+                .andExpect(jsonPath("$.label").value(ROOM_1_LABEL))
+                .andExpect(jsonPath("$.kind").value(KIND_EXAMINATION));
+    }
+
+    @Test
+    public void testAssignRoom_BadRequest() throws Exception {
+        AssignExaminationDTO examinationDTO = new AssignExaminationDTO();
+        examinationDTO.setId(EXAMINATION_2_ID);
+        examinationDTO.setKind(KIND_EXAMINATION);
+        examinationDTO.setRoomId(ROOM_2_ID);
+        examinationDTO.setLabel(ROOM_2_LABEL);
+        examinationDTO.setAvailable(AVAILABLE_ROOM);
+
+        String jsonBody = TestUtil.json(examinationDTO);
+
+        mockMvc.perform(put(URL_PREFIX + "/assign")
+                .header("Authorization", accessToken)
+                .contentType(contentType)
+                .content(jsonBody))
                 .andExpect(status().isBadRequest());
     }
 }

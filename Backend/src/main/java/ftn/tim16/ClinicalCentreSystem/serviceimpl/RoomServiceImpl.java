@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
+import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.RoomRepository;
@@ -316,7 +317,9 @@ public class RoomServiceImpl implements RoomService {
         } catch (Exception p) {
             return null;
         }
-        if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
+
+        if (selectedExamination == null || selectedExamination.getStatus() != ExaminationStatus.AWAITING
+                || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
 

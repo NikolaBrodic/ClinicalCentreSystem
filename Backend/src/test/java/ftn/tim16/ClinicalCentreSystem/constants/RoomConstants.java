@@ -18,6 +18,10 @@ public class RoomConstants {
     public static final String SEARCH_START_TIME = "10:00";
     public static final String SEARCH_END_TIME = "11:00";
 
+    public static final Long EXAMINATION_1_ID = 1L;
+    public static final Long EXAMINATION_2_ID = 2L;
+    public static final String AVAILABLE_ROOM = "2020-12-12 09:00";
+
     public static final Long CLINIC_ID = 1L;
     public static final String CLINIC_NAME = "Klinika mira";
     public static final String CLINIC_DESCRIPTION = "Savremena klinika u Novom Sadu";
