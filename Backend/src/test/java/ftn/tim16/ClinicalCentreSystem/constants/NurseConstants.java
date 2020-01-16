@@ -25,4 +25,6 @@ public class NurseConstants {
     public static final String NEW_CLINIC_ADDRESS = "Novi Sad Tolstojeva";
 
     public static final String NEW_CLINIC_DESCRIPTION = "VMA Novi Sad";
+
+    public static final Integer NUMBER_OF_NURSES = 3;
 }

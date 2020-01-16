@@ -16,7 +16,11 @@ public class ExaminationConstants {
 
     public static final Long EXAMINATION_ID = 1L;
 
+    public static final Long EXAMINATION_6_ID = 6L;
+
     public static final String DATE = "2020-12-12";
+
+    public static final String DATE_2021 = "2021-02-20";
 
     public static final int YEAR = 2020;
 
@@ -35,6 +39,8 @@ public class ExaminationConstants {
     public static final int SEC = 00;
 
     public static final ExaminationKind EXAMINATION = ExaminationKind.EXAMINATION;
+
+    public static final ExaminationKind OPERATION = ExaminationKind.OPERATION;
 
     public static final ExaminationStatus EXAMINATION_STATUS_APPROVED = ExaminationStatus.APPROVED;
 
@@ -68,9 +74,13 @@ public class ExaminationConstants {
 
     public static final Long ROOM_1_ID = 1L;
 
+    public static final Long ROOM_3_ID = 3L;
+
     public static final ExaminationStatus AWAITING = ExaminationStatus.AWAITING;
 
     public static final Long CLINIC_ADMIN_ID = 1L;
+
+    public static final Long CLINIC_ADMIN_2_ID = 2L;
 
     public static final String CLINIC_ADMIN_EMAIL = "ClinicAdmin1@maildrop.cc";
 
@@ -83,6 +93,16 @@ public class ExaminationConstants {
     public static final String CLINIC_ADMIN_PHONE_NUMBER = "064153456";
 
     public static final String CLINIC_ADMIN_ROLE = "ROLE_CLINIC_ADMIN";
+
+    public static final int NUMBER_OF_APPROVED_EXAMINATION_IN_FUTURE = 2;
+
+    public static final int NUMBER_OF_APPROVED_EXAMINATION_ON_DATE = 2;
+
+    public static final int NUMBER_OF_APPROVED_EXAMINATION_ON_DATE_EMPTY = 0;
+
+    public static final int NUMBER_OF_AWAITING_EXAMINATION_IN_FUTURE_CLINIC_ADMIN_2 = 0;
+
+    public static final int NUMBER_OF_AWAITING_OPERATION_IN_FUTURE_CLINIC_ADMIN_2 = 1;
 
     public static final String KIND_EXAMINATION = "EXAMINATION";
     public static final Integer PAGE_NUMBER = 0;
