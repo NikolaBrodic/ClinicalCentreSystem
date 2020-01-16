@@ -70,7 +70,7 @@ public class ExaminationController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getAwaitingExaminations(kind, clinicAdministrator, page), HttpStatus.OK);
+            return new ResponseEntity<>(examinationService.getAwaitingExaminations(kind, clinicAdministrator, page), HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
