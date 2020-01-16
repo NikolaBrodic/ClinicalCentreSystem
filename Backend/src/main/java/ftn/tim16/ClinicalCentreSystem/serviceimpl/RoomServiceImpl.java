@@ -7,6 +7,7 @@ import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.RoomWithIdDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.RoomPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
+import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.LogicalStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.RoomRepository;
@@ -114,12 +115,8 @@ public class RoomServiceImpl implements RoomService {
             dateSearchActive = false;
         }
 
-        if ((search == null || search.isEmpty()) && !dateSearchActive) {
-            RoomPagingDTO roomPagingDTO = new RoomPagingDTO(convertToDTO(roomRepository
-                    .findByClinicIdAndStatusAndKind(clinic.getId(), LogicalStatus.EXISTING, examinationKind, page)
-                    .getContent()), roomRepository
-                    .findByClinicIdAndStatusAndKind(clinic.getId(), LogicalStatus.EXISTING, examinationKind).size());
-            return roomPagingDTO;
+        if (search == null) {
+            search = "";
         }
 
         List<Room> roomsInClinicAll = roomRepository.findByLabelContainsIgnoringCaseAndClinicIdAndStatusAndKind(search,
@@ -142,8 +139,8 @@ public class RoomServiceImpl implements RoomService {
         int start = (int) page.getOffset();
         int end = (start + page.getPageSize()) > availableRoom.size() ? availableRoom.size()
                 : (start + page.getPageSize());
-        Page<RoomDTO> pages = new PageImpl<RoomDTO>(availableRoom.subList(start, end), page, availableRoom.size());
-        return new RoomPagingDTO(pages.getContent(), roomsInClinicAll.size());
+        Page<RoomDTO> pages = new PageImpl<>(availableRoom.subList(start, end), page, availableRoom.size());
+        return new RoomPagingDTO(pages.getContent(), availableRoom.size());
     }
 
     @Override
@@ -278,7 +275,7 @@ public class RoomServiceImpl implements RoomService {
             if (examination.getDoctors() != null && !examination.getDoctors().isEmpty()) {
                 doctorDTO = examination.getDoctors().get(0);
             }
-            Room assignedRoom = assignRoom(selectedExamination.getId(), roomDTO, doctorDTO);
+            Room assignedRoom = assignRoom(examination.getId(), roomDTO, doctorDTO);
             if (assignedRoom == null) {
                 return null;
             }
@@ -316,7 +313,8 @@ public class RoomServiceImpl implements RoomService {
         } catch (Exception p) {
             return null;
         }
-        if (selectedExamination == null || room == null || room.getKind() != selectedExamination.getKind()) {
+        if (selectedExamination == null || selectedExamination.getStatus() != ExaminationStatus.AWAITING
+                || room == null || room.getKind() != selectedExamination.getKind()) {
             return null;
         }
 

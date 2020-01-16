@@ -47,6 +47,10 @@ public class Room {
         this.status = LogicalStatus.EXISTING;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getVersion() {
         return version;
     }
