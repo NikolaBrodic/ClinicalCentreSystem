@@ -85,6 +85,11 @@ insert into room (label, kind,status,clinic_id,version) values ('Room 1', 'EXAMI
 insert into room (label, kind,status,clinic_id,version) values ('Room 2', 'EXAMINATION','EXISTING' ,1,0);
 insert into room (label, kind,status,clinic_id,version) values ('Room 3', 'EXAMINATION','EXISTING' ,1,0);
 
+insert into room (label, kind,status,clinic_id,version) values ('Room 4', 'EXAMINATION','DELETED' ,1,0);
+insert into room (label, kind,status,clinic_id,version) values ('Room 5', 'EXAMINATION','EXISTING' ,2,0);
+insert into room (label, kind,status,clinic_id,version) values ('Room 6', 'OPERATION','EXISTING' ,1,0);
+insert into room (label, kind,status,clinic_id,version) values ('Room 7', 'OPERATION','EXISTING' ,1,0);
+
 insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.02.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.02.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',3,'AWAITING',1,1,1,3,3,1,0);

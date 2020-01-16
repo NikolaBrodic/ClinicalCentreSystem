@@ -1,10 +1,7 @@
 package ftn.tim16.ClinicalCentreSystem;
 
 import ftn.tim16.ClinicalCentreSystem.controller.*;
-import ftn.tim16.ClinicalCentreSystem.repository.DoctorRepositoryUnitTests;
-import ftn.tim16.ClinicalCentreSystem.repository.PatientRepositoryUnitTests;
-import ftn.tim16.ClinicalCentreSystem.repository.TimeOffDoctorRepositoryUnitTests;
-import ftn.tim16.ClinicalCentreSystem.repository.TimeOffNurseRepositoryUnitTests;
+import ftn.tim16.ClinicalCentreSystem.repository.*;
 import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -16,6 +13,7 @@ import org.junit.runners.Suite;
         TimeOffDoctorControllerIntegrationTests.class, TimeOffNurseControllerntegrationTests.class,
         PatientRepositoryUnitTests.class, PatientServiceUnitTests.class, PatientControllerUnitTests.class,
         PatientControllerIntegrationTests.class, RoomServiceUnitTests.class, NurseServiceUnitTests.class,
-        ExaminationServiceUnitTests.class, DoctorServiceUnitTests.class, DoctorRepositoryUnitTests.class})
+        ExaminationServiceUnitTests.class, DoctorServiceUnitTests.class, DoctorRepositoryUnitTests.class,
+        RoomRepositoryUnitTests.class, DoctorRepositoryUnitTests.class})
 public class TestSuite {
 }

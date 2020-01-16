@@ -17,6 +17,8 @@ public class RoomConstants {
 
     public static final Long ROOM_2_ID = 2L;
 
+    public static final Long ROOM_4_ID = 4L;
+
     public static final Long EXAMINATION_ID = 1L;
 
     public static final LogicalStatus LOGICAL_STATUS_EXISTING = LogicalStatus.EXISTING;
@@ -142,4 +144,15 @@ public class RoomConstants {
     public static final String NEW_NURSE_AUTHORITY = "NURSE";
 
     public static final ExaminationStatus APPROVED = ExaminationStatus.APPROVED;
+
+    public static final int DB_ROOM_WITH_STATUS_EXISTING_AND_CLINIC_ID_WITH_SEARCH = 0;
+
+    public static final int DB_ROOM_WITH_STATUS_EXISTING_AND_CLINIC_ID = 5;
+
+    public static final int DB_EXAMINATION_ROOMS = 3;
+
+    public static final int DB_OPERATION_ROOMS = 2;
+
+    public static final String SEARCH_ROOM = "om";
+
 }
