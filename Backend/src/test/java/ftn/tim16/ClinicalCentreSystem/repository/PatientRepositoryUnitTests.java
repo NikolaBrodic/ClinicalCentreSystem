@@ -17,6 +17,7 @@ import java.util.Set;
 import static ftn.tim16.ClinicalCentreSystem.constants.PatientConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @TestPropertySource("classpath:application-test.properties")

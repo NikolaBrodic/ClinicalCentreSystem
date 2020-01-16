@@ -105,4 +105,8 @@ public class DoctorConstants {
     public static final String NEW_DOCTOR_2_WORK_HOURS_FROM = "07:00:00";
 
     public static final String NEW_DOCTOR_2_WORK_HOURS_TO = "23:00:00";
+
+    public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_1 = 3;
+
+    public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_2 = 3;
 }

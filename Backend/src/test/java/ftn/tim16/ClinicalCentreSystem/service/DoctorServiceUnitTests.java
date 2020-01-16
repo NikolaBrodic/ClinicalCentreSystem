@@ -90,7 +90,7 @@ public class DoctorServiceUnitTests {
         List<Doctor> doctors = new ArrayList<>();
         doctors.add(doctor);
 
-        Mockito.when(doctorRepositoryMocked.findByClinicIdAndSpecializedAndStatusNot(CLINIC_ID, examinationType, DOCTOR_STATUS_DELETED)).thenReturn(doctors);
+        Mockito.when(doctorRepositoryMocked.findByClinicIdAndSpecializedIdAndStatusNot(CLINIC_ID, examinationType.getId(), DOCTOR_STATUS_DELETED)).thenReturn(doctors);
         Mockito.when(timeOffDoctorServiceMocked.isDoctorOnVacation(DOCTOR_ID, startDate, endDate)).thenReturn(false);
         Mockito.when(examinationServiceMocked.getDoctorExaminationsOnDay(DOCTOR_ID, startDate)).thenReturn(new ArrayList<>());
 
@@ -99,7 +99,7 @@ public class DoctorServiceUnitTests {
         Assert.assertNotNull(doctorResult);
         Assert.assertEquals(DOCTOR_ID, doctorResult.getId());
 
-        verify(doctorRepositoryMocked, times(1)).findByClinicIdAndSpecializedAndStatusNot(CLINIC_ID, examinationType, DOCTOR_STATUS_DELETED);
+        verify(doctorRepositoryMocked, times(1)).findByClinicIdAndSpecializedIdAndStatusNot(CLINIC_ID, examinationType.getId(), DOCTOR_STATUS_DELETED);
         verify(timeOffDoctorServiceMocked, times(1)).isDoctorOnVacation(DOCTOR_ID, startDate, endDate);
         verify(examinationServiceMocked, times(1)).getDoctorExaminationsOnDay
                 (DOCTOR_ID, startDate);
