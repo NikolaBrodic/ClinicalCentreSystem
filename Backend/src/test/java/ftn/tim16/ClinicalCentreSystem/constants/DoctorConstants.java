@@ -118,6 +118,6 @@ public class DoctorConstants {
 
     public static final Double NEW_DOCTOR_2_RATING = 3.7;
 
-    public static final Integer DB_AVAILABLE_DOCTORS_COUNT = 4;
+    public static final Integer DB_AVAILABLE_DOCTORS_COUNT = 3;
     public static final Integer LIST_AVAILABLE_DOCTORS_COUNT = 2;
 }
