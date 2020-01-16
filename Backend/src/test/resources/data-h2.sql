@@ -40,7 +40,7 @@ insert into nurse (email, password, first_name, last_name, phone_number,work_hou
 values ('Nurse.03@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Jelena', 'Simic', '075432433','00:01','07:30',1,'ACTIVE');
 insert into nurse_authority(user_id, authority_id) values (3,5);
 
-insert into date_time_interval (start_date_time, end_date_time) values ( PARSEDATETIME('07.05.2020 08:00', 'dd.MM.yyyy HH:mm'),PARSEDATETIME('15.05.2020 10:00:00', 'dd.MM.yyyy HH:mm'));
+insert into date_time_interval (start_date_time, end_date_time) values ( PARSEDATETIME('07.05.2020 08:00:00', 'dd.MM.yyyy HH:mm'),PARSEDATETIME('15.05.2020 10:00:00', 'dd.MM.yyyy HH:mm'));
 insert into time_off_doctor (status, type, doctor_id, interval_id,version)
  values ('APPROVED', 'HOLIDAY', 1, 1,0);
 
@@ -80,3 +80,12 @@ insert into patient (email, password, first_name, last_name, phone_number,addres
  values ('Patient3@maildrop.cc', '$2a$10$ItcRjGVnH26jIqw7GRXOBeM5Wu3sGxkSdvSgTRWSjEpPno4J9T4kS', 'Srdjan', 'Stanojevic', '065898255','Marsala tita 17','Kikinda',
  'Srbija','0625351286815','ACTIVATED',0);
 insert into patient_authority(user_id, authority_id) values (1,3);
+
+insert into room (label, kind,status,clinic_id,version) values ('Room 1', 'EXAMINATION','EXISTING' ,1,0);
+insert into room (label, kind,status,clinic_id,version) values ('Room 2', 'EXAMINATION','EXISTING' ,1,0);
+insert into room (label, kind,status,clinic_id,version) values ('Room 3', 'EXAMINATION','EXISTING' ,1,0);
+
+insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.02.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.02.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
+ values ('EXAMINATION',3,'APPROVED',1,1,1,3,3,1,0);
+insert into examining (examination_id,doctor_id) values (1,1);

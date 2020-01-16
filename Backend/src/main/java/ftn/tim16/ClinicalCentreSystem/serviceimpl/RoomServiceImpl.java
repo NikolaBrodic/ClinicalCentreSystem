@@ -143,7 +143,7 @@ public class RoomServiceImpl implements RoomService {
         int end = (start + page.getPageSize()) > availableRoom.size() ? availableRoom.size()
                 : (start + page.getPageSize());
         Page<RoomDTO> pages = new PageImpl<RoomDTO>(availableRoom.subList(start, end), page, availableRoom.size());
-        return new RoomPagingDTO(pages.getContent(), roomsInClinicAll.size());
+        return new RoomPagingDTO(pages.getContent(), availableRoom.size());
     }
 
     @Override
