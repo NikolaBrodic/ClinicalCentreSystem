@@ -77,8 +77,8 @@ public class RoomControllerIntegrationTests {
                 .header("Authorization", accessToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
-                .andExpect(jsonPath("$.numberOfItems").value(DB_ROOMS_COUNT))
-                .andExpect(jsonPath("$.roomDTOList").value(hasSize(DB_ROOMS_COUNT)))
+                .andExpect(jsonPath("$.numberOfItems").value(LIST_ROOMS_COUNT))
+                .andExpect(jsonPath("$.roomDTOList").value(hasSize(LIST_ROOMS_COUNT)))
                 .andExpect(jsonPath("$.roomDTOList.[*].id").value(hasItem(ROOM_1_ID.intValue())))
                 .andExpect(jsonPath("$.roomDTOList.[*].id").value(hasItem(ROOM_2_ID.intValue())));
     }

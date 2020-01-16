@@ -85,14 +85,20 @@ insert into room (label, kind,status,clinic_id,version) values ('Room 1', 'EXAMI
 insert into room (label, kind,status,clinic_id,version) values ('Room 2', 'EXAMINATION','EXISTING' ,1,0);
 insert into room (label, kind,status,clinic_id,version) values ('Room 3', 'EXAMINATION','EXISTING' ,1,0);
 
-insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.02.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.02.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',3,'AWAITING',1,1,1,3,3,1,0);
+insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.06.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.06.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version)
+ values ('EXAMINATION',3,'AWAITING',1,1,1,3,0);
 insert into examining (examination_id,doctor_id) values (1,1);
 
-insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.06.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.06.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
+insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.02.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.02.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',4,'APPROVED',1,1,1,3,3,1,0);
+insert into examining (examination_id,doctor_id) values (2,1);
+
+ insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('10.10.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('10.10.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,version)
+ values ('EXAMINATION',5,'AWAITING',1,1,1,3,0);
+insert into examining (examination_id,doctor_id) values (3,1);
 
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
  values ('miroslav.simic@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Miroslav', 'Simic', '068356123','08:00','22:00',1,'ACTIVE',1,4.2);

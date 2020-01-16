@@ -10,7 +10,8 @@ public class RoomConstants {
     public static final String KIND_EXAMINATION = "EXAMINATION";
     public static final Integer PAGE_NUMBER = 0;
     public static final Integer PAGE_SIZE = 5;
-    public static final Integer DB_ROOMS_COUNT = 2;
+    public static final Integer DB_ROOMS_COUNT = 3;
+    public static final Integer LIST_ROOMS_COUNT = 2;
     public static final String SEARCH_DATE_BAD_FORMAT = "20.02.2021.";
 
     public static final String SEARCH_LABEL = "";
