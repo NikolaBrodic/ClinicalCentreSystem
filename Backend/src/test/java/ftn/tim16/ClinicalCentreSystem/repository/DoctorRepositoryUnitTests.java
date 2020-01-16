@@ -37,7 +37,7 @@ public class DoctorRepositoryUnitTests {
         List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedIdAndStatusNot(CLINIC_ID, EXAMINATION_TYPE_ID + 1, DOCTOR_STATUS_DELETED);
         assertEquals(NUMBER_OF_DOCTORS_SPECIALIZED_2, doctors.size());
         for (Doctor doctor : doctors) {
-            assertEquals(EXAMINATION_TYPE_ID, doctor.getSpecialized().getId());
+            assertEquals(EXAMINATION_TYPE_ID + 1, doctor.getSpecialized().getId());
         }
     }
 

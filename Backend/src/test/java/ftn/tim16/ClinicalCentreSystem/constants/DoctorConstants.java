@@ -108,5 +108,5 @@ public class DoctorConstants {
 
     public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_1 = 3;
 
-    public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_2 = 3;
+    public static final Integer NUMBER_OF_DOCTORS_SPECIALIZED_2 = 2;
 }
