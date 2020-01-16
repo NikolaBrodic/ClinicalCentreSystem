@@ -93,3 +93,11 @@ insert into examining (examination_id,doctor_id) values (1,1);
 insert into date_time_interval (start_date_time, end_date_time) values (PARSEDATETIME('20.06.2021 09:30:00', 'dd.MM.yyyy HH:mm'), PARSEDATETIME('20.06.2021 10:30:00', 'dd.MM.yyyy HH:mm'));
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',4,'APPROVED',1,1,1,3,3,1,0);
+
+ insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
+ values ('miroslav.simic@maildrop.cc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Miroslav', 'Simic', '068356123','08:00','22:00',1,'ACTIVE',1,4.2);
+insert into doctor_authority(user_id, authority_id) values (4,4);
+
+insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
+ values ('tamara.simic@maildrop.ccc', '$2a$10$dT.7xoRoI338DdVr0E19EOj4/xrYSFyRLF6CAWphlBEONNnX22WfK', 'Tamara', 'Simic', '065220056','07:00','23:00',1,'ACTIVE',1,3.7);
+insert into doctor_authority(user_id, authority_id) values (5,4);

@@ -25,7 +25,9 @@ import org.junit.runners.Suite;
         PatientControllerUnitTests.class,
         PatientControllerIntegrationTests.class,
         RoomControllerUnitTests.class,
-        RoomControllerIntegrationTests.class
+        RoomControllerIntegrationTests.class,
+        DoctorControllerUnitTests.class,
+        DoctorControllerIntegrationTests.class
 })
 public class TestSuite {
 }
