@@ -10,11 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.List;
 
-public class RoomControllerE2ETests {
+public class AssignExaminationRoomE2ETests {
     private static final String baseUrl = "http://localhost:4200/";
     private WebDriver driver;
 
@@ -24,15 +22,6 @@ public class RoomControllerE2ETests {
 
     private RoomPage roomPage;
 
-    private static Connection con = null;
-
-    private static Statement stmt;
-
-    public static String DB_URL = "jdbc:postgresql://localhost:5432/ClinicalCentreDatabase";
-
-    public static String DB_USER = "postgres";
-
-    public static String DB_PASSWORD = "root";
 
     @Before
     public void setUp() {
@@ -74,6 +63,8 @@ public class RoomControllerE2ETests {
 
         roomPage.ensureIsDisplayedTableForRooms();
 
+        roomPage.ensureIsDisplayedTableForRooms1stElement();
+
         driver.findElement(By.cssSelector(".mat-row:nth-child(1) .mat-button-wrapper")).click();
 
         roomPage.ensureIsNotVisibleTableForRooms();
@@ -113,6 +104,8 @@ public class RoomControllerE2ETests {
 
         roomPage.ensureIsDisplayedTableForRooms();
 
+        roomPage.ensureIsDisplayedTableForRooms1stElement();
+
         driver.findElement(By.cssSelector(".mat-row:nth-child(1) .mat-button-wrapper")).click();
 
         roomPage.ensureIsNotVisibleTableForRooms();
@@ -123,6 +116,53 @@ public class RoomControllerE2ETests {
 
         List<WebElement> rows = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
 
+        Assertions.assertEquals(rowsBefore.size() - 1, rows.size());
+        loginPage.getLogoutBtnClinicAdminBtn().click();
+        loginPage.ensureIsNotVisibleLogoutBtnClinicAdmin();
+    }
+
+    @Test
+    public void testAssignRoomWithTimeAndDoctorChangeSuccess() throws InterruptedException {
+        driver.navigate().to(baseUrl + "user/login");
+        loginPage.ensureIsDisplayedEmail();
+
+        loginPage.getEmail().sendKeys("ClinicAdmin1@maildrop.cc");
+
+        loginPage.getPassword().sendKeys("ClinicAdmin1");
+
+        loginPage.getLoginBtn().click();
+
+        loginPage.ensureIsNotVisibleLoginBtn();
+
+        roomPage.ensureIsDisplayedTableForRequests();
+
+        roomPage.ensureIsDisplayedTableForRequests1stElement();
+
+        List<WebElement> rowsBefore = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
+        driver.findElement(By.cssSelector(".mat-row:nth-child(1) .mat-button-wrapper")).click();
+
+        roomPage.ensureIsNotVisibleTableForRequests();
+
+        roomPage.ensureIsDisplayedTableForRooms();
+
+        roomPage.ensureIsDisplayedTableForRooms1stElement();
+
+        driver.findElement(By.cssSelector(".mat-row:nth-child(1) .mat-button-wrapper")).click();
+
+        roomPage.ensureIsDisplayedSelectDoctor();
+        roomPage.getSelectDoctor().click();
+
+        roomPage.getChooseDoctorOption().click();
+        roomPage.ensureIsDisplayedChooseDoctorConfirmBtn();
+
+        roomPage.getChooseDoctorConfirmBtn().click();
+
+        roomPage.ensureIsNotVisibleTableForRooms();
+
+        roomPage.ensureIsDisplayedTableForRequests();
+
+        List<WebElement> rows = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
+        Thread.sleep(3000);
         Assertions.assertEquals(rowsBefore.size() - 1, rows.size());
         loginPage.getLogoutBtnClinicAdminBtn().click();
         loginPage.ensureIsNotVisibleLogoutBtnClinicAdmin();
