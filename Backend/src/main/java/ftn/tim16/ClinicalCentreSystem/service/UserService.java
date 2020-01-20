@@ -8,10 +8,6 @@ public interface UserService {
 
     Object findUserByEmail(String email);
 
-    UserDetails findUserByPhoneNumber(String phoneNumber);
-
     boolean neverLoggedIn(String email);
-
-    UserDetails getLoggedInUser();
 
 }

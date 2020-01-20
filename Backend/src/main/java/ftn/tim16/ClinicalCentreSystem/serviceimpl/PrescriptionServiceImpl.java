@@ -7,11 +7,14 @@ import ftn.tim16.ClinicalCentreSystem.repository.PrescriptionRepository;
 import ftn.tim16.ClinicalCentreSystem.service.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PrescriptionServiceImpl implements PrescriptionService {
 
     @Autowired
@@ -23,6 +26,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public PrescriptionDTO stampPrescription(Long prescriptionId, Long nurseId) {
         Prescription prescription = prescriptionRepository.findByIdAndNurseIdAndStatus(prescriptionId, nurseId, PrescriptionStatus.UNSTAMPED);
         if (prescription == null) {

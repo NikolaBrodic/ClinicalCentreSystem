@@ -17,10 +17,16 @@ export class MountStatisticComponent implements OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
+          stepSize: 1
         }
       }]
-    }
+    },
+    title: {
+      display: true,
+      text: 'Held examinations - Mounth statistics',
+      fontSize: 20
+    },
   };
 
   public barChartLabels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
@@ -42,7 +48,7 @@ export class MountStatisticComponent implements OnInit {
 
   ngOnInit() {
 
-    this.clinicService.getMountStatistic().subscribe((data: Number[]) => {
+    this.clinicService.getMonthStatistic().subscribe((data: Number[]) => {
       this.barChartData = [
         { data: data, label: 'Number of examinations' }
       ];

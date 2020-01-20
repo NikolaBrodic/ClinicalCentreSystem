@@ -9,6 +9,8 @@ import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class ClinicServiceImpl implements ClinicService {
 
     @Autowired
@@ -27,6 +30,11 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Autowired
     private ExaminationService examinationService;
+
+    @Override
+    public Clinic findOneById(Long id) {
+        return clinicRepository.findOneById(id);
+    }
 
     @Override
     public ClinicDTO findById(Long id) {
@@ -49,6 +57,7 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ClinicDTO create(ClinicDTO clinicDTO) {
         if (findByName(clinicDTO.getName()) != null || findByAddress(clinicDTO.getAddress()) != null) {
             return null;
@@ -139,7 +148,7 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public int[] getMountStatistic(Long clinicId) {
+    public int[] getMonthStatistic(Long clinicId) {
         List<Examination> examinations = examinationService.getAllHeldExaminations(clinicId);
 
         List<Examination> jan = getMountExamination(examinations, 1);
@@ -180,7 +189,8 @@ public class ClinicServiceImpl implements ClinicService {
         return LocalDate.parse(date.substring(0, 10), formatter);
     }
 
-    public EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) throws Exception {
 
         Clinic existingClinic = clinicRepository.findOneById(clinicDTO.getId());
 

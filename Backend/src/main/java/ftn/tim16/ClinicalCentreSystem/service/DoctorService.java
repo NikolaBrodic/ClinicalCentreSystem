@@ -30,11 +30,11 @@ public interface DoctorService {
 
     Doctor getLoginDoctor();
 
-    List<DoctorDTO> findByFirstNameAndLastNameAndDoctorRating(String firstName, String lastName, int doctorRating);
-
     List<DoctorDTO> getAllAvailableDoctors(Long specializedId, Long clinicId, String startDateTime, String endDateTime);
 
     Doctor getDoctor(Long id);
+
+    Doctor findById(Long id);
 
     DoctorDTO deleteDoctor(Long clinicId, Long id);
 
@@ -43,4 +43,11 @@ public interface DoctorService {
     DoctorDTO editPersonalInformation(EditDoctorDTO editDoctorDTO);
 
     EditDoctorDTO findDoctorById(Long id);
+
+    Doctor findByEmail(String email);
+
+    Doctor findByPhoneNumber(String phoneNumber);
+
+    boolean haveToChangeDoctor(Examination assignedExamination, Doctor doctor, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }

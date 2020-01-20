@@ -46,11 +46,9 @@ public class Nurse implements UserDetails {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "nurse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
@@ -65,7 +63,7 @@ public class Nurse implements UserDetails {
     private UserStatus status;
 
     @Column
-    private Timestamp lastPasswordResetDate;
+    private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(

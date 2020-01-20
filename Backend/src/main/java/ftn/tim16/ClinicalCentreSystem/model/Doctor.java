@@ -56,11 +56,9 @@ public class Doctor implements UserDetails {
     @Column(nullable = false)
     private LocalTime workHoursTo;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Clinic clinic;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "doctors", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
@@ -75,7 +73,7 @@ public class Doctor implements UserDetails {
     private DoctorStatus status;
 
     @Column
-    private Timestamp lastPasswordResetDate;
+    private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -117,6 +115,7 @@ public class Doctor implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
+
 
     @Override
     public String getUsername() {

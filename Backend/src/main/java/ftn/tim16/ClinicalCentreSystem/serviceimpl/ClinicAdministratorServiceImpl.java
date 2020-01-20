@@ -8,9 +8,9 @@ import ftn.tim16.ClinicalCentreSystem.model.Authority;
 import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
 import ftn.tim16.ClinicalCentreSystem.repository.ClinicAdministratorRepository;
-import ftn.tim16.ClinicalCentreSystem.repository.ClinicRepository;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
 import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
+import ftn.tim16.ClinicalCentreSystem.service.ClinicService;
 import ftn.tim16.ClinicalCentreSystem.service.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,14 @@ import java.util.Random;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class ClinicAdministratorServiceImpl implements ClinicAdministratorService {
 
     @Autowired
     private ClinicAdministratorRepository clinicAdministratorRepository;
 
     @Autowired
-    private ClinicRepository clinicRepository;
+    private ClinicService clinicService;
 
     @Autowired
     private UserServiceImpl userService;
@@ -47,6 +50,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     private EmailNotificationService emailNotificationService;
 
     @Override
+    @Transactional(readOnly = false)
     public ClinicAdministrator changePassword(String newPassword, ClinicAdministrator user) {
         user.setPassword(newPassword);
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {
@@ -70,15 +74,19 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public ClinicAdministratorDTO editPersonalInformation(EditClinicAdminDTO editClinicAdminDTO) {
         ClinicAdministrator clinicAdministrator = getLoginAdmin();
 
         if (clinicAdministrator.getId() != editClinicAdminDTO.getId()) {
             return null;
         }
-
+        if (clinicAdministratorRepository.findByPhoneNumberAndIdNot(editClinicAdminDTO.getPhoneNumber(), editClinicAdminDTO.getId()) != null) {
+            return null;
+        }
         clinicAdministrator.setFirstName(editClinicAdminDTO.getFirstName());
         clinicAdministrator.setLastName(editClinicAdminDTO.getLastName());
+
         clinicAdministrator.setPhoneNumber(editClinicAdminDTO.getPhoneNumber());
 
         return new ClinicAdministratorDTO(clinicAdministratorRepository.save(clinicAdministrator));
@@ -105,6 +113,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
     }
 
     @Override
+    @Transactional(readOnly = false)
     public ClinicAdministratorDTO create(ClinicAdministratorDTO clinicAdministratorDTO) {
         UserDetails userDetails = userService.findUserByEmail(clinicAdministratorDTO.getEmail());
         if (userDetails != null) {
@@ -115,7 +124,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
             return null;
         }
 
-        Clinic clinic = clinicRepository.findOneById(clinicAdministratorDTO.getClinic().getId());
+        Clinic clinic = clinicService.findOneById(clinicAdministratorDTO.getClinic().getId());
         if (clinic == null) {
             return null;
         }
@@ -146,6 +155,20 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         return clinicAdministrators.get(new Random().nextInt(clinicAdministrators.size()));
     }
 
+    @Override
+    public ClinicAdministrator findByEmail(String email) {
+        try {
+            return clinicAdministratorRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public ClinicAdministrator findByPhoneNumber(String phoneNumber) {
+        return clinicAdministratorRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private void composeAndSendEmail(String recipientEmail, String clinicName, String generatedPassword) {
         String subject = "New position: Clinic Administrator";
         StringBuilder sb = new StringBuilder();
@@ -154,7 +177,7 @@ public class ClinicAdministratorServiceImpl implements ClinicAdministratorServic
         sb.append(" Clinic. From now on, you are in charge of managing the business of the clinic.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");

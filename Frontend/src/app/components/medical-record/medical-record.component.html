@@ -1,0 +1,73 @@
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-caption"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+    <div class="container">
+        <div class="card-block bg-white mb30">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <!-- section-title -->
+                    <div class="section-title mb-0">
+                        <h2>Patient's medical record</h2>
+                    </div>
+                    <table class="table table-font">
+                        <tbody>
+                            <tr>
+                                <th class="first-col">Height</th>
+                                <td>
+                                    <span *ngIf="medicalRecord.height">{{medicalRecord.height}} cm</span>
+                                    <span *ngIf="!medicalRecord.height"><i>unknown</i></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Weight</th>
+                                <td>
+                                    <span *ngIf="medicalRecord.weight">{{medicalRecord.weight}} kg</span>
+                                    <span *ngIf="!medicalRecord.weight"><i>unknown</i></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Blood type</th>
+                                <td>
+                                    <span *ngIf="medicalRecord.bloodType">{{medicalRecord.bloodType}}</span>
+                                    <span *ngIf="!medicalRecord.bloodType"><i>unknown</i></span>
+                                </td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th>Allergies</th>
+                                <td>
+                                    <span *ngIf="medicalRecord.allergies">{{medicalRecord.allergies}}</span>
+                                    <span *ngIf="!medicalRecord.allergies"><i>unknown</i></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- /.section-title -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->
+
+
+<div class="container mb-5">
+    <div class="card-block bg-white mb30">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <app-list-examination-reports-for-doctor [patientId]=patientId>
+                </app-list-examination-reports-for-doctor>
+            </div>
+        </div>
+    </div>
+</div>

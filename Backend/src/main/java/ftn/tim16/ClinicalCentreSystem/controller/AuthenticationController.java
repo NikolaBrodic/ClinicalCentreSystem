@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.request.UserDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.requestandresponse.PatientDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.response.ChangePasswordDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.response.LoggedInUserDTO;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 import ftn.tim16.ClinicalCentreSystem.service.AuthenticationService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,7 +46,7 @@ public class AuthenticationController {
             if (loggedInUserDTO == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<LoggedInUserDTO>(loggedInUserDTO, HttpStatus.OK);
+            return new ResponseEntity<>(loggedInUserDTO, HttpStatus.OK);
         } catch (AuthenticationException ex) {
             if (userService.neverLoggedIn(authenticationRequest.getUsername())) {
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
@@ -54,14 +56,14 @@ public class AuthenticationController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> changePassword(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<ChangePasswordDTO> changePassword(@Valid @RequestBody UserDTO userDTO) {
 
-        Object newUser = userService.changePassword(userDTO);
+        UserDetails newUser = userService.changePassword(userDTO);
 
         if (newUser == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(new ChangePasswordDTO(newUser), HttpStatus.CREATED);
     }
 
 

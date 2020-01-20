@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+
+h2 {
+    font-family: 'Ubuntu', cursive;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.table-font {
+    font-size: 110%;
+}
+
+.border-bottom {
+    border-bottom: 1pt solid grey;
+}
+
+.page-header { 
+    background: url(src\assets\background-images\patient_profile_background.jpg)no-repeat; 
+    position: relative; 
+    background-size: cover; 
+}
+
+.page-caption { 
+    padding-top: 150px; 
+    padding-bottom: 250px; 
+}
+
+.page-title { 
+    font-size: 60px; 
+    line-height: 1; 
+    color: black; 
+    text-align: center; 
+    padding-top: 10px;
+    font-family: 'Ubuntu', cursive; 
+    font-weight: 600; 
+}
+
+.card-section { 
+    position: relative; 
+    bottom: 60px; 
+    width: 50%;
+    margin: auto;
+}
+
+.card-block { 
+    padding: 40px; 
+}
+
+.section-title { 
+    margin-bottom: 60px; 
+}
+
+.first-col {
+    width: 25%;
+}

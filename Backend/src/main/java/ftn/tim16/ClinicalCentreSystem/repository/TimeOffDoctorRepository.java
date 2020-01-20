@@ -15,4 +15,5 @@ public interface TimeOffDoctorRepository extends JpaRepository<TimeOffDoctor, Lo
     List<TimeOffDoctor> findByDoctorClinicIdAndStatus(Long id, TimeOffStatus status);
 
     TimeOffDoctor findByIdAndStatus(Long id, TimeOffStatus status);
+
 }

@@ -1,3 +1,4 @@
+import { ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TimeOffDoctorService } from './../../services/time-off-doctor.service';
 import { TimeOffNurseService } from './../../services/time-off-nurse.service';
@@ -7,6 +8,33 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CreateTimeOffRequest } from 'src/app/models/createTimeOffRequest';
 import { formatDate } from '@angular/common';
+
+const DateTimeValidator: ValidatorFn = (fg: FormGroup) => {
+  const dateFrom = fg.get('dateFrom').value;
+  const timeFrom = fg.get('timeFrom').value;
+  const dateUntil = fg.get('dateUntil').value;
+  const timeUntil = fg.get('timeUntil').value;
+
+  if (!dateFrom || !dateUntil) {
+    return null;
+  }
+
+  if (dateFrom > dateUntil) {
+    return { dateTimeError: true };
+  }
+
+  if (!timeFrom || !timeUntil) {
+    return null;
+  }
+
+  if (dateFrom.valueOf() === dateUntil.valueOf()) {
+    if (timeFrom >= timeUntil) {
+      return { dateTimeError: true };
+    }
+  }
+
+  return null;
+};
 
 @Component({
   selector: 'app-create-request-for-time-off',
@@ -34,11 +62,13 @@ export class CreateRequestForTimeOffComponent implements OnInit {
       timeFrom: new FormControl(null, [Validators.required]),
       dateUntil: new FormControl(null, [Validators.required]),
       timeUntil: new FormControl(null, [Validators.required])
-    });
+    }, { validators: DateTimeValidator });
   }
 
   sendRequest(): void {
-    this.checkDates();
+    if (!this.validDates()) {
+      return;
+    }
 
     if (this.createRequestForTimeOffForm.invalid) {
       this.toastr.error("Please enter a valid data.", 'Create request for holiday/time off');
@@ -76,25 +106,22 @@ export class CreateRequestForTimeOffComponent implements OnInit {
     }
   }
 
-  checkDates(): void {
+  validDates(): boolean {
     if (!(this.createRequestForTimeOffForm.value.dateFrom || this.createRequestForTimeOffForm.value.dateUntil)) {
-      this.dateTimeError = true;
-      return;
+      return false;
     }
 
     if (this.createRequestForTimeOffForm.value.dateFrom > this.createRequestForTimeOffForm.value.dateUntil) {
-      this.dateTimeError = true;
-      return;
+      return false;
     }
 
     if (this.createRequestForTimeOffForm.value.dateFrom.valueOf() === this.createRequestForTimeOffForm.value.dateUntil.valueOf()) {
       if (this.createRequestForTimeOffForm.value.timeFrom >= this.createRequestForTimeOffForm.value.timeUntil) {
-        this.dateTimeError = true;
-        return;
+        return false;
       }
     }
 
-    this.dateTimeError = false;
+    return true;
   }
 
 }

@@ -13,4 +13,8 @@ public interface ClinicalCentreAdministratorService {
     List<ClinicalCentreAdminDTO> getAllClinicalCentreAdministrators(Long clinicalCentreAdminId);
 
     ClinicalCentreAdminDTO create(ClinicalCentreAdminDTO clinicalCentreAdminDTO);
+
+    ClinicalCentreAdministrator findByEmail(String email);
+
+    ClinicalCentreAdministrator findByPhoneNumber(String phoneNumber);
 }

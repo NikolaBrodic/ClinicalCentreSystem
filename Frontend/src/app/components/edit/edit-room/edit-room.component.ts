@@ -49,7 +49,7 @@ export class EditRoomComponent implements OnInit {
         this.roomService.createSuccessEmitter.next(responseData);
       },
       () => {
-        this.toastr.error('You can not edit this room because this room is reserved for some examination or room with same label already exist. ',
+        this.toastr.error('You can not edit this room because this room is reserved for some examination or room with same label already exists. ',
           'Edit room ');
         this.dialogRef.close();
       }

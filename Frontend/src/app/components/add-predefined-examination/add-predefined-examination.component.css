@@ -30,3 +30,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.work-hours {
+  margin-top: .66667em;
+  font-size: 80%;
+}

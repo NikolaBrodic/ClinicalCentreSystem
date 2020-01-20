@@ -47,7 +47,7 @@ export class DoctorsExaminationComponent implements OnInit {
         this.getDoctorsExaminations();
       },
       () => {
-        this.toastr.error('You can cancel scheduled examination/operation only 24 hours before it is going to be held.',
+        this.toastr.error('You can only cancel scheduled examination/operation that starts in more than 24 hours.',
           'Error during canceling examination/operation');
       }
     );

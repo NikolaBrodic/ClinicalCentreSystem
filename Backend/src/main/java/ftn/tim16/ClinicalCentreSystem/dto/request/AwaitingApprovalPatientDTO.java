@@ -1,5 +1,8 @@
 package ftn.tim16.ClinicalCentreSystem.dto.request;
 
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
+import ftn.tim16.ClinicalCentreSystem.model.Patient;
+
 public class AwaitingApprovalPatientDTO {
 
     private Long id;
@@ -9,6 +12,23 @@ public class AwaitingApprovalPatientDTO {
     private String lastName;
 
     private String email;
+
+    private PatientStatus status;
+
+    public AwaitingApprovalPatientDTO() {
+    }
+
+    public AwaitingApprovalPatientDTO(Long id, String firstName, String lastName, String email, PatientStatus status) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.status = status;
+    }
+
+    public AwaitingApprovalPatientDTO(Patient patient) {
+        this(patient.getId(), patient.getFirstName(), patient.getLastName(), patient.getEmail(), patient.getStatus());
+    }
 
     public Long getId() {
         return id;
@@ -40,5 +60,13 @@ public class AwaitingApprovalPatientDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public PatientStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PatientStatus status) {
+        this.status = status;
     }
 }

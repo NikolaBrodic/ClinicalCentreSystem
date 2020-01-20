@@ -59,11 +59,3 @@ h2 {
 .section-title { 
     margin-bottom: 60px; 
 }
-
-.mat-cell {
-    vertical-align: middle;
-}
-
-#search:hover, #search:active {
-    cursor: pointer;
-}

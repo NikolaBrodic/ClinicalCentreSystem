@@ -117,12 +117,15 @@ public class ClinicController {
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        EditClinicDTO changedClinic = clinicService.edit(clinicDTO, clinicAdministrator.getClinic().getId());
-        if (changedClinic == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        try {
+            EditClinicDTO changedClinic = clinicService.edit(clinicDTO, clinicAdministrator.getClinic().getId());
+            if (changedClinic == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+            return new ResponseEntity<>(changedClinic, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(changedClinic, HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/week-statistic")
@@ -139,14 +142,14 @@ public class ClinicController {
         return new ResponseEntity<>(statistic, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/mount-statistic")
+    @GetMapping(value = "/month-statistic")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<int[]> getMountStatistic() {
+    public ResponseEntity<int[]> getMonthStatistic() {
         ClinicAdministrator clinicAdministrator = clinicAdministratorService.getLoginAdmin();
         if (clinicAdministrator == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        int[] statistic = clinicService.getMountStatistic(clinicAdministrator.getClinic().getId());
+        int[] statistic = clinicService.getMonthStatistic(clinicAdministrator.getClinic().getId());
         if (statistic == null || statistic.length != 12) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

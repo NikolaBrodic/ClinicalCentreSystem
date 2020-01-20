@@ -1,4 +1,3 @@
-
 import { environment } from './../../../environments/environment';
 import { MatPaginator } from '@angular/material/paginator';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -45,7 +44,7 @@ export class ListRequestsToRegisterComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.requestToRegisterService.getRequestsToRegister().subscribe((data) => {
+    this.requestToRegisterService.getRequestsToRegister().subscribe((data: RequestToRegister[]) => {
       this.requestToRegisterDataSource = new MatTableDataSource(data);
       this.requestToRegisterDataSource.paginator = this.paginator;
     });

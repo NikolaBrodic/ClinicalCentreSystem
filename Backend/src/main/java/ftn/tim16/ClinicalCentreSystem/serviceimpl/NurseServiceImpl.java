@@ -19,7 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockTimeoutException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +32,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class NurseServiceImpl implements NurseService {
     @Autowired
     private NurseRepository nurseRepository;
@@ -51,12 +55,18 @@ public class NurseServiceImpl implements NurseService {
     @Autowired
     private TimeOffNurseService timeOffNurseService;
 
+    @Transactional(readOnly = false)
     public Nurse changePassword(String newPassword, Nurse user) {
         user.setPassword(newPassword);
         if (user.getStatus().equals(UserStatus.NEVER_LOGGED_IN)) {
             user.setStatus(UserStatus.ACTIVE);
         }
         return nurseRepository.save(user);
+    }
+
+    @Override
+    public Nurse findById(Long id) throws LockTimeoutException {
+        return nurseRepository.findOneById(id);
     }
 
     @Override
@@ -70,6 +80,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public NurseDTO create(NurseDTO nurseDTO, ClinicAdministrator clinicAdministrator) {
         UserDetails userDetails = userService.findUserByEmail(nurseDTO.getEmail());
         if (userDetails != null) {
@@ -103,7 +114,14 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public boolean canGetTimeOff(Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    public boolean canGetTimeOff(Nurse loggedInNurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Nurse nurse;
+        try {
+            nurse = findById(loggedInNurse.getId());
+        } catch (Exception e) {
+            return false;
+        }
+
         if (timeOffNurseService.isNurseOnVacation(nurse.getId(), startDateTime, endDateTime)) {
             return false;
         }
@@ -121,7 +139,7 @@ public class NurseServiceImpl implements NurseService {
         sb.append(" Clinic. From now on, you are in charge of stamping prescriptions to patients and helping doctors on examinations.");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
-        sb.append("You can login to the Clinical Centre System web site using your email address and the following password:");
+        sb.append("You can log into the Clinical Centre System web site using your email address and the following password:");
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         sb.append("     ");
@@ -175,6 +193,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public NurseDTO editPersonalInformation(EditNurseDTO editNurseDTO) {
         Nurse nurse = getLoginNurse();
 
@@ -187,7 +206,9 @@ public class NurseServiceImpl implements NurseService {
         if (workHoursFrom.isAfter(workHoursTo)) {
             return null;
         }
-
+        if (nurseRepository.findByPhoneNumberAndIdNot(editNurseDTO.getPhoneNumber(), editNurseDTO.getId()) != null) {
+            return null;
+        }
         if (!workHoursFrom.equals(nurse.getWorkHoursFrom()) || !workHoursTo.equals(nurse.getWorkHoursTo())) {
             if (!isEditable(editNurseDTO.getId())) {
                 return null;
@@ -216,27 +237,40 @@ public class NurseServiceImpl implements NurseService {
         return new EditNurseDTO(nurseRepository.findByIdAndStatus(id, UserStatus.ACTIVE));
     }
 
+    @Override
+    public Nurse findByEmail(String email) {
+        try {
+            return nurseRepository.findByEmail(email);
+        } catch (UsernameNotFoundException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public Nurse findByPhoneNumber(String phoneNumber) {
+        return nurseRepository.findByPhoneNumber(phoneNumber);
+    }
+
     private List<Nurse> getAvailable(Long clinic_id, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         List<Nurse> nurses = nurseRepository.findByClinicId(clinic_id);
         List<Nurse> availableNurses = new ArrayList<>();
         for (Nurse nurse : nurses) {
-            if (isAvailable(nurse.getId(), startDateTime, endDateTime)) {
+            if (isAvailable(nurse, startDateTime, endDateTime)) {
                 availableNurses.add(nurse);
             }
         }
         return availableNurses;
     }
 
-    private boolean isAvailable(Long nurseId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        Nurse nurse = nurseRepository.getById(nurseId);
+    private boolean isAvailable(Nurse nurse, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         if (!nurse.isAvailable(startDateTime.toLocalTime(), endDateTime.toLocalTime())) {
             return false;
         }
 
-        if (timeOffNurseService.isNurseOnVacation(nurseId, startDateTime, endDateTime)) {
+        if (timeOffNurseService.isNurseOnVacation(nurse.getId(), startDateTime, endDateTime)) {
             return false;
         }
-        List<Examination> examinations = examinationService.getNurseExaminationsOnDay(nurseId, startDateTime);
+        List<Examination> examinations = examinationService.getNurseExaminationsOnDay(nurse.getId(), startDateTime);
         if (!examinations.isEmpty()) {
             for (Examination examination : examinations) {
                 if (!examination.getInterval().isAvailable(startDateTime, endDateTime)) {

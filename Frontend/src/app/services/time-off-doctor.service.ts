@@ -15,7 +15,7 @@ export class TimeOffDoctorService {
   rejectSuccessEmitter = new Subject<RequestsForHolidayOrTimeOff>();
   approveSuccessEmitter = new Subject<RequestsForHolidayOrTimeOff>();
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient) { }
 
   public getDoctorTimeOffs() {
     return this.httpClient.get(this.url + "/all");

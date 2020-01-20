@@ -35,6 +35,9 @@ public class ExaminationType {
     @OneToMany(mappedBy = "examinationType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
+    @Version
+    private Long version;
+
     public ExaminationType() {
 
     }
@@ -46,6 +49,10 @@ public class ExaminationType {
         this.status = status;
         this.examinations = new HashSet<>();
         this.doctors = new HashSet<>();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -98,6 +105,14 @@ public class ExaminationType {
 
     public void setExaminations(Set<Examination> examinations) {
         this.examinations = examinations;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

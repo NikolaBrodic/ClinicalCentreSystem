@@ -17,10 +17,16 @@ export class DailyStatisticComponent implements OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
+          stepSize: 1
         }
       }]
-    }
+    },
+    title: {
+      display: true,
+      text: 'Held examinations - Daily statistics',
+      fontSize: 20
+    },
   };
 
   public barChartLabels = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];

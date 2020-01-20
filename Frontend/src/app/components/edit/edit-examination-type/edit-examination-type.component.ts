@@ -50,8 +50,8 @@ export class EditExaminationTypeComponent implements OnInit {
         this.examinationTypeService.updateSuccessEmitter.next(responseData);
       },
       () => {
-        this.toastr.error('You can not edit this examination type because this examination type is specialization of some doctor or type of some examination  or examination type with same label already exist.  ',
-          'Edit examination type');
+        this.toastr.error("You can not delete this examination type because it is in use.",
+          'Edit examination typ');
         this.dialogRef.close();
       }
     );

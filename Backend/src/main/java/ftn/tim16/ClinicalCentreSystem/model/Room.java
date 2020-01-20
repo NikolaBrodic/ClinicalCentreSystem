@@ -22,17 +22,20 @@ public class Room {
     private ExaminationKind kind;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Clinic clinic;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private LogicalStatus status;
 
-    public Room(){
+    @Version
+    private Long version;
+
+    public Room() {
 
     }
 
@@ -40,8 +43,20 @@ public class Room {
         this.label = label;
         this.kind = kind;
         this.clinic = clinic;
-        this.examinations =  new HashSet<Examination>();
+        this.examinations = new HashSet<Examination>();
         this.status = LogicalStatus.EXISTING;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getId() {

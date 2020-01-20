@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -42,30 +43,46 @@ public class PatientController {
     @PutMapping(value = "/approve-request-to-register/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<PatientWithIdDTO> approveRequestToRegister(@PathVariable Long id) {
-        PatientWithIdDTO updatedPatient = patientService.approveRequestToRegister(id);
-        if (updatedPatient == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try {
+            PatientWithIdDTO updatedPatient = patientService.approveRequestToRegister(id);
+            if (updatedPatient == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
     }
 
     @PutMapping(value = "/reject-request-to-register/{id}")
     @PreAuthorize("hasRole('CLINICAL_CENTRE_ADMIN')")
     public ResponseEntity<Void> rejectRequestToRegister(@RequestBody String reason, @PathVariable Long id) {
-        boolean success = patientService.rejectRequestToRegister(id, reason);
-        if (success) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            boolean success = patientService.rejectRequestToRegister(id, reason);
+            if (success) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
-    @GetMapping(value = "/pageAll")
+    @PutMapping(value = "/activate")
+    public ResponseEntity<PatientWithIdDTO> activateAccount(@NotNull @RequestBody Long id) {
+        PatientWithIdDTO activatedPatient = patientService.activateAccount(id);
+        if (activatedPatient == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(activatedPatient, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/page-all")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
-    public ResponseEntity<PatientPagingDTO> getPatientsForMedicalStaffPaging(@RequestParam(value = "firstName") String firstName,
-                                                                             @RequestParam(value = "lastName") String lastName,
-                                                                             @RequestParam(value = "healthInsuranceId") String healthInsuranceId,
-                                                                             Pageable page) {
+    public ResponseEntity<PatientPagingDTO> getPatientsForMedicalStaffPaging(
+            @RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName,
+            @RequestParam(value = "healthInsuranceId") String healthInsuranceId, Pageable page) {
         Doctor doctor = doctorService.getLoginDoctor();
         Long clinicId;
         if (doctor == null) {
@@ -79,17 +96,17 @@ public class PatientController {
         }
 
         try {
-            PatientPagingDTO patientPagingDTO = patientService.
-                    getPatientsForMedicalStaffPaging(clinicId, firstName, lastName, healthInsuranceId, page);
+            PatientPagingDTO patientPagingDTO = patientService.getPatientsForMedicalStaffPaging(clinicId, firstName,
+                    lastName, healthInsuranceId, page);
             return new ResponseEntity<>(patientPagingDTO, HttpStatus.OK);
         } catch (DateTimeParseException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping(value = "/forMedicalStaff/{id}")
+    @GetMapping(value = "/for-medical-staff/{id}")
     @PreAuthorize("hasAnyRole('DOCTOR','NURSE')")
-    public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable long id) {
+    public ResponseEntity<PatientWithIdDTO> getPatientForMedicalStaff(@PathVariable Long id) {
         PatientWithIdDTO patientWithIdDTO = patientService.getPatientForMedicalStaff(id);
         if (patientWithIdDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

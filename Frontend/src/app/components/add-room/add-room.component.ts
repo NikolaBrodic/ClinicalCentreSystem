@@ -42,7 +42,7 @@ export class AddRoomComponent implements OnInit {
         this.roomService.createSuccessEmitter.next(room);
       },
       () => {
-        this.toastr.error('Room with same label aready exist.', 'Add room');
+        this.toastr.error('Room with same label already exist.', 'Add room');
       }
     );
   }

@@ -30,12 +30,12 @@ export class EditPriceListComponent implements OnInit {
 
   edit() {
     if (this.ediExaminationTypeForm.invalid) {
-      this.toastr.error('Please enter a valid data.', 'Edit price of list');
+      this.toastr.error('Please enter a valid data.', 'Edit price list');
       return;
     }
 
     if (!this.selectedExaminationType) {
-      this.toastr.error('Please choose a examination type.', 'Edit price of list');
+      this.toastr.error('Please choose a examination type.', 'Edit price list');
       this.dialogRef.close();
       return;
     }
@@ -45,11 +45,12 @@ export class EditPriceListComponent implements OnInit {
       (responseData: ExaminationType) => {
         this.ediExaminationTypeForm.reset();
         this.dialogRef.close();
-        this.toastr.success('Successfully changed price of examination type.', 'Edit price of list');
+        this.toastr.success('Successfully changed price of examination type.', 'Edit price list');
         this.examinationTypeService.updatePriceSuccessEmitter.next(responseData);
       },
       () => {
-        this.toastr.error('You can not edit price of this examination type because this examination type is type of some examination.');
+        this.toastr.error('You can not edit price of this examination type because there are scheduled examinations of that type.', 'Edit price list');
+        this.dialogRef.close();
       }
     );
   }

@@ -1,16 +1,17 @@
 package ftn.tim16.ClinicalCentreSystem.security.auth;
 
-import java.io.IOException;
+import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ftn.tim16.ClinicalCentreSystem.security.TokenUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -35,12 +36,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             username = tokenUtils.getUsernameFromToken(authToken);
 
             if (username != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                if (tokenUtils.validateToken(authToken, userDetails)) {
-                    TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
-                    authentication.setToken(authToken);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                UserDetails userDetails;
+                try {
+                    userDetails = userDetailsService.loadUserByUsername(username);
+                    if (tokenUtils.validateToken(authToken, userDetails)) {
+                        TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
+                        authentication.setToken(authToken);
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
+                } catch (UsernameNotFoundException e) {
                 }
             }
         }

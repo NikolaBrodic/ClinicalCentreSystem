@@ -22,7 +22,6 @@ public class ClinicAdministrator implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -46,7 +45,7 @@ public class ClinicAdministrator implements UserDetails {
     private Set<Examination> examinations = new HashSet<>();
 
     @Column
-    private Timestamp lastPasswordResetDate;
+    private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -110,6 +109,10 @@ public class ClinicAdministrator implements UserDetails {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

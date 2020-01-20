@@ -7,6 +7,9 @@ import ftn.tim16.ClinicalCentreSystem.model.Clinic;
 import java.util.List;
 
 public interface ClinicService {
+
+    Clinic findOneById(Long id);
+
     ClinicDTO findById(Long id);
 
     Clinic findByName(String name);
@@ -23,7 +26,7 @@ public interface ClinicService {
 
     int[] getWeekStatistic(Long clinicId);
 
-    int[] getMountStatistic(Long clinicId);
+    int[] getMonthStatistic(Long clinicId);
 
-    EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks);
+    EditClinicDTO edit(EditClinicDTO clinicDTO, Long clinicIdInWhichAdminWorks) throws Exception;
 }

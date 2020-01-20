@@ -3,8 +3,11 @@ package ftn.tim16.ClinicalCentreSystem.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import org.joda.time.DateTime;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -14,6 +17,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Component("patient")
+@Scope("prototype")
 public class Patient implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +27,6 @@ public class Patient implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -53,12 +57,11 @@ public class Patient implements UserDetails {
     @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Examination> examinations = new HashSet<>();
 
     @Column
-    private Timestamp lastPasswordResetDate;
+    private Timestamp lastPasswordResetDate = new Timestamp(DateTime.now().getMillis());
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -66,6 +69,9 @@ public class Patient implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
+
+    @Version
+    private Long version;
 
     public Patient() {
 
@@ -88,6 +94,32 @@ public class Patient implements UserDetails {
         Timestamp now = new Timestamp(DateTime.now().getMillis());
         this.lastPasswordResetDate = now;
         this.authorities = authorities;
+    }
+
+    public Patient(Patient patient) {
+        this.id = patient.getId();
+        this.email = patient.getEmail();
+        this.password = patient.getPassword();
+        this.firstName = patient.getFirstName();
+        this.lastName = patient.getLastName();
+        this.phoneNumber = patient.getPhoneNumber();
+        this.address = patient.getAddress();
+        this.city = patient.getCity();
+        this.country = patient.getCountry();
+        this.healthInsuranceId = patient.getHealthInsuranceId();
+        this.status = patient.getStatus();
+        this.medicalRecord = patient.getMedicalRecord();
+        this.examinations = patient.getExaminations();
+        this.lastPasswordResetDate = patient.getLastPasswordResetDate();
+        this.authorities = patient.authorities;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public void setAuthorities(Set<Authority> authorities) {
@@ -124,11 +156,15 @@ public class Patient implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return (status != PatientStatus.AWAITING_APPROVAL);
+        return (status == PatientStatus.ACTIVATED);
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -255,5 +291,15 @@ public class Patient implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public String getPrototypeBeanName() {
+        return "patientPrototype";
+    }
+
+    @Bean("patientPrototype")
+    @Scope("prototype")
+    public static Patient clone(Patient patient) {
+        return new Patient(patient);
     }
 }

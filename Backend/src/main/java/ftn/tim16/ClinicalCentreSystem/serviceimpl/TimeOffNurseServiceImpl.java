@@ -14,7 +14,10 @@ import ftn.tim16.ClinicalCentreSystem.service.NurseService;
 import ftn.tim16.ClinicalCentreSystem.service.TimeOffNurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.OptimisticLockException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class TimeOffNurseServiceImpl implements TimeOffNurseService {
 
     @Autowired
@@ -34,6 +38,7 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
     private EmailNotificationService emailNotificationService;
 
     @Override
+    @Transactional(readOnly = false)
     public TimeOffDTO create(Nurse nurse, CreateTimeOffRequestDTO timeOffRequestDTO) {
         LocalDateTime startDateTime = getLocalDateTime(timeOffRequestDTO.getStartDateTime());
         LocalDateTime endDateTime = getLocalDateTime(timeOffRequestDTO.getEndDateTime());
@@ -80,7 +85,8 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
     }
 
     @Override
-    public RequestForTimeOffDTO approveRequestForHolidayOrTimeOff(Long id) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public RequestForTimeOffDTO approveRequestForHolidayOrTimeOff(Long id) throws OptimisticLockException {
         TimeOffNurse timeOffNurse = timeOffNurseRepository.findByIdAndStatus(id, TimeOffStatus.AWAITING);
 
         if (timeOffNurse == null) {
@@ -108,7 +114,8 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
     }
 
     @Override
-    public RequestForTimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason) {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public RequestForTimeOffDTO rejectRequestForHolidayOrTimeOff(Long id, String reason) throws OptimisticLockException {
         TimeOffNurse timeOffNurse = timeOffNurseRepository.findByIdAndStatus(id, TimeOffStatus.AWAITING);
 
         if (timeOffNurse == null) {
@@ -129,6 +136,7 @@ public class TimeOffNurseServiceImpl implements TimeOffNurseService {
         sb.append(" Your request for ");
         sb.append(type.toLowerCase());
         sb.append(" is rejected by a clinic administrator.");
+        sb.append(System.lineSeparator());
         sb.append("Explanation:");
         sb.append(System.lineSeparator());
         sb.append(reason);

@@ -20,7 +20,8 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <!-- section-title -->
                     <div class="section-title mb-0">
-                        <table mat-table [dataSource]="examinationsDataSource" class="mat-elevation-z8 table" matSort>
+                        <table mat-table [dataSource]="examinationsDataSource" id="list-examinations-request-table"
+                            class="mat-elevation-z8 table" matSort>
 
                             <ng-container matColumnDef="patient">
                                 <th mat-header-cell *matHeaderCellDef>Patient</th>

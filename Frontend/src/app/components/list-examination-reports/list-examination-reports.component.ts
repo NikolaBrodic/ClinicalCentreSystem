@@ -5,7 +5,7 @@ import { EditExaminationReportComponent } from './../edit/edit-examination-repor
 import { ExaminationService } from './../../services/examination.service';
 import { ExaminationReportService } from './../../services/examination-report.service';
 import { MatSort } from '@angular/material/sort';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';

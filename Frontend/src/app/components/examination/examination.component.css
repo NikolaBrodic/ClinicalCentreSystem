@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
-h1.main-title {
+
+h1 {
   display: table;
   margin: 0px auto 0px auto;
   padding: 10px;

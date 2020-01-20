@@ -6,11 +6,13 @@ import ftn.tim16.ClinicalCentreSystem.repository.MedicineRepository;
 import ftn.tim16.ClinicalCentreSystem.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class MedicineServiceImpl implements MedicineService {
 
     @Autowired
@@ -32,6 +34,7 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public MedicineDTO create(MedicineDTO medicine) {
         Medicine medicineWithSameLabel = findByLabel(medicine.getLabel());
         if (medicineWithSameLabel != null) {

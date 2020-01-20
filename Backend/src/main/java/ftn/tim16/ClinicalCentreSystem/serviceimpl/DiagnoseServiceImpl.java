@@ -6,11 +6,13 @@ import ftn.tim16.ClinicalCentreSystem.repository.DiagnoseRepository;
 import ftn.tim16.ClinicalCentreSystem.service.DiagnoseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class DiagnoseServiceImpl implements DiagnoseService {
 
     @Autowired
@@ -32,6 +34,7 @@ public class DiagnoseServiceImpl implements DiagnoseService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public DiagnoseDTO create(DiagnoseDTO diagnose) {
         Diagnose diagnoseWithSameLabel = findByTitle(diagnose.getTitle());
         if (diagnoseWithSameLabel != null) {

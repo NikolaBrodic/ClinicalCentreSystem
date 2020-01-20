@@ -59,5 +59,9 @@ h1 {
 }
 
 .date-time-err {
-  font-size: 75%;
+  font-size: 80%;
+}
+
+.validation-height {
+  height: 20px;
 }

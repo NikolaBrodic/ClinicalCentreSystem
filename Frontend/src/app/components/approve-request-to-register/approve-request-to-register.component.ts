@@ -12,9 +12,9 @@ import { RequestToRegisterService } from 'src/app/services/request-to.register.s
 export class ApproveRequestToRegisterComponent implements OnInit {
 
   constructor(
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private requestToRegisterService: RequestToRegisterService,
-    public dialogRef: MatDialogRef<RejectRequestToRegisterComponent>,
+    public dialogRef: MatDialogRef<ApproveRequestToRegisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -34,7 +34,9 @@ export class ApproveRequestToRegisterComponent implements OnInit {
         this.requestToRegisterService.approveSuccessEmitter.next();
       },
       () => {
-        this.toastr.error("Request to register can't be aproved.", 'Approve request to register');
+        this.toastr.error("Request to register has already been approved/rejected.", 'Approve request to register');
+        this.requestToRegisterService.approveSuccessEmitter.next();
+        this.dialogRef.close();
       }
     )
   }

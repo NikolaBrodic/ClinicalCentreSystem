@@ -50,9 +50,11 @@ export class EditClinicProfileComponent implements OnInit {
   addressFocusOut() {
     const clinic = new Clinic(this.editClinicForm.value.name, this.editClinicForm.value.address,
       this.editClinicForm.value.description, this.selectedClinic.id);
-
-    this.clinicService.editClinicEmitter.next(clinic);
+    if (clinic.address) {
+      this.clinicService.editClinicEmitter.next(clinic);
+    }
   }
+
   edit() {
     if (this.editClinicForm.invalid) {
       this.toastr.error('Please enter a valid data. ', "Edit clinic's profile   ");
