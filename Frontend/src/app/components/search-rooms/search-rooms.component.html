@@ -29,7 +29,7 @@
                             <div class="col-6">
                                 <mat-form-field class="full-width-field">
                                     <mat-label>Search by label</mat-label>
-                                    <input matInput [(ngModel)]="searchLabel">
+                                    <input matInput id="search-label-assign-room" [(ngModel)]="searchLabel">
                                     <button mat-button matPrefix mat-icon-button>
                                         <mat-icon>search</mat-icon>
                                     </button>
@@ -37,11 +37,13 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-5 btn-position">
-                                <button mat-raised-button color="primary" (click)="searchRooms()">Search</button>
+                                <button mat-raised-button color="primary" id="search-btn-assign-room"
+                                    (click)="searchRooms()">Search</button>
                             </div>
                         </div>
 
-                        <table mat-table [dataSource]="roomsDataSource" class="mat-elevation-z8 table" matSort>
+                        <table mat-table [dataSource]="roomsDataSource" class="mat-elevation-z8 table" matSort
+                            id="assign-room-table">
                             <ng-container matColumnDef="label">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortEvent()"> Label
                                 </th>
@@ -60,10 +62,10 @@
                             <ng-container matColumnDef="assign">
                                 <th mat-header-cell *matHeaderCellDef> </th>
                                 <td mat-cell *matCellDef="let element" class="assign">
-                                    <button *ngIf="examination.kind == kinds[0]" mat-raised-button class="assign-btn"
-                                        (click)="assignRoom(element)">Assign room</button>
+                                    <button *ngIf="examination.kind == kinds[0]" id="assign-room-btn" mat-raised-button
+                                        class="assign-btn" (click)="assignRoom(element)">Assign room</button>
                                     <button *ngIf="examination.kind == kinds[1]" mat-raised-button class="assign-btn"
-                                        (click)="chooseDoctors(element)">Choose doctors</button>
+                                        (click)="chooseDoctors(element)" id="choose-doctor-btn">Choose doctors</button>
                                 </td>
                             </ng-container>
 

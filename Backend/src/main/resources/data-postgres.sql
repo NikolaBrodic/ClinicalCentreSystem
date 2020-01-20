@@ -11,6 +11,9 @@ insert into clinic_administrator (email, password, first_name, last_name, phone_
  ('ClinicAdmin1@maildrop.cc', '$2a$10$O2sRY6wvf0lpUu/mF5RN2u9dSW3AAzEplF4g9RpzwDOfSCFRhad6C', 'Marko', 'Marković', '064153456', 'ACTIVE',1,'2020-01-05 16:33:14');
 insert into clinic_admin_authority(user_id, authority_id) values (1,2);
 
+insert into room (label, kind,status,clinic_id,version) values ('Room 1', 'EXAMINATION','EXISTING' ,1,0);
+insert into room (label, kind,status,clinic_id,version) values ('Room 2', 'EXAMINATION','EXISTING' ,1,0);
+
 insert into examination_type (label, price,status,clinic_id,version) values ('Opsta praksa', '1000','EXISTING' ,1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Dermatolog', '2000','EXISTING',1,0);
 insert into examination_type (label, price,status,clinic_id,version) values ('Oftamolog', '1800','DELETED',1,0);
@@ -76,37 +79,37 @@ insert into patient_authority(user_id, authority_id) values (1,3);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 09:30:00', '20.06.2021 10:30:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',3,'APPROVED',1,1,1,3,1,1,0);
+ values ('EXAMINATION',2,'APPROVED',1,1,1,3,1,1,0);
 insert into examining (examination_id,doctor_id) values (1,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 09:45:00','20.02.2021 10:45:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,version)
- values ('EXAMINATION',4,'AWAITING',2,1,3,0);
+ values ('EXAMINATION',3,'AWAITING',2,1,1,0);
 insert into examining (examination_id,doctor_id) values (2,2);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 10:35:00', '20.06.2021 11:45:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',5,'APPROVED',2,1,1,3,2,2,0);
+ values ('EXAMINATION',4,'APPROVED',2,1,1,3,2,2,0);
 insert into examining (examination_id,doctor_id) values (3,2);
 
 
 insert into date_time_interval (start_date_time, end_date_time) values ('21.07.2021 10:30:00', '21.07.2021 12:30:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',3,'APPROVED',1,1,1,3,1,1,0);
+ values ('EXAMINATION',5,'APPROVED',1,1,1,3,1,1,0);
 insert into examining (examination_id,doctor_id) values (4,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('21.07.2021 11:00:00', '21.07.2021 13:30:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,version)
- values ('EXAMINATION',4,'AWAITING',2,1,3,0);
+ values ('EXAMINATION',6,'AWAITING',2,1,1,0);
 insert into examining (examination_id,doctor_id) values (5,2);
 
  insert into date_time_interval (start_date_time, end_date_time) values ('21.07.2021 12:45:00', '21.07.2021 13:45:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
- values ('EXAMINATION',5,'APPROVED',1,1,1,3,2,2,0);
+ values ('EXAMINATION',7,'APPROVED',1,1,1,3,2,2,0);
 insert into examining (examination_id,doctor_id) values (6,1);
 
 
 insert into date_time_interval (start_date_time, end_date_time) values ('21.08.2021 12:45:00', '21.08.2021 13:45:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,version)
- values ('EXAMINATION',9,'AWAITING',2,2,2,0);
-insert into examining (examination_id,doctor_id) values (6,1);
+ values ('EXAMINATION',8,'AWAITING',1,1,1,0);
+insert into examining (examination_id,doctor_id) values (7,1);
