@@ -162,7 +162,7 @@ public class AssignExaminationRoomE2ETests {
         roomPage.ensureIsDisplayedTableForRequests();
 
         List<WebElement> rows = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
-        Thread.sleep(3000);
+        
         Assertions.assertEquals(rowsBefore.size() - 1, rows.size());
         loginPage.getLogoutBtnClinicAdminBtn().click();
         loginPage.ensureIsNotVisibleLogoutBtnClinicAdmin();
