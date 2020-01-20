@@ -118,6 +118,10 @@ public class Examination {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public ExaminationKind getKind() {
         return kind;
     }

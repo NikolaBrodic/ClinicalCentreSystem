@@ -49,6 +49,7 @@ public class ClinicalCentreAdministratorServiceImpl implements ClinicalCentreAdm
         Set<Authority> authorities = authenticationService.findByName("ROLE_CLINICAL_CENTRE_ADMIN");
         // Initial password: 1st.Admin
         ClinicalCentreAdministrator clinicalCentreAdministrator = new ClinicalCentreAdministrator("1st.Admin@maildrop.cc", "$2a$10$JA.M/IQm9r29csrRlkNSteO/k4q3MclGtWfW/MjVqKFMVKb9T.F0i", "Stefan", "Stefanovic", "061123456", authorities);
+        clinicalCentreAdministrator.setStatus(UserStatus.ACTIVE);
         if (userService.findUserByEmail(clinicalCentreAdministrator.getEmail()) != null) {
             return;
         }

@@ -56,7 +56,7 @@ public class PatientServiceImpl implements PatientService {
         }
         user.setPassword(newPassword);
         Patient updatedPatient = patientRepository.save(user);
-        //patientCache.put(updatedPatient.getId(), updatedPatient);
+        patientCache.put(updatedPatient.getId(), updatedPatient);
         return updatedPatient;
     }
 
@@ -65,7 +65,7 @@ public class PatientServiceImpl implements PatientService {
         List<Patient> patients = patientRepository.findByStatus(patientStatus);
         List<AwaitingApprovalPatientDTO> patientsDTO = new ArrayList<AwaitingApprovalPatientDTO>();
         for (Patient patient : patients) {
-            patientsDTO.add(convertToDTO(patient));
+            patientsDTO.add(new AwaitingApprovalPatientDTO(patient));
         }
 
         return patientsDTO;
@@ -240,15 +240,5 @@ public class PatientServiceImpl implements PatientService {
             patientWithIdDTOS.add(new PatientWithIdDTO(patient));
         }
         return patientWithIdDTOS;
-    }
-
-    private AwaitingApprovalPatientDTO convertToDTO(Patient patient) {
-        AwaitingApprovalPatientDTO awaitingApprovalPatientDTO = new AwaitingApprovalPatientDTO();
-        awaitingApprovalPatientDTO.setId(patient.getId());
-        awaitingApprovalPatientDTO.setFirstName(patient.getFirstName());
-        awaitingApprovalPatientDTO.setLastName(patient.getLastName());
-        awaitingApprovalPatientDTO.setEmail((patient.getEmail()));
-
-        return awaitingApprovalPatientDTO;
     }
 }

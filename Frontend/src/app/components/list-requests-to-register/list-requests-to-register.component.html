@@ -20,8 +20,8 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <!-- section-title -->
                     <div class="section-title mb-0">
-                        <table mat-table [dataSource]="requestToRegisterDataSource" class="mat-elevation-z8 table"
-                            matSort>
+                        <table id="list-request-to-register-table" mat-table [dataSource]="requestToRegisterDataSource"
+                            class="mat-elevation-z8 table" matSort>
                             <ng-container matColumnDef="firstName">
                                 <th mat-header-cell *matHeaderCellDef> First Name </th>
                                 <td mat-cell *matCellDef="let element"> {{element.firstName}}
@@ -41,23 +41,23 @@
                             <ng-container matColumnDef="approve" class="mat-column-button">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element" class="buttons">
-                                    <button mat-raised-button class="approve-btn"
-                                        (click)="openApproveDialog(element)">Approve</button>
+                                    <button mat-raised-button id="list-request-to-register-approve-btn"
+                                        class="approve-btn" (click)="openApproveDialog(element)">Approve</button>
                                 </td>
                             </ng-container>
 
                             <ng-container matColumnDef="reject">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element" class="buttons">
-                                    <button mat-raised-button class="reject-btn"
-                                        (click)="openRejectDialog(element.id)">Reject</button>
+                                    <button mat-raised-button id="list-request-to-register-reject-btn"
+                                        class="reject-btn" (click)="openRejectDialog(element.id)">Reject</button>
                                 </td>
                             </ng-container>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
-                        <mat-paginator [pageSize]=itemsPerPage class=" table" showFirstLastButtons></mat-paginator>
+                        <mat-paginator [pageSize]=itemsPerPage class="table" showFirstLastButtons></mat-paginator>
                     </div>
                     <!-- /.section-title -->
                 </div>

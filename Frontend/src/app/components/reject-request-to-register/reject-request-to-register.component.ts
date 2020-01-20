@@ -11,10 +11,10 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
   styleUrls: ['./reject-request-to-register.component.css']
 })
 export class RejectRequestToRegisterComponent implements OnInit {
-  rejectRequestToRegisterForm: FormGroup
+  rejectRequestToRegisterForm: FormGroup;
 
   constructor(
-    private toastr: ToastrService,
+    public toastr: ToastrService,
     private requestToRegisterService: RequestToRegisterService,
     public dialogRef: MatDialogRef<RejectRequestToRegisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data

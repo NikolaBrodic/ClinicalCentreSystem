@@ -15,18 +15,10 @@ export class RequestToRegisterService {
   rejectSuccessEmitter = new Subject<RequestToRegister>();
   approveSuccessEmitter = new Subject<RequestToRegister>();
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient) { }
 
-  public getRequestsToRegister(): Observable<RequestToRegister[]> {
-    this.httpClient.get(this.url + "/all-requests-to-register").subscribe(
-      (data: RequestToRegister[]) => {
-        this.requestsToRegister.next(data);
-      },
-      (error: HttpErrorResponse) => {
-
-      });
-
-    return this.requestsToRegister.asObservable();
+  public getRequestsToRegister() {
+    return this.httpClient.get(this.url + "/all-requests-to-register");
   }
 
   public reject(id: number, reason: string) {

@@ -162,7 +162,6 @@ import { ListExaminationReportsForDoctorComponent } from './components/list-exam
     AccountActivatedPatientComponent,
     MedicalRecordComponent,
     ListExaminationReportsForDoctorComponent,
-
   ],
   imports: [
     BrowserModule,

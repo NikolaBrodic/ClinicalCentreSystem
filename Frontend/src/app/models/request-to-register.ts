@@ -3,11 +3,13 @@ export class RequestToRegister {
     firstName: string;
     lastName: string;
     email: string;
+    status: string;
 
-    constructor(firstName: string, lastName: string, email: string, id?: number) {
+    constructor(firstName: string, lastName: string, email: string, status: string, id?: number) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.status = status;
         this.id = id;
     }
 }

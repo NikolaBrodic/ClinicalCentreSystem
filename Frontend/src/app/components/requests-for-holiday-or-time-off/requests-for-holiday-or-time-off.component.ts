@@ -72,7 +72,6 @@ export class RequestsForHolidayOrTimeOffComponent implements OnInit {
         this.requestsDataSource.paginator = this.paginator;
       });
     }
-
   }
 
   openApproveDialog(request) {

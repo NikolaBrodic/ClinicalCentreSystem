@@ -112,7 +112,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor getAvailableDoctor(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
-        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedIdAndStatusNot(clinicId, specialized.getId(), DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {
             if (isAvailable(doctor, startDateTime, endDateTime)) {
                 return doctor;
@@ -124,7 +124,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Set<Doctor> getAvailableDoctors(ExaminationType specialized, LocalDateTime startDateTime, LocalDateTime endDateTime, Long clinicId) {
         Set<Doctor> availableDoctors = new HashSet<>();
-        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedAndStatusNot(clinicId, specialized, DoctorStatus.DELETED);
+        List<Doctor> doctors = doctorRepository.findByClinicIdAndSpecializedIdAndStatusNot(clinicId, specialized.getId(), DoctorStatus.DELETED);
         for (Doctor doctor : doctors) {
             if (isAvailable(doctor, startDateTime, endDateTime)) {
                 availableDoctors.add(doctor);

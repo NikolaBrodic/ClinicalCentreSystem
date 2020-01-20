@@ -78,7 +78,7 @@ public class RoomController {
 
     @GetMapping(value = "/pageAll")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<RoomPagingDTO> getAllRoomsForAdmin(@RequestParam(value = "kind", required = true) String kind,
+    public ResponseEntity<RoomPagingDTO> searchRoomsInClinic(@RequestParam(value = "kind", required = true) String kind,
                                                              @RequestParam(value = "searchLabel") String searchLabel,
                                                              @RequestParam(value = "searchDate") String searchDate,
                                                              @RequestParam(value = "searchStartTime") String searchStartTime,

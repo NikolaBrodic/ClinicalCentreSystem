@@ -46,7 +46,7 @@ public class AuthenticationController {
             if (loggedInUserDTO == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<LoggedInUserDTO>(loggedInUserDTO, HttpStatus.OK);
+            return new ResponseEntity<>(loggedInUserDTO, HttpStatus.OK);
         } catch (AuthenticationException ex) {
             if (userService.neverLoggedIn(authenticationRequest.getUsername())) {
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
