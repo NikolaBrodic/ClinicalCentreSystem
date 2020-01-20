@@ -65,7 +65,7 @@ public class RoomControllerE2ETests {
 
         roomPage.ensureIsDisplayedTableForRequests();
 
-        roomPage.ensureIsDisplayedTableForRequests2ndElement();
+        roomPage.ensureIsDisplayedTableForRequests1stElement();
 
         List<WebElement> rowsBefore = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
         driver.findElement(By.cssSelector(".mat-row:nth-child(3) .mat-button-wrapper")).click();
@@ -80,7 +80,46 @@ public class RoomControllerE2ETests {
 
         roomPage.ensureIsDisplayedTableForRequests();
 
-        roomPage.ensureIsDisplayedTableForRequests2ndElement();
+        roomPage.ensureIsDisplayedTableForRequests1stElement();
+
+        List<WebElement> rows = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
+
+        Assertions.assertEquals(rowsBefore.size() - 1, rows.size());
+        loginPage.getLogoutBtnClinicAdminBtn().click();
+        loginPage.ensureIsNotVisibleLogoutBtnClinicAdmin();
+    }
+
+    @Test
+    public void testAssignRoomWithTimeChangeSuccess() throws InterruptedException {
+        driver.navigate().to(baseUrl + "user/login");
+        loginPage.ensureIsDisplayedEmail();
+
+        loginPage.getEmail().sendKeys("ClinicAdmin1@maildrop.cc");
+
+        loginPage.getPassword().sendKeys("ClinicAdmin1");
+
+        loginPage.getLoginBtn().click();
+
+        loginPage.ensureIsNotVisibleLoginBtn();
+
+        roomPage.ensureIsDisplayedTableForRequests();
+
+        roomPage.ensureIsDisplayedTableForRequests1stElement();
+
+        List<WebElement> rowsBefore = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
+        driver.findElement(By.cssSelector(".mat-row:nth-child(2) .mat-button-wrapper")).click();
+
+        roomPage.ensureIsNotVisibleTableForRequests();
+
+        roomPage.ensureIsDisplayedTableForRooms();
+
+        driver.findElement(By.cssSelector(".mat-row:nth-child(1) .mat-button-wrapper")).click();
+
+        roomPage.ensureIsNotVisibleTableForRooms();
+
+        roomPage.ensureIsDisplayedTableForRequests();
+
+        roomPage.ensureIsDisplayedTableForRequests1stElement();
 
         List<WebElement> rows = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
 

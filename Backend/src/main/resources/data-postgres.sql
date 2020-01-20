@@ -82,12 +82,12 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('EXAMINATION',2,'APPROVED',1,1,1,3,1,1,0);
 insert into examining (examination_id,doctor_id) values (1,1);
 
-insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 09:45:00','20.02.2021 10:45:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 09:45:00','20.06.2021 10:10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,version)
  values ('EXAMINATION',3,'AWAITING',2,1,1,0);
 insert into examining (examination_id,doctor_id) values (2,2);
 
- insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 10:35:00', '20.06.2021 11:45:00');
+ insert into date_time_interval (start_date_time, end_date_time) values ('20.06.2021 10:00:00', '20.06.2021 11:45:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id,room_id,nurse_id,version)
  values ('EXAMINATION',4,'APPROVED',2,1,1,3,2,2,0);
 insert into examining (examination_id,doctor_id) values (3,2);

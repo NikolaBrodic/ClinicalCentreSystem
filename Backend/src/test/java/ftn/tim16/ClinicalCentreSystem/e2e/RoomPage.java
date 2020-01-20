@@ -31,8 +31,8 @@ public class RoomPage {
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(tableForRooms));
     }
 
-    public void ensureIsDisplayedTableForRequests2ndElement() {
-        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".mat-row:nth-child(2) .mat-button-wrapper")));
+    public void ensureIsDisplayedTableForRequests1stElement() {
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".mat-row:nth-child(1) .mat-button-wrapper")));
     }
 
     public void ensureIsNotVisibleTableForRooms() {
