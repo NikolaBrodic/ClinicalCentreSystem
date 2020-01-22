@@ -10,8 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.List;
 
 public class ListRequestForTimeOffOrHolidayE2ETest {
@@ -21,16 +19,6 @@ public class ListRequestForTimeOffOrHolidayE2ETest {
     private ListRequestForTimeOffOrHolidayPage listRequestForTimeOffOrHolidayPage;
 
     private LoginPage loginPage;
-
-    private static Connection con = null;
-
-    private static Statement stmt;
-
-    public static String DB_URL = "jdbc:postgresql://localhost:5432/ClinicalCentreDatabase";
-
-    public static String DB_USER = "postgres";
-
-    public static String DB_PASSWORD = "root";
 
     @Before
     public void setUp() {

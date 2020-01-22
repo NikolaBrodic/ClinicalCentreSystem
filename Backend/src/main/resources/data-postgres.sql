@@ -5,7 +5,7 @@ INSERT INTO AUTHORITY (name) VALUES ('ROLE_DOCTOR');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_NURSE');
 
 insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Grbavica', 'Savremena klinika u Novom Sadu', 'Klinika mira',2.5,0);
-insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Tolstojeva', 'VMA', 'Klinika',3.7,0);
+/*insert into clinic (address, description, name,clinic_rating,version) values ('Novi sad Tolstojeva', 'VMA', 'Klinika',3.7,0);
 
 insert into clinic_administrator (email, password, first_name, last_name, phone_number, status,clinic_id,last_password_reset_date) values
  ('ClinicAdmin1@maildrop.cc', '$2a$10$O2sRY6wvf0lpUu/mF5RN2u9dSW3AAzEplF4g9RpzwDOfSCFRhad6C', 'Marko', 'Marković', '064153456', 'ACTIVE',1,'2020-01-05 16:33:14');
@@ -113,3 +113,4 @@ insert into date_time_interval (start_date_time, end_date_time) values ('21.08.2
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,version)
  values ('EXAMINATION',8,'AWAITING',1,1,1,0);
 insert into examining (examination_id,doctor_id) values (7,1);
+*/
