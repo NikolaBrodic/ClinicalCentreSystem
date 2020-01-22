@@ -61,7 +61,7 @@ public class PatientControllerUnitTests {
     private PatientService patientServiceMock;
 
     @PostConstruct
-    public void setup() {
+    public void setUp() {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())

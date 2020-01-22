@@ -16,8 +16,6 @@ public class AssignExaminationRoomE2ETests {
     private static final String baseUrl = "http://localhost:4200/";
     private WebDriver driver;
 
-    private ListRequestForTimeOffOrHolidayPage listRequestForTimeOffOrHolidayPage;
-
     private LoginPage loginPage;
 
     private RoomPage roomPage;
@@ -162,7 +160,7 @@ public class AssignExaminationRoomE2ETests {
         roomPage.ensureIsDisplayedTableForRequests();
 
         List<WebElement> rows = roomPage.getTableForExaminationRequests().findElements(By.tagName("tr"));
-        
+
         Assertions.assertEquals(rowsBefore.size() - 1, rows.size());
         loginPage.getLogoutBtnClinicAdminBtn().click();
         loginPage.ensureIsNotVisibleLogoutBtnClinicAdmin();
