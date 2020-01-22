@@ -47,7 +47,7 @@ public class DoctorControllerIntegrationTests {
     private WebApplicationContext webApplicationContext;
 
     @PostConstruct
-    public void setup() {
+    public void setUp() {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())
