@@ -14,10 +14,10 @@ $ git clone https://github.com/NikolaBrodic/ClinicalCentreSystem.git
 ### Prerequisites
 
 You need to install following software to be able to run the application:
-* [Java SDK v1.8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-* [Apache Maven v3.6.3](https://maven.apache.org/download.cgi) (or use IDE of your choice, such as IntelliJ Idea, Eclipse etc.)
-* [NodeJS v12.13.0](https://nodejs.org/en/blog/release/v12.13.0/)
-* [PostgreSQL v12.0](https://www.postgresql.org/download/)
+* Java SDK v1.8 [(download link)](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Apache Maven v3.6.3 [(download link)](https://maven.apache.org/download.cgi) (or use IDE of your choice, such as IntelliJ Idea, Eclipse etc.)
+* NodeJS v12.13.0 [(download link)](https://nodejs.org/en/blog/release/v12.13.0/)
+* PostgreSQL v12.0 [(download link)](https://www.postgresql.org/download/)
 
 ### Installing and configuring
 
@@ -55,7 +55,7 @@ to start the frontend.
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+### **### EDIT ###**
 
 ## Built with
 
@@ -65,7 +65,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **[Nikola Brodić](https://github.com/NikolaBrodic)**
-* **[Jelena Popov](https://github.com/JelenaPopov)**
+* [Nikola Brodić](https://github.com/NikolaBrodic)
+* [Jelena Popov](https://github.com/JelenaPopov)
 
 
