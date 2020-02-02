@@ -2,14 +2,14 @@ import { ExaminationInfoComponent } from './../examination-info/examination-info
 import { TimeOffNurseService } from './../../services/time-off-nurse.service';
 import { TimeOffForWorkCalendar } from './../../models/timeOffForWorkCalendar';
 import { TimeOffDoctorService } from '../../services/time-off-doctor.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { AxiomSchedulerParams } from 'src/app/models/axiomSchedulerParams';
 import { ExaminationService } from 'src/app/services/examination.service';
 import { Router } from '@angular/router';
 import { ExaminationForWorkCalendar } from 'src/app/models/examinationForWorkCalendar';
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
-import { AxiomSchedulerEvent } from 'axiom-scheduler';
+import { AxiomSchedulerEvent, AxiomSchedulerComponent } from 'axiom-scheduler';
 import { MatDialog } from '@angular/material';
 
 @Component({
@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material';
   templateUrl: './work-calendar.component.html',
   styleUrls: ['./work-calendar.component.css']
 })
-export class WorkCalendarComponent implements OnInit {
+export class WorkCalendarComponent implements OnInit, AfterViewInit {
 
   axiomSchedulerParams = new AxiomSchedulerParams();
   events: (ExaminationForWorkCalendar | TimeOffForWorkCalendar)[] = [];
@@ -28,6 +28,7 @@ export class WorkCalendarComponent implements OnInit {
     'holiday': '#CC0033',
     'time off': '#339933',
   }
+  @ViewChild(AxiomSchedulerComponent, { static: false }) scheduler: AxiomSchedulerComponent;
 
   constructor(
     private examinationService: ExaminationService,
@@ -45,6 +46,10 @@ export class WorkCalendarComponent implements OnInit {
       this.getNurseExaminations();
       this.getNurseTimeOffs();
     }
+  }
+
+  ngAfterViewInit() {
+    this.refreshView();
   }
 
   getDoctorExaminations(): void {
@@ -89,8 +94,9 @@ export class WorkCalendarComponent implements OnInit {
         )
       }
     }
-
     );
+
+    this.refreshView();
   }
 
   getDoctorTimeOffs() {
@@ -163,6 +169,8 @@ export class WorkCalendarComponent implements OnInit {
       }
     }
     );
+
+    this.refreshView();
   }
 
   makeEvent(itemType: string, fromForData: moment.Moment, toForData: moment.Moment, from: moment.Moment, to: moment.Moment): any {
@@ -179,17 +187,14 @@ export class WorkCalendarComponent implements OnInit {
     }
   }
 
-  // Use to refresh events in calendar if needed
-  /*  
-  @ViewChild(AxiomSchedulerComponent, { static: false }) scheduler: AxiomSchedulerComponent;
-  refreshView(): void {
-    this.scheduler.refreshScheduler();
-  }
-  */
   openViewExamination($event: AxiomSchedulerEvent): void {
     if ($event.data.examination) {
       this.dialog.open(ExaminationInfoComponent, { data: $event.data.examination });
     }
+  }
+
+  refreshView(): void {
+    this.scheduler.refreshScheduler();
   }
 
 }
