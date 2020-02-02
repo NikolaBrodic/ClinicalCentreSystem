@@ -2,6 +2,10 @@
 
 This web application allows a clinical centre to organize work of its clinics. The main purpose of this application is keeping records of the employees, registered clinics, examination and operation rooms of a clinic, patients and their medical records, as well as scheduling appointments. Users of the system are patients, doctors, nurses, clinic administrators and clinical centre administrators. 
 
+## Screenshots
+
+![Page example](https://raw.githubusercontent.com/NikolaBrodic/ClinicalCentreSystem/readme/for_readme.png)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -19,7 +23,7 @@ You need to install following software to be able to run the application:
 * NodeJS v12.13.0 [*(download link)*](https://nodejs.org/en/blog/release/v12.13.0/)
 * PostgreSQL v12.0 [*(download link)*](https://www.postgresql.org/download/)
 
-### Installing and configuring
+### Installing and Configuring
 
 1. Start *pgAdmin* and create a database with name `ClinicalCentreDatabase`
 
@@ -31,7 +35,7 @@ to install all dependencies.
 
 ### Using
 
-#### Starting backend
+#### Starting Backend
 
 If you are using *Apache Maven* to run the backend, go to the Backend directory inside the application's root directory, open a console and type:
 ```
@@ -39,9 +43,9 @@ mvn spring-boot:run
 ```
 This command will start the backend.
 
-If you are using IDE, just open/import the Backend directory in it and run the project.
+If you are using some *IDE*, just open/import the Backend directory in it and run the project.
 
-#### Starting frontend
+#### Starting Frontend
 
 Go to the Frontend directory inside the application's root directory, open a console and type:
 ```
@@ -57,7 +61,7 @@ to start the frontend.
 
 ### **### EDIT ###**
 
-## Built with
+## Built With
 
 * [Angular 8](https://angular.io) - Frontend framework
 * [Spring Boot](https://spring.io/) - Backend framework
