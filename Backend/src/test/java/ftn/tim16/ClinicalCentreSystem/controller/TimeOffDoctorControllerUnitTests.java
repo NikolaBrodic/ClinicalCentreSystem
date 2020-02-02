@@ -8,7 +8,6 @@ import ftn.tim16.ClinicalCentreSystem.service.TimeOffDoctorService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,8 +29,7 @@ import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffDoctorConstants.*;
 import static ftn.tim16.ClinicalCentreSystem.constants.TimeOffNurseConstants.AWAITING;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -61,7 +59,7 @@ public class TimeOffDoctorControllerUnitTests {
     private WebApplicationContext webApplicationContext;
 
     @PostConstruct
-    public void setup() {
+    public void setUp() {
         this.mockMvc = MockMvcBuilders.
                 webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
     }
@@ -88,7 +86,7 @@ public class TimeOffDoctorControllerUnitTests {
         requestForTimeOffDTOS.add(requestForTimeOffDTO1);
         requestForTimeOffDTOS.add(requestForTimeOffDTO2);
 
-        Mockito.when(timeOffDoctorServiceMocked.getRequestsForHolidayOrTimeOff(ID)).thenReturn(requestForTimeOffDTOS);
+        when(timeOffDoctorServiceMocked.getRequestsForHolidayOrTimeOff(ID)).thenReturn(requestForTimeOffDTOS);
 
         mockMvc.perform(get(URL_PREFIX + "/requests-for-holiday-or-time-off").header("Authorization", accessToken))
                 .andExpect(status().isOk())
@@ -110,7 +108,7 @@ public class TimeOffDoctorControllerUnitTests {
         RequestForTimeOffDTO requestForTimeOffDTOSaved = new RequestForTimeOffDTO(ID, "HOLIDAY", new DateTimeInterval(startDate, endDate), NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME,
                 APPROVED);
 
-        Mockito.when(timeOffDoctorServiceMocked.approveRequestForHolidayOrTimeOff(ID)).thenReturn(requestForTimeOffDTOSaved);
+        when(timeOffDoctorServiceMocked.approveRequestForHolidayOrTimeOff(ID)).thenReturn(requestForTimeOffDTOSaved);
 
         this.mockMvc.perform(put(URL_PREFIX + "/approve-request-for-holiday-or-time-off/" + ID).header("Authorization", accessToken))
                 .andExpect(status().isOk())
@@ -122,7 +120,7 @@ public class TimeOffDoctorControllerUnitTests {
 
     @Test
     public void testApproveRequestForHolidayOrTimeOff_badRequest() throws Exception {
-        Mockito.when(timeOffDoctorServiceMocked.approveRequestForHolidayOrTimeOff(APPROVED_TIME_OFF)).thenReturn(null);
+        when(timeOffDoctorServiceMocked.approveRequestForHolidayOrTimeOff(APPROVED_TIME_OFF)).thenReturn(null);
         this.mockMvc.perform(put(URL_PREFIX + "/approve-request-for-holiday-or-time-off/" + APPROVED_TIME_OFF).header("Authorization", accessToken))
                 .andExpect(status().isBadRequest());
         verify(timeOffDoctorServiceMocked, times(1)).approveRequestForHolidayOrTimeOff(APPROVED_TIME_OFF);
@@ -137,7 +135,7 @@ public class TimeOffDoctorControllerUnitTests {
         RequestForTimeOffDTO requestForTimeOffDTOSaved = new RequestForTimeOffDTO(ID, "HOLIDAY", new DateTimeInterval(startDate, endDate), NEW_DOCTOR_FIRST_NAME, NEW_DOCTOR_lAST_NAME,
                 REJECTED);
 
-        Mockito.when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(ID, REASON_FOR_REJECTION)).thenReturn(requestForTimeOffDTOSaved);
+        when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(ID, REASON_FOR_REJECTION)).thenReturn(requestForTimeOffDTOSaved);
 
         this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + ID).contentType(contentType)
                 .content(REASON_FOR_REJECTION).header("Authorization", accessToken))
@@ -150,7 +148,7 @@ public class TimeOffDoctorControllerUnitTests {
 
     @Test
     public void testRejectRequestForHolidayOrTimeOff_badRequest() throws Exception {
-        Mockito.when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECTION)).thenReturn(null);
+        when(timeOffDoctorServiceMocked.rejectRequestForHolidayOrTimeOff(APPROVED_TIME_OFF, REASON_FOR_REJECTION)).thenReturn(null);
         this.mockMvc.perform(put(URL_PREFIX + "/reject-request-for-holiday-or-time-off/" + APPROVED_TIME_OFF).contentType(contentType)
                 .content(REASON_FOR_REJECTION).header("Authorization", accessToken)).andExpect(status().isBadRequest());
 

@@ -13,7 +13,6 @@ import ftn.tim16.ClinicalCentreSystem.service.RoomService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -67,7 +66,7 @@ public class RoomControllerUnitTests {
     private RoomService roomServiceMock;
 
     @PostConstruct
-    public void setup() {
+    public void setUp() {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())
@@ -89,7 +88,7 @@ public class RoomControllerUnitTests {
         roomDTOList.add(new RoomDTO(ROOM_2_ID, ROOM_2_LABEL, KIND_EXAMINATION));
         RoomPagingDTO roomPagingDTO = new RoomPagingDTO(roomDTOList, DB_ROOMS_COUNT);
 
-        Mockito.when(roomServiceMock.searchRoomsInClinic(KIND_EXAMINATION, getClinic(), page, SEARCH_LABEL,
+        when(roomServiceMock.searchRoomsInClinic(KIND_EXAMINATION, getClinic(), page, SEARCH_LABEL,
                 SEARCH_DATE, SEARCH_START_TIME, SEARCH_END_TIME)).thenReturn(roomPagingDTO);
 
         mockMvc.perform(get(URL_PREFIX + "/pageAll")
@@ -116,7 +115,7 @@ public class RoomControllerUnitTests {
     public void testSearchRoomsInClinic_BadRequest() throws Exception {
         Pageable page = PageRequest.of(PAGE_NUMBER, PAGE_SIZE);
 
-        Mockito.when(roomServiceMock.searchRoomsInClinic(KIND_EXAMINATION, getClinic(), page, SEARCH_LABEL,
+        when(roomServiceMock.searchRoomsInClinic(KIND_EXAMINATION, getClinic(), page, SEARCH_LABEL,
                 SEARCH_DATE_BAD_FORMAT, SEARCH_START_TIME, SEARCH_END_TIME)).thenThrow(DateTimeParseException.class);
 
         mockMvc.perform(get(URL_PREFIX + "/pageAll")
@@ -147,7 +146,7 @@ public class RoomControllerUnitTests {
 
         RoomWithIdDTO assignedRoom = new RoomWithIdDTO(ROOM_1_ID, ROOM_1_LABEL, KIND_EXAMINATION);
 
-        Mockito.when(roomServiceMock.assignRoom(any(AssignExaminationDTO.class), any(ClinicAdministrator.class))).thenReturn(assignedRoom);
+        when(roomServiceMock.assignRoom(any(AssignExaminationDTO.class), any(ClinicAdministrator.class))).thenReturn(assignedRoom);
 
         mockMvc.perform(put(URL_PREFIX + "/assign")
                 .header("Authorization", accessToken)
@@ -173,7 +172,7 @@ public class RoomControllerUnitTests {
 
         String jsonBody = TestUtil.json(examinationDTO);
 
-        Mockito.when(roomServiceMock.assignRoom(any(AssignExaminationDTO.class), any(ClinicAdministrator.class))).thenReturn(null);
+        when(roomServiceMock.assignRoom(any(AssignExaminationDTO.class), any(ClinicAdministrator.class))).thenReturn(null);
 
         mockMvc.perform(put(URL_PREFIX + "/assign")
                 .header("Authorization", accessToken)

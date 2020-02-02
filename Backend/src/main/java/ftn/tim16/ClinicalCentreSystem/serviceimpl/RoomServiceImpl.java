@@ -100,8 +100,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomPagingDTO searchRoomsInClinic(String kind, Clinic clinic, Pageable page, String search, String date,
-            String searchStartTime, String searchEndTime) throws DateTimeParseException {
+    public RoomPagingDTO searchRoomsInClinic(String kind, Clinic clinic, Pageable page, String searchText, String date,
+                                             String searchStartTime, String searchEndTime) throws DateTimeParseException {
+        String search = searchText;
         ExaminationKind examinationKind = getKind(kind);
         if (examinationKind == null) {
             return new RoomPagingDTO(
@@ -176,7 +177,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     private List<RoomDTO> searchByDateAndTime(List<Room> roomsInClinicAll, LocalDateTime startDateTime,
-            LocalDateTime endDateTime) {
+                                              LocalDateTime endDateTime) {
         List<RoomDTO> availableRoom = new ArrayList<>();
         for (Room currentRoom : roomsInClinicAll) {
             if (isAvailable(currentRoom, startDateTime, endDateTime)) {
@@ -189,7 +190,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     private List<RoomDTO> getRoomOnAnotherDate(List<Room> roomsInClinicAll, LocalDateTime startDateTime,
-            LocalDateTime endDateTime) {
+                                               LocalDateTime endDateTime) {
         List<RoomDTO> available = new ArrayList<>();
         long duration = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
         for (Room currentRoom : roomsInClinicAll) {
