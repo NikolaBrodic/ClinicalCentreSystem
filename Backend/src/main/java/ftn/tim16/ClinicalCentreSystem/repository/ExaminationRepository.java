@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.repository;
 
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationKind;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
+import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Examination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,7 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
     List<Examination> findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
 
     List<Examination> findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(Long id, ExaminationStatus examinationStatus, LocalDateTime localDateTime);
+
+    List<Examination> findByPatientIdAndStatus(Long id, PatientStatus status);
+    Page<Examination> findByPatientIdAndStatus(Long id, PatientStatus status, Pageable page);
 }

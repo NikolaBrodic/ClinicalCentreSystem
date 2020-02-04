@@ -5,6 +5,7 @@ export class Clinic {
     description: string;
     clinicRating: number;
     price: number;
+    position: number;
 
     constructor(name: string, address: string, description: string, id?: number, clinicRating?: number, price?: number) {
         this.name = name;

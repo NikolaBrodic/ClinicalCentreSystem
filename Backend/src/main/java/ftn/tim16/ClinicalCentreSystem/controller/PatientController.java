@@ -1,7 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
 import ftn.tim16.ClinicalCentreSystem.dto.*;
-import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.repository.PatientRepository;
@@ -14,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -139,8 +138,27 @@ public class PatientController {
 
     @PostMapping(value = "/clinics-filter")
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody Examination examination) {
-        List<Clinic> filteredClinics = clinicService.findClinicsByExaminations(examination);
+    public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody PatientFilterClinics patientFilterClinics) {
+        System.out.println("RUNNING filterClinicsBy === ");
+
+        // Set the examination date that the patient wants
+//        Examination examination = new Examination();
+////        examination.setInterval(new DateTimeInterval(LocalDateTime.parse(examinationDate), LocalDateTime.parse(examinationDate)));
+//
+//        // Set the examination type for that date
+//        ExaminationType eType = new ExaminationType();
+//        eType.setLabel(examinationType);
+//
+//        // Set the maximum examination price the patient can pay
+//        eType.setPrice(examinationMaxPrice);
+//        examination.setExaminationType(eType);
+
+        List<Clinic> filteredClinics = clinicService.findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
+                patientFilterClinics.getClinicAddress(), patientFilterClinics.getClinicMinRating());
+        System.out.println("FILTERED CLINICS === " + filteredClinics);
+        if (filteredClinics == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(filteredClinics, HttpStatus.OK);
     }
 
@@ -164,6 +182,20 @@ public class PatientController {
     public ResponseEntity<List<DoctorDTO>> getDoctorsForPatient(@RequestBody Clinic clinic) {
         List<DoctorDTO> allDoctors = doctorService.findAllDoctorsInClinic(clinic);
         return new ResponseEntity<>(allDoctors, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/predefined-examinations")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<ExaminationPagingDTO> getPredefinedExaminations(@RequestBody Patient patient, Pageable page) {
+        ExaminationPagingDTO patientExists  = examinationService.getPredefinedExaminationsForPatient(patient, page);
+        if (patientExists == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            return new ResponseEntity<ExaminationPagingDTO>(examinationService.getPredefinedExaminationsForPatient(patient, page), HttpStatus.OK);
+        } catch (DateTimeParseException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
