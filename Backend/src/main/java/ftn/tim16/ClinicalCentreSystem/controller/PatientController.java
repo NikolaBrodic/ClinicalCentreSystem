@@ -139,6 +139,7 @@ public class PatientController {
     @PostMapping(value = "/clinics-filter")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<List<Clinic>> filterClinicsBy(@RequestBody PatientFilterClinics patientFilterClinics) {
+        System.out.println("RUNNING filterClinicsBy === ");
 
         // Set the examination date that the patient wants
 //        Examination examination = new Examination();
@@ -152,7 +153,7 @@ public class PatientController {
 //        eType.setPrice(examinationMaxPrice);
 //        examination.setExaminationType(eType);
 
-        List<Clinic> filteredClinics = clinicService.findByAddressContainsIgnoringCaseOrClinicRatingIsGreaterThanEqual(
+        List<Clinic> filteredClinics = clinicService.findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
                 patientFilterClinics.getClinicAddress(), patientFilterClinics.getClinicMinRating());
         System.out.println("FILTERED CLINICS === " + filteredClinics);
         if (filteredClinics == null) {

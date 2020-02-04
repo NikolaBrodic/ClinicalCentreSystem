@@ -1,4 +1,4 @@
-import { Clinic } from './../../models/clinic';
+import { Clinic } from 'src/app/models/clinic';
 import { PatientFilterClinics } from './../../models/patientFilterClinics';
 import { Router } from '@angular/router';
 import { PatientService } from 'src/app/services/patient.service';
@@ -6,7 +6,6 @@ import { DateTimeInterval } from './../../models/dateTimeInterval';
 import { Examination } from './../../models/examination';
 import { DateTime } from 'luxon';
 import { ClinicService } from 'src/app/services/clinic.service';
-import { Clinic } from 'src/app/models/clinic';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
 import { Doctor } from 'src/app/models/doctor';
@@ -30,12 +29,19 @@ export class PatientClinicsComponent implements OnInit {
   public displayedColumns: string[] = ['options', 'name', 'clinicRating', 'address', 'id'];
   public selection = new SelectionModel<Clinic>(false, []);
 
-  public selectedRow: string;
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public selectedClinic: Clinic;
 
   private patientFilterClinics: PatientFilterClinics;
+
+  public patientDoctorsDataSource: MatTableDataSource<Doctor>;
+  public displayedColumnsDoctors: string[] = ['firstName', 'lastName', 'doctorRating', 'availableAt', 'id'];
+  public doctorFirstName: string;
+  public doctorLastName: string;
+  public doctorRating: number;
+  public doctor: Doctor;
+  public clinic: Clinic;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -62,7 +68,9 @@ export class PatientClinicsComponent implements OnInit {
 
     // Filter doctors
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      doctorFirstName: [''],
+      doctorLastName: [''],
+      doctorRating: [''],
     });
   }
   
@@ -90,9 +98,6 @@ export class PatientClinicsComponent implements OnInit {
       +this.firstFormGroup.get("clinicMinRatingCtrl").value,
       +this.firstFormGroup.get("examinationMaxPriceCtrl").value,
     );
-
-    console.log("clinicAddressCtrl " + this.patientFilterClinics.clinicAddress);
-    console.log("clinicMinRatingCtrl " + this.patientFilterClinics.clinicMinRating);
 
     // If the patient wants to use the search function to filter the clinics, he
     // must enter the examination date he wants and the examination type. Other
@@ -142,16 +147,79 @@ export class PatientClinicsComponent implements OnInit {
     }
     if (this.selection.isSelected(row)) {
       this.selectedClinic = row;
-    } else {
-      this.selectedClinic = null;
+      console.log(this.selectedClinic);
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   clinicChosen() {
-    if (this.selectedClinic == null) {
-      alert("D");
-    }
+    this.getAllDoctorsInClinic();
+  }
+  
+  getAllDoctorsInClinic() {
+    this.patientService.getAllDoctorsInClinic(this.selectedClinic).subscribe(
+      (data: Doctor[]) => {
+        this.patientDoctorsDataSource = new MatTableDataSource(data);
+        this.patientDoctorsDataSource.sort = this.sort;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  searchPatientDoctors() {
+    this.doctor = new Doctor(
+      null,
+      this.doctorFirstName,
+      this.doctorLastName,
+      null,
+      null,
+      null,
+      null,
+      null,
+      this.doctorRating
+    );
+    // console.log(this.examinationFilter.interval.startDateTime);
+    // console.log(this.examinationFilter.examinationType.label);
+    // console.log(this.examinationFilter.clinic.address);
+    // console.log(this.examinationFilter.clinic.clinicRating);
+    // console.log(this.examinationFilter.clinic.price);
+    this.populateFilteredTableDoctors();
+  }
+
+  populateFilteredTableDoctors() {
+    // Working example to send as a post request:
+    /*
+    [
+      {
+        "id": 6,
+        "firstName": "Doca",
+        "lastName": "Docic",
+        "workHoursFrom": "05:00",
+        "workHoursTo": "19:00",
+        "email": "doca7@gmail.com",
+        "password": "$2a$10$Hef/d2ZrMjGXUFE60xUVU.u0up/nV2cIJMg9GDevEgnv5cCcJpTpW",
+        "specialized": {
+            "id": 1,
+            "label": "Ginekolog",
+            "price": 5000.0,
+            "status": "EXISTING"
+        },
+        "phoneNumber": "079256886",
+        "doctorRating": null
+      }
+    ]
+    */
+    this.patientService.getFilteredDoctors(this.doctor).subscribe(
+      (data) => {
+        this.patientDoctorsDataSource = new MatTableDataSource(data);
+        this.patientDoctorsDataSource.sort = this.sort;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }

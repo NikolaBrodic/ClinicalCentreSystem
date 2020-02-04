@@ -23,7 +23,7 @@ public interface ClinicService {
 
     List<Clinic> findClinicsByExaminations(Examination examination);
 
-    List<Clinic> findByAddressContainsIgnoringCaseOrClinicRatingIsGreaterThanEqual(
+    List<Clinic> findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
             String address, int clinicRating
     );
 }

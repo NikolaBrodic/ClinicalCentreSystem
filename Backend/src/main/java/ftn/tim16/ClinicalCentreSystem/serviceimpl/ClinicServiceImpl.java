@@ -62,9 +62,9 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
-    public List<Clinic> findByAddressContainsIgnoringCaseOrClinicRatingIsGreaterThanEqual(
+    public List<Clinic> findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
             String address, int clinicRating) {
-        return clinicRepository.findByAddressContainsIgnoringCaseOrClinicRatingIsGreaterThanEqual(
+        return clinicRepository.findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
                 address, clinicRating);
     }
 

@@ -86,12 +86,14 @@ export class PatientService {
   }
 
   public getFilteredClinicsByExamination(patientFilterClinics: PatientFilterClinics): Observable<Clinic[]> {
-    this.httpClient.post(this.urlPatient + "/clinics-filter", patientFilterClinics).subscribe((data: Clinic[]) => {
-      this.filteredClinics.next(data);
-    },
-    (error: HttpErrorResponse) => {
-
-    });
+    this.httpClient.post(this.urlPatient + "/clinics-filter", patientFilterClinics).subscribe(
+      (data: Clinic[]) => {
+        this.filteredClinics.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        
+      }
+    );
     return this.filteredClinics.asObservable();
   }
 

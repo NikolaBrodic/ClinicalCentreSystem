@@ -20,6 +20,6 @@ public interface ClinicRepository extends JpaRepository<Clinic, Long> {
 
     List<Clinic> findByExaminations(Examination examination);
 
-    List<Clinic> findByAddressContainsIgnoringCaseOrClinicRatingIsGreaterThanEqual(
+    List<Clinic> findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
             String address, int clinicRating);
 }
