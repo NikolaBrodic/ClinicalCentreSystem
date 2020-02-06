@@ -124,21 +124,27 @@ insert into nurse_authority(user_id, authority_id) values (10,5);
 -- PATIENTS
  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
  values ('Patient1@maildrop.cc', '$2a$10$ESM7nrRIZUFJbxL7GOnVeOqJq2XkUGUBf0xzQnWphrPGoOhIwNs4G', 'Milovan', 'Milic', '065258255','Petra Drapsina 13','Novi Sad',
- 'Srbija','0625351236915','ACTIVATED',0);
+ 'Srbija','1625351236915','ACTIVATED',0);
 insert into patient_authority(user_id, authority_id) values (1,3);
  insert into medical_record(height, weight, blood_type, allergies, patient_id) values (176, 80, 'B-', 'Prasina, jaja', 1);
 
   insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
  values ('Patient2@maildrop.cc', '$2a$10$blloYkIX9b1PDVBT8uOZ6ejdA2vHCYhoTSYSBToN1dq68aOKzwGF.', 'Stefan', 'Lazarevic', '065258355','Gogoljeva 42','Novi Sad',
- 'Srbija','0625352236915','ACTIVATED',0);
+ 'Srbija','2625352236915','ACTIVATED',0);
 insert into patient_authority(user_id, authority_id) values (2,3);
 insert into medical_record(height, weight, blood_type, allergies, patient_id) values (165, 65, '0', 'Grinje', 2);
 
  insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
  values ('Patient3@maildrop.cc', '$2a$10$YH6x9.Kq8v.RNI2pox6pSuwG0E7T28y9Q7Xbp86lNR0HbNY98josG', 'Marko', 'Stefanovic', '065258455','Marsala tita 43','Beograd',
- 'Srbija','0625342236915','ACTIVATED',0);
+ 'Srbija','3625342236915','ACTIVATED',0);
 insert into patient_authority(user_id, authority_id) values (3,3);
 insert into medical_record(height, weight, blood_type, allergies, patient_id) values (202, 95, 'AB', 'Orasasti plodovi', 3);
+
+insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insurance_id,status,version)
+ values ('Patient4@maildrop.cc', '$2a$10$wyempd2kjsLxS8iYb67GdOZ1HVluL4y6RabeXT6Taia9.nNLlkuBK', 'Jovana', 'Pajic', '069998877','Jovana Ducica 18','Ruma',
+ 'Srbija','4625372236915','ACTIVATED',0);
+insert into patient_authority(user_id, authority_id) values (4,3);
+insert into medical_record(height, weight, blood_type, allergies, patient_id) values (158, 52, 'A+', 'Nema alergije', 4);
 
 -- DIAGNOSES
 insert into diagnose (title, description) values ('Asthma', 'Asthma is a condition in which hyperreactive airways constrict ' ||
@@ -146,10 +152,13 @@ insert into diagnose (title, description) values ('Asthma', 'Asthma is a conditi
   'bronchodilators (LABAs) are used in the treatment of asthma.');
 insert into diagnose (title, description) values ('Diabetes', 'Diabetes is a chronic condition characterized by high levels ' ||
  'of sugar (glucose) in the blood. Symptoms of diabetes include increased urine output, thirst, hunger, and fatigue.');
-insert into diagnose (title, description) values ('Diarrhea', 'Diarrhea — loose, watery and possibly more-frequent bowel movements — is a common problem.');
-insert into diagnose (title, description) values ('Cold', 'The common cold, also known simply as a cold, is a viral infectious disease of the upper respiratory tract that primarily affects the nose.[');
+insert into diagnose (title, description) values ('Diarrhea', 'Diarrhea — loose, watery and possibly more-frequent bowel movements' ||
+ ' — is a common problem.');
+insert into diagnose (title, description) values ('Cold', 'The common cold, also known simply as a cold, is a viral infectious ' ||
+ 'disease of the upper respiratory tract that primarily affects the nose.');
 insert into diagnose (title, description) values ('Allergic reaction',
- 'The symptoms of an allergic reaction can vary from mild to severe. If you become exposed to an allergen for the first time, your symptoms may be mild. These symptoms may get worse if you repeatedly come into contact with the allergen.');
+ 'The symptoms of an allergic reaction can vary from mild to severe. If you become exposed to an allergen for the first time, ' ||
+  'your symptoms may be mild. These symptoms may get worse if you repeatedly come into contact with the allergen.');
 
 
 -- MEDICINES
@@ -185,158 +194,158 @@ insert into medicine (label, chemical_composition, "usage") values ('Azithromyci
 
  -- EXAMINATIONS FOR BUSINESS REPORT
 insert into date_time_interval (start_date_time, end_date_time) values ('07.01.2019 07:00','07.01.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',1,'APPROVED',1,1,1,1,1,1);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',1,'APPROVED',1,1,1,1,1,1,0);
 insert into examining (examination_id,doctor_id) values (1,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('14.01.2019 08:00','14.01.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',2,'APPROVED',1,1,1,1,2,3);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',2,'APPROVED',1,1,1,1,2,3,0);
 insert into examining (examination_id,doctor_id) values (2,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('22.01.2019 07:00','22.01.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',3,'APPROVED',1,1,1,1,2,4);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',3,'APPROVED',1,1,1,1,2,4,0);
 insert into examining (examination_id,doctor_id) values (3,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('16.01.2019 07:00','16.01.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',4,'APPROVED',1,1,1,1,2,5);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',4,'APPROVED',1,1,1,1,2,5,0);
 insert into examining (examination_id,doctor_id) values (4,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('26.01.2019 07:00','26.01.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',5,'APPROVED',1,1,1,1,2,6);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',5,'APPROVED',1,1,1,1,2,6,0);
 insert into examining (examination_id,doctor_id) values (5,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('04.02.2019 07:00','04.02.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',6,'APPROVED',1,1,1,1,2,7);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',6,'APPROVED',1,1,1,1,2,7,0);
 insert into examining (examination_id,doctor_id) values (6,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('15.02.2019 07:00','15.02.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',7,'APPROVED',2,1,1,1,2,8);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',7,'APPROVED',2,1,1,1,2,8,0);
 insert into examining (examination_id,doctor_id) values (7,3);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('21.02.2019 07:00','21.02.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',8,'APPROVED',2,1,1,1,2,9);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',8,'APPROVED',2,1,1,1,2,9,0);
 insert into examining (examination_id,doctor_id) values (8,3);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('15.03.2019 07:00','15.03.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',9,'APPROVED',2,1,1,1,1,10);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',9,'APPROVED',2,1,1,1,1,10,0);
 insert into examining (examination_id,doctor_id) values (9,3);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('31.03.2019 07:00','31.03.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',10,'APPROVED',2,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',10,'APPROVED',2,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (10,4);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('24.03.2019 07:00','24.03.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',11,'APPROVED',2,1,1,1,1,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',11,'APPROVED',2,1,1,1,1,2,0);
 insert into examining (examination_id,doctor_id) values (11,4);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('06.03.2019 07:00','06.03.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',12,'APPROVED',2,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',12,'APPROVED',2,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (12,4);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('06.04.2019 07:00','06.04.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',13,'APPROVED',2,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',13,'APPROVED',2,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (13,4);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('18.04.2019 07:00','18.04.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',14,'APPROVED',1,1,1,1,1,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',14,'APPROVED',1,1,1,1,1,2,0);
 insert into examining (examination_id,doctor_id) values (14,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('18.06.2019 07:00','18.06.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',15,'APPROVED',1,1,1,1,1,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',15,'APPROVED',1,1,1,1,1,2,0);
 insert into examining (examination_id,doctor_id) values (15,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('05.06.2019 07:00','05.06.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',16,'APPROVED',1,1,1,1,1,1);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',16,'APPROVED',1,1,1,1,1,1,0);
 insert into examining (examination_id,doctor_id) values (16,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('09.06.2019 07:00','09.06.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',17,'APPROVED',1,1,1,1,1,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',17,'APPROVED',1,1,1,1,1,2,0);
 insert into examining (examination_id,doctor_id) values (17,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('24.06.2019 07:00','24.06.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',18,'APPROVED',1,1,1,1,1,3);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',18,'APPROVED',1,1,1,1,1,3,0);
 insert into examining (examination_id,doctor_id) values (18,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('26.06.2019 07:00','26.06.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',19,'APPROVED',1,1,1,1,1,4);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',19,'APPROVED',1,1,1,1,1,4,0);
 insert into examining (examination_id,doctor_id) values (19,1);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('02.07.2019 07:00','02.07.2019 11:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',20,'APPROVED',1,1,1,1,1,5);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',20,'APPROVED',1,1,1,1,1,5,0);
 insert into examining (examination_id,doctor_id) values (20,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('18.07.2019 08:00','18.07.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',21,'APPROVED',1,1,1,1,2,6);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',21,'APPROVED',1,1,1,1,2,6,0);
 insert into examining (examination_id,doctor_id) values (21,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('18.09.2019 08:00','18.09.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',22,'APPROVED',1,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',22,'APPROVED',1,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (22,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('25.09.2019 08:00','25.09.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',23,'APPROVED',1,1,1,1,2,7);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',23,'APPROVED',1,1,1,1,2,7,0);
 insert into examining (examination_id,doctor_id) values (23,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('25.10.2019 08:00','25.10.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',24,'APPROVED',1,1,1,1,2,8);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',24,'APPROVED',1,1,1,1,2,8,0);
 insert into examining (examination_id,doctor_id) values (24,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('11.10.2019 08:00','11.10.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',25,'APPROVED',1,1,1,1,2,8);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',25,'APPROVED',1,1,1,1,2,8,0);
 insert into examining (examination_id,doctor_id) values (25,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('09.10.2019 08:00','09.10.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',26,'APPROVED',1,1,1,1,2,9);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',26,'APPROVED',1,1,1,1,2,9,0);
 insert into examining (examination_id,doctor_id) values (26,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('19.10.2019 08:00','19.10.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',27,'APPROVED',1,1,1,1,2,9);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',27,'APPROVED',1,1,1,1,2,9,0);
 insert into examining (examination_id,doctor_id) values (27,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('19.11.2019 08:00','19.11.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',28,'APPROVED',1,1,1,1,2,10);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',28,'APPROVED',1,1,1,1,2,10,0);
 insert into examining (examination_id,doctor_id) values (28,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('19.12.2019 08:00','19.12.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',29,'APPROVED',1,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',29,'APPROVED',1,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (29,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 08:00','13.12.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',30,'APPROVED',1,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',30,'APPROVED',1,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (30,2);
 
 insert into date_time_interval (start_date_time, end_date_time) values ('10.12.2019 08:00','10.12.2019 12:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',31,'APPROVED',1,1,1,1,2,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',31,'APPROVED',1,1,1,1,2,2,0);
 insert into examining (examination_id,doctor_id) values (31,2);
 
 -- EXAMINATION REPORT AND PRESCRIPTION
@@ -385,10 +394,10 @@ insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('Pacijent ima astmu', '18.09.2019. 09:30', 1, 2, 2, 22);
 
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
- values ('STAMPED', 4, 5, 2);
+ values ('STAMPED', 5, 5, 2);
 
  insert into prescription(status, examination_report_id, medicine_id, nurse_id)
- values ('STAMPED', 4, 6, 2);
+ values ('STAMPED', 5, 6, 2);
 
 -- TIME-OFFS DOCTOR
 insert into date_time_interval (start_date_time, end_date_time) values ('20.03.2020 09:00','28.03.2020 17:00');
@@ -426,11 +435,93 @@ insert into time_off_nurse (status, type, nurse_id, interval_id)
  insert into time_off_nurse (status, type, nurse_id, interval_id)
  values ('AWAITING', 'TIME_OFF', 4, 38);
 
---EXAMINATIONS
- insert into date_time_interval (start_date_time, end_date_time) values ('10.03.2019 09:00','10.03.2019 10:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
- values ('EXAMINATION',31,'APPROVED',1,1,1,1,2,2);
-insert into examining (examination_id,doctor_id) values (38,2);
+-- EXAMINATIONS FOR CHANGING TIME WHEN ASSIGNING ROOM
+ insert into date_time_interval (start_date_time, end_date_time) values ('19.05.2020 09:00','19.05.2020 10:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',39,'APPROVED',1,1,1,1,1,1,0);
+insert into examining (examination_id,doctor_id) values (32,1);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('19.05.2020 08:00','19.05.2020 11:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',40,'APPROVED',1,1,1,2,2,2,0);
+insert into examining (examination_id,doctor_id) values (33,2);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('19.05.2020 08:30','19.05.2020 09:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',41,'APPROVED',2,1,1,3,3,3,0);
+insert into examining (examination_id,doctor_id) values (34,3);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('19.05.2020 07:30','19.05.2020 09:15');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id, version)
+ values ('EXAMINATION',42,'AWAITING',2,1,1,4,0);
+insert into examining (examination_id,doctor_id) values (35,4);
+
+-- OPERATIONS FOR CHANGING TIME WHEN ASSIGNING ROOM
+ insert into date_time_interval (start_date_time, end_date_time) values ('21.05.2020 09:00','21.05.2020 10:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id, version)
+ values ('OPERATION',43,'APPROVED',1,1,1,5,2,0);
+insert into examining (examination_id,doctor_id) values (36,1);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('21.05.2020 08:00','21.05.2020 11:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id, version)
+ values ('OPERATION',44,'APPROVED',1,1,1,6,3,0);
+insert into examining (examination_id,doctor_id) values (37,2);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('21.05.2020 08:30','21.05.2020 09:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id, version)
+ values ('OPERATION',45,'AWAITING',2,1,1,4,0);
+ -- examination_id == 38
+
+ -- EXAMINATIONS FOR CHANGING DOCTOR WHEN ASSIGNING ROOM
+ insert into date_time_interval (start_date_time, end_date_time) values ('23.05.2020 09:00','23.05.2020 10:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',46,'APPROVED',1,1,1,1,4,1,0);
+insert into examining (examination_id,doctor_id) values (39,1);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('23.05.2020 08:00','23.05.2020 11:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',47,'APPROVED',1,1,1,2,3,2,0);
+insert into examining (examination_id,doctor_id) values (40,2);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('23.05.2020 08:30','23.05.2020 09:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',48,'APPROVED',2,1,1,3,2,3,0);
+insert into examining (examination_id,doctor_id) values (41,3);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('23.05.2020 10:00','23.05.2020 10:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',49,'APPROVED',2,1,1,1,1,5,0);
+insert into examining (examination_id,doctor_id) values (42,4);
+
+ insert into date_time_interval (start_date_time, end_date_time) values ('23.05.2020 07:30','23.05.2020 09:15');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id, version)
+ values ('EXAMINATION',50,'AWAITING',2,1,1,1,0);
+insert into examining (examination_id,doctor_id) values (43,4);
+
+-- EXAMINATION FOR ASSIGNING ROOM WITHOUT TIME CHANGE
+ insert into date_time_interval (start_date_time, end_date_time) values ('01.06.2020 11:30','01.06.2020 12:15');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id, version)
+ values ('EXAMINATION',51,'AWAITING',2,1,1,1,0);
+insert into examining (examination_id,doctor_id) values (44,3);
+
+-- OPERATION FOR ASSIGNING ROOM WITHOUT TIME CHANGE
+ insert into date_time_interval (start_date_time, end_date_time) values ('01.06.2020 15:00','01.06.2020 16:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,patient_id, version)
+ values ('OPERATION',52,'AWAITING',1,1,1,3,0);
+ -- examination_id == 45
+
+-- EXAMINATION FOR TODAY
+ insert into date_time_interval (start_date_time, end_date_time) values ('06.02.2020 16:30','06.02.2020 17:00');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
+ values ('EXAMINATION',53,'APPROVED',1,1,1,2,2,1,0);
+insert into examining (examination_id,doctor_id) values (46,1);
+
+-- OPERATION FOR TODAY
+ insert into date_time_interval (start_date_time, end_date_time) values ('06.02.2020 16:00','06.02.2020 17:30');
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id, version)
+ values ('OPERATION',54,'APPROVED',2,1,1,5,1,0);
+insert into examining (examination_id,doctor_id) values (47,3);
+insert into examining (examination_id,doctor_id) values (47,4);
 
 /*
 -- FOR TESTS

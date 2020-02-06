@@ -167,7 +167,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Override
     public ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page) {
-        //Doctor can cancel examination just 24 hours before.
+        //Doctor can cancel examination that is more than 24 hours from starting.
         List<Examination> examinations = examinationRepository.findByDoctorsIdAndStatusNotAndIntervalStartDateTimeAfter
                 (doctor.getId(), ExaminationStatus.CANCELED, LocalDateTime.now());
 
