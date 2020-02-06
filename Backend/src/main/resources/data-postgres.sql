@@ -143,6 +143,11 @@ insert into patient_authority(user_id, authority_id) values (10,3);
  'Srbija','0625352737915','AWAITING');
 insert into patient_authority(user_id, authority_id) values (11,3);
 
+
+
+
+
+
 /*DOCTOR*/
 /* Password: Admin.04*/
  insert into doctor (email, password, first_name, last_name, phone_number,work_hours_from,work_hours_to,clinic_id,status,specialized_id, doctor_rating)
@@ -171,9 +176,48 @@ insert into doctor_authority(user_id, authority_id) values (6,4);
 
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'EXAMINATION',1,'EXISTING');
 insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 09:00','12.12.2019 10:00');
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id)
- values ('EXAMINATION',1,'AWAITING',1,1,1,2,1);
-insert into examining (examination_id,doctor_id) values (1,4);
+insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 10:00','12.12.2019 11:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 11:00','12.12.2019 12:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 12:00','12.12.2019 13:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 13:00','12.12.2019 14:00');
+
+
+
+
+insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
+ values ('pera.peric@gmail.com', '$2y$10$6/ExZPzokaxKh91XVMiSNOm/gsVJe8YkkXL.Kj3jivRJpGzagVnia', 'Marko 32', 'Markovic', '069058723','Marsala tita','Novi Sad',
+ 'Srbija','0625352737425','APPROVED');
+insert into patient_authority(user_id, authority_id) values (12,3);
+
+insert into medical_record(height,weight,blood_type,allergies,patient_id) values (172,76,'AB','mleko polen',12);
+
+insert into diagnose(title,description) values ('prehlada','prehlada koja remeti respiratorne aktivnosti');
+
+insert into examination_report(time_created,comment,medical_record_id,diagnose_id,doctor_id) values('2020-03-03 12:00:00','jako ozbilajn pregled',1,1,1);
+
+insert into medicine(label,chemical_composition,usage) values ('lek 1','brufen','3 puta dnevno');
+insert into medicine(label,chemical_composition,usage) values ('lek 2','antibiotik','2 puta dnevno');
+
+insert into prescription(medicine_id,examination_report_id,nurse_id) values (1,1,1);
+insert into prescription(medicine_id,examination_report_id,nurse_id) values (2,1,1);
+
+
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id)
+ values ('EXAMINATION',1,'PREDEF_AVAILABLE',1,1,1,2);
+insert into examining (examination_id,doctor_id) values (1,1);
+
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id)
+ values ('EXAMINATION',2,'PREDEF_AVAILABLE',1,1,1,2);
+insert into examining (examination_id,doctor_id) values (2,1);
+
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id)
+ values ('EXAMINATION',3,'PREDEF_AVAILABLE',1,1,1,2);
+insert into examining (examination_id,doctor_id) values (3,1);
+
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id)
+ values ('EXAMINATION',4,'PREDEF_AVAILABLE',1,1,1,2);
+insert into examining (examination_id,doctor_id) values (4,1);
+
 
 /*
 insert into date_time_interval (start_date_time, end_date_time) values ('13.12.2019 09:00','13.12.2019 10:00');

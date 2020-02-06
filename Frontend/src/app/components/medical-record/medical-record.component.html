@@ -1,0 +1,53 @@
+<div class="prvi">
+    <div class="podaci">
+        Ime: {{firstName}}<br>Prezime: {{lastName}}<br>
+    </div>
+</div>
+<hr>
+<div class="drugi">
+    <table>
+        <tr>
+            <td>Visina:</td>
+            <td><input type="text" [(ngModel)]="height" [disabled]="disabledp"></td>
+        </tr>
+        <tr>
+            <td>Tezina:</td>
+            <td><input type="text" [(ngModel)]="weight" [disabled]="disabledp"></td>
+        </tr>
+        <tr>
+            <td>Alergije:</td>
+            <td><input type="text" [(ngModel)]="alergies" [disabled]="disabledp"></td>
+        </tr>
+        <tr>
+            <td>Krvna grupa:</td>
+            <td><input type="text" [(ngModel)]="bloodType" [disabled]="disabledp"></td>
+        </tr>
+    </table>
+    
+</div>
+<hr>
+<div class='naslov'><h3>Izvestaji o pregledima:</h3></div>
+<div class="treci">
+    
+    <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Prepisani lekovi</th>
+                    <th scope="col">Dijagnoza</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <ng-container *ngFor="let me of examinations; let i = index">
+                            <tr>
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{me.comment}}</td>
+                                <td>{{me.medicines}}</td>
+                                <td>{{me.diagnose}}</td>
+                            </tr>
+                        </ng-container>
+            </tbody>
+        </table>
+    
+</div> 

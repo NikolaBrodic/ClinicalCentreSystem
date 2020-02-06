@@ -64,6 +64,16 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationRepository.findByPatientIdAndStatusNot(idPatient, ExaminationStatus.CANCELED);
     }
 
+    /**
+     *
+     * preuzimamo samo predefinisane slobodne
+     * @return
+     */
+    @Override
+    public List<Examination> getAvailablePredefinedExaminations() {
+        return examinationRepository.findByStatus(ExaminationStatus.PREDEF_AVAILABLE);
+    }
+
     @Override
     public Examination getExamination(Long id) {
         try {
@@ -166,6 +176,31 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public Examination cancelExaminationAsPatient(Patient patient, Long examinationId) {
+        Examination examination = getExamination(examinationId);
+
+        if (examination == null) {
+            return null;
+        }
+        if(examination.getPatient().getId() != patient.getId()){
+            return null;
+        }
+        //Patient can cancel scheduled examination/operation only 24 hours before it is going to be held.
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime examinationCanCancel = examination.getInterval().getStartDateTime().minusHours(24);
+        if (currentTime.isAfter(examinationCanCancel)) {
+            return null;
+        }
+        examination.setStatus(ExaminationStatus.CANCELED);
+        examination.setPatient(null);
+        Nurse nurse = examination.getNurse();
+        examination.setNurse(null);
+
+        sendMailPatientCancle(examination, patient);
+        return examinationRepository.save(examination);
+    }
+
+    @Override
     public List<Examination> getDoctorsExamination(Long idDoctor) {
         return null;
     }
@@ -252,6 +287,25 @@ public class ExaminationServiceImpl implements ExaminationService {
                 }
             }
         }
+    }
+    private void sendMailPatientCancle(Examination examination,Patient p) {
+        String subject = "Notice: Examination has been canceled ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(p.getFirstName());
+        sb.append(" ");
+        sb.append(p.getLastName());
+        sb.append("has canceled the examination scheduled for ");
+        sb.append(examination.getInterval().getStartDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm")));
+        sb.append(".");
+
+        String text = sb.toString();
+        emailNotificationService.sendEmail(examination.getNurse().getEmail(), subject, text);
+        if (examination.getKind().equals(ExaminationKind.OPERATION)) {
+            for (Doctor doc : examination.getDoctors()) {
+                emailNotificationService.sendEmail(doc.getEmail(), subject, text);
+            }
+        }
+
     }
 
     private ExaminationKind getKind(String kind) {

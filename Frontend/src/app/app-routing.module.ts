@@ -36,6 +36,8 @@ import { ListClinicsComponent } from './components/list-clinics/list-clinics.com
 import { ListNursesComponent } from './components/list-nurses/list-nurses.component';
 import { WorkCalendarComponent } from './components/work-calendar/work-calendar.component';
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
+import { MedicalRecordComponent } from './components/medical-record/medical-record.component';
+import { PatientReservePredefinedExaminationComponent } from './components/patient-reserve-predefined-examination/patient-reserve-predefined-examination.component';
 
 
 const routes: Routes = [
@@ -174,6 +176,16 @@ const routes: Routes = [
   {
     path: 'patient/examination-history',
     component: PatientHistoryExaminationsOperationsComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path: 'patient/medical-record',
+    component : MedicalRecordComponent,
+    canActivate: [PatientGuard]
+  },
+  {
+    path : 'patient/predefined-examinations',
+    component : PatientReservePredefinedExaminationComponent,
     canActivate: [PatientGuard]
   },
 

@@ -29,9 +29,11 @@ public interface ExaminationService {
     ExaminationPagingDTO getDoctorExaminations(Doctor doctor, Pageable page);
 
     Examination cancelExamination(Doctor doctor, Long examinationId);
+    Examination cancelExaminationAsPatient(Patient patient,Long examinationId);
     public List<Examination> getDoctorsExamination(Long idDoctor);
     public List<Examination> getNursesExamination(Long idNurse);
     public List<Examination> getExaminationsForPatient(Long idPatient);
+    public List<Examination> getAvailablePredefinedExaminations();
 
     Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator);
 

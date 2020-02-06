@@ -3,20 +3,15 @@ package ftn.tim16.ClinicalCentreSystem.controller;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.model.ClinicAdministrator;
-import ftn.tim16.ClinicalCentreSystem.model.Doctor;
-import ftn.tim16.ClinicalCentreSystem.model.Examination;
-import ftn.tim16.ClinicalCentreSystem.model.Nurse;
-import ftn.tim16.ClinicalCentreSystem.service.ClinicAdministratorService;
-import ftn.tim16.ClinicalCentreSystem.service.DoctorService;
-import ftn.tim16.ClinicalCentreSystem.service.ExaminationService;
-import ftn.tim16.ClinicalCentreSystem.service.NurseService;
+import ftn.tim16.ClinicalCentreSystem.model.*;
+import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,6 +35,9 @@ public class ExaminationController {
 
     @Autowired
     private NurseService nurseService;
+
+    @Autowired
+    private PatientService patientService;
 
     @GetMapping(value = "/get-awaiting")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -84,6 +82,44 @@ public class ExaminationController {
         }
         return new ResponseEntity<>(examination, HttpStatus.ACCEPTED);
     }
+
+    /**
+     * Otkazivanje pregleda kao pacijent
+     * @param examinationId
+     * @return
+     */
+    @DeleteMapping("/cancelAsPatient/{id}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Examination> cancelExaminationAsPatient(@PathVariable("id") Long examinationId) {
+        Patient patient = patientService.getLoginPatient();
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Examination examination = examinationService.cancelExaminationAsPatient(patient, examinationId);
+        if (examination == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(examination, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Funkcija koja dobavlja sve predefinisane preglede koje pacijent zeli i moze da zakaze.
+     * @return
+     */
+    @GetMapping("getAllPredefined")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<?> getAllPredefined() {
+        Patient patient = patientService.getLoginPatient();
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<Examination> examinations = examinationService.getAvailablePredefinedExaminations();
+        return new ResponseEntity<>(null,HttpStatus.OK);
+
+
+    }
+
 
     @GetMapping(value = "/doctor-examinations")
     @PreAuthorize("hasRole('DOCTOR')")
