@@ -353,13 +353,13 @@ insert into examination_report(comment, time_created, diagnose_id, doctor_id, me
  values ('Pacijent ima astmu', '07.01.2019. 07:30', 1, 1, 1, 1);
 
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
- values ('STAMPED', 1, 1, 1);
+ values ('UNSTAMPED', 1, 1, 1);
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('STAMPED', 1, 2, 1);
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('STAMPED', 1, 5, 1);
 insert into prescription(status, examination_report_id, medicine_id, nurse_id)
- values ('STAMPED', 1, 7,1);
+ values ('UNSTAMPED', 1, 7,1);
  insert into prescription(status, examination_report_id, medicine_id, nurse_id)
  values ('STAMPED', 1, 3, 1);
  insert into prescription(status, examination_report_id, medicine_id, nurse_id)
@@ -472,7 +472,7 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('OPERATION',45,'AWAITING',2,1,1,4,0);
  -- examination_id == 38
 
- -- EXAMINATIONS FOR CHANGING DOCTOR WHEN ASSIGNING ROOM
+ -- EXAMINATIONS FOR CHANGING DOCTOR WHEN ASSIGNING ROOM 3
  insert into date_time_interval (start_date_time, end_date_time) values ('23.05.2020 09:00','23.05.2020 10:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
  values ('EXAMINATION',46,'APPROVED',1,1,1,1,4,1,0);
@@ -511,13 +511,13 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  -- examination_id == 45
 
 -- EXAMINATION FOR TODAY
- insert into date_time_interval (start_date_time, end_date_time) values ('06.02.2020 16:30','06.02.2020 17:00');
+ insert into date_time_interval (start_date_time, end_date_time) values ('07.02.2020 00:00','07.02.2020 17:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id, version)
  values ('EXAMINATION',53,'APPROVED',1,1,1,2,2,1,0);
 insert into examining (examination_id,doctor_id) values (46,1);
 
 -- OPERATION FOR TODAY
- insert into date_time_interval (start_date_time, end_date_time) values ('06.02.2020 16:00','06.02.2020 17:30');
+ insert into date_time_interval (start_date_time, end_date_time) values ('07.02.2020 00:00','07.02.2020 17:00');
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id, version)
  values ('OPERATION',54,'APPROVED',2,1,1,5,1,0);
 insert into examining (examination_id,doctor_id) values (47,3);
