@@ -44,6 +44,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private PatientService patientService;
+
     @Override
     public List<Examination> getExaminations(Long idRoom) {
         return examinationRepository.findByRoomIdAndStatusNotOrderByIntervalStartDateTime(idRoom, ExaminationStatus.CANCELED);
@@ -72,6 +75,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public List<Examination> getAvailablePredefinedExaminations() {
         return examinationRepository.findByStatus(ExaminationStatus.PREDEF_AVAILABLE);
+    }
+
+    @Override
+    public Examination reservePredefinedAppointment(Long examinationId) {
+        Patient p = patientService.getLoginPatient();
+        Examination e= examinationRepository.findOneById(examinationId);
+        e.setPatient(p);
+        e.setStatus(ExaminationStatus.PREDEF_BOOKED);
+        return examinationRepository.save(e);
+
     }
 
     @Override

@@ -1,8 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.controller;
 
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import ftn.tim16.ClinicalCentreSystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +106,7 @@ public class ExaminationController {
      * Funkcija koja dobavlja sve predefinisane preglede koje pacijent zeli i moze da zakaze.
      * @return
      */
-    @GetMapping("getAllPredefined")
+    @GetMapping("/getAllPredefined")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<?> getAllPredefined() {
         Patient patient = patientService.getLoginPatient();
@@ -115,9 +114,28 @@ public class ExaminationController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         List<Examination> examinations = examinationService.getAvailablePredefinedExaminations();
-        return new ResponseEntity<>(null,HttpStatus.OK);
+        List<PredefinedExaminationDTOResponse> response = new ArrayList<>();
+        for(Examination e : examinations){
+            response.add(new PredefinedExaminationDTOResponse(e));
+        }
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 
-
+    /**
+     * metoda kojom pacijent rezervise predefinisani pregled
+     * @return
+     */
+    @PostMapping("/reservePredef")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<?> reservePredef(@RequestBody ExaminationId examinationId) {
+        Patient patient = patientService.getLoginPatient();
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(examinationService.reservePredefinedAppointment(examinationId.id),HttpStatus.OK);
+    }
+    static class ExaminationId {
+        public Long id;
     }
 
 

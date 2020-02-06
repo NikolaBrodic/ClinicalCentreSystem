@@ -34,6 +34,7 @@ public interface ExaminationService {
     public List<Examination> getNursesExamination(Long idNurse);
     public List<Examination> getExaminationsForPatient(Long idPatient);
     public List<Examination> getAvailablePredefinedExaminations();
+    public Examination reservePredefinedAppointment(Long examinationId);
 
     Examination createPredefinedExamination(PredefinedExaminationDTO predefinedExaminationDTO, ClinicAdministrator clinicAdministrator);
 

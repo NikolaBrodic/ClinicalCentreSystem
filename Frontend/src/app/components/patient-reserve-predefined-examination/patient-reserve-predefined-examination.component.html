@@ -1,1 +1,30 @@
-<p>patient-reserve-predefined-examination works!</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tip</th>
+            <th scope="col">Pocetak</th>
+            <th scope="col">Kraj</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Popust</th>
+            <th scope="col">Klinika</th>
+            <th scope="col">Soba</th>
+            <th scope="col">Zakazi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let app of appointments; let i = index">
+            <tr>
+                <th scope="row">{{i+1}}</th>
+                <td>{{app.type}}</td>
+                <td>{{app.startTime}}</td>
+                <td>{{app.endTime}}</td>
+                <td>{{app.price}}</td>
+                <td>{{discount(app.discount)}}</td>
+                <td>{{app.clinic}}</td>
+                <td>{{app.room}}</td>
+                <td><button type="button" class="btn btn-primary" (click) = "reserve(app.id)">Rezervisi</button></td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
