@@ -23,10 +23,10 @@
     <ng-container matColumnDef="medicinesList">
         <th mat-header-cell *matHeaderCellDef> Prescribed medicines </th>
         <td mat-cell *matCellDef="let element" class="ellipsis medicines">
-            <span *ngIf="element.medicines.length[0]">
+            <span *ngIf="element.medicines && element.medicines[0]">
                 {{element.medicines.join(', ')}}
             </span>
-            <span *ngIf="!element.medicines.length[0]">-</span></td>
+            <span *ngIf="!(element.medicines && element.medicines[0])">-</span></td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
@@ -47,10 +47,10 @@
                     </div>
                     <div class="element-div">
                         <i class="font-boldness">All prescribed medicines:</i><br>
-                        <span *ngIf="element.medicines.length[0]">
+                        <span *ngIf="element.medicines && element.medicines[0]">
                             {{element.medicines.join(', ')}}
                         </span>
-                        <span *ngIf="!element.medicines.length[0]"><i>(None)</i></span></div>
+                        <span *ngIf="!(element.medicines && element.medicines[0])"><i>(None)</i></span></div>
                 </div>
             </div>
         </td>

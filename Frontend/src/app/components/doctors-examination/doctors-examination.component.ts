@@ -15,8 +15,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class DoctorsExaminationComponent implements OnInit {
   examinationsDataSource: MatTableDataSource<Examination>;
-  displayedColumns: string[] = ['patient', 'examinationType', 'doctors', 'date', 'time', 'cancel'];
+  displayedColumns: string[] = ['patient', 'kind', 'room', 'date', 'time', 'cancel'];
   numberOfItem: number;
+
   constructor(private examinationService: ExaminationService, private router: Router, private toastr: ToastrService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -43,16 +44,14 @@ export class DoctorsExaminationComponent implements OnInit {
 
     this.examinationService.cancelExamination(examination).subscribe(
       () => {
-        this.toastr.success('Successfully cancel scheduled examinaion', 'Cancel examination');
+        this.toastr.success('Successfully canceled scheduled examination', 'Cancel examination/operation');
         this.getDoctorsExaminations();
       },
       () => {
-        this.toastr.error('You can only cancel scheduled examination/operation that starts in more than 24 hours.',
-          'Error during canceling examination/operation');
+        this.toastr.error('You cannot cancel scheduled examination/operation that starts in less than 24 hours.',
+          'Cancel examination/operation');
       }
     );
   }
-
-
 
 }

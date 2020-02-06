@@ -15,7 +15,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     Room findByLabelIgnoringCase(String label);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-        //@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "0")})
     Room getByIdAndStatusNot(Long id, LogicalStatus status);
 
     Room getByIdAndStatus(Long id, LogicalStatus status);
