@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
 .page-header { 
-    background: url(src\assets\background-images\diagnose_background.jpg)no-repeat; 
+    background: url(../../../assets/background-images/diagnose_background.jpg)no-repeat; 
     position: relative; 
     background-size: cover; 
 }
