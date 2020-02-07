@@ -175,11 +175,11 @@ insert into doctor_authority(user_id, authority_id) values (5,4);
 insert into doctor_authority(user_id, authority_id) values (6,4);
 
 insert into room (label, kind,clinic_id,status) values ('Operacijska soba1', 'EXAMINATION',1,'EXISTING');
-insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 09:00','12.12.2019 10:00');
-insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 10:00','12.12.2019 11:00');
-insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 11:00','12.12.2019 12:00');
-insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 12:00','12.12.2019 13:00');
-insert into date_time_interval (start_date_time, end_date_time) values ('12.12.2019 13:00','12.12.2019 14:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.03.2020 09:00','12.03.2020 10:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.03.2020 10:00','12.03.2020 11:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.03.2020 11:00','12.03.2020 12:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.03.2020 12:00','12.03.2020 13:00');
+insert into date_time_interval (start_date_time, end_date_time) values ('12.03.2020 13:00','12.03.2020 14:00');
 
 
 
@@ -210,12 +210,12 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('EXAMINATION',2,'PREDEF_AVAILABLE',1,1,1,2);
 insert into examining (examination_id,doctor_id) values (2,1);
 
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id)
- values ('EXAMINATION',3,'PREDEF_AVAILABLE',1,1,1,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
+ values ('EXAMINATION',3,'PREDEF_AVAILABLE',1,1,1,2,12,1);
 insert into examining (examination_id,doctor_id) values (3,1);
 
-insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id)
- values ('EXAMINATION',4,'PREDEF_AVAILABLE',1,1,1,2);
+insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,room_id,patient_id,nurse_id)
+ values ('EXAMINATION',4,'PREDEF_BOOKED',1,1,1,2,12,1);
 insert into examining (examination_id,doctor_id) values (4,1);
 
 

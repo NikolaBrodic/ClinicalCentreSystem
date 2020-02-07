@@ -38,6 +38,8 @@ import { WorkCalendarComponent } from './components/work-calendar/work-calendar.
 import { ListDiagnosisComponent } from './components/list-diagnosis/list-diagnosis.component';
 import { MedicalRecordComponent } from './components/medical-record/medical-record.component';
 import { PatientReservePredefinedExaminationComponent } from './components/patient-reserve-predefined-examination/patient-reserve-predefined-examination.component';
+import { IncomingExaminationsComponent } from './components/incoming-examinations/incoming-examinations.component';
+import { PatientViewAndChangeInformationComponent } from './components/patient-view-and-change-information/patient-view-and-change-information.component';
 
 
 const routes: Routes = [
@@ -187,6 +189,16 @@ const routes: Routes = [
     path : 'patient/predefined-examinations',
     component : PatientReservePredefinedExaminationComponent,
     canActivate: [PatientGuard]
+  },
+  {
+    path : 'patient/cancle-examination',
+    component : IncomingExaminationsComponent,
+    canActivate : [PatientGuard]
+  },
+  {
+    path : 'patient/profile',
+    component : PatientViewAndChangeInformationComponent,
+    canActivate : [PatientGuard]
   },
 
   //********************* NURSE ***************************

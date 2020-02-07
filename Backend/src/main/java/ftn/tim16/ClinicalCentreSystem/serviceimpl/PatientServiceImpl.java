@@ -1,8 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.serviceimpl;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
 import ftn.tim16.ClinicalCentreSystem.enumeration.ExaminationStatus;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.MedicalRecord;
@@ -128,6 +126,17 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientWithIdDTO getPatientForMedicalStaff(Long id) {
         return new PatientWithIdDTO(patientRepository.findByIdAndStatus(id, PatientStatus.APPROVED));
+    }
+
+    @Override
+    public Patient updatePatient(Patient  patient, PatientInformationDTORequest patientInformationDTO) {
+        patient.setFirstName(patientInformationDTO.getFirstName());
+        patient.setLastName(patientInformationDTO.getLastName());
+        patient.setPhoneNumber(patientInformationDTO.getPhoneNumber());
+        patient.setAddress(patientInformationDTO.getAddress());
+        patient.setCity(patientInformationDTO.getCity());
+        patient.setCountry(patientInformationDTO.getCountry());
+        return patientRepository.save(patient);
     }
 
     private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {

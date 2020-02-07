@@ -1,8 +1,6 @@
 package ftn.tim16.ClinicalCentreSystem.service;
 
-import ftn.tim16.ClinicalCentreSystem.dto.AwaitingApprovalPatientDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientPagingDTO;
-import ftn.tim16.ClinicalCentreSystem.dto.PatientWithIdDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.*;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
 import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import org.springframework.data.domain.Pageable;
@@ -23,5 +21,7 @@ public interface PatientService {
     Patient getLoginPatient();
 
     PatientWithIdDTO getPatientForMedicalStaff(Long id);
+
+    Patient updatePatient(Patient patient, PatientInformationDTORequest p);
 
 }

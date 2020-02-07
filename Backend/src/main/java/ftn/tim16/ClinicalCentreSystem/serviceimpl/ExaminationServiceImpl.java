@@ -204,12 +204,13 @@ public class ExaminationServiceImpl implements ExaminationService {
         if (currentTime.isAfter(examinationCanCancel)) {
             return null;
         }
+
+
+        //sendMailPatientCancel(examination, patient);
         examination.setStatus(ExaminationStatus.CANCELED);
         examination.setPatient(null);
         Nurse nurse = examination.getNurse();
         examination.setNurse(null);
-
-        sendMailPatientCancle(examination, patient);
         return examinationRepository.save(examination);
     }
 
@@ -259,6 +260,10 @@ public class ExaminationServiceImpl implements ExaminationService {
     public List<Examination> getDoctorsUpcomingExaminations(Long doctor_id) {
         return examinationRepository.findByDoctorsIdAndStatusNotAndIntervalEndDateTimeAfter(doctor_id, ExaminationStatus.CANCELED, LocalDateTime.now());
     }
+    @Override
+    public List<Examination> getPatientsUpcomingExaminations(Long patient_id) {
+        return examinationRepository.findByPatientIdAndStatusNotAndIntervalEndDateTimeAfter(patient_id, ExaminationStatus.CANCELED, LocalDateTime.now());
+    }
 
     @Override
     public List<Examination> getUpcomingExaminationsInRoom(Long room_id) {
@@ -301,7 +306,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             }
         }
     }
-    private void sendMailPatientCancle(Examination examination,Patient p) {
+    private void sendMailPatientCancel(Examination examination,Patient p) {
         String subject = "Notice: Examination has been canceled ";
         StringBuilder sb = new StringBuilder();
         sb.append(p.getFirstName());

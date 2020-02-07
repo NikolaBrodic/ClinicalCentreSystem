@@ -138,6 +138,23 @@ public class ExaminationController {
         public Long id;
     }
 
+    @PreAuthorize("hasRole('PATIENT')")
+    @GetMapping(value = "/getIncomingAppointments")
+    public ResponseEntity<?> getIncomingAppointments() {
+        Patient patient = patientService.getLoginPatient();
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        List<IncomingExaminationDTO> examinationDTOS = new ArrayList<>();
+        List<Examination> examinations = new ArrayList<>();
+        examinations = examinationService.getPatientsUpcomingExaminations(patient.getId());
+        for(Examination e : examinations){
+            examinationDTOS.add(new IncomingExaminationDTO(e));
+        }
+        return new ResponseEntity<>(examinationDTOS,HttpStatus.OK);
+
+    }
+
 
     @GetMapping(value = "/doctor-examinations")
     @PreAuthorize("hasRole('DOCTOR')")

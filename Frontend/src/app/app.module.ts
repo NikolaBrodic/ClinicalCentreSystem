@@ -63,7 +63,8 @@ import { PatientBookedExaminationComponent } from './components/patient-booked-e
 import { PatientAvailableExaminationsComponent } from './components/patient-available-examinations/patient-available-examinations.component';
 import { MedicalRecordComponent } from './components/medical-record/medical-record.component';
 import { PatientReservePredefinedExaminationComponent } from './components/patient-reserve-predefined-examination/patient-reserve-predefined-examination.component';
-
+import { IncomingExaminationsComponent } from './components/incoming-examinations/incoming-examinations.component';
+import { PatientViewAndChangeInformationComponent } from './components/patient-view-and-change-information/patient-view-and-change-information.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,8 @@ import { PatientReservePredefinedExaminationComponent } from './components/patie
     PatientAvailableExaminationsComponent,
     MedicalRecordComponent,
     PatientReservePredefinedExaminationComponent,
+    IncomingExaminationsComponent,
+    PatientViewAndChangeInformationComponent,
   ],
   imports: [
     BrowserModule,

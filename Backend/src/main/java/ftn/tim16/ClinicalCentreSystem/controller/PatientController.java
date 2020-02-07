@@ -198,4 +198,26 @@ public class PatientController {
         }
     }
 
+    @PreAuthorize("hasRole('PATIENT')")
+    @GetMapping(value = "/getInformation")
+    public ResponseEntity<?> getInformation() {
+        Patient patient = patientService.getLoginPatient();
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(new PatientInformationDTO(patient),HttpStatus.OK);
+
+    }
+    @PreAuthorize("hasRole('PATIENT')")
+    @PostMapping(value = "/updateInformations")
+    public ResponseEntity<?> updateInformation(@RequestBody PatientInformationDTORequest patientInformationDTO){
+        Patient patient = patientService.getLoginPatient();
+        if (patient == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Patient p2 = patientService.updatePatient(patient,patientInformationDTO);
+
+        return new ResponseEntity<>(new PatientInformationDTO((p2)),HttpStatus.OK);
+    }
+
 }

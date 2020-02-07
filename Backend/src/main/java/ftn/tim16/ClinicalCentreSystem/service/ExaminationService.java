@@ -2,6 +2,7 @@ package ftn.tim16.ClinicalCentreSystem.service;
 
 import ftn.tim16.ClinicalCentreSystem.dto.ExaminationPagingDTO;
 import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTO;
+import ftn.tim16.ClinicalCentreSystem.dto.PredefinedExaminationDTOResponse;
 import ftn.tim16.ClinicalCentreSystem.model.*;
 import org.springframework.data.domain.Pageable;
 
@@ -41,4 +42,6 @@ public interface ExaminationService {
     List<Examination> getDoctorsUpcomingExaminations(Long doctor_id);
 
     List<Examination> getUpcomingExaminationsInRoom(Long room_id);
+
+    List<Examination> getPatientsUpcomingExaminations(Long patient_id);
 }

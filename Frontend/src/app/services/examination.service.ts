@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -79,4 +81,6 @@ export class ExaminationService {
   public createPredefinedExamination(predefinedExamination: PredefinedExamination) {
     return this.httpClient.post(this.url + "/predefined-examination", predefinedExamination);
   }
+  
+
 }
