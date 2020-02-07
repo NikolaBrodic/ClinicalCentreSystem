@@ -1,3 +1,22 @@
 export const environment = {
-  production: true
+  production: true,
+  itemsPerPage: 5,
+  baseUrl: 'http://localhost:8080',
+  examinationType: '/api/examination-type',
+  doctor: '/api/doctor',
+  user: '/api/auth',
+  clinicalCentreAdmin: '/api/clinical-centre-admin',
+  patient: '/api/patient',
+  room: '/api/room',
+  clinic: '/api/clinic',
+  clinicAdmin: '/api/clinic-administrator',
+  nurse: '/api/nurse',
+  examination: '/api/examination',
+  timeOffDoctor: '/api/time-off-doctor',
+  timeOffNurse: '/api/time-off-nurse',
+  diagnose: '/api/diagnose',
+  medicine: '/api/medicine',
+  examinationReport: '/api/examination-report',
+  medicalRecord: '/api/medical-record',
+  prescription: '/api/prescription',
 };

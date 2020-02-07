@@ -62,6 +62,10 @@ export class ListOfRoomsComponent implements OnInit {
       })
   }
 
+  searchRoomsClick() {
+    this.searchRooms(0);
+  }
+
   sortEvent() {
     this.searchRooms(0);
   }

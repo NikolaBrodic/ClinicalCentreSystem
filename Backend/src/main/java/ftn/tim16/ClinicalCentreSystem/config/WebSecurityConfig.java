@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-                //TODO: Add path for changing password
+
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
 
                 .anyRequest().authenticated().and()
@@ -77,10 +77,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/**");
         web.ignoring().antMatchers(HttpMethod.PUT, "/api/auth");
+        web.ignoring().antMatchers(HttpMethod.PUT, "/api/patient/activate");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js", "/assets/**");
 
-        //TODO: When deploying, add path to asset folder from frontend if it has some content.
     }
 
 }

@@ -10,7 +10,7 @@ h1 {
 }
 
 .page-header {
-  background: url(src\assets\background-images\default_background.jpg)no-repeat;
+  background: url(../../../assets/background-images/default_background.jpg)no-repeat;
   position: relative;
   background-size: cover;
 }

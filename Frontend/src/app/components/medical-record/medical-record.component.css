@@ -15,7 +15,7 @@ h2 {
 }
 
 .page-header { 
-    background: url(src\assets\background-images\patient_profile_background.jpg)no-repeat; 
+    background: url(../../../assets/background-images/patient_profile_background.jpg)no-repeat; 
     position: relative; 
     background-size: cover; 
 }
