@@ -1,5 +1,7 @@
 # Clinical Centre System
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cfb4694540c44d7ea3c31f766a545d61)](https://www.codacy.com/manual/Tim16/ClinicalCentreSystem?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NikolaBrodic/ClinicalCentreSystem&amp;utm_campaign=Badge_Grade)
+
 This web application allows a clinical centre to organize work of its clinics. The main purpose of this application is keeping records of the employees, registered clinics, examination and operation rooms of a clinic, patients and their medical records, as well as scheduling appointments. Users of the system are patients, doctors, nurses, clinic administrators and clinical centre administrators. 
 
 ## Screenshots
@@ -59,7 +61,11 @@ to start the frontend.
 
 ## Deployment
 
-### **### EDIT ###**
+Application is deployed on Heroku from another repository, which contains combined backed and frontend. Angular frontend was build using the command `ng build --prod` and placed in resoures/static package on the backend.
+
+[Deployment repository](https://github.com/NikolaBrodic/ClinicalCentreSystem-DeploymentRepo)
+
+[Heroku live demo](https://clinical-centre-system.herokuapp.com)
 
 ## Built With
 
