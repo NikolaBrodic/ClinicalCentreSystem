@@ -266,6 +266,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public List<Examination> findAll() {
+        return examinationRepository.findAll();
+    }
+
+    @Override
     public List<Examination> getUpcomingExaminationsInRoom(Long room_id) {
         return examinationRepository.findByRoomIdAndStatusNotAndIntervalEndDateTimeAfter(room_id, ExaminationStatus.CANCELED, LocalDateTime.now());
     }

@@ -24,4 +24,6 @@ public interface PatientService {
 
     Patient updatePatient(Patient patient, PatientInformationDTORequest p);
 
+    Patient findOneById(Long id);
+
 }

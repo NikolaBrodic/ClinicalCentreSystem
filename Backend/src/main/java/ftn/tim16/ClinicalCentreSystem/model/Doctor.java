@@ -1,9 +1,13 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ftn.tim16.ClinicalCentreSystem.enumeration.DoctorStatus;
+import ftn.tim16.ClinicalCentreSystem.model.grading.PatientDoctorGrades;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -74,21 +78,34 @@ public class Doctor implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    Set<PatientDoctorGrades> grades = new HashSet<>();
+
+    public Set<PatientDoctorGrades> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<PatientDoctorGrades> grades) {
+        this.grades = grades;
+    }
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "doctor_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
     @Column
     private Integer doctorRating;
+
 
     public Doctor() {
     }
 
     public Doctor(String email, String password, String firstName, String lastName, String phoneNumber, LocalTime workHoursFrom,
-                  LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status, List<Authority> authorities) {
+                  LocalTime workHoursTo, Clinic clinic, ExaminationType specialized, DoctorStatus status, Set<Authority> authorities) {
         this.email = email;
         setPassword(password);
         this.firstName = firstName;
@@ -105,7 +122,7 @@ public class Doctor implements UserDetails {
         this.doctorRating = 0;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 

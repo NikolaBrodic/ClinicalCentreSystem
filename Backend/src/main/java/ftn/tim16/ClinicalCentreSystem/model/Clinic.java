@@ -1,6 +1,10 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ftn.tim16.ClinicalCentreSystem.model.grading.PatientClinicGrades;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -49,6 +53,17 @@ public class Clinic {
     @JsonIgnore
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ClinicAdministrator> clinicAdministrators = new HashSet<>();
+
+    @OneToMany(mappedBy = "clinic",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    Set<PatientClinicGrades> grades = new HashSet<>();
+
+    public Set<PatientClinicGrades> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<PatientClinicGrades> grades) {
+        this.grades = grades;
+    }
 
     public Clinic() {
     }

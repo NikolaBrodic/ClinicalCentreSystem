@@ -7,13 +7,14 @@ import ftn.tim16.ClinicalCentreSystem.model.Patient;
 import ftn.tim16.ClinicalCentreSystem.security.auth.JwtAuthenticationRequest;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AuthenticationService {
     Patient registerPatient(PatientDTO patientDTO);
 
     LoggedInUserDTO login(JwtAuthenticationRequest authenticationRequest);
 
-    List<Authority> findByName(String name);
+    Set<Authority> findByName(String name);
 
     List<Authority> findById(Long id);
 }

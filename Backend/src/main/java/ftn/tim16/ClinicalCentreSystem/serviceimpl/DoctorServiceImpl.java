@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -166,6 +167,16 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor findOneById(Long id) {
+        return doctorRepository.findOneById(id);
+    }
+
+    @Override
+    public List<Doctor> findAll() {
+        return doctorRepository.findAll();
+    }
+
+    @Override
     public Doctor create(CreateDoctorDTO doctor, ClinicAdministrator clinicAdministrator) throws DateTimeParseException {
         UserDetails userDetails = userService.findUserByEmail(doctor.getEmail());
         if (userDetails != null) {
@@ -189,7 +200,7 @@ public class DoctorServiceImpl implements DoctorService {
         String generatedPassword = randomPasswordGenerator.generatePassword();
         String hashedPassword = passwordEncoder.encode(generatedPassword);
 
-        List<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
+        Set<Authority> authorities = authenticationService.findByName("ROLE_DOCTOR");
 
         Doctor newDoctor = new Doctor(doctor.getEmail(), hashedPassword, doctor.getFirstName(),
                 doctor.getLastName(), doctor.getPhoneNumber(), workHoursFrom, workHoursTo, clinicAdministrator.getClinic(),
@@ -215,6 +226,7 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return doctorDTOS;
     }
+
 
     private List<DoctorDTO> convertToDTO(Page<Doctor> doctors) {
         List<DoctorDTO> doctorDTOS = new ArrayList<>();

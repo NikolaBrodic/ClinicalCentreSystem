@@ -30,7 +30,7 @@ export class PatientInformationService {
     city : string,
     country : string,
   ) {
-    console.log('doso')
+    
     return this.http.post("http://localhost:8080/api/patient/updateInformations", {
       firstName :firstName,
       lastName : lastName,

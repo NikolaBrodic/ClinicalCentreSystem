@@ -46,6 +46,8 @@ public class DoctorDTO {
         this.specialized = specialized;
     }
 
+
+
     public DoctorDTO(Doctor doctor) {
         this(doctor.getId(), doctor.getPhoneNumber(), doctor.getFirstName(), doctor.getLastName(), doctor.getWorkHoursFrom(), doctor.getWorkHoursTo(), doctor.getEmail(),
                 doctor.getPassword(), doctor.getSpecialized());

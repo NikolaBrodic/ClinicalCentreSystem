@@ -139,6 +139,11 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.save(patient);
     }
 
+    @Override
+    public Patient findOneById(Long id) {
+        return patientRepository.findOneById(id);
+    }
+
     private List<PatientWithIdDTO> convertToDTO(List<Patient> patients) {
         if (patients == null || patients.isEmpty()) {
             return new ArrayList<>();

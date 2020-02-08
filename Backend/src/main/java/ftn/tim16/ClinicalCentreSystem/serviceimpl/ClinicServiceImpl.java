@@ -68,4 +68,9 @@ public class ClinicServiceImpl implements ClinicService {
                 address, clinicRating);
     }
 
+    @Override
+    public Clinic findOneByName(String name) {
+        return clinicRepository.findByNameIgnoringCase(name);
+    }
+
 }

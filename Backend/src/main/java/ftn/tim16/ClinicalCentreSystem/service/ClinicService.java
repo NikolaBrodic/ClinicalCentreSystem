@@ -26,4 +26,5 @@ public interface ClinicService {
     List<Clinic> findByAddressContainsIgnoringCaseAndClinicRatingIsGreaterThanEqual(
             String address, int clinicRating
     );
+    Clinic findOneByName(String name);
 }

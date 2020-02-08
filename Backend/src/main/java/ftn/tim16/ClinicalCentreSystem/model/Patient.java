@@ -1,7 +1,12 @@
 package ftn.tim16.ClinicalCentreSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ftn.tim16.ClinicalCentreSystem.enumeration.PatientStatus;
+import ftn.tim16.ClinicalCentreSystem.model.grading.PatientClinicGrades;
+import ftn.tim16.ClinicalCentreSystem.model.grading.PatientDoctorGrades;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -58,19 +63,49 @@ public class Patient implements UserDetails {
     @Column
     private Timestamp lastPasswordResetDate;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    Set<PatientDoctorGrades> doctorGrades = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    Set<PatientClinicGrades> clinicGrades = new HashSet<>();
+
+    public Set<PatientDoctorGrades> getDoctorGrades() {
+        return doctorGrades;
+    }
+
+    public void setDoctorGrades(Set<PatientDoctorGrades> doctorGrades) {
+        this.doctorGrades = doctorGrades;
+    }
+
+    public Set<PatientClinicGrades> getClinicGrades() {
+        return clinicGrades;
+    }
+
+    public void setClinicGrades(Set<PatientClinicGrades> clinicGrades) {
+        this.clinicGrades = clinicGrades;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "patient_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
+
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Patient() {
 
     }
 
     public Patient(String email, String password, String firstName, String lastName, String phoneNumber, String address,
-                   String city, String country, String healthInsuranceID, List<Authority> authorities) {
+                   String city, String country, String healthInsuranceID, Set<Authority> authorities) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -88,7 +123,7 @@ public class Patient implements UserDetails {
         this.authorities = authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 

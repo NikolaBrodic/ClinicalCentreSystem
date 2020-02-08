@@ -40,6 +40,7 @@ import { MedicalRecordComponent } from './components/medical-record/medical-reco
 import { PatientReservePredefinedExaminationComponent } from './components/patient-reserve-predefined-examination/patient-reserve-predefined-examination.component';
 import { IncomingExaminationsComponent } from './components/incoming-examinations/incoming-examinations.component';
 import { PatientViewAndChangeInformationComponent } from './components/patient-view-and-change-information/patient-view-and-change-information.component';
+import { PatientGradingComponent } from './components/patient-grading/patient-grading.component';
 
 
 const routes: Routes = [
@@ -198,6 +199,11 @@ const routes: Routes = [
   {
     path : 'patient/profile',
     component : PatientViewAndChangeInformationComponent,
+    canActivate : [PatientGuard]
+  },
+  {
+    path : 'patient/grading',
+    component : PatientGradingComponent,
     canActivate : [PatientGuard]
   },
 

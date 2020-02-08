@@ -65,6 +65,8 @@ import { MedicalRecordComponent } from './components/medical-record/medical-reco
 import { PatientReservePredefinedExaminationComponent } from './components/patient-reserve-predefined-examination/patient-reserve-predefined-examination.component';
 import { IncomingExaminationsComponent } from './components/incoming-examinations/incoming-examinations.component';
 import { PatientViewAndChangeInformationComponent } from './components/patient-view-and-change-information/patient-view-and-change-information.component';
+import { PatientGradingComponent } from './components/patient-grading/patient-grading.component';
+
 
 @NgModule({
   declarations: [
@@ -113,6 +115,7 @@ import { PatientViewAndChangeInformationComponent } from './components/patient-v
     PatientReservePredefinedExaminationComponent,
     IncomingExaminationsComponent,
     PatientViewAndChangeInformationComponent,
+    PatientGradingComponent,
   ],
   imports: [
     BrowserModule,

@@ -32,4 +32,7 @@ public interface DoctorService {
     Doctor getDoctor(Long id);
 
     Doctor deleteDoctor(Long clinic_id, Long id);
+
+    Doctor findOneById(Long id);
+    List<Doctor> findAll();
 }
