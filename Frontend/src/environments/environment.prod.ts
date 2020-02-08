@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   itemsPerPage: 5,
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'https://clinical-centre-system.herokuapp.com',
   examinationType: '/api/examination-type',
   doctor: '/api/doctor',
   user: '/api/auth',
