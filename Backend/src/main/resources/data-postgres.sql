@@ -1,3 +1,4 @@
+/*
 -- FOR DEMO
 -- AUTHORITIES
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_CLINICAL_CENTRE_ADMIN');
@@ -522,8 +523,8 @@ insert into examination (kind,interval_id,status,examination_type_id,clinic_id,c
  values ('OPERATION',54,'APPROVED',2,1,1,5,1,0);
 insert into examining (examination_id,doctor_id) values (47,3);
 insert into examining (examination_id,doctor_id) values (47,4);
+*/
 
-/*
 -- FOR TESTS
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_CLINICAL_CENTRE_ADMIN');
 INSERT INTO AUTHORITY (name) VALUES ('ROLE_CLINIC_ADMIN');
@@ -640,4 +641,3 @@ insert into date_time_interval (start_date_time, end_date_time) values ('21.08.2
 insert into examination (kind,interval_id,status,examination_type_id,clinic_id,clinic_administrator_id,version)
  values ('EXAMINATION',8,'AWAITING',1,1,1,0);
 insert into examining (examination_id,doctor_id) values (7,1);
-*/
