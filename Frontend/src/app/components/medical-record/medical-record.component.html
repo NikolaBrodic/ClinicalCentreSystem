@@ -1,53 +1,103 @@
-<div class="prvi">
-    <div class="podaci">
-        Ime: {{firstName}}<br>Prezime: {{lastName}}<br>
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-caption">
+            <h1 class="page-title">Medical record and examination history</h1>
+            </div>
+        </div>
+        </div>
     </div>
 </div>
-<hr>
-<div class="drugi">
-    <table>
-        <tr>
-            <td>Visina:</td>
-            <td><input type="text" [(ngModel)]="height" [disabled]="disabledp"></td>
-        </tr>
-        <tr>
-            <td>Tezina:</td>
-            <td><input type="text" [(ngModel)]="weight" [disabled]="disabledp"></td>
-        </tr>
-        <tr>
-            <td>Alergije:</td>
-            <td><input type="text" [(ngModel)]="alergies" [disabled]="disabledp"></td>
-        </tr>
-        <tr>
-            <td>Krvna grupa:</td>
-            <td><input type="text" [(ngModel)]="bloodType" [disabled]="disabledp"></td>
-        </tr>
-    </table>
-    
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+    <div class="container">
+      <div class="card-block bg-white mb30">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <!-- section-title -->
+            <div class="section-title mb-0">
+
+							<div class="prvi">
+									<div class="podaci">
+										<h4>
+											Ime: {{firstName}}
+										</h4>
+										<h4>
+											Prezime: {{lastName}}
+										</h4>
+									</div>
+							</div>
+							<hr>
+							<div class="drugi">
+								<table>
+										<tr>
+												<td>Visina:</td>
+												<td>
+													<mat-form-field>
+														<input matInput type="text" [(ngModel)]="height" [disabled]="disabledp">
+													</mat-form-field>
+												</td>
+										</tr>
+										<tr>
+												<td>Tezina:</td>
+												<td>
+													<mat-form-field>
+														<input matInput type="text" [(ngModel)]="weight" [disabled]="disabledp">
+													</mat-form-field>
+												</td>
+										</tr>
+										<tr>
+												<td>Alergije:</td>
+												<td>
+													<mat-form-field>
+														<input matInput type="text" [(ngModel)]="alergies" [disabled]="disabledp">
+													</mat-form-field>
+												</td>
+										</tr>
+										<tr>
+												<td>Krvna grupa:</td>
+												<td>
+													<mat-form-field>
+														<input matInput type="text" [(ngModel)]="bloodType" [disabled]="disabledp">
+													</mat-form-field>
+												</td>
+										</tr>
+								</table>
+							</div>
+							<hr>
+							<div class='naslov'><h3>Izvestaji o pregledima:</h3></div>
+							<div class="treci">
+									<table class="table">
+										<thead>
+												<tr>
+														<th scope="col">#</th>
+														<th scope="col">Opis</th>
+														<th scope="col">Prepisani lekovi</th>
+														<th scope="col">Dijagnoza</th>
+												</tr>
+										</thead>
+										<tbody>
+											<ng-container *ngFor="let me of examinations; let i = index">
+													<tr>
+															<th scope="row">{{i+1}}</th>
+															<td>{{me.comment}}</td>
+															<td>{{me.medicines}}</td>
+															<td>{{me.diagnose}}</td>
+													</tr>
+											</ng-container>
+										</tbody>
+								</table>
+							</div> 
+
+					</div>
+					<!-- /.section-title -->
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<hr>
-<div class='naslov'><h3>Izvestaji o pregledima:</h3></div>
-<div class="treci">
-    
-    <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Prepisani lekovi</th>
-                    <th scope="col">Dijagnoza</th>
-                </tr>
-            </thead>
-            <tbody>
-                    <ng-container *ngFor="let me of examinations; let i = index">
-                            <tr>
-                                <th scope="row">{{i+1}}</th>
-                                <td>{{me.comment}}</td>
-                                <td>{{me.medicines}}</td>
-                                <td>{{me.diagnose}}</td>
-                            </tr>
-                        </ng-container>
-            </tbody>
-        </table>
-    
-</div> 
+<!-- /.page-content -->

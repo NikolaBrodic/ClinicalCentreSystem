@@ -1,30 +1,62 @@
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Tip</th>
-            <th scope="col">Pocetak</th>
-            <th scope="col">Kraj</th>
-            <th scope="col">Cena</th>
-            <th scope="col">Popust</th>
-            <th scope="col">Klinika</th>
-            <th scope="col">Soba</th>
-            <th scope="col">Zakazi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let app of appointments; let i = index">
-            <tr>
-                <th scope="row">{{i+1}}</th>
-                <td>{{app.type}}</td>
-                <td>{{app.startTime}}</td>
-                <td>{{app.endTime}}</td>
-                <td>{{app.price}}</td>
-                <td>{{discount(app.discount)}}</td>
-                <td>{{app.clinic}}</td>
-                <td>{{app.room}}</td>
-                <td><button type="button" class="btn btn-primary" (click) = "reserve(app.id)">Rezervisi</button></td>
-            </tr>
-        </ng-container>
-    </tbody>
-</table>
+<!-- page-header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-caption">
+            <h1 class="page-title">Predefined Examinations</h1>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- /.page-header-->
+
+<!-- page-content -->
+<div class="card-section">
+  <div class="container">
+    <div class="card-block bg-white mb30">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <!-- section-title -->
+          <div class="section-title mb-0">
+
+						<table class="table">
+							<thead>
+									<tr>
+											<th scope="col">#</th>
+											<th scope="col">Tip</th>
+											<th scope="col">Pocetak</th>
+											<th scope="col">Kraj</th>
+											<th scope="col">Cena</th>
+											<th scope="col">Popust</th>
+											<th scope="col">Klinika</th>
+											<th scope="col">Soba</th>
+											<th scope="col">Zakazi</th>
+									</tr>
+							</thead>
+							<tbody>
+									<ng-container *ngFor="let app of appointments; let i = index">
+											<tr>
+													<th scope="row">{{i+1}}</th>
+													<td>{{app.type}}</td>
+													<td>{{app.startTime}}</td>
+													<td>{{app.endTime}}</td>
+													<td>{{app.price}}</td>
+													<td>{{discount(app.discount)}}</td>
+													<td>{{app.clinic}}</td>
+													<td>{{app.room}}</td>
+													<td><button type="button" class="btn btn-primary" (click) = "reserve(app.id)">Rezervisi</button></td>
+											</tr>
+									</ng-container>
+							</tbody>
+					</table>
+
+					</div>
+					<!-- /.section-title -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /.page-content -->
