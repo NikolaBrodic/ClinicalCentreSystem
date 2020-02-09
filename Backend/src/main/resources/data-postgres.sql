@@ -184,6 +184,7 @@ insert into date_time_interval (start_date_time, end_date_time) values ('12.03.2
 
 
 
+
 insert into patient (email, password, first_name, last_name, phone_number,address,city,country,health_insuranceid,status)
  values ('pera.peric@gmail.com', '$2y$10$6/ExZPzokaxKh91XVMiSNOm/gsVJe8YkkXL.Kj3jivRJpGzagVnia', 'Marko 32', 'Markovic', '069058723','Marsala tita','Novi Sad',
  'Srbija','0625352737425','APPROVED');

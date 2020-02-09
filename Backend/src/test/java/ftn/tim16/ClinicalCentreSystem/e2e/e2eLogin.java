@@ -14,7 +14,7 @@ public class e2eLogin {
 
     @Test
     public void login(){
-        System.setProperty("webdriver.chrome.driver", "src/test/res/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/res/chromedriver_mac_80");
         driver = new ChromeDriver();
         driver.navigate().to(BASE_URL + "/user/login");
         WebElement mail = driver.findElement(By.id("email"));
